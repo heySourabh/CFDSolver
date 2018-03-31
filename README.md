@@ -3,5 +3,5 @@
 
 This is a code for solving partial differential equations of the form resembling Navier-Stokes equations.
 
-#### Contact:
+#### Developer:
 Sourabh Bhat (mail.sourabhbhat@gmail.com, heySourabh@gmail.com)
