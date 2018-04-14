@@ -8,4 +8,12 @@ public class Point {
         this.y = y;
         this.z = z;
     }
+
+    public double distance(Point other) {
+        double dx = other.x - this.x;
+        double dy = other.y - this.y;
+        double dz = other.z - this.z;
+
+        return Math.sqrt(dx * dx + dy * dy + dz * dz);
+    }
 }
