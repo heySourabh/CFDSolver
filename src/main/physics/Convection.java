@@ -7,5 +7,5 @@ public interface Convection {
 
     double[] sortedEigenvalues(double[] conservativeVars, Vector unitNormal);
 
-    double[] maxAbsEigenvalues(double[] conservativeVars, Vector unitNormal);
+    double maxAbsEigenvalues(double[] conservativeVars, Vector unitNormal);
 }

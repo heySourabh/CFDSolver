@@ -3,6 +3,8 @@ package main.physics;
 public interface GoverningEquations {
     String description();
 
+    int numVars();
+
     String[] conservativeVarNames();
 
     String[] primitiveVarNames();
