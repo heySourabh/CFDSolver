@@ -11,6 +11,12 @@ public class Vector {
         this.z = z;
     }
 
+    public Vector(Point from, Point to) {
+        this(to.x - from.x,
+                to.y - from.y,
+                to.z - from.z);
+    }
+
     public double magSqr() {
         return x * x + y * y + z * z;
     }
