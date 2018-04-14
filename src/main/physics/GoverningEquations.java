@@ -1,7 +1,5 @@
 package main.physics;
 
-import main.geom.Vector;
-
 public interface GoverningEquations {
     String description();
 
@@ -13,5 +11,9 @@ public interface GoverningEquations {
 
     double[] conservativeVars(double[] primitiveVars);
 
-    Convection convection(double[] conservativeVars, Vector unitNormal);
+    Convection convection();
+
+    Diffusion diffusion();
+
+    Source source();
 }
