@@ -1,0 +1,42 @@
+package main.geom;
+
+public class Vector {
+    private final static double EPS = 1e-12;
+
+    public final double x, y, z;
+
+    public Vector(double x, double y, double z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
+    public double magSqr() {
+        return x * x + y * y + z * z;
+    }
+
+    public double mag() {
+        return Math.sqrt(magSqr());
+    }
+
+    public Vector unit() {
+        double mag = mag();
+        if (mag < EPS) {
+            throw new ArithmeticException("Divide by zero.");
+        }
+
+        return new Vector(x / mag, y / mag, z / mag);
+    }
+
+    public double dot(Vector other) {
+        return (this.x * other.x + this.y * other.y + this.z * other.z);
+    }
+
+    public Vector cross(Vector other) {
+        double xComp = this.y * other.z - other.y * this.z;
+        double yComp = other.x * this.z - this.x * other.z;
+        double zComp = this.x * other.y - other.x * this.y;
+
+        return new Vector(xComp, yComp, zComp);
+    }
+}
