@@ -17,6 +17,20 @@ public class Vector {
                 to.z - from.z);
     }
 
+    public Vector add(Vector other) {
+        return new Vector(
+                this.x + other.x,
+                this.y + other.y,
+                this.z + other.z);
+    }
+
+    public Vector sub(Vector other) {
+        return new Vector(
+                this.x - other.x,
+                this.y - other.y,
+                this.z - other.z);
+    }
+
     public double magSqr() {
         return x * x + y * y + z * z;
     }

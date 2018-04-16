@@ -4,16 +4,16 @@ import main.geom.Geometry;
 import main.geom.Point;
 import main.geom.VTKType;
 
-public class Line implements Geometry {
+public class TriangleStrip implements Geometry {
 
     private final Point[] points;
     private final VTKType vtkType;
-    private final double length;
+    private final double area;
 
-    Line(Point p0, Point p1) {
-        this.points = new Point[]{p0, p1};
-        this.vtkType = VTKType.VTK_LINE;
-        this.length = p0.distance(p1);
+    TriangleStrip(Point[] points) {
+        this.points = points;
+        this.vtkType = VTKType.VTK_TRIANGLE_STRIP;
+        this.area = Double.NaN;
     }
 
     @Override
@@ -28,16 +28,16 @@ public class Line implements Geometry {
 
     @Override
     public double length() {
-        return length;
+        throw new ArithmeticException("Cannot calculate length of a triangle_strip.");
     }
 
     @Override
     public double area() {
-        throw new ArithmeticException("Cannot calculate area of a line.");
+        throw new UnsupportedOperationException("Not implemented yet.");
     }
 
     @Override
     public double volume() {
-        throw new ArithmeticException("Cannot calculate volume of a line.");
+        throw new ArithmeticException("Cannot calculate volume of a triangle_strip.");
     }
 }
