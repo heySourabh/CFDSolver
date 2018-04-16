@@ -3,6 +3,7 @@ package main.geom.factory;
 import main.geom.Geometry;
 import main.geom.Point;
 import main.geom.VTKType;
+import main.geom.Vector;
 
 public class Polygon implements Geometry {
     private final Point[] points;
@@ -12,7 +13,15 @@ public class Polygon implements Geometry {
     public Polygon(Point[] points) {
         this.points = points;
         this.vtkType = VTKType.VTK_POLYGON;
-        this.area = Double.NaN;
+
+        Vector a = new Vector(0.0, 0.0, 0.0);
+        for (int i = 2; i < points.length; i++) {
+            Vector v1 = new Vector(points[i - 1], points[0]);
+            Vector v2 = new Vector(points[i - 1], points[i]);
+            a = a.add(v1.cross(v2));
+        }
+
+        this.area = 0.5 * a.mag();
     }
 
     @Override
@@ -32,7 +41,7 @@ public class Polygon implements Geometry {
 
     @Override
     public double area() {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return area;
     }
 
     @Override
