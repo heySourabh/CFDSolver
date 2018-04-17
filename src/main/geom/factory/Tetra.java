@@ -18,6 +18,7 @@ public class Tetra implements Geometry {
         // using the formula from wikipedia, which is given as:
         // For points a, b, c, d = (p0, p1, p2, p3)
         // Volume = (| (a - d) . ((b - d) x (c - d)) |) / 6
+        // Tested for accuracy
 
         Vector v30 = new Vector(p3, p0);
         Vector v31 = new Vector(p3, p1);
