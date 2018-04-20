@@ -47,4 +47,12 @@ public class MeshFileReader implements Closeable {
             throw new IllegalArgumentException("The expected parameter " + param + " does not exist at the location.");
         return tokens[1].trim();
     }
+
+    public int readIntParameter(String param) {
+        return Integer.parseInt(readParameter(param));
+    }
+
+    public double readDoubleParameter(String param) {
+        return Double.parseDouble(readParameter(param));
+    }
 }
