@@ -31,6 +31,10 @@ public class Vector {
                 this.z - other.z);
     }
 
+    public Vector mult(double scalar) {
+        return new Vector(x * scalar, y * scalar, z * scalar);
+    }
+
     public double magSqr() {
         return x * x + y * y + z * z;
     }
