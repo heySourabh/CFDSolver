@@ -5,16 +5,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class MeshFileReader implements Closeable {
+public class DataFileReader implements Closeable {
 
     private final Scanner fileScanner;
     private final String commentStr;
 
-    public MeshFileReader(File file) throws FileNotFoundException {
+    public DataFileReader(File file) throws FileNotFoundException {
         this(file, null);
     }
 
-    public MeshFileReader(File file, String commentStr) throws FileNotFoundException {
+    public DataFileReader(File file, String commentStr) throws FileNotFoundException {
         this.fileScanner = new Scanner(file);
         this.commentStr = commentStr;
     }
@@ -44,7 +44,7 @@ public class MeshFileReader implements Closeable {
     public String readParameter(String param) {
         String[] tokens = nextLine().split("=");
         if (!tokens[0].trim().equals(param))
-            throw new IllegalArgumentException("The expected parameter " + param + " does not exist at the location.");
+            throw new IllegalArgumentException("The expected parameter \"" + param + "\" does not exist at the location.");
         return tokens[1].trim();
     }
 
