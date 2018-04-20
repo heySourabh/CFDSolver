@@ -9,7 +9,7 @@ public class PolyLine implements Geometry {
     private final VTKType vtkType;
     private final double length;
 
-    PolyLine(Point[] points) {
+    public PolyLine(Point[] points) {
         this.points = points;
         this.vtkType = VTKType.VTK_POLY_LINE;
 

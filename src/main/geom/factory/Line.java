@@ -10,7 +10,7 @@ public class Line implements Geometry {
     private final VTKType vtkType;
     private final double length;
 
-    Line(Point p0, Point p1) {
+    public Line(Point p0, Point p1) {
         this.points = new Point[]{p0, p1};
         this.vtkType = VTKType.VTK_LINE;
         this.length = p0.distance(p1);

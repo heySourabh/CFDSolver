@@ -10,7 +10,7 @@ public class TriangleStrip implements Geometry {
     private final VTKType vtkType;
     private final double area;
 
-    TriangleStrip(Point[] points) {
+    public TriangleStrip(Point[] points) {
         this.points = points;
         this.vtkType = VTKType.VTK_TRIANGLE_STRIP;
         this.area = Double.NaN;
