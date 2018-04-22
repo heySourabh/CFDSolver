@@ -2,6 +2,8 @@ package main.geom;
 
 import main.geom.factory.Triangle;
 
+import java.util.Arrays;
+
 public interface Geometry {
 
     Point[] points();
@@ -38,5 +40,18 @@ public interface Geometry {
             volume += volumeUnder(t);
         }
         return Math.abs(volume);
+    }
+
+    default boolean geomEquals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Geometry geom = (Geometry) o;
+
+        return Arrays.equals(points(), geom.points());
+    }
+
+    default int geomHashCode() {
+        return Arrays.hashCode(points());
     }
 }

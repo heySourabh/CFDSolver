@@ -4,6 +4,8 @@ import main.geom.Geometry;
 import main.geom.Point;
 import main.geom.VTKType;
 
+import java.util.Arrays;
+
 public class Line implements Geometry {
 
     private final Point[] points;
@@ -39,5 +41,15 @@ public class Line implements Geometry {
     @Override
     public double volume() {
         throw new ArithmeticException("Cannot calculate volume of a line.");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return geomEquals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return geomHashCode();
     }
 }

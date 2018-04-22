@@ -38,4 +38,14 @@ public class Vertex implements Geometry {
     public double volume() {
         throw new ArithmeticException("Cannot calculate volume of a vertex.");
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return geomEquals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return geomHashCode();
+    }
 }
