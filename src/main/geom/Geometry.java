@@ -26,6 +26,7 @@ public interface Geometry {
     }
 
     /**
+     * Calculates the volume of a solid formed by a set of triangles.
      * The triangles must have points either all-clockwise or all-anti-clockwise, looking from outside of the solid.
      *
      * @param triangles array of triangles
