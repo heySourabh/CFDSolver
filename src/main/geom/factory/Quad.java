@@ -44,4 +44,14 @@ public class Quad implements Geometry {
     public double volume() {
         throw new ArithmeticException("Cannot calculate volume of a quad.");
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return geomEquals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return geomHashCode();
+    }
 }
