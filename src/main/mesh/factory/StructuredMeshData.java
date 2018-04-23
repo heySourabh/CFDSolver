@@ -127,7 +127,7 @@ public class StructuredMeshData implements MeshData {
                 boundaryNames = new String[]{"xi min", "xi max", "eta min", "eta max"};
                 break;
             case THREE_DIM:
-                boundaryNames = new String[]{"xi min", "xi max", "eta min", "eta max", "eta min", "eta max"};
+                boundaryNames = new String[]{"xi min", "xi max", "eta min", "eta max", "zeta min", "zeta max"};
                 break;
             default:
                 throw new IllegalStateException("No such dimension.");
