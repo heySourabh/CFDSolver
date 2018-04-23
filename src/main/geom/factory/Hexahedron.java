@@ -61,4 +61,14 @@ public class Hexahedron implements Geometry {
     public double volume() {
         return volume;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return geomEquals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return geomHashCode();
+    }
 }
