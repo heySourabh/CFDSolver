@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import main.geom.Geometry;
 import main.geom.Point;
+import main.geom.factory.Hexahedron;
 import main.geom.factory.Line;
 import main.geom.factory.Quad;
 import main.geom.factory.Vertex;
@@ -21,9 +22,10 @@ class StructuredMeshDataTest {
 
     private static StructuredMeshData meshData1d;
     private static StructuredMeshData meshData2d;
-    //private static StructuredMeshData meshData3d;
+    private static StructuredMeshData meshData3d;
 
     private final static Point[][] points2d = new Point[5][7];
+    private final static Point[][][] points3d = new Point[3][2][5];
 
     @BeforeAll
     static void setUp() throws FileNotFoundException {
@@ -54,7 +56,36 @@ class StructuredMeshDataTest {
             }
         }
         meshData2d = new StructuredMeshData(new File("test/test_data/mesh_structured_2d.dat"));
-        //meshData3d = new StructuredMeshData(new File("test/test_data/mesh_structured_3d.dat"));
+
+        int xi3d = points3d.length;
+        int eta3d = points3d[0].length;
+        int zeta3d = points3d[0][0].length;
+
+        double z_o = -2;
+        double depth = 15;
+
+        da = (a_e - a_s) / (xi3d - 1.0);
+        dr = (r_o - r_i) / (eta3d - 1.0);
+        double dd = depth / (zeta3d - 1.0);
+        for (int i = 0; i < points3d.length; i++) {
+            double a = a_s + i * da;
+            for (int j = 0; j < points3d[0].length; j++) {
+                double r = r_i + j * dr;
+                for (int k = 0; k < points3d[0][0].length; k++) {
+                    double d = k * dd;
+
+                    double x = d + x_o;
+                    double y = r * Math.sin(a) + y_o;
+                    double z = r * Math.cos(a) + z_o;
+
+                    points3d[i][j][k] = new Point(x, y, z);
+
+                    // System.out.printf("%-25.20f %-25.20f %-25.20f\n", x, y, z);
+                }
+            }
+        }
+
+        meshData3d = new StructuredMeshData(new File("test/test_data/mesh_structured_3d.dat"));
     }
 
     @Test
@@ -66,6 +97,12 @@ class StructuredMeshDataTest {
     void dims2d() {
         assertEquals(Dimension.TWO_DIM, meshData2d.dims());
     }
+
+    @Test
+    void dims3d() {
+        assertEquals(Dimension.THREE_DIM, meshData3d.dims());
+    }
+
 
     @Test
     void points1d() {
@@ -89,6 +126,20 @@ class StructuredMeshDataTest {
         }
 
         assertEquals(expectedPoints, meshData2d.points());
+    }
+
+    @Test
+    void points3d() {
+        List<Point> expectedPoints = new ArrayList<>();
+        for (int i = 0; i < points3d.length; i++) {
+            for (int j = 0; j < points3d[0].length; j++) {
+                for (int k = 0; k < points3d[0][0].length; k++) {
+                    expectedPoints.add(points3d[i][j][k]);
+                }
+            }
+        }
+
+        assertEquals(expectedPoints, meshData3d.points());
     }
 
     @Test
@@ -116,6 +167,24 @@ class StructuredMeshDataTest {
     }
 
     @Test
+    void cellGeom3d() {
+        List<Geometry> cellGeom = new ArrayList<>();
+        for (int i = 0; i < points3d.length - 1; i++) {
+            for (int j = 0; j < points3d[0].length - 1; j++) {
+                for (int k = 0; k < points3d[0][0].length - 1; k++) {
+                    cellGeom.add(new Hexahedron(
+                            points3d[i][j][k], points3d[i + 1][j][k],
+                            points3d[i + 1][j + 1][k], points3d[i][j + 1][k],
+                            points3d[i][j][k + 1], points3d[i + 1][j][k + 1],
+                            points3d[i + 1][j + 1][k + 1], points3d[i][j + 1][k + 1]));
+                }
+            }
+        }
+
+        assertEquals(cellGeom, meshData3d.cellGeom());
+    }
+
+    @Test
     void boundaryNames1d() {
         String[] boundaryNames = {"xi min", "xi max"};
 
@@ -127,6 +196,13 @@ class StructuredMeshDataTest {
         String[] boundaryNames = {"xi min", "xi max", "eta min", "eta max"};
 
         assertArrayEquals(boundaryNames, meshData2d.boundaryNames());
+    }
+
+    @Test
+    void boundaryNames3d() {
+        String[] boundaryNames = {"xi min", "xi max", "eta min", "eta max", "zeta min", "zeta max"};
+
+        assertArrayEquals(boundaryNames, meshData3d.boundaryNames());
     }
 
     @Test
@@ -178,5 +254,74 @@ class StructuredMeshDataTest {
         boundaryFaces.add(eta_max_faces);
 
         assertEquals(boundaryFaces, meshData2d.boundaryFaces());
+    }
+
+    @Test
+    void boundaryFaces3d() {
+        List<List<Geometry>> boundaryFaces = new ArrayList<>();
+        int i, j, k;
+
+        List<Geometry> xi_min_faces = new ArrayList<>();
+        i = 0;
+        for (j = 0; j < points3d[0].length - 1; j++) {
+            for (k = 0; k < points3d[0][0].length - 1; k++) {
+                xi_min_faces.add(new Quad(points3d[i][j][k], points3d[i][j + 1][k],
+                        points3d[i][j + 1][k + 1], points3d[i][j][k + 1]));
+            }
+        }
+
+        List<Geometry> xi_max_faces = new ArrayList<>();
+        i = points3d.length - 1;
+        for (j = 0; j < points3d[0].length - 1; j++) {
+            for (k = 0; k < points3d[0][0].length - 1; k++) {
+                xi_max_faces.add(new Quad(points3d[i][j][k], points3d[i][j + 1][k],
+                        points3d[i][j + 1][k + 1], points3d[i][j][k + 1]));
+            }
+        }
+
+        List<Geometry> eta_min_faces = new ArrayList<>();
+        j = 0;
+        for (i = 0; i < points3d.length - 1; i++) {
+            for (k = 0; k < points3d[0][0].length - 1; k++) {
+                eta_min_faces.add(new Quad(points3d[i][j][k], points3d[i + 1][j][k],
+                        points3d[i + 1][j][k + 1], points3d[i][j][k + 1]));
+            }
+        }
+
+        List<Geometry> eta_max_faces = new ArrayList<>();
+        j = points3d[0].length - 1;
+        for (i = 0; i < points3d.length - 1; i++) {
+            for (k = 0; k < points3d[0][0].length - 1; k++) {
+                eta_max_faces.add(new Quad(points3d[i][j][k], points3d[i + 1][j][k],
+                        points3d[i + 1][j][k + 1], points3d[i][j][k + 1]));
+            }
+        }
+
+        List<Geometry> zeta_min_faces = new ArrayList<>();
+        k = 0;
+        for (i = 0; i < points3d.length - 1; i++) {
+            for (j = 0; j < points3d[0].length - 1; j++) {
+                zeta_min_faces.add(new Quad(points3d[i][j][k], points3d[i + 1][j][k],
+                        points3d[i + 1][j + 1][k], points3d[i][j + 1][k]));
+            }
+        }
+
+        List<Geometry> zeta_max_faces = new ArrayList<>();
+        k = points3d[0][0].length - 1;
+        for (i = 0; i < points3d.length - 1; i++) {
+            for (j = 0; j < points3d[0].length - 1; j++) {
+                zeta_max_faces.add(new Quad(points3d[i][j][k], points3d[i + 1][j][k],
+                        points3d[i + 1][j + 1][k], points3d[i][j + 1][k]));
+            }
+        }
+
+        boundaryFaces.add(xi_min_faces);
+        boundaryFaces.add(xi_max_faces);
+        boundaryFaces.add(eta_min_faces);
+        boundaryFaces.add(eta_max_faces);
+        boundaryFaces.add(zeta_min_faces);
+        boundaryFaces.add(zeta_max_faces);
+
+        assertEquals(boundaryFaces, meshData3d.boundaryFaces());
     }
 }
