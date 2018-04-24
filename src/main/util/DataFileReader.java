@@ -1,5 +1,7 @@
 package main.util;
 
+import main.geom.Point;
+
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,6 +47,7 @@ public class DataFileReader implements Closeable {
         String[] tokens = nextLine().split("=");
         if (!tokens[0].trim().equals(param))
             throw new IllegalArgumentException("The expected parameter \"" + param + "\" does not exist at the location.");
+
         return tokens[1].trim();
     }
 
@@ -54,5 +57,14 @@ public class DataFileReader implements Closeable {
 
     public double readDoubleParameter(String param) {
         return Double.parseDouble(readParameter(param));
+    }
+
+    public Point readXYZ() {
+        String[] tokens = nextLine().split("\\s+");
+        double x = Double.parseDouble(tokens[0].trim());
+        double y = Double.parseDouble(tokens[1].trim());
+        double z = Double.parseDouble(tokens[2].trim());
+
+        return new Point(x, y, z);
     }
 }
