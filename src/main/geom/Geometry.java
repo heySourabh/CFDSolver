@@ -4,8 +4,16 @@ import main.geom.factory.Triangle;
 
 import java.util.Arrays;
 
+/**
+ * An interface for defining various VTK Geometry.
+ */
 public interface Geometry {
 
+    /**
+     * Ordered points as defined by the VTK documentation
+     *
+     * @return An array of <code>Point</code> objects following the sequence as defined by the VTK geometry.
+     */
     Point[] points();
 
     VTKType vtkType();
@@ -17,6 +25,8 @@ public interface Geometry {
     double volume();
 
     Point centroid();
+
+    Vector unitNormal();
 
     default double volumeUnder(Triangle tri) {
         Point[] p = tri.points();

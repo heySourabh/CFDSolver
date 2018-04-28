@@ -3,6 +3,7 @@ package main.geom.factory;
 import main.geom.Geometry;
 import main.geom.Point;
 import main.geom.VTKType;
+import main.geom.Vector;
 
 public class Wedge implements Geometry {
     private final Point[] points;
@@ -52,6 +53,11 @@ public class Wedge implements Geometry {
 
     @Override
     public Point centroid() {
+        throw new UnsupportedOperationException("Not implemented yet.");
+    }
+
+    @Override
+    public Vector unitNormal() {
         throw new UnsupportedOperationException("Not implemented yet.");
     }
 }

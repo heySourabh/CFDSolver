@@ -3,6 +3,7 @@ package main.geom.factory;
 import main.geom.Geometry;
 import main.geom.Point;
 import main.geom.VTKType;
+import main.geom.Vector;
 
 public class Pyramid implements Geometry {
 
@@ -23,7 +24,7 @@ public class Pyramid implements Geometry {
                 new Triangle(p3, p0, p4)
         });
 
-        // May fail in case of non-convex geometry:
+        // The algorithm below may fail in case of non-convex geometry:
 //        double vol1 = new Tetra(p0, p1, p2, p4).volume();
 //        double vol2 = new Tetra(p0, p2, p3, p4).volume();
 //        this.volume = vol1 + vol2;
@@ -56,6 +57,11 @@ public class Pyramid implements Geometry {
 
     @Override
     public Point centroid() {
+        throw new UnsupportedOperationException("Not implemented yet.");
+    }
+
+    @Override
+    public Vector unitNormal() {
         throw new UnsupportedOperationException("Not implemented yet.");
     }
 }

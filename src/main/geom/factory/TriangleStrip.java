@@ -3,6 +3,7 @@ package main.geom.factory;
 import main.geom.Geometry;
 import main.geom.Point;
 import main.geom.VTKType;
+import main.geom.Vector;
 
 import java.util.stream.IntStream;
 
@@ -49,6 +50,11 @@ public class TriangleStrip implements Geometry {
 
     @Override
     public Point centroid() {
+        throw new UnsupportedOperationException("Not implemented yet.");
+    }
+
+    @Override
+    public Vector unitNormal() {
         throw new UnsupportedOperationException("Not implemented yet.");
     }
 }

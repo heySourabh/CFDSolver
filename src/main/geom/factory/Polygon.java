@@ -53,4 +53,9 @@ public class Polygon implements Geometry {
     public Point centroid() {
         throw new UnsupportedOperationException("Not implemented yet.");
     }
+
+    @Override
+    public Vector unitNormal() {
+        throw new UnsupportedOperationException("Not implemented yet.");
+    }
 }
