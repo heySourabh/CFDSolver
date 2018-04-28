@@ -14,10 +14,19 @@ public class Pyramid implements Geometry {
         this.points = new Point[]{p0, p1, p2, p3, p4};
         this.vtkType = VTKType.VTK_PYRAMID;
 
-        double vol1 = new Tetra(p0, p1, p2, p4).volume();
-        double vol2 = new Tetra(p0, p2, p3, p4).volume();
+        this.volume = volume(new Triangle[]{
+                new Triangle(p0, p2, p1),
+                new Triangle(p0, p3, p2),
+                new Triangle(p0, p1, p4),
+                new Triangle(p1, p2, p4),
+                new Triangle(p2, p3, p4),
+                new Triangle(p3, p0, p4)
+        });
 
-        this.volume = vol1 + vol2;
+        // May fail in case of non-convex geometry:
+//        double vol1 = new Tetra(p0, p1, p2, p4).volume();
+//        double vol2 = new Tetra(p0, p2, p3, p4).volume();
+//        this.volume = vol1 + vol2;
     }
 
     @Override
@@ -43,5 +52,10 @@ public class Pyramid implements Geometry {
     @Override
     public double volume() {
         return volume;
+    }
+
+    @Override
+    public Point centroid() {
+        throw new UnsupportedOperationException("Not implemented yet.");
     }
 }

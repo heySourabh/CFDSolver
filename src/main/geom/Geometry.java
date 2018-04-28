@@ -16,6 +16,8 @@ public interface Geometry {
 
     double volume();
 
+    Point centroid();
+
     default double volumeUnder(Triangle tri) {
         Point[] p = tri.points();
         double xbar = (p[0].x + p[1].x + p[2].x) / 3.0;

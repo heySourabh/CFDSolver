@@ -63,12 +63,7 @@ public class Hexahedron implements Geometry {
     }
 
     @Override
-    public boolean equals(Object o) {
-        return geomEquals(o);
-    }
-
-    @Override
-    public int hashCode() {
-        return geomHashCode();
+    public Point centroid() {
+        throw new UnsupportedOperationException("Not implemented yet.");
     }
 }

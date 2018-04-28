@@ -44,4 +44,9 @@ public class PolyLine implements Geometry {
     public double volume() {
         throw new ArithmeticException("Cannot calculate volume of a polyline.");
     }
+
+    @Override
+    public Point centroid() {
+        throw new UnsupportedOperationException("Not implemented yet.");
+    }
 }

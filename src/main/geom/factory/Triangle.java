@@ -42,4 +42,9 @@ public class Triangle implements Geometry {
     public double volume() {
         throw new ArithmeticException("Cannot calculate volume of a triangle.");
     }
+
+    @Override
+    public Point centroid() {
+        throw new UnsupportedOperationException("Not implemented yet.");
+    }
 }

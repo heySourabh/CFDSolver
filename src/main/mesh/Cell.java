@@ -9,16 +9,17 @@ public class Cell {
     public final Node[] nodes;
     public final ArrayList<Face> faces;
     public final VTKType vtkType;
+    public final Shape shape;
+
     public final double[] U;
     public final double[] residual;
-    public final double volume;
 
-    public Cell(int index, Node[] nodes, VTKType vtkType, double volume, int numVars) {
+    public Cell(int index, Node[] nodes, VTKType vtkType, Shape shape, int numVars) {
         this.index = index;
         this.nodes = nodes;
         this.faces = new ArrayList<>();
         this.vtkType = vtkType;
-        this.volume = volume;
+        this.shape = shape;
 
         this.U = new double[numVars];
         this.residual = new double[numVars];

@@ -51,4 +51,9 @@ public class Tetra implements Geometry {
     public double volume() {
         return volume;
     }
+
+    @Override
+    public Point centroid() {
+        throw new UnsupportedOperationException("Not implemented yet.");
+    }
 }
