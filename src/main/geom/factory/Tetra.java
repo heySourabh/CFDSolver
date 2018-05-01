@@ -9,17 +9,6 @@ public class Tetra implements Geometry {
     private final double volume;
     private final Point centroid;
 
-    public static void main(String[] args) {
-        Tetra tetra = new Tetra(
-                new Point(7, 8, 9),
-                new Point(4, -8, 7),
-                new Point(5, 8, -23),
-                new Point(80, 7, -5)
-        );
-        System.out.println("Volume: " + tetra.volume());
-        System.out.println("Centroid: " + tetra.centroid());
-    }
-
     public Tetra(Point p0, Point p1, Point p2, Point p3) {
         this.points = new Point[]{p0, p1, p2, p3};
         this.vtkType = VTKType.VTK_TETRA;
@@ -34,6 +23,7 @@ public class Tetra implements Geometry {
         Vector v32 = new Vector(p3, p2);
 
         volume = Math.abs(v30.dot(v31.cross(v32))) / 6.0;
+
         centroid = new Point(
                 (p0.x + p1.x + p2.x + p3.x) * 0.25,
                 (p0.y + p1.y + p2.y + p3.y) * 0.25,
