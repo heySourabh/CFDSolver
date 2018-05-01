@@ -63,4 +63,13 @@ public class Vector {
 
         return new Vector(xComp, yComp, zComp);
     }
+
+    @Override
+    public String toString() {
+        return "Vector{" +
+                "x=" + x +
+                ", y=" + y +
+                ", z=" + z +
+                '}';
+    }
 }

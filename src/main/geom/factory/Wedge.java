@@ -1,9 +1,6 @@
 package main.geom.factory;
 
-import main.geom.Geometry;
-import main.geom.Point;
-import main.geom.VTKType;
-import main.geom.Vector;
+import main.geom.*;
 
 public class Wedge implements Geometry {
     private final Point[] points;
@@ -14,7 +11,7 @@ public class Wedge implements Geometry {
         this.points = new Point[]{p0, p1, p2, p3, p4, p5};
         vtkType = VTKType.VTK_WEDGE;
 
-        volume = volume(new Triangle[]{
+        volume = GeometryHelper.volume(new Triangle[]{
                 new Triangle(p0, p1, p2),
                 new Triangle(p3, p5, p4),
                 new Triangle(p0, p2, p5),

@@ -1,9 +1,6 @@
 package main.geom.factory;
 
-import main.geom.Geometry;
-import main.geom.Point;
-import main.geom.VTKType;
-import main.geom.Vector;
+import main.geom.*;
 
 public class Hexahedron implements Geometry {
     private final Point[] points;
@@ -28,7 +25,7 @@ public class Hexahedron implements Geometry {
                 new Triangle(p3, p7, p6),
                 new Triangle(p3, p6, p2)
         };
-        volume = volume(surfaceTriangles);
+        volume = GeometryHelper.volume(surfaceTriangles);
 
         // The algorithm below is probably less expensive, but may fail in case of non-convex geometry.
 //        Pyramid pyr1 = new Pyramid(p0, p1, p2, p3, p6);
