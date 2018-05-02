@@ -198,7 +198,6 @@ public class GeometryHelper {
     public static Point centroid(main.geom.factory.Triangle[] triangleArray) {
         Triangle[] triangles = Triangle.create(triangleArray);
         Point translateBy = boundingBox(triangles).midPoint();
-        System.out.println(translateBy);
         Triangle[] newTriangles = translateTriangles(triangles, -translateBy.x, -translateBy.y, -translateBy.z);
 
         double vol = signedVolume(newTriangles);

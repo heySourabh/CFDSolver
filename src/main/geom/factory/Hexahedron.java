@@ -6,6 +6,7 @@ public class Hexahedron implements Geometry {
     private final Point[] points;
     private final VTKType vtkType;
     private final double volume;
+    private final Point centroid;
 
     public Hexahedron(Point p0, Point p1, Point p2, Point p3, Point p4, Point p5, Point p6, Point p7) {
         this.points = new Point[]{p0, p1, p2, p3, p4, p5, p6, p7};
@@ -26,6 +27,7 @@ public class Hexahedron implements Geometry {
                 new Triangle(p3, p6, p2)
         };
         volume = GeometryHelper.volume(surfaceTriangles);
+        centroid = GeometryHelper.centroid(surfaceTriangles);
 
         // The algorithm below is probably less expensive, but may fail in case of non-convex geometry.
 //        Pyramid pyr1 = new Pyramid(p0, p1, p2, p3, p6);
@@ -62,11 +64,11 @@ public class Hexahedron implements Geometry {
 
     @Override
     public Point centroid() {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return centroid;
     }
 
     @Override
     public Vector unitNormal() {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        throw new ArithmeticException("Cannot calculate normal of a hexahedron.");
     }
 }
