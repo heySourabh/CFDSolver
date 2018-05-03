@@ -9,15 +9,18 @@ public class Quad implements Geometry {
     private final Point[] points;
     private final VTKType vtkType;
     private final double area;
+    private final Point centroid;
+    private final Vector unitNormal;
 
     public Quad(Point p0, Point p1, Point p2, Point p3) {
         this.points = new Point[]{p0, p1, p2, p3};
         this.vtkType = VTKType.VTK_QUAD;
 
-        Vector a1 = new Vector(p1, p2).cross(new Vector(p1, p0));
-        Vector a2 = new Vector(p3, p0).cross(new Vector(p3, p2));
+        Polygon poly = new Polygon(new Point[]{p0, p1, p2, p3});
 
-        this.area = 0.5 * a1.add(a2).mag();
+        this.area = poly.area();
+        this.centroid = poly.centroid();
+        this.unitNormal = poly.unitNormal();
     }
 
     @Override
@@ -47,11 +50,11 @@ public class Quad implements Geometry {
 
     @Override
     public Point centroid() {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return centroid;
     }
 
     @Override
     public Vector unitNormal() {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return unitNormal;
     }
 }

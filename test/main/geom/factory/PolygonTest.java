@@ -72,7 +72,10 @@ class PolygonTest {
                 new Point(-30.99926440, 28.13367138, -8.84724722),
                 new Point(-52.53629977, 32.69717636, -23.46507803)}
         );
-        Vector expectedUnitNormal = new Vector(0.4531538935, 0.7848855672, -0.4226182617);
+
+        // The polygon points are in clockwise-direction for the measured normal,
+        // therefore normal must in opposite direction.
+        Vector expectedUnitNormal = new Vector(0.4531538935, 0.7848855672, -0.4226182617).mult(-1);
         Vector actualUnitNormal = polygon.unitNormal();
         Point componentsExpected = new Point(expectedUnitNormal.x, expectedUnitNormal.y, expectedUnitNormal.z);
         Point componentsResult = new Point(actualUnitNormal.x, actualUnitNormal.y, actualUnitNormal.z);

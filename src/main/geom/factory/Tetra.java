@@ -62,6 +62,6 @@ public class Tetra implements Geometry {
 
     @Override
     public Vector unitNormal() {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        throw new ArithmeticException("Cannot calculate normal of a tetra.");
     }
 }

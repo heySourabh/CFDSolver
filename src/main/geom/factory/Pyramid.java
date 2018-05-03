@@ -7,19 +7,22 @@ public class Pyramid implements Geometry {
     private final Point[] points;
     private final VTKType vtkType;
     private final double volume;
+    private final Point centroid;
 
     public Pyramid(Point p0, Point p1, Point p2, Point p3, Point p4) {
         this.points = new Point[]{p0, p1, p2, p3, p4};
         this.vtkType = VTKType.VTK_PYRAMID;
 
-        this.volume = GeometryHelper.volume(new Triangle[]{
+        Triangle[] surfaceTriangles = {
                 new Triangle(p0, p2, p1),
                 new Triangle(p0, p3, p2),
                 new Triangle(p0, p1, p4),
                 new Triangle(p1, p2, p4),
                 new Triangle(p2, p3, p4),
-                new Triangle(p3, p0, p4)
-        });
+                new Triangle(p3, p0, p4)};
+
+        this.volume = GeometryHelper.volume(surfaceTriangles);
+        this.centroid = GeometryHelper.centroid(surfaceTriangles);
 
         // The algorithm below may fail in case of non-convex geometry:
 //        double vol1 = new Tetra(p0, p1, p2, p4).volume();
@@ -54,11 +57,11 @@ public class Pyramid implements Geometry {
 
     @Override
     public Point centroid() {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return centroid;
     }
 
     @Override
     public Vector unitNormal() {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        throw new ArithmeticException("Cannot calculate normal of a pyramid.");
     }
 }

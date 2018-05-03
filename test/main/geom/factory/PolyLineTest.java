@@ -20,7 +20,7 @@ class PolyLineTest {
     }
 
     @Test
-    void length() {
+    void length1() {
         PolyLine polyLine = new PolyLine(new Point[]{
                 new Point(1, 2, 3),
                 new Point(4, 5, 6),
@@ -29,6 +29,37 @@ class PolyLineTest {
         // Calculated using hand-held calculator
         double expectedLength = 5.196152423 + 3.31662479 + 23.36664289;
 
-        assertEquals(expectedLength, polyLine.length(), 1e-8);
+        assertEquals(0, (expectedLength - polyLine.length()) / expectedLength, 1e-8);
+    }
+
+    @Test
+    void length2() {
+        PolyLine polyLine = new PolyLine(new Point[]{
+                new Point(-166.02170217, -194.54201633, -4.58945093),
+                new Point(-166.02170217, -44.84761406, 83.20591431),
+                new Point(-166.02170217, 109.57666338, -56.89234746),
+                new Point(-166.02170217, -139.92211725, 333.99627403),
+                new Point(-123.05628372, -203.64316094, 333.99627403),
+                new Point(-65.09865515, -116.43268044, 333.99627403),
+                new Point(-15.50992500, -189.97660843, 333.99627403),
+                new Point(-15.50992500, -126.04375365, 333.99627403),
+                new Point(-15.50992500, -204.40739446, 211.07274670),
+                new Point(-56.96011292, 22.78328611, 149.41584897),
+                new Point(-15.50992500, 63.38026373, 0.33658401),
+                new Point(-57.26960640, -20.32472339, 120.15437401),
+                new Point(-40.02592481, 9.47184558, -80.52042910),
+                new Point(-15.50992500, -23.95235846, -39.35067468),
+                new Point(27.92664463, -49.53476901, -72.72644802),
+                new Point(42.01352961, 23.02743056, -44.15365534),
+                new Point(42.01352961, 23.02743056, 0),
+                new Point(0, 0, 0)
+        });
+        // Measured using SolidWorks
+        double expectedLength = 173.54088922 + 208.50510885 + 463.72788998 + 76.85309747 + 104.71272425
+                + 88.70034669 + 63.93285478 + 145.77741174 + 239.02990704 + 159.97143467
+                + 152.00887691 + 203.60637681 + 58.42225895 + 60.45773364 + 79.24719312
+                + 44.15365534 + 47.91032486;
+
+        assertEquals(0, (expectedLength - polyLine.length()) / expectedLength, 1e-8);
     }
 }

@@ -26,8 +26,8 @@ public class Polygon implements Geometry {
         for (int i = 2; i < points.length; i++) {
             Point pa = points[i - 1];
             Point pb = points[i];
-            Vector v1 = new Vector(pa, p0);
-            Vector v2 = new Vector(pa, pb);
+            Vector v1 = new Vector(pa, pb);
+            Vector v2 = new Vector(pa, p0);
 
             Vector a = v1.cross(v2);
             areaVector = areaVector.add(a);
