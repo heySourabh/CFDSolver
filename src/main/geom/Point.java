@@ -33,7 +33,7 @@ public class Point {
 
         Point other = (Point) o;
 
-        return distance(other) < 1e-8;
+        return distance(other) < 1e-15;
     }
 
     @Override

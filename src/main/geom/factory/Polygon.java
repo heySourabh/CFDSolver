@@ -9,19 +9,41 @@ public class Polygon implements Geometry {
     private final Point[] points;
     private final VTKType vtkType;
     private final double area;
+    private final Point centroid;
+    private final Vector unitNormal;
 
     public Polygon(Point[] points) {
         this.points = points;
         this.vtkType = VTKType.VTK_POLYGON;
 
-        Vector a = new Vector(0.0, 0.0, 0.0);
+        Vector areaVector = new Vector(0.0, 0.0, 0.0);
+        Point p0 = points[0];
+
+        Vector cx = new Vector(0, 0, 0);
+        Vector cy = new Vector(0, 0, 0);
+        Vector cz = new Vector(0, 0, 0);
+
         for (int i = 2; i < points.length; i++) {
-            Vector v1 = new Vector(points[i - 1], points[0]);
-            Vector v2 = new Vector(points[i - 1], points[i]);
-            a = a.add(v1.cross(v2));
+            Point pa = points[i - 1];
+            Point pb = points[i];
+            Vector v1 = new Vector(pa, p0);
+            Vector v2 = new Vector(pa, pb);
+
+            Vector a = v1.cross(v2);
+            areaVector = areaVector.add(a);
+
+            // divided by 3 later
+            cx = cx.add(a.mult(p0.x + pa.x + pb.x));
+            cy = cy.add(a.mult(p0.y + pa.y + pb.y));
+            cz = cz.add(a.mult(p0.z + pa.z + pb.z));
         }
 
-        this.area = 0.5 * a.mag();
+        this.area = 0.5 * areaVector.mag();
+        this.unitNormal = areaVector.unit();
+        centroid = new Point(
+                cx.dot(unitNormal) / (6.0 * area),
+                cy.dot(unitNormal) / (6.0 * area),
+                cz.dot(unitNormal) / (6.0 * area));
     }
 
     @Override
@@ -51,11 +73,11 @@ public class Polygon implements Geometry {
 
     @Override
     public Point centroid() {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return centroid;
     }
 
     @Override
     public Vector unitNormal() {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return unitNormal;
     }
 }

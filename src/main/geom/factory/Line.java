@@ -12,11 +12,16 @@ public class Line implements Geometry {
     private final Point[] points;
     private final VTKType vtkType;
     private final double length;
+    private final Point centroid;
 
     public Line(Point p0, Point p1) {
         this.points = new Point[]{p0, p1};
         this.vtkType = VTKType.VTK_LINE;
         this.length = p0.distance(p1);
+        this.centroid = new Point(
+                (p0.x + p1.x) * 0.5,
+                (p0.y + p1.y) * 0.5,
+                (p0.z + p1.z) * 0.5);
     }
 
     @Override
@@ -46,11 +51,11 @@ public class Line implements Geometry {
 
     @Override
     public Point centroid() {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return centroid;
     }
 
     @Override
     public Vector unitNormal() {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        throw new ArithmeticException("Cannot calculate a unique normal of a line in 3D.");
     }
 }
