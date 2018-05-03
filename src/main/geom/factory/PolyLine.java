@@ -48,11 +48,11 @@ public class PolyLine implements Geometry {
 
     @Override
     public Point centroid() {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        throw new ArithmeticException("Cannot calculate centroid of a polyline.");
     }
 
     @Override
     public Vector unitNormal() {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        throw new ArithmeticException("Cannot calculate normal of a polyline.");
     }
 }
