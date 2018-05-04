@@ -40,7 +40,7 @@ public class Polygon implements Geometry {
 
         this.area = 0.5 * areaVector.mag();
         this.unitNormal = areaVector.unit();
-        centroid = new Point(
+        this.centroid = new Point(
                 cx.dot(unitNormal) / (6.0 * area),
                 cy.dot(unitNormal) / (6.0 * area),
                 cz.dot(unitNormal) / (6.0 * area));

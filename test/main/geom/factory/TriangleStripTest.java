@@ -72,10 +72,34 @@ class TriangleStripTest {
     @Test
     void centroid() {
         // TODO: Add test and implement centroid()
+        Point p0 = new Point(-166.02170217, -194.54201633, -4.58945093);
+        Point p1 = new Point(-166.02170217, -44.84761406, 83.20591431);
+        Point p2 = new Point(-166.02170217, 109.57666338, -56.89234746);
+        Point p3 = new Point(-166.02170217, -139.92211725, 333.99627403);
+        Point p4 = new Point(-123.05628372, -203.64316094, 333.99627403);
+        Point p5 = new Point(-65.09865515, -116.43268044, 333.99627403);
+        Point p6 = new Point(-15.50992500, -189.97660843, 333.99627403);
+        Point p7 = new Point(-15.50992500, -126.04375365, 333.99627403);
+
+        TriangleStrip triangleStrip = new TriangleStrip(p0, p1, p2, p3, p4, p5, p6, p7);
+
+        assertThrows(UnsupportedOperationException.class, triangleStrip::centroid);
     }
 
     @Test
     void unitNormal() {
         // TODO: Add test and implement unitNormal()
+        Point p0 = new Point(-166.02170217, -194.54201633, -4.58945093);
+        Point p1 = new Point(-166.02170217, -44.84761406, 83.20591431);
+        Point p2 = new Point(-166.02170217, 109.57666338, -56.89234746);
+        Point p3 = new Point(-166.02170217, -139.92211725, 333.99627403);
+        Point p4 = new Point(-123.05628372, -203.64316094, 333.99627403);
+        Point p5 = new Point(-65.09865515, -116.43268044, 333.99627403);
+        Point p6 = new Point(-15.50992500, -189.97660843, 333.99627403);
+        Point p7 = new Point(-15.50992500, -126.04375365, 333.99627403);
+
+        TriangleStrip triangleStrip = new TriangleStrip(p0, p1, p2, p3, p4, p5, p6, p7);
+
+        assertThrows(UnsupportedOperationException.class, triangleStrip::unitNormal);
     }
 }
