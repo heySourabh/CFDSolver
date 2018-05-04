@@ -32,34 +32,19 @@ public class GeometryHelper {
         }
     }
 
-    private static class Triangle {
+    public static class TriGeom {
         final Point[] points;
 
-        private Triangle(Point p0, Point p1, Point p2) {
+        public TriGeom(Point p0, Point p1, Point p2) {
             points = new Point[]{p0, p1, p2};
         }
 
         private Point[] points() {
             return points;
         }
-
-        private static Triangle create(main.geom.factory.Triangle triangle) {
-            Point[] p = triangle.points();
-
-            return new Triangle(p[0], p[1], p[2]);
-        }
-
-        private static Triangle[] create(main.geom.factory.Triangle[] triangle) {
-            Triangle[] newTriangles = new Triangle[triangle.length];
-            for (int i = 0; i < triangle.length; i++) {
-                newTriangles[i] = create(triangle[i]);
-            }
-
-            return newTriangles;
-        }
     }
 
-    private static BoundingBox boundingBox(Triangle... triangles) {
+    private static BoundingBox boundingBox(TriGeom... triangles) {
         double xMin = triangles[0].points()[0].x;
         double xMax = triangles[0].points()[0].x;
         double yMin = triangles[0].points()[0].y;
@@ -67,7 +52,7 @@ public class GeometryHelper {
         double zMin = triangles[0].points()[0].z;
         double zMax = triangles[0].points()[0].z;
 
-        for (Triangle triangle : triangles) {
+        for (TriGeom triangle : triangles) {
             for (int j = 0; j < 3; j++) {
                 Point p = triangle.points()[j];
                 xMin = Math.min(xMin, p.x);
@@ -82,17 +67,17 @@ public class GeometryHelper {
         return new BoundingBox(xMin, xMax, yMin, yMax, zMin, zMax);
     }
 
-    private static Triangle translateTriangle(Triangle tri, double dx, double dy, double dz) {
+    private static TriGeom translateTriangle(TriGeom tri, double dx, double dy, double dz) {
         Point[] p = tri.points();
 
-        return new Triangle(
+        return new TriGeom(
                 new Point(p[0].x + dx, p[0].y + dy, p[0].z + dz),
                 new Point(p[1].x + dx, p[1].y + dy, p[1].z + dz),
                 new Point(p[2].x + dx, p[2].y + dy, p[2].z + dz));
     }
 
-    private static Triangle[] translateTriangles(Triangle[] triangles, double dx, double dy, double dz) {
-        Triangle[] newTriangles = new Triangle[triangles.length];
+    private static TriGeom[] translateTriangles(TriGeom[] triangles, double dx, double dy, double dz) {
+        TriGeom[] newTriangles = new TriGeom[triangles.length];
         for (int i = 0; i < triangles.length; i++) {
             newTriangles[i] = translateTriangle(triangles[i], dx, dy, dz);
         }
@@ -100,7 +85,7 @@ public class GeometryHelper {
         return newTriangles;
     }
 
-    private static double volumeUnder(Triangle tri) {
+    private static double volumeUnder(TriGeom tri) {
         Point[] p = tri.points();
         double xbar = (p[0].x + p[1].x + p[2].x) / 3.0;
         Vector vab = new Vector(p[0], p[1]);
@@ -128,7 +113,7 @@ public class GeometryHelper {
         return v30.dot(v31.cross(v32)) / 6.0;
     }
 
-    private static Vector centroidTriangle(Triangle tri) {
+    private static Vector centroidTriangle(TriGeom tri) {
         Point[] p = tri.points();
 
         return new Vector(
@@ -138,7 +123,7 @@ public class GeometryHelper {
         );
     }
 
-    private static double areaTriangle(Triangle triangle) {
+    private static double areaTriangle(TriGeom triangle) {
         Point[] p = triangle.points();
         Vector v1 = new Vector(p[0], p[1]);
         Vector v2 = new Vector(p[0], p[2]);
@@ -146,7 +131,7 @@ public class GeometryHelper {
         return v1.cross(v2).mag() * 0.5;
     }
 
-    private static Vector scaledCentroidOfVolumeUnder(Triangle tri) {
+    private static Vector scaledCentroidOfVolumeUnder(TriGeom tri) {
         Point[] p = tri.points();
         // Break the wedge into three tetra
         Point p0 = p[0];
@@ -165,9 +150,9 @@ public class GeometryHelper {
         return v0.add(v1).add(v2);
     }
 
-    private static double signedVolume(Triangle[] triangles) {
+    private static double signedVolume(TriGeom[] triangles) {
         double volume = 0.0;
-        for (Triangle t : triangles) {
+        for (TriGeom t : triangles) {
             volume += volumeUnder(t);
         }
         return volume;
@@ -177,13 +162,12 @@ public class GeometryHelper {
      * Calculates the volume of a solid formed by a set of triangles.
      * The triangles must have points either all-clockwise or all-anti-clockwise, looking from outside of the solid.
      *
-     * @param triangleArray array of triangles
+     * @param triangles array of triangles
      * @return non-negative volume enclosed by the set of triangles
      */
-    public static double volume(main.geom.factory.Triangle[] triangleArray) {
-        Triangle[] triangles = Triangle.create(triangleArray);
+    public static double volume(TriGeom[] triangles) {
         Point translateBy = boundingBox(triangles).midPoint();
-        Triangle[] newTriangles = translateTriangles(triangles, -translateBy.x, -translateBy.y, -translateBy.z);
+        TriGeom[] newTriangles = translateTriangles(triangles, -translateBy.x, -translateBy.y, -translateBy.z);
 
         return Math.abs(signedVolume(newTriangles));
     }
@@ -192,44 +176,22 @@ public class GeometryHelper {
      * Calculates the centroid point of a solid formed by a set of triangles.
      * The triangles must have points either all-clockwise or all-anti-clockwise, looking from outside of the solid.
      *
-     * @param triangleArray array of triangles
+     * @param triangles array of triangles
      * @return centroid point of solid region enclosed by the set of triangles
      */
-    public static Point centroid(main.geom.factory.Triangle[] triangleArray) {
-        Triangle[] triangles = Triangle.create(triangleArray);
+    public static Point centroid(TriGeom[] triangles) {
         Point translateBy = boundingBox(triangles).midPoint();
-        Triangle[] newTriangles = translateTriangles(triangles, -translateBy.x, -translateBy.y, -translateBy.z);
+        TriGeom[] newTriangles = translateTriangles(triangles, -translateBy.x, -translateBy.y, -translateBy.z);
 
         double vol = signedVolume(newTriangles);
         Vector centroidPos = new Vector(0, 0, 0);
 
-        for (Triangle t : newTriangles) {
+        for (TriGeom t : newTriangles) {
             centroidPos = centroidPos.add(scaledCentroidOfVolumeUnder(t));
         }
         centroidPos = centroidPos.mult(1.0 / vol);
         centroidPos = centroidPos.add(new Vector(translateBy.x, translateBy.y, translateBy.z));
 
         return new Point(centroidPos.x, centroidPos.y, centroidPos.z);
-    }
-
-    /**
-     * Calculates the centroid point of a surface formed by a set of triangles.
-     *
-     * @param triangleArray array of triangles
-     * @return centroid point of surface formed by the set of triangles
-     */
-    public static Point surfaceCentroid(main.geom.factory.Triangle[] triangleArray) {
-        Triangle[] triangles = Triangle.create(triangleArray);
-        Vector centroid = new Vector(0, 0, 0);
-        double totalArea = 0.0;
-        for (Triangle t : triangles) {
-            double area = areaTriangle(t);
-            centroid = centroidTriangle(t).mult(area).add(centroid);
-            totalArea += area;
-        }
-
-        centroid = centroid.mult(1.0 / totalArea);
-
-        return new Point(centroid.x, centroid.y, centroid.z);
     }
 }

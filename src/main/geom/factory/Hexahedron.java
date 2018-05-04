@@ -1,6 +1,7 @@
 package main.geom.factory;
 
 import main.geom.*;
+import main.geom.GeometryHelper.TriGeom;
 
 public class Hexahedron implements Geometry {
     private final Point[] points;
@@ -12,19 +13,19 @@ public class Hexahedron implements Geometry {
         this.points = new Point[]{p0, p1, p2, p3, p4, p5, p6, p7};
         this.vtkType = VTKType.VTK_HEXAHEDRON;
 
-        Triangle[] surfaceTriangles = {
-                new Triangle(p0, p3, p2),
-                new Triangle(p0, p2, p1),
-                new Triangle(p4, p5, p6),
-                new Triangle(p4, p6, p7),
-                new Triangle(p1, p2, p6),
-                new Triangle(p1, p6, p5),
-                new Triangle(p0, p4, p7),
-                new Triangle(p0, p7, p3),
-                new Triangle(p0, p1, p5),
-                new Triangle(p0, p5, p4),
-                new Triangle(p3, p7, p6),
-                new Triangle(p3, p6, p2)
+        TriGeom[] surfaceTriangles = {
+                new TriGeom(p0, p3, p2),
+                new TriGeom(p0, p2, p1),
+                new TriGeom(p4, p5, p6),
+                new TriGeom(p4, p6, p7),
+                new TriGeom(p1, p2, p6),
+                new TriGeom(p1, p6, p5),
+                new TriGeom(p0, p4, p7),
+                new TriGeom(p0, p7, p3),
+                new TriGeom(p0, p1, p5),
+                new TriGeom(p0, p5, p4),
+                new TriGeom(p3, p7, p6),
+                new TriGeom(p3, p6, p2)
         };
         volume = GeometryHelper.volume(surfaceTriangles);
         centroid = GeometryHelper.centroid(surfaceTriangles);

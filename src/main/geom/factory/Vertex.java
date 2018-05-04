@@ -9,10 +9,12 @@ public class Vertex implements Geometry {
 
     private final Point[] points;
     private final VTKType vtkType;
+    private final Point centroid;
 
     public Vertex(Point p) {
         this.points = new Point[]{p};
         this.vtkType = VTKType.VTK_VERTEX;
+        this.centroid = p;
     }
 
     @Override
@@ -42,11 +44,11 @@ public class Vertex implements Geometry {
 
     @Override
     public Point centroid() {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        return centroid;
     }
 
     @Override
     public Vector unitNormal() {
-        throw new UnsupportedOperationException("Not implemented yet.");
+        throw new ArithmeticException("Cannot calculate normal of a vertex.");
     }
 }

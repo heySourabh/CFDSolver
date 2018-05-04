@@ -2,6 +2,8 @@ package main.geom.factory;
 
 import main.geom.*;
 
+import main.geom.GeometryHelper.TriGeom;
+
 public class Pyramid implements Geometry {
 
     private final Point[] points;
@@ -13,13 +15,13 @@ public class Pyramid implements Geometry {
         this.points = new Point[]{p0, p1, p2, p3, p4};
         this.vtkType = VTKType.VTK_PYRAMID;
 
-        Triangle[] surfaceTriangles = {
-                new Triangle(p0, p2, p1),
-                new Triangle(p0, p3, p2),
-                new Triangle(p0, p1, p4),
-                new Triangle(p1, p2, p4),
-                new Triangle(p2, p3, p4),
-                new Triangle(p3, p0, p4)};
+        TriGeom[] surfaceTriangles = {
+                new TriGeom(p0, p2, p1),
+                new TriGeom(p0, p3, p2),
+                new TriGeom(p0, p1, p4),
+                new TriGeom(p1, p2, p4),
+                new TriGeom(p2, p3, p4),
+                new TriGeom(p3, p0, p4)};
 
         this.volume = GeometryHelper.volume(surfaceTriangles);
         this.centroid = GeometryHelper.centroid(surfaceTriangles);
