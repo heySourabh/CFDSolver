@@ -1,6 +1,10 @@
-package main.physics;
+package main.physics.goveqn.factory;
 
 import main.geom.Vector;
+import main.physics.goveqn.Convection;
+import main.physics.goveqn.Diffusion;
+import main.physics.goveqn.GoverningEquations;
+import main.physics.goveqn.Source;
 
 public class EulerEquations implements GoverningEquations {
 

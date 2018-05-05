@@ -1,6 +1,6 @@
 package main.mesh;
 
-import main.physics.BoundaryCondition;
+import main.physics.bc.BoundaryCondition;
 
 import java.util.List;
 

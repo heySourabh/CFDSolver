@@ -1,4 +1,4 @@
-package main.physics;
+package main.physics.bc;
 
 import main.mesh.Face;
 
