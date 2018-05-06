@@ -1,10 +1,11 @@
-% Mesh data for 1D with 5 points varying in x and y direction
-dimension=1
-xi=5
+% Mesh description
+dimension = 1  % 1, 2 or 3
+mode = ASCII   % ASCII or BINARY
+xi = 5         % for dimension 1, 2 and 3
 
-%Now follows the point data:
-x        y        z   % Header line will is ignored
--2.      0        0   % First point data
+% mesh point co-ordinates below (x y z)
+% separated by one or more spaces (delimited using "\\s+").
+-2.0      0        0
 -0.75    0.25     0
 0.5      0.5      0
 1.75     0.75     0
