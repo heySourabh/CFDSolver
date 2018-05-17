@@ -108,7 +108,6 @@ public class Structured1DMesh implements Mesh {
         Boundary boundary = new Boundary("xi min", List.of(bndryFace), bc_xiMin);
         boundaries.add(boundary);
 
-
         // xi max boundary
         bndryNode = nodes.get(xi - 1);
         interNode = nodes.get(xi - 2);

@@ -96,58 +96,31 @@ public class GeometryHelper {
         return ax * xbar * 0.5;
     }
 
-    private static Vector centroidTetra(Point p0, Point p1, Point p2, Point p3) {
-        return new Vector(
-                (p0.x + p1.x + p2.x + p3.x) * 0.25,
-                (p0.y + p1.y + p2.y + p3.y) * 0.25,
-                (p0.z + p1.z + p2.z + p3.z) * 0.25
-        );
-    }
-
-    private static double volumeTetra(Point p0, Point p1, Point p2, Point p3) {
-
-        Vector v30 = new Vector(p3, p0);
-        Vector v31 = new Vector(p3, p1);
-        Vector v32 = new Vector(p3, p2);
-
-        return v30.dot(v31.cross(v32)) / 6.0;
-    }
-
-    private static Vector centroidTriangle(TriGeom tri) {
+    private static Vector scaledCentroidUnder(TriGeom tri) {
         Point[] p = tri.points();
-
-        return new Vector(
-                (p[0].x + p[1].x + p[2].x) / 3.0,
-                (p[0].y + p[1].y + p[2].y) / 3.0,
-                (p[0].z + p[1].z + p[2].z) / 3.0
-        );
-    }
-
-    private static double areaTriangle(TriGeom triangle) {
-        Point[] p = triangle.points();
-        Vector v1 = new Vector(p[0], p[1]);
-        Vector v2 = new Vector(p[0], p[2]);
-
-        return v1.cross(v2).mag() * 0.5;
-    }
-
-    private static Vector scaledCentroidOfVolumeUnder(TriGeom tri) {
-        Point[] p = tri.points();
-        // Break the wedge into three tetra
         Point p0 = p[0];
         Point p1 = p[1];
         Point p2 = p[2];
-        // x-projection of points
-        Point p3 = new Point(0, p0.y, p0.z);
-        Point p4 = new Point(0, p1.y, p1.z);
-        Point p5 = new Point(0, p2.y, p2.z);
 
-        // Create tetrahedrons using points such that the external face is ordered clockwise
-        Vector v0 = centroidTetra(p0, p1, p2, p4).mult(volumeTetra(p0, p1, p2, p4));
-        Vector v1 = centroidTetra(p3, p5, p4, p0).mult(volumeTetra(p3, p5, p4, p0));
-        Vector v2 = centroidTetra(p2, p4, p5, p0).mult(volumeTetra(p2, p4, p5, p0));
+        Vector v1 = new Vector(p0, p1);
+        Vector v2 = new Vector(p0, p2);
 
-        return v0.add(v1).add(v2);
+        Vector areaVector = v1.cross(v2);
+        double aT = areaVector.mag();
+        if (aT < 1e-15) {
+            return new Vector(0, 0, 0);
+        }
+
+        Vector unitNormal = areaVector.unit();
+
+        double xc = aT * unitNormal.x
+                * (p0.x * p0.x + p1.x * p1.x + p2.x * p2.x + p0.x * p1.x + p0.x * p2.x + p1.x * p2.x);
+        double yc = aT * unitNormal.y
+                * (p0.y * p0.y + p1.y * p1.y + p2.y * p2.y + p0.y * p1.y + p0.y * p2.y + p1.y * p2.y);
+        double zc = aT * unitNormal.z
+                * (p0.z * p0.z + p1.z * p1.z + p2.z * p2.z + p0.z * p1.z + p0.z * p2.z + p1.z * p2.z);
+
+        return new Vector(xc, yc, zc);
     }
 
     private static double signedVolume(TriGeom[] triangles) {
@@ -187,9 +160,9 @@ public class GeometryHelper {
         Vector centroidPos = new Vector(0, 0, 0);
 
         for (TriGeom t : newTriangles) {
-            centroidPos = centroidPos.add(scaledCentroidOfVolumeUnder(t));
+            centroidPos = centroidPos.add(scaledCentroidUnder(t));
         }
-        centroidPos = centroidPos.mult(1.0 / vol);
+        centroidPos = centroidPos.mult(1.0 / vol / 24.0);
         centroidPos = centroidPos.add(new Vector(translateBy.x, translateBy.y, translateBy.z));
 
         return new Point(centroidPos.x, centroidPos.y, centroidPos.z);
