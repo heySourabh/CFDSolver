@@ -106,19 +106,10 @@ public class GeometryHelper {
         Vector v2 = new Vector(p0, p2);
 
         Vector areaVector = v1.cross(v2);
-        double aT = areaVector.mag();
-        if (aT < 1e-15) {
-            return new Vector(0, 0, 0);
-        }
 
-        Vector unitNormal = areaVector.unit();
-
-        double xc = aT * unitNormal.x
-                * (p0.x * p0.x + p1.x * p1.x + p2.x * p2.x + p0.x * p1.x + p0.x * p2.x + p1.x * p2.x);
-        double yc = aT * unitNormal.y
-                * (p0.y * p0.y + p1.y * p1.y + p2.y * p2.y + p0.y * p1.y + p0.y * p2.y + p1.y * p2.y);
-        double zc = aT * unitNormal.z
-                * (p0.z * p0.z + p1.z * p1.z + p2.z * p2.z + p0.z * p1.z + p0.z * p2.z + p1.z * p2.z);
+        double xc = areaVector.x * (p0.x * p0.x + p1.x * p1.x + p2.x * p2.x + p0.x * p1.x + p0.x * p2.x + p1.x * p2.x);
+        double yc = areaVector.y * (p0.y * p0.y + p1.y * p1.y + p2.y * p2.y + p0.y * p1.y + p0.y * p2.y + p1.y * p2.y);
+        double zc = areaVector.z * (p0.z * p0.z + p1.z * p1.z + p2.z * p2.z + p0.z * p1.z + p0.z * p2.z + p1.z * p2.z);
 
         return new Vector(xc, yc, zc);
     }
