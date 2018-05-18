@@ -27,17 +27,4 @@ public interface Geometry {
     Point centroid();
 
     Vector unitNormal();
-
-    default boolean geomEquals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Geometry geom = (Geometry) o;
-
-        return Arrays.equals(points(), geom.points());
-    }
-
-    default int geomHashCode() {
-        return Arrays.hashCode(points());
-    }
 }

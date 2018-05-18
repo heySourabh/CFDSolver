@@ -25,19 +25,4 @@ public class Point {
                 ", z=" + z +
                 '}';
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Point other = (Point) o;
-
-        return distance(other) < 1e-15;
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) (Math.round(x) + Math.round(y) + Math.round(z));
-    }
 }
