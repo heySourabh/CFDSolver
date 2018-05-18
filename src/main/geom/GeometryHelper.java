@@ -87,13 +87,13 @@ public class GeometryHelper {
 
     private static double volumeUnder(TriGeom tri) {
         Point[] p = tri.points();
-        double xbar = (p[0].x + p[1].x + p[2].x) / 3.0;
+        double xc = (p[0].x + p[1].x + p[2].x) / 3.0;
         Vector vab = new Vector(p[0], p[1]);
         Vector vac = new Vector(p[0], p[2]);
 
         double ax = vab.y * vac.z - vac.y * vab.z; // x-component of cross product
 
-        return ax * xbar * 0.5;
+        return ax * xc * 0.5;
     }
 
     private static Vector scaledCentroidUnder(TriGeom tri) {
@@ -102,10 +102,10 @@ public class GeometryHelper {
         Point p1 = p[1];
         Point p2 = p[2];
 
-        Vector v1 = new Vector(p0, p1);
-        Vector v2 = new Vector(p0, p2);
+        Vector v01 = new Vector(p0, p1);
+        Vector v02 = new Vector(p0, p2);
 
-        Vector areaVector = v1.cross(v2);
+        Vector areaVector = v01.cross(v02);
 
         double xc = areaVector.x * (p0.x * p0.x + p1.x * p1.x + p2.x * p2.x + p0.x * p1.x + p0.x * p2.x + p1.x * p2.x);
         double yc = areaVector.y * (p0.y * p0.y + p1.y * p1.y + p2.y * p2.y + p0.y * p1.y + p0.y * p2.y + p1.y * p2.y);

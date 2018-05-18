@@ -79,63 +79,63 @@ public class Structured1DMesh implements Mesh {
         // Boundaries
         this.boundaries = new ArrayList<>();
         // xi min boundary
-        Node bndryNode = nodes.get(0);
+        Node boundaryNode = nodes.get(0);
         Node interNode = nodes.get(1);
-        Point bndryPoint = new Point(bndryNode.x, bndryNode.y, bndryNode.z);
+        Point boundaryPoint = new Point(boundaryNode.x, boundaryNode.y, boundaryNode.z);
         Point interPoint = new Point(interNode.x, interNode.y, interNode.z);
-        Vector faceNormal = new Vector(interPoint, bndryPoint);
+        Vector faceNormal = new Vector(interPoint, boundaryPoint);
         Point ghostPoint = new Point(
-                bndryNode.x + faceNormal.x,
-                bndryNode.y + faceNormal.y,
-                bndryNode.z + faceNormal.z);
+                boundaryNode.x + faceNormal.x,
+                boundaryNode.y + faceNormal.y,
+                boundaryNode.z + faceNormal.z);
         Node ghostNode = new Node(ghostPoint);
 
-        Geometry ghostCellGeom = new Line(ghostPoint, bndryPoint);
+        Geometry ghostCellGeom = new Line(ghostPoint, boundaryPoint);
         Cell ghostCell = new Cell(-1,
-                new Node[]{ghostNode, bndryNode},
+                new Node[]{ghostNode, boundaryNode},
                 ghostCellGeom.vtkType(),
                 new Shape(ghostCellGeom.length() * 1.0 * 1.0, ghostCellGeom.centroid()),
                 numVars);
 
-        Geometry bndryFaceGeom = new Vertex(bndryPoint);
-        Surface surface = new Surface(1.0 * 1.0, bndryFaceGeom.centroid(), faceNormal.unit());
-        Face bndryFace = new Face(new Node[]{bndryNode},
+        Geometry boundaryFaceGeom = new Vertex(boundaryPoint);
+        Surface surface = new Surface(1.0 * 1.0, boundaryFaceGeom.centroid(), faceNormal.unit());
+        Face boundaryFace = new Face(new Node[]{boundaryNode},
                 VTKType.VTK_VERTEX, surface,
                 cells.get(0),
                 ghostCell,
                 numVars);
 
-        Boundary boundary = new Boundary("xi min", List.of(bndryFace), bc_xiMin);
+        Boundary boundary = new Boundary("xi min", List.of(boundaryFace), bc_xiMin);
         boundaries.add(boundary);
 
         // xi max boundary
-        bndryNode = nodes.get(xi - 1);
+        boundaryNode = nodes.get(xi - 1);
         interNode = nodes.get(xi - 2);
-        bndryPoint = new Point(bndryNode.x, bndryNode.y, bndryNode.z);
+        boundaryPoint = new Point(boundaryNode.x, boundaryNode.y, boundaryNode.z);
         interPoint = new Point(interNode.x, interNode.y, interNode.z);
-        faceNormal = new Vector(interPoint, bndryPoint);
+        faceNormal = new Vector(interPoint, boundaryPoint);
         ghostPoint = new Point(
-                bndryNode.x + faceNormal.x,
-                bndryNode.y + faceNormal.y,
-                bndryNode.z + faceNormal.z);
+                boundaryNode.x + faceNormal.x,
+                boundaryNode.y + faceNormal.y,
+                boundaryNode.z + faceNormal.z);
         ghostNode = new Node(ghostPoint);
 
-        ghostCellGeom = new Line(bndryPoint, ghostPoint);
+        ghostCellGeom = new Line(boundaryPoint, ghostPoint);
         ghostCell = new Cell(-1,
-                new Node[]{bndryNode, ghostNode},
+                new Node[]{boundaryNode, ghostNode},
                 ghostCellGeom.vtkType(),
                 new Shape(ghostCellGeom.length() * 1.0 * 1.0, ghostCellGeom.centroid()),
                 numVars);
 
-        bndryFaceGeom = new Vertex(bndryPoint);
-        surface = new Surface(1.0 * 1.0, bndryFaceGeom.centroid(), faceNormal.unit());
-        bndryFace = new Face(new Node[]{bndryNode},
+        boundaryFaceGeom = new Vertex(boundaryPoint);
+        surface = new Surface(1.0 * 1.0, boundaryFaceGeom.centroid(), faceNormal.unit());
+        boundaryFace = new Face(new Node[]{boundaryNode},
                 VTKType.VTK_VERTEX, surface,
                 cells.get(xi - 2),
                 ghostCell,
                 numVars);
 
-        boundary = new Boundary("xi max", List.of(bndryFace), bc_xiMax);
+        boundary = new Boundary("xi max", List.of(boundaryFace), bc_xiMax);
         boundaries.add(boundary);
 
         // TODO: Setup the faces of cells (caution with the test case infinite loop!)

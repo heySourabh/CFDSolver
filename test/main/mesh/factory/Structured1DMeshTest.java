@@ -122,7 +122,7 @@ class Structured1DMeshTest {
         // Have same surface
         assertSurfaceEquals(expected.surface, actual.surface);
 
-        // Have same left and right cells ???? Will cause Stackoverflow when face neighbors are added!!
+        // Have same left and right cells ???? Will cause Stack overflow when face neighbors are added!!
         assertCellEquals(expected.left, actual.left);
         assertCellEquals(expected.right, actual.right);
 
