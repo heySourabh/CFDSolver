@@ -10,4 +10,12 @@ public class Shape {
         this.volume = volume;
         this.centroid = centroid;
     }
+
+    @Override
+    public String toString() {
+        return "Shape{" +
+                "volume=" + volume +
+                ", centroid=" + centroid +
+                '}';
+    }
 }

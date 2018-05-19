@@ -24,4 +24,12 @@ public class Cell {
         this.U = new double[numVars];
         this.residual = new double[numVars];
     }
+
+    @Override
+    public String toString() {
+        return "Cell{" +
+                "vtkType=" + vtkType +
+                ", shape=" + shape +
+                '}';
+    }
 }
