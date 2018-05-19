@@ -138,8 +138,32 @@ public class Structured1DMesh implements Mesh {
         boundary = new Boundary("xi max", List.of(boundaryFace), bc_xiMax);
         boundaries.add(boundary);
 
-        // TODO: Setup the faces of cells (caution with the test case infinite loop!)
-        // TODO: Setup node neighbors
+        // Setup the faces of cells
+        for (Face face : internalFaces) {
+            face.left.faces.add(face);
+            face.right.faces.add(face);
+        }
+        for (Boundary bnd : boundaries) {
+            for (Face bndFace : bnd.faces) {
+                bndFace.left.faces.add(bndFace);
+                bndFace.right.faces.add(bndFace);
+            }
+        }
+
+        // Setup node neighbors
+        for (Cell cell : cells) {
+            for (Node node : cell.nodes) {
+                node.neighbors.add(cell);
+            }
+        }
+        for (Boundary bnd : boundaries) {
+            for (Face bndFace : bnd.faces) {
+                Cell outsideCell = bndFace.right;
+                for (Node node : outsideCell.nodes) {
+                    node.neighbors.add(outsideCell);
+                }
+            }
+        }
     }
 
     @Override
