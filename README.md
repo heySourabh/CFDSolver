@@ -1,6 +1,8 @@
 # CFDSolver
 ### Computational Fluid Dynamics Solver
 
+CI Badges
+
 This is a code for solving partial differential equations of the form resembling Navier-Stokes equations.
 
 Have a look at the [Wiki Page](https://github.com/heySourabh/CFDSolver/wiki) for further details.
