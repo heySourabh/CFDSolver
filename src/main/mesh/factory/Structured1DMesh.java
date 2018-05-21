@@ -13,6 +13,7 @@ import main.util.DataFileReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -105,7 +106,7 @@ public class Structured1DMesh implements Mesh {
                 ghostCell,
                 numVars);
 
-        Boundary boundary = new Boundary("xi min", List.of(boundaryFace), bc_xiMin);
+        Boundary boundary = new Boundary("xi min", Arrays.asList(boundaryFace), bc_xiMin);
         boundaries.add(boundary);
 
         // xi max boundary
@@ -135,7 +136,7 @@ public class Structured1DMesh implements Mesh {
                 ghostCell,
                 numVars);
 
-        boundary = new Boundary("xi max", List.of(boundaryFace), bc_xiMax);
+        boundary = new Boundary("xi max", Arrays.asList(boundaryFace), bc_xiMax);
         boundaries.add(boundary);
 
         // Setup the faces of cells

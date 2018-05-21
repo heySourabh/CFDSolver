@@ -91,9 +91,9 @@ class Structured1DMeshTest {
         }
         expectedInternalFaces = Arrays.asList(faces).subList(1, faces.length - 1);
 
-        Boundary xi_minBoundary = new Boundary("xi min", List.of(faces[0]), dummyBC);
-        Boundary xi_maxBoundary = new Boundary("xi max", List.of(faces[faces.length - 1]), dummyBC);
-        expectedBoundaries = List.of(xi_minBoundary, xi_maxBoundary);
+        Boundary xi_minBoundary = new Boundary("xi min", Arrays.asList(faces[0]), dummyBC);
+        Boundary xi_maxBoundary = new Boundary("xi max", Arrays.asList(faces[faces.length - 1]), dummyBC);
+        expectedBoundaries = Arrays.asList(xi_minBoundary, xi_maxBoundary);
 
         // Setup node neighbours
         for (int i = 1; i < nodes.length - 1; i++) {

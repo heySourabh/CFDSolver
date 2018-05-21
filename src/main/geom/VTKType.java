@@ -1,6 +1,7 @@
 package main.geom;
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 public enum VTKType {
     VTK_VERTEX(1, 0),
@@ -34,6 +35,6 @@ public enum VTKType {
     public static VTKType get(int id) {
         return Arrays.stream(VTKType.values())
                 .filter(e -> e.ID == id)
-                .findAny().orElseThrow();
+                .findAny().orElseThrow(() -> new NoSuchElementException("No VTKType for id: " + id));
     }
 }
