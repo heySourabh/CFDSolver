@@ -117,7 +117,7 @@ class Structured1DMeshTest {
             }
         }
 
-        actualMesh = new Structured1DMesh(new File("test_data/mesh_structured_1d.cfds"), numVars, dummyBC, dummyBC);
+        actualMesh = new Structured1DMesh(new File("test/test_data/mesh_structured_1d.cfds"), numVars, dummyBC, dummyBC);
     }
 
     private static void assertNodeEquals(Node expected, Node actual) {
