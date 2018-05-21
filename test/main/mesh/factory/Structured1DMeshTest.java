@@ -8,17 +8,17 @@ import main.geom.factory.Line;
 import main.geom.factory.Vertex;
 import main.mesh.*;
 import main.physics.bc.BoundaryCondition;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.BeforeClass;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.*;
 
-class Structured1DMeshTest {
+public class Structured1DMeshTest {
 
     private static int numVars = 3;
     private static List<Node> expectedNodes;
@@ -41,8 +41,8 @@ class Structured1DMeshTest {
     private static Mesh actualMesh;
 
 
-    @BeforeAll
-    static void setUp() throws FileNotFoundException {
+    @BeforeClass
+    public static void setUp() throws FileNotFoundException {
         Node[] nodes = new Node[7];
         nodes[0] = new Node(-3.25, -0.25, 0.0); // Ghost node
         nodes[1] = new Node(-2.0, 0, 0);
@@ -217,7 +217,7 @@ class Structured1DMeshTest {
     }
 
     @Test
-    void cells() {
+    public void cells() {
         List<Cell> actualCells = actualMesh.cells();
         assertEquals(expectedCells.size(), actualCells.size());
         for (int i = 0; i < expectedCells.size(); i++) {
@@ -226,7 +226,7 @@ class Structured1DMeshTest {
     }
 
     @Test
-    void internalFaces() {
+    public void internalFaces() {
         List<Face> actualInternalFaces = actualMesh.internalFaces();
         assertEquals(expectedInternalFaces.size(), actualInternalFaces.size());
         for (int i = 0; i < expectedInternalFaces.size(); i++) {
@@ -235,7 +235,7 @@ class Structured1DMeshTest {
     }
 
     @Test
-    void nodes() {
+    public void nodes() {
         List<Node> actualNodes = actualMesh.nodes();
         assertEquals(expectedNodes.size(), actualNodes.size());
         for (int i = 0; i < expectedNodes.size(); i++) {
@@ -244,7 +244,7 @@ class Structured1DMeshTest {
     }
 
     @Test
-    void boundaries() {
+    public void boundaries() {
         assertEquals(expectedBoundaries.size(), actualMesh.boundaries().size());
         for (int i = 0; i < expectedBoundaries.size(); i++) {
             assertBoundaryEquals(expectedBoundaries.get(i), actualMesh.boundaries().get(i));

@@ -2,14 +2,14 @@ package main.geom.factory;
 
 import main.geom.Point;
 import main.geom.VTKType;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-class TriangleStripTest {
+public class TriangleStripTest {
 
     @Test
-    void points() {
+    public void points() {
         Point p0 = new Point(-166.02170217, -194.54201633, -4.58945093);
         Point p1 = new Point(-166.02170217, -44.84761406, 83.20591431);
         Point p2 = new Point(-166.02170217, 109.57666338, -56.89234746);
@@ -33,7 +33,7 @@ class TriangleStripTest {
     }
 
     @Test
-    void vtkType() {
+    public void vtkType() {
         Point p0 = new Point(-166.02170217, -194.54201633, -4.58945093);
         Point p1 = new Point(-166.02170217, -44.84761406, 83.20591431);
         Point p2 = new Point(-166.02170217, 109.57666338, -56.89234746);
@@ -51,7 +51,7 @@ class TriangleStripTest {
     }
 
     @Test
-    void area() {
+    public void area() {
         Point p0 = new Point(-166.02170217, -194.54201633, -4.58945093);
         Point p1 = new Point(-166.02170217, -44.84761406, 83.20591431);
         Point p2 = new Point(-166.02170217, 109.57666338, -56.89234746);
@@ -70,7 +70,7 @@ class TriangleStripTest {
     }
 
     @Test
-    void centroid() {
+    public void centroid() {
         // TODO: Add test and implement centroid()
         Point p0 = new Point(-166.02170217, -194.54201633, -4.58945093);
         Point p1 = new Point(-166.02170217, -44.84761406, 83.20591431);
@@ -83,11 +83,16 @@ class TriangleStripTest {
 
         TriangleStrip triangleStrip = new TriangleStrip(p0, p1, p2, p3, p4, p5, p6, p7);
 
-        assertThrows(UnsupportedOperationException.class, triangleStrip::centroid);
+        try {
+            triangleStrip.centroid();
+            fail("Expected to throw exception, but was not thrown.");
+        } catch (UnsupportedOperationException ex) {
+            System.out.println(getClass() + ": partially implemented.");
+        }
     }
 
     @Test
-    void unitNormal() {
+    public void unitNormal() {
         // TODO: Add test and implement unitNormal()
         Point p0 = new Point(-166.02170217, -194.54201633, -4.58945093);
         Point p1 = new Point(-166.02170217, -44.84761406, 83.20591431);
@@ -99,7 +104,11 @@ class TriangleStripTest {
         Point p7 = new Point(-15.50992500, -126.04375365, 333.99627403);
 
         TriangleStrip triangleStrip = new TriangleStrip(p0, p1, p2, p3, p4, p5, p6, p7);
-
-        assertThrows(UnsupportedOperationException.class, triangleStrip::unitNormal);
+        try {
+            triangleStrip.unitNormal();
+            fail("Expected to throw exception, but was not thrown.");
+        } catch (UnsupportedOperationException ex) {
+            System.out.println(getClass() + ": partially implemented.");
+        }
     }
 }

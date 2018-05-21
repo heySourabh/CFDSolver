@@ -2,19 +2,19 @@ package main.geom.factory;
 
 import main.geom.Point;
 import main.geom.VTKType;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-class VertexTest {
+public class VertexTest {
 
     private final int SEED = 1;
     private final int BOUND = 200;
 
     @Test
-    void points() {
+    public void points() {
         Random r = new Random(SEED);
         int range = r.nextInt(BOUND) - BOUND / 2;
         Point p = new Point(
@@ -27,7 +27,7 @@ class VertexTest {
     }
 
     @Test
-    void vtkType() {
+    public void vtkType() {
         Random r = new Random(SEED);
         int range = r.nextInt(BOUND) - BOUND / 2;
         Point p = new Point(
@@ -40,7 +40,7 @@ class VertexTest {
     }
 
     @Test
-    void centroid() {
+    public void centroid() {
         Random r = new Random(SEED);
         int range = r.nextInt(BOUND) - BOUND / 2;
         Point p = new Point(

@@ -2,14 +2,14 @@ package main.geom.factory;
 
 import main.geom.Point;
 import main.geom.VTKType;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-class PyramidTest {
+public class PyramidTest {
 
     @Test
-    void points() {
+    public void points() {
         Point p0 = new Point(27.07853524, 27.63093514, -26.81737955);
         Point p1 = new Point(27.07853524, 27.63093514, 27.51093247);
         Point p2 = new Point(57.93934901, 24.93096379, 27.51093247);
@@ -27,7 +27,7 @@ class PyramidTest {
     }
 
     @Test
-    void vtkType() {
+    public void vtkType() {
         Point p0 = new Point(27.07853524, 27.63093514, -26.81737955);
         Point p1 = new Point(27.07853524, 27.63093514, 27.51093247);
         Point p2 = new Point(57.93934901, 24.93096379, 27.51093247);
@@ -41,7 +41,7 @@ class PyramidTest {
     }
 
     @Test
-    void volume1() {
+    public void volume1() {
         Point p0 = new Point(27.07853524, 27.63093514, -26.81737955);
         Point p1 = new Point(27.07853524, 27.63093514, 27.51093247);
         Point p2 = new Point(57.93934901, 24.93096379, 27.51093247);
@@ -55,7 +55,7 @@ class PyramidTest {
     }
 
     @Test
-    void volume2() {
+    public void volume2() {
         Point p0 = new Point(26.54862185, 27.67729656, 24.62868105);
         Point p1 = new Point(50.85265875, 25.55096885, 30.01284617);
         Point p2 = new Point(50.85265875, 25.55096885, -27.28829024);
@@ -69,7 +69,7 @@ class PyramidTest {
     }
 
     @Test
-    void centroid1() {
+    public void centroid1() {
         Point p0 = new Point(27.07853524, 27.63093514, -26.81737955);
         Point p1 = new Point(27.07853524, 27.63093514, 27.51093247);
         Point p2 = new Point(57.93934901, 24.93096379, 27.51093247);
@@ -83,7 +83,7 @@ class PyramidTest {
     }
 
     @Test
-    void centroid2() {
+    public void centroid2() {
         Point p0 = new Point(26.54862185, 27.67729656, 24.62868105);
         Point p1 = new Point(50.85265875, 25.55096885, 30.01284617);
         Point p2 = new Point(50.85265875, 25.55096885, -27.28829024);

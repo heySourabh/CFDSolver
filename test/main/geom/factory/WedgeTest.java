@@ -2,14 +2,14 @@ package main.geom.factory;
 
 import main.geom.Point;
 import main.geom.VTKType;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-class WedgeTest {
+public class WedgeTest {
 
     @Test
-    void points() {
+    public void points() {
         Point p0 = new Point(55.60487171, 13.88977409, -2.47153445);
         Point p1 = new Point(27.38285885, 32.21736354, 23.38451830);
         Point p2 = new Point(16.85939643, 39.05137994, -41.44573162);
@@ -29,7 +29,7 @@ class WedgeTest {
     }
 
     @Test
-    void vtkType() {
+    public void vtkType() {
         Point p0 = new Point(55.60487171, 13.88977409, -2.47153445);
         Point p1 = new Point(27.38285885, 32.21736354, 23.38451830);
         Point p2 = new Point(16.85939643, 39.05137994, -41.44573162);
@@ -43,7 +43,7 @@ class WedgeTest {
     }
 
     @Test
-    void volume() {
+    public void volume() {
         Point p0 = new Point(55.60487171, 13.88977409, -2.47153445);
         Point p1 = new Point(27.38285885, 32.21736354, 23.38451830);
         Point p2 = new Point(16.85939643, 39.05137994, -41.44573162);
@@ -59,7 +59,7 @@ class WedgeTest {
     }
 
     @Test
-    void centroid() {
+    public void centroid() {
         Point p0 = new Point(55.60487171, 13.88977409, -2.47153445);
         Point p1 = new Point(27.38285885, 32.21736354, 23.38451830);
         Point p2 = new Point(16.85939643, 39.05137994, -41.44573162);

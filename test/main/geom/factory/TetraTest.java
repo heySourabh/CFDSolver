@@ -2,14 +2,14 @@ package main.geom.factory;
 
 import main.geom.Point;
 import main.geom.VTKType;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-class TetraTest {
+public class TetraTest {
 
     @Test
-    void points() {
+    public void points() {
         Point p0 = new Point(-1.31049078, 20, -36.98055193);
         Point p1 = new Point(-3.02155309, 58, -11.31461721);
         Point p2 = new Point(-28.49736977, 20, 4.65529772);
@@ -25,7 +25,7 @@ class TetraTest {
     }
 
     @Test
-    void vtkType() {
+    public void vtkType() {
         Point p0 = new Point(-1.31049078, 20, -36.98055193);
         Point p1 = new Point(-3.02155309, 58, -11.31461721);
         Point p2 = new Point(-28.49736977, 20, 4.65529772);
@@ -38,7 +38,7 @@ class TetraTest {
     }
 
     @Test
-    void volume1() {
+    public void volume1() {
         Point p0 = new Point(-1.31049078, 20, -36.98055193);
         Point p1 = new Point(-3.02155309, 58, -11.31461721);
         Point p2 = new Point(-28.49736977, 20, 4.65529772);
@@ -51,7 +51,7 @@ class TetraTest {
     }
 
     @Test
-    void volume2() {
+    public void volume2() {
         Point p0 = new Point(-12.37881651, 19.13810406, 33.14816859);
         Point p1 = new Point(-28.49736977, 2.32764886, 4.03160609);
         Point p2 = new Point(17.56173243, -5.65730861, -9.79874594);
@@ -64,7 +64,7 @@ class TetraTest {
     }
 
     @Test
-    void centroid1() {
+    public void centroid1() {
         Point p0 = new Point(-1.31049078, 20, -36.98055193);
         Point p1 = new Point(-3.02155309, 58, -11.31461721);
         Point p2 = new Point(-28.49736977, 20, 4.65529772);
@@ -77,7 +77,7 @@ class TetraTest {
     }
 
     @Test
-    void centroid2() {
+    public void centroid2() {
         Point p0 = new Point(-12.37881651, 19.13810406, 33.14816859);
         Point p1 = new Point(-28.49736977, 2.32764886, 4.03160609);
         Point p2 = new Point(17.56173243, -5.65730861, -9.79874594);

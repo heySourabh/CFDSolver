@@ -3,9 +3,9 @@ package main.geom.factory;
 import main.geom.Point;
 import main.geom.VTKType;
 import main.geom.Vector;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 /**
  * Test for Polygon geometry.
@@ -13,10 +13,10 @@ import static org.junit.jupiter.api.Assertions.*;
  * The expected area, centroid and normal values
  * are measured from a sketch in SolidWorks.
  */
-class PolygonTest {
+public class PolygonTest {
 
     @Test
-    void vtkType() {
+    public void vtkType() {
         Polygon polygon = new Polygon(new Point[]{
                 new Point(1, 2, 3),
                 new Point(1, 4, 5),
@@ -27,7 +27,7 @@ class PolygonTest {
     }
 
     @Test
-    void area() {
+    public void area() {
         Polygon polygon = new Polygon(new Point[]{
                 new Point(-52.53629977, 32.69717636, -23.46507803),
                 new Point(-10.89582092, -8.42551076, -55.18888104),
@@ -44,7 +44,7 @@ class PolygonTest {
     }
 
     @Test
-    void centroid() {
+    public void centroid() {
         Polygon polygon = new Polygon(new Point[]{
                 new Point(-10.89582092, -8.42551076, -55.18888104),
                 new Point(38.85242487, -10.11055088, -4.97560461),
@@ -61,7 +61,7 @@ class PolygonTest {
     }
 
     @Test
-    void unitNormal() {
+    public void unitNormal() {
         Polygon polygon = new Polygon(new Point[]{
                 new Point(-10.89582092, -8.42551076, -55.18888104),
                 new Point(38.85242487, -10.11055088, -4.97560461),

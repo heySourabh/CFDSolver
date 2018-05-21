@@ -3,16 +3,15 @@ package main.geom.factory;
 import main.geom.Point;
 import main.geom.VTKType;
 import main.geom.Vector;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import static main.geom.VTKType.VTK_TRIANGLE;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.Assert.*;
 
-class TriangleTest {
+public class TriangleTest {
 
     @Test
-    void points() {
+    public void points() {
         Point p0 = new Point(-11.29642784, 16.02452759, -38.94467857);
         Point p1 = new Point(3.10731051, 10.31302616, -38.94467857);
         Point p2 = new Point(30.23637047, 18.61893824, -0.41788033);
@@ -25,7 +24,7 @@ class TriangleTest {
     }
 
     @Test
-    void vtkType() {
+    public void vtkType() {
         Point p0 = new Point(-11.29642784, 16.02452759, -38.94467857);
         Point p1 = new Point(3.10731051, 10.31302616, -38.94467857);
         Point p2 = new Point(30.23637047, 18.61893824, -0.41788033);
@@ -35,7 +34,7 @@ class TriangleTest {
     }
 
     @Test
-    void area() {
+    public void area() {
         Point p0 = new Point(-11.29642784, 16.02452759, -38.94467857);
         Point p1 = new Point(3.10731051, 10.31302616, -38.94467857);
         Point p2 = new Point(30.23637047, 18.61893824, -0.41788033);
@@ -47,7 +46,7 @@ class TriangleTest {
     }
 
     @Test
-    void centroid() {
+    public void centroid() {
         Point p0 = new Point(-11.29642784, 16.02452759, -38.94467857);
         Point p1 = new Point(3.10731051, 10.31302616, -38.94467857);
         Point p2 = new Point(30.23637047, 18.61893824, -0.41788033);
@@ -59,7 +58,7 @@ class TriangleTest {
     }
 
     @Test
-    void unitNormal() {
+    public void unitNormal() {
         Point p0 = new Point(-11.29642784, 16.02452759, -38.94467857);
         Point p1 = new Point(3.10731051, 10.31302616, -38.94467857);
         Point p2 = new Point(30.23637047, 18.61893824, -0.41788033);

@@ -2,14 +2,14 @@ package main.geom.factory;
 
 import main.geom.Point;
 import main.geom.VTKType;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-class PolyLineTest {
+public class PolyLineTest {
 
     @Test
-    void vtkType() {
+    public void vtkType() {
         PolyLine polyLine = new PolyLine(new Point[]{
                 new Point(1, 2, 3),
                 new Point(4, 5, 6),
@@ -20,7 +20,7 @@ class PolyLineTest {
     }
 
     @Test
-    void length1() {
+    public void length1() {
         PolyLine polyLine = new PolyLine(new Point[]{
                 new Point(1, 2, 3),
                 new Point(4, 5, 6),
@@ -33,7 +33,7 @@ class PolyLineTest {
     }
 
     @Test
-    void length2() {
+    public void length2() {
         PolyLine polyLine = new PolyLine(new Point[]{
                 new Point(-166.02170217, -194.54201633, -4.58945093),
                 new Point(-166.02170217, -44.84761406, 83.20591431),

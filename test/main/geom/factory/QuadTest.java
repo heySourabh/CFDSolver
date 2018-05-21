@@ -3,14 +3,14 @@ package main.geom.factory;
 import main.geom.Point;
 import main.geom.VTKType;
 import main.geom.Vector;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-class QuadTest {
+public class QuadTest {
 
     @Test
-    void points() {
+    public void points() {
         Point p0 = new Point(-33.96370350, 21.50426152, -12.73844588);
         Point p1 = new Point(18.80281320, 29.97229549, -13.27749442);
         Point p2 = new Point(-19.85934057, 33.31053014, -17.29041133);
@@ -26,7 +26,7 @@ class QuadTest {
     }
 
     @Test
-    void vtkType() {
+    public void vtkType() {
         Point p0 = new Point(-33.96370350, 21.50426152, -12.73844588);
         Point p1 = new Point(18.80281320, 29.97229549, -13.27749442);
         Point p2 = new Point(-19.85934057, 33.31053014, -17.29041133);
@@ -39,7 +39,7 @@ class QuadTest {
     }
 
     @Test
-    void area() {
+    public void area() {
         Point p0 = new Point(-33.96370350, 21.50426152, -12.73844588);
         Point p1 = new Point(18.80281320, 29.97229549, -13.27749442);
         Point p2 = new Point(-19.85934057, 33.31053014, -17.29041133);
@@ -52,7 +52,7 @@ class QuadTest {
     }
 
     @Test
-    void centroid() {
+    public void centroid() {
         Point p0 = new Point(-33.96370350, 21.50426152, -12.73844588);
         Point p1 = new Point(18.80281320, 29.97229549, -13.27749442);
         Point p2 = new Point(-19.85934057, 33.31053014, -17.29041133);
@@ -65,7 +65,7 @@ class QuadTest {
     }
 
     @Test
-    void unitNormal() {
+    public void unitNormal() {
         Point p0 = new Point(-33.96370350, 21.50426152, -12.73844588);
         Point p1 = new Point(18.80281320, 29.97229549, -13.27749442);
         Point p2 = new Point(-19.85934057, 33.31053014, -17.29041133);

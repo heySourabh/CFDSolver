@@ -2,9 +2,9 @@ package main.geom.factory;
 
 import main.geom.Point;
 import main.geom.VTKType;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
 /**
  * Test for Hexahedron geometry.
@@ -12,10 +12,10 @@ import static org.junit.jupiter.api.Assertions.*;
  * and the expected volume and center of gravity values
  * are measured from the models in SolidWorks.
  */
-class HexahedronTest {
+public class HexahedronTest {
 
     @Test
-    void vtkType() {
+    public void vtkType() {
         Hexahedron hexahedron = new Hexahedron(
                 new Point(0, 0, 0), new Point(0, 0, 0),
                 new Point(0, 0, 0), new Point(0, 0, 0),
@@ -27,7 +27,7 @@ class HexahedronTest {
     }
 
     @Test
-    void volume1() {
+    public void volume1() {
         Hexahedron hexahedron = new Hexahedron(
                 new Point(-5.9, 24, 3.6),
                 new Point(-5.9, 0, 3.6),
@@ -43,7 +43,7 @@ class HexahedronTest {
     }
 
     @Test
-    void centroid1() {
+    public void centroid1() {
         Hexahedron hexahedron = new Hexahedron(
                 new Point(-5.9, 24, 3.6),
                 new Point(-5.9, 0, 3.6),
@@ -59,7 +59,7 @@ class HexahedronTest {
     }
 
     @Test
-    void volume2() {
+    public void volume2() {
         Hexahedron hexahedron = new Hexahedron(
                 new Point(-5, -5, 5),
                 new Point(-5, 5, 5),
@@ -75,7 +75,7 @@ class HexahedronTest {
     }
 
     @Test
-    void centroid2() {
+    public void centroid2() {
         Hexahedron hexahedron = new Hexahedron(
                 new Point(-5, -5, 5),
                 new Point(-5, 5, 5),
@@ -91,7 +91,7 @@ class HexahedronTest {
     }
 
     @Test
-    void volume3() {
+    public void volume3() {
         Hexahedron hexahedron = new Hexahedron(
                 new Point(-5.9, 0, -41.4),
                 new Point(-5.9, 0, 3.6),
@@ -107,7 +107,7 @@ class HexahedronTest {
     }
 
     @Test
-    void centroid3() {
+    public void centroid3() {
         Hexahedron hexahedron = new Hexahedron(
                 new Point(-5.9, 0, -41.4),
                 new Point(-5.9, 0, 3.6),
@@ -123,7 +123,7 @@ class HexahedronTest {
     }
 
     @Test
-    void volume4() {
+    public void volume4() {
         Hexahedron hexahedron = new Hexahedron(
                 new Point(-21.4, 27, -27.15),
                 new Point(-5.9, 0, -41.4),
@@ -139,7 +139,7 @@ class HexahedronTest {
     }
 
     @Test
-    void centroid4() {
+    public void centroid4() {
         Hexahedron hexahedron = new Hexahedron(
                 new Point(-21.4, 27, -27.15),
                 new Point(-5.9, 0, -41.4),
@@ -155,7 +155,7 @@ class HexahedronTest {
     }
 
     @Test
-    void volume5() {
+    public void volume5() {
         Hexahedron hexahedron = new Hexahedron(
                 new Point(-9.44148018, -16.85688821, 11.49772459),
                 new Point(23.99430813, -46.13201505, -11.61136472),
@@ -171,7 +171,7 @@ class HexahedronTest {
     }
 
     @Test
-    void centroid5() {
+    public void centroid5() {
         Hexahedron hexahedron = new Hexahedron(
                 new Point(-9.44148018, -16.85688821, 11.49772459),
                 new Point(23.99430813, -46.13201505, -11.61136472),
@@ -187,7 +187,7 @@ class HexahedronTest {
     }
 
     @Test
-    void volume6() {
+    public void volume6() {
         Hexahedron hexahedron = new Hexahedron(
                 new Point(72.60000000, -6.84846355, 32.21948781),
                 new Point(-16, -0.97835194, 4.60278397),
@@ -203,7 +203,7 @@ class HexahedronTest {
     }
 
     @Test
-    void centroid6() {
+    public void centroid6() {
         Hexahedron hexahedron = new Hexahedron(
                 new Point(72.60000000, -6.84846355, 32.21948781),
                 new Point(-16, -0.97835194, 4.60278397),
