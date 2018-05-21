@@ -1,0 +1,23 @@
+language: java
+jdk: oraclejdk8
+
+build:
+
+  cache: true
+  cache_dir_list:
+    - /root/.m2
+
+  ci:
+    #Create folders for test and code coverage
+    #- mkdir -p shippable/testresults
+    - mkdir -p shippable/codecoverage
+
+    # mvn install will create a `target` folder which will contain a jacoco.xml
+    # jacoco.xml will be present at path `target/site/jacoco/jacoco.xml`
+    - mvn clean install jacoco:report
+
+    # copy this target folder to the `shippable/codecoverage` folder
+    # Shippable will look for the jacoco.xml file at
+    # shippable/codecoverage/target/site/jacoco/jacoco.xml
+    - cp -r target shippable/codecoverage
+    #- cp -r target shippable/testresults
