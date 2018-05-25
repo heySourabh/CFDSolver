@@ -64,6 +64,7 @@ public class Structured1DMesh implements Mesh {
 
             Geometry faceGeometry = new Vertex(new Point(ni.x, ni.y, ni.z));
 
+            // Average of the two normals (* 0.5 is redundant, since it is normalized)
             Vector faceNormal = new Vector(pim1, pi).add(new Vector(pi, pip1));
             Vector faceUnitNormal = faceNormal.unit();
 
