@@ -14,6 +14,11 @@ public class Cell {
     public final double[] U;
     public final double[] residual;
 
+    /**
+     * Local time step or pseudo-time step
+     */
+    public double dt;
+
     public Cell(int index, Node[] nodes, VTKType vtkType, Shape shape, int numVars) {
         this.index = index;
         this.nodes = nodes;
