@@ -1,5 +1,7 @@
 package main.mesh;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -39,5 +41,25 @@ public interface Mesh {
 
     default Stream<Boundary> boundaryStream() {
         return boundaries().stream();
+    }
+
+    default String stringify() {
+        String str = "";
+        str += "Number of nodes: " + nodes().size() + "\n";
+        str += "Number of cells: " + cells().size() + "\n";
+        str += "Number of internal faces: " + internalFaces().size() + "\n";
+        str += "Number of Boundies: " + boundaries().size() + "\n";
+        List<String> boundaryInfo = new ArrayList<>();
+        for (Boundary boundary : boundaries()) {
+            String boundaryString = Arrays
+                    .asList("Name: " + boundary.name,
+                            "Faces: " + boundary.faces.size(),
+                            "Type: " + boundary.bc.getClass().getSimpleName())
+                    .toString();
+            boundaryInfo.add("    " + boundaryString);
+        }
+        str += String.join("\n", boundaryInfo);
+
+        return str;
     }
 }
