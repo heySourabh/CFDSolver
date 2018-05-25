@@ -10,9 +10,11 @@ public interface ProblemDefinition {
 
     GoverningEquations govEqn();
 
-    TimeIntegrator timeIntegrator();
-
     Mesh mesh();
+
+    SolutionInitializer solutionInitializer();
+
+    TimeIntegrator timeIntegrator();
 
     Config config();
 }
