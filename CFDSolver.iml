@@ -9,6 +9,7 @@
       <excludeFolder url="file://$MODULE_DIR$/input" />
       <excludeFolder url="file://$MODULE_DIR$/output" />
       <excludeFolder url="file://$MODULE_DIR$/scripts" />
+      <excludeFolder url="file://$MODULE_DIR$/wiki" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

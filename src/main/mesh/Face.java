@@ -10,6 +10,8 @@ public class Face {
 
     public final double[] flux;
 
+    public double maxAbsEigenvalue;
+
     public Face(Node[] nodes, VTKType vtkType, Surface surface, Cell left, Cell right, int numVars) {
         this.nodes = nodes;
         this.vtkType = vtkType;

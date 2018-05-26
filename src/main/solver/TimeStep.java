@@ -1,5 +1,5 @@
 package main.solver;
 
 public interface TimeStep {
-    void updateCellTimeSteps();
+    void updateCellTimeSteps(double courantNum);
 }
