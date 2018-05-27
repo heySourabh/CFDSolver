@@ -1,4 +1,4 @@
-package main.solver.problem;
+package main.solver;
 
 import main.geom.Point;
 

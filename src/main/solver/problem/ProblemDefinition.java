@@ -3,7 +3,8 @@ package main.solver.problem;
 import main.mesh.Mesh;
 import main.physics.goveqn.GoverningEquations;
 import main.solver.Config;
-import main.solver.TimeIntegrator;
+import main.solver.SolutionInitializer;
+import main.solver.time.TimeIntegrator;
 
 public interface ProblemDefinition {
     String description();

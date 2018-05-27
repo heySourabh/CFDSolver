@@ -1,4 +1,4 @@
-package main.solver;
+package main.solver.time;
 
 import main.mesh.Mesh;
 import main.physics.goveqn.GoverningEquations;
@@ -21,7 +21,7 @@ public class GlobalTimeStep implements TimeStep {
         // Calculate minimum time step in the entire domain
         double minTimeStep = mesh.cellStream()
                 .mapToDouble(cell -> cell.dt)
-                .min().getAsDouble();
+                .min().orElseThrow(() -> new ArithmeticException("Unable to calculate global time step."));
 
         // Set the same time step in the entire domain
         mesh.cellStream()

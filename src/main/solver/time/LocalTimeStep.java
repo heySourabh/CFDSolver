@@ -1,9 +1,10 @@
-package main.solver;
+package main.solver.time;
 
 import main.mesh.Cell;
 import main.mesh.Face;
 import main.mesh.Mesh;
 import main.physics.goveqn.GoverningEquations;
+import main.solver.time.TimeStep;
 
 public class LocalTimeStep implements TimeStep {
 
