@@ -13,6 +13,7 @@ public class Cell {
 
     public final double[] U;
     public final double[] residual;
+    public final double[][] reconstructCoeffs;
 
     /**
      * Local time step or pseudo-time step
@@ -28,6 +29,7 @@ public class Cell {
 
         this.U = new double[numVars];
         this.residual = new double[numVars];
+        this.reconstructCoeffs = new double[numVars][];
     }
 
     @Override
