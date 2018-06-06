@@ -4,7 +4,6 @@ import main.mesh.Cell;
 import main.mesh.Face;
 import main.mesh.Mesh;
 import main.physics.goveqn.GoverningEquations;
-import main.solver.time.TimeStep;
 
 public class LocalTimeStep implements TimeStep {
 
@@ -33,10 +32,10 @@ public class LocalTimeStep implements TimeStep {
 
     private void updateTimeStep(Cell cell, double courantNum) {
         double volume = cell.shape.volume;
-        double summtion = cell.faces.stream()
+        double summation = cell.faces.stream()
                 .mapToDouble(face -> face.maxAbsEigenvalue * face.surface.area)
                 .sum();
-        cell.dt = (volume / summtion) * courantNum;
+        cell.dt = (volume / summation) * courantNum;
     }
 
     private void updateEigenvalue(Face face) {
