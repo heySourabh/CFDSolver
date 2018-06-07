@@ -40,6 +40,13 @@ public class DoubleArray {
         System.arraycopy(from, 0, to, 0, from.length);
     }
 
+    public static double[] copyOf(double[] array) {
+        double[] newArray = new double[array.length];
+        copy(array, newArray);
+
+        return newArray;
+    }
+
     public static double[] zeros(int length) {
         return new double[length];
     }
