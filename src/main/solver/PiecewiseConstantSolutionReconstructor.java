@@ -6,6 +6,11 @@ import main.util.DoubleArray;
 
 public class PiecewiseConstantSolutionReconstructor implements SolutionReconstructor {
     @Override
+    public void reconstruct() {
+        // nothing needs to be done for piecewise constant reconstructor
+    }
+
+    @Override
     public double[] conservativeVars(Cell cell, Point atPoint) {
         return DoubleArray.copyOf(cell.U);
     }
