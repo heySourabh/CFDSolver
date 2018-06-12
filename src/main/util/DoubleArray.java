@@ -18,6 +18,7 @@ public class DoubleArray {
 
     /**
      * a1 - a2
+     *
      * @param a1 array
      * @param a2 array
      * @return new array (a1 - a2)
