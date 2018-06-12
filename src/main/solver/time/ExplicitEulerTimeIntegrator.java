@@ -36,7 +36,7 @@ public class ExplicitEulerTimeIntegrator implements TimeIntegrator {
 
     private void setResiduals(double time) {
         mesh.cellStream().forEach(cell -> Arrays.fill(cell.residual, 0.0));
-        residuals.forEach(r -> r.updateCellResiduals(time));
+        residuals.forEach(residual -> residual.updateCellResiduals(time));
     }
 
     private void saveCurrentAverages() {
