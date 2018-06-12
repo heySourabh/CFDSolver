@@ -1,5 +1,5 @@
 package main.solver;
 
 public interface ResidualCalculator {
-    void updateCellResiduals();
+    void updateCellResiduals(double time);
 }
