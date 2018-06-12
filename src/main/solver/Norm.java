@@ -1,5 +1,5 @@
 package main.solver;
 
-public enum NormType {
+public enum Norm {
     ONE_NORM, TWO_NORM, INFINITY_NORM
 }

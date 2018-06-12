@@ -1,9 +1,9 @@
 package main.solver.time;
 
-import main.solver.NormType;
+import main.solver.Norm;
 
 public interface TimeIntegrator {
-    void updateCellAverages();
+    void updateCellAverages(double time);
 
-    double[] currentTotalResidual(NormType normType);
+    double[] currentTotalResidual(Norm norm);
 }
