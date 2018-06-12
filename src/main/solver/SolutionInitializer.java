@@ -1,8 +1,7 @@
 package main.solver;
 
-import main.geom.Point;
+import main.mesh.Mesh;
 
-@FunctionalInterface
 public interface SolutionInitializer {
-    double[] valueAt(Point p);
+    void initialize(Mesh mesh);
 }
