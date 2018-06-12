@@ -16,6 +16,12 @@ public class DoubleArray {
         return result;
     }
 
+    /**
+     * a1 - a2
+     * @param a1 array
+     * @param a2 array
+     * @return new array (a1 - a2)
+     */
     public static double[] subtract(double[] a1, double[] a2) {
         double[] result = new double[a1.length];
 
