@@ -16,6 +16,26 @@ public class DoubleArray {
         return result;
     }
 
+    public static double[] subtract(double[] a1, double[] a2) {
+        double[] result = new double[a1.length];
+
+        for (int i = 0; i < a1.length; i++) {
+            result[i] = a1[i] - a2[i];
+        }
+
+        return result;
+    }
+
+    public static double[] multiply(double[] a, double s) {
+        double[] result = new double[a.length];
+
+        for (int i = 0; i < a.length; i++) {
+            result[i] = a[i] * s;
+        }
+
+        return result;
+    }
+
     public static double[] apply(double[] a1, double[] a2, DoubleBinaryOperator function) {
         double[] result = new double[a1.length];
 
