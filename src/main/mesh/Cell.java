@@ -5,6 +5,10 @@ import main.geom.VTKType;
 import java.util.ArrayList;
 
 public class Cell {
+    /**
+     * This value must be equal to the index in Mesh.cells() List.
+     * This value must be equal to -1 for ghost cells.
+     */
     public final int index;
     public final Node[] nodes;
     public final ArrayList<Face> faces;
