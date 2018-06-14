@@ -16,6 +16,12 @@ public class DoubleArray {
         return result;
     }
 
+    public static void increment(double[] array, double[] increment) {
+        for (int i = 0; i < array.length; i++) {
+            array[i] += increment[i];
+        }
+    }
+
     /**
      * a1 - a2
      *
@@ -31,6 +37,12 @@ public class DoubleArray {
         }
 
         return result;
+    }
+
+    public static void decrement(double[] array, double[] increment) {
+        for (int i = 0; i < array.length; i++) {
+            array[i] -= increment[i];
+        }
     }
 
     public static double[] multiply(double[] a, double s) {
