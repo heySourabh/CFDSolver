@@ -8,7 +8,7 @@ public class GlobalTimeStep implements TimeStep {
     private final LocalTimeStep localTimeStep;
     private final Mesh mesh;
 
-    GlobalTimeStep(Mesh mesh, GoverningEquations govEqn) {
+    public GlobalTimeStep(Mesh mesh, GoverningEquations govEqn) {
         localTimeStep = new LocalTimeStep(mesh, govEqn);
         this.mesh = mesh;
     }

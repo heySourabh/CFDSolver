@@ -15,17 +15,26 @@ public class ExplicitEulerTimeIntegrator implements TimeIntegrator {
     private final Mesh mesh;
     private final List<ResidualCalculator> residuals;
     private final double[][] U;
+    private final TimeStep timeStep;
+    private double courantNum = 1.0; // default
 
-    public ExplicitEulerTimeIntegrator(Mesh mesh, List<ResidualCalculator> residuals, int numVars) {
+    public ExplicitEulerTimeIntegrator(Mesh mesh, List<ResidualCalculator> residuals, TimeStep timeStep, int numVars) {
         this.mesh = mesh;
         this.residuals = residuals;
+        this.timeStep = timeStep;
         this.U = new double[mesh.cells().size()][numVars];
+    }
+
+    @Override
+    public void setCourantNum(double courantNum) {
+        this.courantNum = courantNum;
     }
 
     @Override
     public void updateCellAverages(double time) {
         saveCurrentAverages();
         setResiduals(time);
+        timeStep.updateCellTimeSteps(courantNum);
         calculateNewAverages();
     }
 

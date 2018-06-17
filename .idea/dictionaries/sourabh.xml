@@ -2,6 +2,7 @@
   <dictionary name="sourabh">
     <words>
       <w>advection</w>
+      <w>courant</w>
       <w>hexahedron</w>
       <w>rusanov</w>
     </words>
