@@ -11,6 +11,7 @@ import main.solver.problem.ProblemDefinition;
 import main.solver.time.ExplicitEulerTimeIntegrator;
 import main.solver.time.GlobalTimeStep;
 import main.solver.time.TimeIntegrator;
+import main.util.DoubleArray;
 import org.junit.Test;
 
 import java.io.File;
@@ -18,11 +19,9 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.Collectors;
 
+import static main.util.DoubleArray.copy;
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.fail;
 
 public class SolverTest1DScalarAdvection {
 
@@ -150,11 +149,61 @@ public class SolverTest1DScalarAdvection {
                 .mapToDouble(cell -> cell.U[0])
                 .toArray();
 
-        // Actual solution after 1 iter
+        // Actual solution after 1 iteration
         double[] expectedSolU = new double[mesh.cells().size()];
         for (int i = 1; i < mesh.cells().size() - 1; i++) {
             expectedSolU[i] = actualSolution(initU[i - 1], initU[i], mesh.cells().get(i).dt, mesh.cells().get(i).shape.volume);
         }
+
+        assertArrayEquals(expectedSolU, calculatedSolU, 1e-15);
+
+        // Actual solution after 2 iterations
+        copy(expectedSolU, initU);
+        for (int i = 1; i < mesh.cells().size() - 1; i++) {
+            expectedSolU[i] = actualSolution(initU[i - 1], initU[i], mesh.cells().get(i).dt, mesh.cells().get(i).shape.volume);
+        }
+
+        // Calculated solution after another iteration
+        for (int i = 0; i < config.getMaxIterations(); i++) {
+            timeIntegrator.updateCellAverages(time);
+        }
+        calculatedSolU = mesh.cellStream()
+                .mapToDouble(cell -> cell.U[0])
+                .toArray();
+
+        assertArrayEquals(expectedSolU, calculatedSolU, 1e-15);
+
+        // Actual solution after 3 iterations
+        copy(expectedSolU, initU);
+        for (int i = 1; i < mesh.cells().size() - 1; i++) {
+            expectedSolU[i] = actualSolution(initU[i - 1], initU[i], mesh.cells().get(i).dt, mesh.cells().get(i).shape.volume);
+        }
+
+        // Calculated solution after another iteration
+        for (int i = 0; i < config.getMaxIterations(); i++) {
+            timeIntegrator.updateCellAverages(time);
+        }
+        calculatedSolU = mesh.cellStream()
+                .mapToDouble(cell -> cell.U[0])
+                .toArray();
+
+        assertArrayEquals(expectedSolU, calculatedSolU, 1e-15);
+
+        // after 6 iterations (3 more iterations)
+        for (int n = 0; n < 3; n++) {
+            copy(expectedSolU, initU);
+            for (int i = 1; i < mesh.cells().size() - 1; i++) {
+                expectedSolU[i] = actualSolution(initU[i - 1], initU[i], mesh.cells().get(i).dt, mesh.cells().get(i).shape.volume);
+            }
+        }
+
+        // Calculated solution after another 3 iterations
+        for (int i = 0; i < 3; i++) {
+            timeIntegrator.updateCellAverages(time);
+        }
+        calculatedSolU = mesh.cellStream()
+                .mapToDouble(cell -> cell.U[0])
+                .toArray();
 
         assertArrayEquals(expectedSolU, calculatedSolU, 1e-15);
     }
