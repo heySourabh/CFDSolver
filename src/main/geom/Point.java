@@ -9,6 +9,10 @@ public class Point {
         this.z = z;
     }
 
+    public Vector toVector() {
+        return new Vector(x, y, z);
+    }
+
     public double distance(Point other) {
         double dx = other.x - this.x;
         double dy = other.y - this.y;
