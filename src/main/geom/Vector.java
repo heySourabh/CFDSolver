@@ -17,6 +17,10 @@ public class Vector {
                 to.z - from.z);
     }
 
+    public Point toPoint() {
+        return new Point(x, y, z);
+    }
+
     public Vector add(Vector other) {
         return new Vector(
                 this.x + other.x,
