@@ -20,6 +20,10 @@ public class Node {
         neighbors = new ArrayList<>();
     }
 
+    public Point createPoint() {
+        return new Point(x, y, z);
+    }
+
     @Override
     public String toString() {
         return "Node{" +
