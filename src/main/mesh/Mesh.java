@@ -1,5 +1,9 @@
 package main.mesh;
 
+import main.geom.Point;
+import main.geom.VTKType;
+import main.geom.Vector;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -61,5 +65,54 @@ public interface Mesh {
         str += String.join("\n", boundaryInfo);
 
         return str;
+    }
+
+    static Cell ghostCell(Cell boundaryCell, Face boundaryFace) {
+        int index = -1;
+
+        // mirror cell nodes about the face
+        List<Node> ghostCellNodes = new ArrayList<>();
+        for (Node node : boundaryCell.nodes) {
+            if (faceContains(boundaryFace, node)) {
+                ghostCellNodes.add(node);
+            } else { // mirror about the face
+                ghostCellNodes.add(mirrorNode(boundaryFace, node));
+            }
+        }
+
+        Node[] nodes = ghostCellNodes.toArray(new Node[0]);
+
+        VTKType vtkType = boundaryCell.vtkType;
+        Point ghostCellCentroid = mirrorPoint(boundaryFace, boundaryCell.shape.centroid);
+        Shape shape = new Shape(boundaryCell.shape.volume, ghostCellCentroid);
+        int numVars = boundaryCell.U.length;
+
+        return new Cell(index, nodes, vtkType, shape, numVars);
+    }
+
+    static private Node mirrorNode(Face face, Node node) {
+        Point mirroredPoint = mirrorPoint(face, node.createPoint());
+
+        return new Node(mirroredPoint);
+    }
+
+    static private Point mirrorPoint(Face face, Point point) {
+        Vector faceNormal = face.surface.unitNormal;
+        Point faceCentroid = face.surface.centroid;
+
+        Vector nodeVector = new Vector(faceCentroid, point);
+        Vector normalComponent = faceNormal.mult(nodeVector.dot(faceNormal));
+        Vector tangentComponent = nodeVector.sub(normalComponent);
+
+        Vector mirroredVector = (normalComponent.mult(-1)).add(tangentComponent);
+
+        return mirroredVector
+                .add(faceCentroid.toVector())
+                .toPoint();
+    }
+
+    static private boolean faceContains(Face face, Node node) {
+        return Arrays.stream(face.nodes)
+                .anyMatch(n -> n == node);
     }
 }
