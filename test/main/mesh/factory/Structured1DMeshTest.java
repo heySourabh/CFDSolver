@@ -29,12 +29,12 @@ public class Structured1DMeshTest {
     private static BoundaryCondition dummyBC = new BoundaryCondition() {
         @Override
         public void setGhostCellValues(Face face, double time) {
-            throw new UnsupportedOperationException("No implemented.");
+            throw new UnsupportedOperationException("Not implemented.");
         }
 
         @Override
         public double[] convectiveFlux(Face face, double time) {
-            throw new UnsupportedOperationException("No implemented.");
+            throw new UnsupportedOperationException("Not implemented.");
         }
     };
 
@@ -91,8 +91,8 @@ public class Structured1DMeshTest {
         }
         expectedInternalFaces = Arrays.asList(faces).subList(1, faces.length - 1);
 
-        Boundary xi_minBoundary = new Boundary("xi min", Arrays.asList(faces[0]), dummyBC);
-        Boundary xi_maxBoundary = new Boundary("xi max", Arrays.asList(faces[faces.length - 1]), dummyBC);
+        Boundary xi_minBoundary = new Boundary("xi min", List.of(faces[0]), dummyBC);
+        Boundary xi_maxBoundary = new Boundary("xi max", List.of(faces[faces.length - 1]), dummyBC);
         expectedBoundaries = Arrays.asList(xi_minBoundary, xi_maxBoundary);
 
         // Setup node neighbours
