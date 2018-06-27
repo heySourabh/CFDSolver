@@ -6,7 +6,7 @@ import main.geom.Vector;
 public class Surface {
     public final double area;
     public final Point centroid;
-    public final Vector unitNormal;
+    public Vector unitNormal;
 
     public Surface(double area, Point centroid, Vector unitNormal) {
         this.area = area;
