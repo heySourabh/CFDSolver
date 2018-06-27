@@ -1,6 +1,7 @@
 package main.mesh;
 
 import main.geom.VTKType;
+import main.geom.Vector;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,8 +39,17 @@ public class Face {
 
         boolean same = hasSameNodes(thisFace.nodes, otherFace.nodes);
         if (same) {
+            // Set the right nodes from the other face
             thisFace.right = otherFace.left;
             otherFace.right = thisFace.left;
+
+            // Average of the normal from the other face (subtract since it is pointing in opposite direction)
+            thisFace.surface.unitNormal = thisFace.surface.unitNormal
+                    .sub(otherFace.surface.unitNormal)
+                    .mult(0.5).unit();
+            otherFace.surface.unitNormal = otherFace.surface.unitNormal
+                    .sub(thisFace.surface.unitNormal)
+                    .mult(0.5).unit();
         }
 
         return same;
