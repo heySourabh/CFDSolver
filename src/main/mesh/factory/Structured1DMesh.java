@@ -86,28 +86,15 @@ public class Structured1DMesh implements Mesh {
         Point boundaryPoint = new Point(boundaryNode.x, boundaryNode.y, boundaryNode.z);
         Point interPoint = new Point(interNode.x, interNode.y, interNode.z);
         Vector faceNormal = new Vector(interPoint, boundaryPoint);
-        Point ghostPoint = new Point(
-                boundaryNode.x + faceNormal.x,
-                boundaryNode.y + faceNormal.y,
-                boundaryNode.z + faceNormal.z);
-        Node ghostNode = new Node(ghostPoint);
-
-        Geometry ghostCellGeom = new Line(ghostPoint, boundaryPoint);
-        Cell ghostCell = new Cell(-1,
-                new Node[]{ghostNode, boundaryNode},
-                ghostCellGeom.vtkType(),
-                new Shape(ghostCellGeom.length() * 1.0 * 1.0, ghostCellGeom.centroid()),
-                numVars);
 
         Geometry boundaryFaceGeom = new Vertex(boundaryPoint);
         Surface surface = new Surface(1.0 * 1.0, boundaryFaceGeom.centroid(), faceNormal.unit());
-        Face boundaryFace = new Face(new Node[]{boundaryNode},
-                VTKType.VTK_VERTEX, surface,
-                cells.get(0),
-                ghostCell,
-                numVars);
+        Face boundaryFace = new Face(new Node[]{boundaryNode}, VTKType.VTK_VERTEX,
+                surface, cells.get(0), null, numVars);
 
-        Boundary boundary = new Boundary("xi min", Arrays.asList(boundaryFace), bc_xiMin);
+        boundaryFace.right = Mesh.ghostCell(cells.get(0), boundaryFace);
+
+        Boundary boundary = new Boundary("xi min", List.of(boundaryFace), bc_xiMin);
         boundaries.add(boundary);
 
         // xi max boundary
@@ -116,28 +103,14 @@ public class Structured1DMesh implements Mesh {
         boundaryPoint = new Point(boundaryNode.x, boundaryNode.y, boundaryNode.z);
         interPoint = new Point(interNode.x, interNode.y, interNode.z);
         faceNormal = new Vector(interPoint, boundaryPoint);
-        ghostPoint = new Point(
-                boundaryNode.x + faceNormal.x,
-                boundaryNode.y + faceNormal.y,
-                boundaryNode.z + faceNormal.z);
-        ghostNode = new Node(ghostPoint);
-
-        ghostCellGeom = new Line(boundaryPoint, ghostPoint);
-        ghostCell = new Cell(-1,
-                new Node[]{boundaryNode, ghostNode},
-                ghostCellGeom.vtkType(),
-                new Shape(ghostCellGeom.length() * 1.0 * 1.0, ghostCellGeom.centroid()),
-                numVars);
 
         boundaryFaceGeom = new Vertex(boundaryPoint);
         surface = new Surface(1.0 * 1.0, boundaryFaceGeom.centroid(), faceNormal.unit());
-        boundaryFace = new Face(new Node[]{boundaryNode},
-                VTKType.VTK_VERTEX, surface,
-                cells.get(xi - 2),
-                ghostCell,
-                numVars);
+        boundaryFace = new Face(new Node[]{boundaryNode}, VTKType.VTK_VERTEX,
+                surface, cells.get(xi - 2), null, numVars);
+        boundaryFace.right = Mesh.ghostCell(cells.get(xi - 2), boundaryFace);
 
-        boundary = new Boundary("xi max", Arrays.asList(boundaryFace), bc_xiMax);
+        boundary = new Boundary("xi max", List.of(boundaryFace), bc_xiMax);
         boundaries.add(boundary);
 
         // Setup the faces of cells
