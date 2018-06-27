@@ -1,7 +1,6 @@
 package main.mesh;
 
 import main.geom.VTKType;
-import main.geom.Vector;
 
 import java.util.Arrays;
 import java.util.List;
