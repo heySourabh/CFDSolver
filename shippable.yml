@@ -8,6 +8,7 @@ build:
     - /root/.m2
 
   ci:
+    export JAVA_HOME=/usr/lib/jvm/java-10-oracle/
     #Create folders for test and code coverage
     #- mkdir -p shippable/testresults
     - mkdir -p shippable/codecoverage
