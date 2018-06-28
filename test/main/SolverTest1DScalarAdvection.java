@@ -11,7 +11,6 @@ import main.solver.problem.ProblemDefinition;
 import main.solver.time.ExplicitEulerTimeIntegrator;
 import main.solver.time.GlobalTimeStep;
 import main.solver.time.TimeIntegrator;
-import main.util.DoubleArray;
 import org.junit.Test;
 
 import java.io.File;
