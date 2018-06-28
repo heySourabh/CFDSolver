@@ -20,7 +20,7 @@ public class Node {
         neighbors = new ArrayList<>();
     }
 
-    public Point createPoint() {
+    public Point location() {
         return new Point(x, y, z);
     }
 

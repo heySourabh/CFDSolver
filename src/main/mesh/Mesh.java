@@ -91,7 +91,7 @@ public interface Mesh {
     }
 
     static private Node mirrorNode(Face face, Node node) {
-        Point mirroredPoint = mirrorPoint(face, node.createPoint());
+        Point mirroredPoint = mirrorPoint(face, node.location());
 
         return new Node(mirroredPoint);
     }
