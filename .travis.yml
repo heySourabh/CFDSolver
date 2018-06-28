@@ -1,6 +1,21 @@
+sudo: false
+dist: trusty
 language: java
-jdk:
-#  - openjdk6
-#  - oraclejdk7
-#  - openjdk7
-  - oraclejdk8
+
+before_install:
+  - wget https://github.com/sormuras/bach/raw/master/install-jdk.sh
+
+matrix:
+  include:
+# 10
+    - env: JDK='Oracle JDK 10'
+      jdk: oraclejdk10
+    - env: JDK='OpenJDK 10'
+      install: . ./install-jdk.sh -F 10 -L GPL
+  allow_failures:
+    - env: JDK='Oracle JDK 10'
+
+script:
+  - echo PATH = ${PATH}
+  - echo JAVA_HOME = ${JAVA_HOME}
+  - java -version
