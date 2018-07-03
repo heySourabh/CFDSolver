@@ -150,7 +150,7 @@ public class SolverTest1DScalarAdvection {
 
         // Actual solution after 1 iteration
         double[] expectedSolU = new double[mesh.cells().size()];
-        for (int i = 1; i < mesh.cells().size() - 1; i++) {
+        for (int i = 1; i < mesh.cells().size(); i++) {
             expectedSolU[i] = actualSolution(initU[i - 1], initU[i], mesh.cells().get(i).dt, mesh.cells().get(i).shape.volume);
         }
 
@@ -158,7 +158,7 @@ public class SolverTest1DScalarAdvection {
 
         // Actual solution after 2 iterations
         copy(expectedSolU, initU);
-        for (int i = 1; i < mesh.cells().size() - 1; i++) {
+        for (int i = 1; i < mesh.cells().size(); i++) {
             expectedSolU[i] = actualSolution(initU[i - 1], initU[i], mesh.cells().get(i).dt, mesh.cells().get(i).shape.volume);
         }
 
@@ -174,7 +174,7 @@ public class SolverTest1DScalarAdvection {
 
         // Actual solution after 3 iterations
         copy(expectedSolU, initU);
-        for (int i = 1; i < mesh.cells().size() - 1; i++) {
+        for (int i = 1; i < mesh.cells().size(); i++) {
             expectedSolU[i] = actualSolution(initU[i - 1], initU[i], mesh.cells().get(i).dt, mesh.cells().get(i).shape.volume);
         }
 
@@ -191,7 +191,7 @@ public class SolverTest1DScalarAdvection {
         // after 6 iterations (3 more iterations)
         for (int n = 0; n < 3; n++) {
             copy(expectedSolU, initU);
-            for (int i = 1; i < mesh.cells().size() - 1; i++) {
+            for (int i = 1; i < mesh.cells().size(); i++) {
                 expectedSolU[i] = actualSolution(initU[i - 1], initU[i], mesh.cells().get(i).dt, mesh.cells().get(i).shape.volume);
             }
         }
