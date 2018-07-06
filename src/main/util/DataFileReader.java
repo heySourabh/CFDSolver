@@ -30,7 +30,7 @@ public class DataFileReader implements Closeable {
      *
      * @return Next valid line.
      */
-    public String nextLine() {
+    private String nextLine() {
         String nextLine = fileScanner.nextLine().trim();
 
         if (commentStr != null)
@@ -66,5 +66,15 @@ public class DataFileReader implements Closeable {
         double z = Double.parseDouble(tokens[2].trim());
 
         return new Point(x, y, z);
+    }
+
+    public int[] readIntArray() {
+        String[] tokens = nextLine().split("\\s+");
+        int[] intArray = new int[tokens.length];
+        for (int i = 0; i < intArray.length; i++) {
+            intArray[i] = Integer.parseInt(tokens[i]);
+        }
+
+        return intArray;
     }
 }
