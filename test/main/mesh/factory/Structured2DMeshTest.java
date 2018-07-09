@@ -287,7 +287,7 @@ public class Structured2DMeshTest {
         if (Math.abs(s1.area - s2.area) > 1e-15) return false;
         if (s1.centroid.distance(s2.centroid) > 1e-15) return false;
         return s1.unitNormal
-                .sub(s1.unitNormal.mult(direction))
+                .sub(s2.unitNormal.mult(direction))
                 .mag() < 1e-15;
     }
 
