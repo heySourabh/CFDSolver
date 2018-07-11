@@ -346,7 +346,7 @@ public class Structured2DMeshTest {
         assertEquals(bnd1.name, bnd2.name);
 
         // Has same faces
-        hasEquivalentFaces(bnd1.faces, bnd2.faces);
+        assertTrue(hasEquivalentFaces(bnd1.faces, bnd2.faces));
 
         // Has same bc
         assertEquals(bnd1.bc, bnd2.bc);
