@@ -13,4 +13,13 @@ public class Surface {
         this.centroid = centroid;
         this.unitNormal = unitNormal;
     }
+
+    @Override
+    public String toString() {
+        return "Surface{" +
+                "area=" + area +
+                ", centroid=" + centroid +
+                ", unitNormal=" + unitNormal +
+                '}';
+    }
 }
