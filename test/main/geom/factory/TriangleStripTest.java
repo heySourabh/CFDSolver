@@ -111,7 +111,7 @@ public class TriangleStripTest {
         Point p5 = new Point(480.33, 565.69, -8.18);
 
         TriangleStrip triangleStrip = new TriangleStrip(p0, p1, p2, p3, p4, p5);
-        Vector expectedUnitNormal = new Vector(-0.00389333195169523,0.01961925748991702,-0.9997999433395954);
+        Vector expectedUnitNormal = new Vector(-0.00389333195169523, 0.01961925748991702, -0.9997999433395954);
 
         assertEquals(1, triangleStrip.unitNormal().mag(), 1e-8);
         assertEquals(0, expectedUnitNormal.sub(triangleStrip.unitNormal()).mag(), 1e-8);
