@@ -43,7 +43,6 @@ public class Structured1DMeshTest {
 
     @BeforeClass
     public static void setUp() throws FileNotFoundException {
-        System.out.println("Setting up 1D structured mesh.");
         Node[] nodes = new Node[7];
         nodes[0] = new Node(-3.25, -0.25, 0.0); // Ghost node
         nodes[1] = new Node(-2.0, 0, 0);

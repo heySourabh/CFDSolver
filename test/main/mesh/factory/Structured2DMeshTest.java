@@ -48,7 +48,6 @@ public class Structured2DMeshTest {
 
     @BeforeClass
     public static void setUp() {
-        System.out.println("Setting up 2D structured mesh.");
         Node[][] nodeArray = new Node[num_xi][num_eta];
         Cell[][] cellArray = new Cell[num_xi - 1][num_eta - 1];
 

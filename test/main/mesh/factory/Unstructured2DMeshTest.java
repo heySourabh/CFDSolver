@@ -10,7 +10,7 @@ import main.geom.factory.Quad;
 import main.geom.factory.Triangle;
 import main.mesh.*;
 import main.physics.bc.BoundaryCondition;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -32,7 +32,7 @@ public class Unstructured2DMeshTest {
 
     private static int numVars = 3;
 
-    private BoundaryCondition dummyBC = new BoundaryCondition() {
+    private static BoundaryCondition dummyBC = new BoundaryCondition() {
         @Override
         public void setGhostCellValues(Face face, double time) {
             throw new UnsupportedOperationException("Not implemented.");
@@ -44,8 +44,8 @@ public class Unstructured2DMeshTest {
         }
     };
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUp() {
         List<Point> points = List.of(
                 new Point(222.86, 427.14, 0.0),
                 new Point(324.26, 383.86, 0.0),
