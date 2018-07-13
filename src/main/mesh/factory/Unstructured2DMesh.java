@@ -4,10 +4,7 @@ import main.geom.Geometry;
 import main.geom.Point;
 import main.geom.VTKType;
 import main.geom.Vector;
-import main.geom.factory.Line;
-import main.geom.factory.Polygon;
-import main.geom.factory.Quad;
-import main.geom.factory.Triangle;
+import main.geom.factory.*;
 import main.mesh.*;
 import main.physics.bc.BoundaryCondition;
 import main.util.DataFileReader;
@@ -66,6 +63,9 @@ public class Unstructured2DMesh implements Mesh {
                     break;
                 case VTK_POLYGON:
                     cellGeom = new Polygon(cellPoints);
+                    break;
+                case VTK_TRIANGLE_STRIP:
+                    cellGeom = new TriangleStrip(cellPoints);
                     break;
                 default:
                     throw new UnsupportedOperationException("Cell: The geometry type " + vtkType + " is not supported.");
