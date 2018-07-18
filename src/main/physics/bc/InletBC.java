@@ -45,7 +45,7 @@ public class InletBC implements BoundaryCondition {
     }
 
     public static class InletProperties {
-        private final double normalVelocityMagnitude, density, pressure;
+        public final double normalVelocityMagnitude, density, pressure;
 
         public InletProperties(double normalVelocityMagnitude, double density, double pressure) {
             this.normalVelocityMagnitude = normalVelocityMagnitude;
