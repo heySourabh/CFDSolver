@@ -24,6 +24,19 @@ public class EulerEquations implements GoverningEquations {
         return p / rho / R;
     }
 
+    public double mach(double[] primitiveVars) {
+        double rho = primitiveVars[0];
+        double u = primitiveVars[1];
+        double v = primitiveVars[2];
+        double w = primitiveVars[3];
+        double p = primitiveVars[4];
+
+        double flowVelocity = new Vector(u, v, w).mag();
+        double soundSpeed = Math.sqrt(GAMMA * p / rho);
+
+        return flowVelocity / soundSpeed;
+    }
+
     @Override
     public String description() {
         return "Euler Equations (Inviscid fluid flow governing equations)";
