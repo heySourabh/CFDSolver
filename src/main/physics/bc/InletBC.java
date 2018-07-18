@@ -22,7 +22,7 @@ public class InletBC implements BoundaryCondition {
     public void setGhostCellValues(Face face, double time) {
         InletProperties prop = unsteadyInletProperties.apply(time);
         Vector velocity = face.surface.unitNormal
-                .mult(-prop.inVelocity); // negative since the normal is pointing out
+                .mult(-prop.normalVelocityMagnitude); // negative since the normal is pointing out
         double[] primVars = new double[]{
                 prop.density, velocity.x, velocity.y, velocity.z, prop.pressure
         };
@@ -35,7 +35,7 @@ public class InletBC implements BoundaryCondition {
     public double[] convectiveFlux(Face face, double time) {
         InletProperties prop = unsteadyInletProperties.apply(time);
         Vector velocity = face.surface.unitNormal
-                .mult(prop.inVelocity);
+                .mult(prop.normalVelocityMagnitude);
         double[] primVars = new double[]{
                 prop.density, velocity.x, velocity.y, velocity.z, prop.pressure
         };
@@ -45,10 +45,10 @@ public class InletBC implements BoundaryCondition {
     }
 
     public static class InletProperties {
-        final double inVelocity, density, pressure;
+        private final double normalVelocityMagnitude, density, pressure;
 
-        public InletProperties(double inVelocity, double density, double pressure) {
-            this.inVelocity = inVelocity;
+        public InletProperties(double normalVelocityMagnitude, double density, double pressure) {
+            this.normalVelocityMagnitude = normalVelocityMagnitude;
             this.density = density;
             this.pressure = pressure;
         }
