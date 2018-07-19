@@ -26,7 +26,8 @@ public class InletBC implements BoundaryCondition {
         double[] primVars = new double[]{
                 prop.density, velocity.x, velocity.y, velocity.z, prop.pressure
         };
-        if (govEqn.mach(primVars) < 1) {
+        double mach = govEqn.mach(primVars, face.surface.unitNormal);
+        if (mach > -1 && mach < 1) {
             double[] insidePrimVars = govEqn.primitiveVars(face.left.U);
             double insidePressure = insidePrimVars[4];
             primVars[4] = insidePressure;
@@ -44,7 +45,8 @@ public class InletBC implements BoundaryCondition {
         double[] primVars = new double[]{
                 prop.density, velocity.x, velocity.y, velocity.z, prop.pressure
         };
-        if (govEqn.mach(primVars) < 1) {
+        double mach = govEqn.mach(primVars, face.surface.unitNormal);
+        if (mach > -1 && mach < 1) {
             double[] insidePrimVars = govEqn.primitiveVars(face.left.U);
             double insidePressure = insidePrimVars[4];
             primVars[4] = insidePressure;
