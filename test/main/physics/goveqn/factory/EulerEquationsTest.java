@@ -213,7 +213,7 @@ public class EulerEquationsTest {
         EulerEquations eulerEquations = new EulerEquations(gamma, R);
 
         double[] consVars = new double[eulerEquations.numVars()];
-        double[] gradConsVars = new double[eulerEquations.numVars()];
+        Vector[] gradConsVars = new Vector[eulerEquations.numVars()];
         Vector unitNormal = new Vector(rnd.nextDouble(), rnd.nextDouble(), rnd.nextDouble());
 
         assertArrayEquals(new double[]{0, 0, 0, 0, 0}, eulerEquations.diffusion().flux(consVars, gradConsVars, unitNormal), 1e-12);
