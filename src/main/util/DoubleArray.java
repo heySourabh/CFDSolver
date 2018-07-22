@@ -55,6 +55,14 @@ public class DoubleArray {
         return result;
     }
 
+    public static double[] abs(double[] array) {
+        return apply(array, Math::abs);
+    }
+
+    public static double[] sqr(double[] array) {
+        return apply(array, e -> e * e);
+    }
+
     public static double[] apply(double[] a1, double[] a2, DoubleBinaryOperator function) {
         double[] result = new double[a1.length];
 
