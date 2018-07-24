@@ -1,4 +1,4 @@
-package main.util;
+package main.io;
 
 import main.geom.Point;
 

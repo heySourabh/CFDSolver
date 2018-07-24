@@ -7,7 +7,7 @@ import main.geom.Vector;
 import main.geom.factory.*;
 import main.mesh.*;
 import main.physics.bc.BoundaryCondition;
-import main.util.DataFileReader;
+import main.io.DataFileReader;
 
 import java.io.File;
 import java.io.FileNotFoundException;

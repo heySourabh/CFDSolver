@@ -8,7 +8,7 @@ import main.geom.factory.Line;
 import main.geom.factory.Vertex;
 import main.mesh.*;
 import main.physics.bc.BoundaryCondition;
-import main.util.DataFileReader;
+import main.io.DataFileReader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
