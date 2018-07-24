@@ -119,4 +119,12 @@ public class DoubleArray {
 
         return rDoubles;
     }
+
+    public static double[] newFilledArray(int length, double value) {
+        double[] array = new double[length];
+
+        Arrays.fill(array, value);
+
+        return array;
+    }
 }
