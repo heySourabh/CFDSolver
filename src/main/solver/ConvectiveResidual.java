@@ -22,6 +22,9 @@ public class ConvectiveResidual implements ResidualCalculator {
 
     @Override
     public void updateCellResiduals(double time) {
+        // solution reconstruction for all cells
+        reconstructor.reconstruct();
+
         // Calculate the flux at the internal faces and save
         mesh.internalFaceStream().forEach(this::setFlux);
 
@@ -59,7 +62,6 @@ public class ConvectiveResidual implements ResidualCalculator {
     }
 
     private void setFlux(Face face) {
-        reconstructor.reconstruct();
         double[] UL = reconstructor.conservativeVars(face.left, face.surface.centroid);
         double[] UR = reconstructor.conservativeVars(face.right, face.surface.centroid);
         double[] flux = riemannSolver.flux(UL, UR, face.surface.unitNormal);
