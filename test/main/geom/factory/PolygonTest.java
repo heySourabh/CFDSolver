@@ -16,6 +16,21 @@ import static org.junit.Assert.*;
 public class PolygonTest {
 
     @Test
+    public void points() {
+        Point[] p = new Point[]{
+                new Point(1, 2, 3),
+                new Point(1, 4, 5),
+                new Point(-5, 4, 3)};
+        Polygon polygon = new Polygon(p);
+
+        Point[] actualPoints = polygon.points();
+
+        for (int i = 0; i < p.length; i++) {
+            assertEquals(p[i], actualPoints[i]);
+        }
+    }
+
+    @Test
     public void vtkType() {
         Polygon polygon = new Polygon(new Point[]{
                 new Point(1, 2, 3),
@@ -24,6 +39,21 @@ public class PolygonTest {
         });
         VTKType expectedVtkType = VTKType.VTK_POLYGON;
         assertEquals(expectedVtkType, polygon.vtkType());
+    }
+
+    @Test
+    public void length() {
+        Polygon polygon = new Polygon(new Point[]{
+                new Point(1, 2, 3),
+                new Point(1, 4, 5),
+                new Point(-5, 4, 3)
+        });
+        try {
+            polygon.length();
+            fail("Expected to throw ArithmeticException.");
+        } catch (ArithmeticException ex) {
+            // OK: expected to throw
+        }
     }
 
     @Test
@@ -41,6 +71,21 @@ public class PolygonTest {
         double expectedArea = 5818.39407537;
 
         assertEquals(0, (expectedArea - polygon.area()) / expectedArea, 1e-8);
+    }
+
+    @Test
+    public void volume() {
+        Polygon polygon = new Polygon(new Point[]{
+                new Point(1, 2, 3),
+                new Point(1, 4, 5),
+                new Point(-5, 4, 3)
+        });
+        try {
+            polygon.volume();
+            fail("Expected to throw ArithmeticException.");
+        } catch (ArithmeticException ex) {
+            // OK: expected to throw
+        }
     }
 
     @Test
