@@ -13,7 +13,7 @@ public class Polygon implements Geometry {
     private final Vector unitNormal;
 
     public Polygon(Point[] points) {
-        this.points = points;
+        this.points = copy(points);
         this.vtkType = VTKType.VTK_POLYGON;
 
         Vector areaVector = new Vector(0.0, 0.0, 0.0);
@@ -44,6 +44,13 @@ public class Polygon implements Geometry {
                 cx.dot(unitNormal) / (6.0 * area),
                 cy.dot(unitNormal) / (6.0 * area),
                 cz.dot(unitNormal) / (6.0 * area));
+    }
+
+    private Point[] copy(Point[] points) {
+        Point[] p = new Point[points.length];
+        System.arraycopy(points, 0, p, 0, p.length);
+
+        return p;
     }
 
     @Override
