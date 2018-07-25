@@ -4,9 +4,11 @@ import main.mesh.Cell;
 import main.mesh.Mesh;
 import main.solver.Norm;
 import main.solver.ResidualCalculator;
+import main.util.DoubleArray;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static main.util.DoubleArray.*;
 
@@ -14,6 +16,8 @@ public class ExplicitEulerTimeIntegrator implements TimeIntegrator {
 
     private final Mesh mesh;
     private final List<ResidualCalculator> residuals;
+    private final int numVars;
+    private final int numCells;
     private final double[][] U;
     private final TimeStep timeStep;
     private double courantNum = 1.0; // default
@@ -22,7 +26,9 @@ public class ExplicitEulerTimeIntegrator implements TimeIntegrator {
         this.mesh = mesh;
         this.residuals = residuals;
         this.timeStep = timeStep;
-        this.U = new double[mesh.cells().size()][numVars];
+        this.numVars = numVars;
+        this.numCells = mesh.cells().size();
+        this.U = new double[numCells][numVars];
     }
 
     @Override
@@ -33,6 +39,7 @@ public class ExplicitEulerTimeIntegrator implements TimeIntegrator {
     @Override
     public void updateCellAverages(double time) {
         saveCurrentAverages();
+        setGhostCellValues(time);
         setResiduals(time);
         timeStep.updateCellTimeSteps(courantNum);
         calculateNewAverages();
@@ -40,7 +47,55 @@ public class ExplicitEulerTimeIntegrator implements TimeIntegrator {
 
     @Override
     public double[] currentTotalResidual(Norm norm) {
-        return new double[0];
+        double[] zeros = new double[numVars];
+
+        Stream<double[]> absResidualStream = mesh.cellStream()
+                .map(cell -> apply(cell.U, U[cell.index], (e1, e2) -> (e1 - e2) / cell.dt))
+                .map(DoubleArray::abs);
+
+        double[] totalResidue;
+        switch (norm) {
+            case ONE_NORM:
+                totalResidue = absResidualStream
+                        .reduce(zeros, DoubleArray::add);
+                totalResidue = multiply(totalResidue, 1.0 / numCells);
+                break;
+
+            case TWO_NORM:
+                totalResidue = absResidualStream
+                        .map(DoubleArray::sqr)
+                        .reduce(zeros, DoubleArray::add);
+                totalResidue = apply(totalResidue, Math::sqrt);
+                totalResidue = multiply(totalResidue, 1.0 / numCells);
+                break;
+
+            case INFINITY_NORM:
+                totalResidue = absResidualStream
+                        .reduce(zeros, (d1, d2) -> apply(d1, d2, Math::max));
+                break;
+
+            default:
+                throw new IllegalArgumentException("Norm " + norm + " is not implemented.");
+        }
+
+        // normalize
+        double[] varMagnitude = mesh.cellStream()
+                .map(cell -> cell.U)
+                .map(DoubleArray::abs)
+                .reduce(zeros, DoubleArray::add);
+        varMagnitude = multiply(varMagnitude, 1.0 / numCells);
+        varMagnitude = apply(varMagnitude, e -> (e < 1e-12 ? 1.0 : e)); // avoid div by zero
+        for (int i = 0; i < numVars; i++) {
+            totalResidue[i] /= varMagnitude[i];
+        }
+
+        return totalResidue;
+    }
+
+    private void setGhostCellValues(double time) {
+        mesh.boundaryStream()
+                .forEach(boundary -> boundary.faces
+                        .forEach(bFace -> boundary.bc.setGhostCellValues(bFace, time)));
     }
 
     private void setResiduals(double time) {
