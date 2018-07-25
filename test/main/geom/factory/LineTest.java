@@ -9,6 +9,17 @@ import static org.junit.Assert.*;
 public class LineTest {
 
     @Test
+    public void points() {
+        Point[] p = {new Point(5, 6, 7), new Point(8.5, 6, 7)};
+        Line l = new Line(p[0], p[1]);
+
+        Point[] actualPoints = l.points();
+        for (int i = 0; i < p.length; i++) {
+            assertEquals(p[i], actualPoints[i]);
+        }
+    }
+
+    @Test
     public void vtkType() {
         Line line = new Line(new Point(0, 0, 0), new Point(0, 0, 0));
         VTKType expectedVtkType = VTKType.VTK_LINE;
@@ -35,6 +46,28 @@ public class LineTest {
     }
 
     @Test
+    public void area() {
+        Line l = new Line(new Point(5, 6, 6), new Point(8, 11, 1));
+        try {
+            l.area();
+            fail("Expected ArithmeticException is not thrown.");
+        } catch (ArithmeticException ex) {
+            // OK: Expected exception
+        }
+    }
+
+    @Test
+    public void volume() {
+        Line l = new Line(new Point(5, 6, 6), new Point(8, 11, 1));
+        try {
+            l.volume();
+            fail("Expected ArithmeticException is not thrown.");
+        } catch (ArithmeticException ex) {
+            // OK: Expected exception
+        }
+    }
+
+    @Test
     public void centroid() {
         Line l1 = new Line(new Point(5, 6, 7), new Point(8.5, 6, 7));
         Point expCentroid1 = new Point(6.75, 6, 7);
@@ -51,5 +84,16 @@ public class LineTest {
         Line l4 = new Line(new Point(5, 6, 6), new Point(8, 11, 1));
         Point expCentroid4 = new Point(6.5, 8.5, 3.5);
         assertEquals(0, expCentroid4.distance(l4.centroid()), 1e-8);
+    }
+
+    @Test
+    public void unitNormal() {
+        Line l = new Line(new Point(5, 6, 6), new Point(8, 11, 1));
+        try {
+            l.unitNormal();
+            fail("Expected ArithmeticException is not thrown.");
+        } catch (ArithmeticException ex) {
+            // OK: Expected exception
+        }
     }
 }
