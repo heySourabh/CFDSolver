@@ -26,7 +26,7 @@ import java.util.function.Function;
 
 import static org.junit.Assert.assertArrayEquals;
 
-public class SolverTest2DScalarAdvection {
+public class Solver2DScalarAdvectionTest {
     private static int xi = 41;
     private static int eta = 41;
     private static double minX = -1;

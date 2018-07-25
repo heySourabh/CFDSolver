@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import static main.util.DoubleArray.copy;
 import static org.junit.Assert.assertArrayEquals;
 
-public class SolverTest1DScalarAdvection {
+public class Solver1DScalarAdvectionTest {
 
     private static ProblemDefinition testProblem;
 

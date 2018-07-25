@@ -21,7 +21,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertArrayEquals;
 
-public class SolverTestEulerEquations1 {
+public class SolverEulerEquations1Test {
     private static ProblemDefinition testProblem;
 
     @BeforeClass

@@ -18,12 +18,13 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertTrue;
 
-public class SolverTestEulerEquations {
+public class SolverEulerEquationsTest {
 
     private static ProblemDefinition testProblem;
 
@@ -111,7 +112,7 @@ public class SolverTestEulerEquations {
         for (int iter = 0; iter < config.getMaxIterations(); iter++) {
             timeIntegrator.updateCellAverages(0);
             double[] totalResidual = timeIntegrator.currentTotalResidual(Norm.TWO_NORM);
-            //System.out.println(iter + ": " + Arrays.toString(totalResidual));
+            System.out.println(iter + ": " + Arrays.toString(totalResidual));
             if (problem.convergence().hasConverged(totalResidual)) {
                 converged = true;
                 break;
