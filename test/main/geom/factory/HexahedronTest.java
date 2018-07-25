@@ -15,6 +15,26 @@ import static org.junit.Assert.*;
 public class HexahedronTest {
 
     @Test
+    public void points() {
+        Point[] p = {
+                new Point(-5.9, 24, 3.6),
+                new Point(-5.9, 0, 3.6),
+                new Point(52.1, 0, 3.6),
+                new Point(52.1, 24, 3.6),
+                new Point(-5.9, 24, -41.4),
+                new Point(-5.9, 0, -41.4),
+                new Point(52.1, 0, -41.4),
+                new Point(52.1, 24, -41.4)
+        };
+        Hexahedron hexahedron = new Hexahedron(p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7]);
+
+        Point[] actualPoints = hexahedron.points();
+        for (int i = 0; i < p.length; i++) {
+            assertEquals(p[i], actualPoints[i]);
+        }
+    }
+
+    @Test
     public void vtkType() {
         Hexahedron hexahedron = new Hexahedron(
                 new Point(0, 0, 0), new Point(0, 0, 0),
@@ -24,6 +44,41 @@ public class HexahedronTest {
         VTKType expectedVtkType = VTKType.VTK_HEXAHEDRON;
 
         assertEquals(expectedVtkType, hexahedron.vtkType());
+    }
+
+    @Test
+    public void length() {
+        Hexahedron hexahedron = new Hexahedron(
+                new Point(0, 0, 0), new Point(0, 0, 0),
+                new Point(0, 0, 0), new Point(0, 0, 0),
+                new Point(0, 0, 0), new Point(0, 0, 0),
+                new Point(0, 0, 0), new Point(0, 0, 0));
+        try {
+            hexahedron.length();
+            fail("Expected to throw an ArithmeticException.");
+        } catch (ArithmeticException ex) {
+            // OK: Expected exception is thrown
+        }
+    }
+
+    @Test
+    public void area() {
+        Hexahedron hexahedron = new Hexahedron(
+                new Point(-5.9, 24, 3.6),
+                new Point(-5.9, 0, 3.6),
+                new Point(52.1, 0, 3.6),
+                new Point(52.1, 24, 3.6),
+                new Point(-5.9, 24, -41.4),
+                new Point(-5.9, 0, -41.4),
+                new Point(52.1, 0, -41.4),
+                new Point(52.1, 24, -41.4));
+
+        try {
+            hexahedron.area();
+            fail("Expected to throw an ArithmeticException.");
+        } catch (ArithmeticException ex) {
+            // OK: Expected exception is thrown
+        }
     }
 
     @Test
@@ -216,5 +271,25 @@ public class HexahedronTest {
         Point expectedCentroid = new Point(-9.18930495, 18.66217152, 16.64570516);
 
         assertEquals(0, expectedCentroid.distance(hexahedron.centroid()), 1e-8);
+    }
+
+    @Test
+    public void unitNormal() {
+        Hexahedron hexahedron = new Hexahedron(
+                new Point(-5.9, 24, 3.6),
+                new Point(-5.9, 0, 3.6),
+                new Point(52.1, 0, 3.6),
+                new Point(52.1, 24, 3.6),
+                new Point(-5.9, 24, -41.4),
+                new Point(-5.9, 0, -41.4),
+                new Point(52.1, 0, -41.4),
+                new Point(52.1, 24, -41.4));
+
+        try {
+            hexahedron.unitNormal();
+            fail("Expected to throw an ArithmeticException.");
+        } catch (ArithmeticException ex) {
+            // OK: Expected exception is thrown
+        }
     }
 }
