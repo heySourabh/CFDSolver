@@ -9,6 +9,20 @@ import static org.junit.Assert.*;
 public class PolyLineTest {
 
     @Test
+    public void points() {
+        Point[] p = new Point[]{
+                new Point(1, 2, 3),
+                new Point(4, 5, 6),
+                new Point(3, 2, 7)};
+        PolyLine polyLine = new PolyLine(p);
+        Point[] actualPoints = polyLine.points();
+
+        for (int i = 0; i < p.length; i++) {
+            assertEquals(p[i], actualPoints[i]);
+        }
+    }
+
+    @Test
     public void vtkType() {
         PolyLine polyLine = new PolyLine(new Point[]{
                 new Point(1, 2, 3),
@@ -61,5 +75,53 @@ public class PolyLineTest {
                 + 44.15365534 + 47.91032486;
 
         assertEquals(0, (expectedLength - polyLine.length()) / expectedLength, 1e-8);
+    }
+
+    @Test
+    public void area() {
+        Point[] p = new Point[]{
+                new Point(1, 2, 3),
+                new Point(4, 5, 6),
+                new Point(3, 2, 7)};
+        PolyLine polyLine = new PolyLine(p);
+
+        try {
+            polyLine.area();
+            fail("Expecting an ArithmeticException to be thrown.");
+        } catch (ArithmeticException ex) {
+            // OK: expected exception
+        }
+    }
+
+    @Test
+    public void volume() {
+        Point[] p = new Point[]{
+                new Point(1, 2, 3),
+                new Point(4, 5, 6),
+                new Point(3, 2, 7)};
+        PolyLine polyLine = new PolyLine(p);
+
+        try {
+            polyLine.volume();
+            fail("Expecting an ArithmeticException to be thrown.");
+        } catch (ArithmeticException ex) {
+            // OK: expected exception
+        }
+    }
+
+    @Test
+    public void unitNormal() {
+        Point[] p = new Point[]{
+                new Point(1, 2, 3),
+                new Point(4, 5, 6),
+                new Point(3, 2, 7)};
+        PolyLine polyLine = new PolyLine(p);
+
+        try {
+            polyLine.unitNormal();
+            fail("Expecting an ArithmeticException to be thrown.");
+        } catch (ArithmeticException ex) {
+            // OK: expected exception
+        }
     }
 }

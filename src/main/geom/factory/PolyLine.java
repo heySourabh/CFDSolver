@@ -11,7 +11,7 @@ public class PolyLine implements Geometry {
     private final double length;
 
     public PolyLine(Point[] points) {
-        this.points = points;
+        this.points = copy(points);
         this.vtkType = VTKType.VTK_POLY_LINE;
 
         double l = 0.0;
@@ -19,6 +19,13 @@ public class PolyLine implements Geometry {
             l += points[i].distance(points[i + 1]);
         }
         this.length = l;
+    }
+
+    private Point[] copy(Point[] points) {
+        Point[] copy = new Point[points.length];
+        System.arraycopy(points, 0, copy, 0, points.length);
+
+        return copy;
     }
 
     @Override
