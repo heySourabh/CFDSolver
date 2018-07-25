@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="VaTiKa">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/VaTiKa.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
