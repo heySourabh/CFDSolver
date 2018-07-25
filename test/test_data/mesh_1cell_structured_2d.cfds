@@ -1,0 +1,13 @@
+% Mesh description
+dimension = 2  % 1, 2 or 3
+mode = ASCII   % ASCII or BINARY
+xi = 2         % for dimension 1, 2 and 3
+eta = 2        % for dimension 2 and 3
+
+% mesh point co-ordinates below (x y z)
+% separated by one or more spaces (delimited using "\\s+").
+0.000000000000000    0.000000000000000    0.000000000000000   
+0.000000000000000    1.000000000000000    0.000000000000000   
+1.000000000000000    0.000000000000000    0.000000000000000   
+1.000000000000000    1.000000000000000    0.000000000000000   
+
