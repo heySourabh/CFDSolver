@@ -159,6 +159,8 @@ public class SolverTest2DScalarAdvection {
         double time = 0;
         for (int iter = 0; iter < 1; iter++) {
             timeIntegrator.updateCellAverages(time);
+            double[] totalResidual = timeIntegrator.currentTotalResidual(Norm.INFINITY_NORM);
+            if (problem.convergence().hasConverged(totalResidual)) break;
         }
         double[] calculatedSolU = mesh.cellStream()
                 .mapToDouble(cell -> cell.U[0])

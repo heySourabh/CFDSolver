@@ -101,6 +101,8 @@ public class SolverTestEulerEquations1 {
 
         for (int iter = 0; iter < config.getMaxIterations(); iter++) {
             timeIntegrator.updateCellAverages(0);
+            double[] totalResidual = timeIntegrator.currentTotalResidual(Norm.ONE_NORM);
+            if (problem.convergence().hasConverged(totalResidual)) break;
         }
 
         double[] expectedU = {1.2, 0.6, 0.3, -8.28, 253341.2535}; // solved manually: on IITB lab notebook
