@@ -13,6 +13,7 @@ import main.solver.time.ExplicitEulerTimeIntegrator;
 import main.solver.time.GlobalTimeStep;
 import main.solver.time.TimeIntegrator;
 import main.solver.time.TimeStep;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -26,113 +27,119 @@ import java.util.function.Function;
 import static org.junit.Assert.assertArrayEquals;
 
 public class SolverTest2DScalarAdvection {
-    private int xi = 41;
-    private int eta = 41;
-    private double minX = -1;
-    private double maxX = 1;
-    private double minY = -1;
-    private double maxY = 1;
-    private Function<Point, double[]> initFunction = p
+    private static int xi = 41;
+    private static int eta = 41;
+    private static double minX = -1;
+    private static double maxX = 1;
+    private static double minY = -1;
+    private static double maxY = 1;
+    private static Function<Point, double[]> initFunction = p
             -> new double[]{(p.x > -0.25 && p.x < 0.25 && p.y > -0.25 && p.y < 0.25) ? 1.0 : 0.0};
-    private ProblemDefinition testProblem = new ProblemDefinition() {
-        GoverningEquations govEqn = new ScalarAdvection(1.0, 1.0, 0.0);
-        Mesh mesh = createMesh();
 
-        private Mesh createMesh() {
-            double dx = (maxX - minX) / (xi - 1);
-            double dy = (maxY - minY) / (eta - 1);
+    private static ProblemDefinition testProblem;
 
-            File tempMeshFile = new File("test/test_data/tempMeshFile.cfds");
-            // <editor-fold desc="Create mesh file">
-            try (FileWriter meshFileWriter = new FileWriter(tempMeshFile)) {
-                meshFileWriter.write("dimension = 2\n");
-                meshFileWriter.write("mode = ASCII\n");
-                meshFileWriter.write(String.format("xi = %d\n", xi));
-                meshFileWriter.write(String.format("eta = %d\n", eta));
-                for (int i = 0; i < xi; i++) {
-                    for (int j = 0; j < eta; j++) {
-                        double x = minX + dx * i;
-                        double y = minY + dy * j;
-                        double z = 0;
-                        meshFileWriter.write(String.format("%-20.15f %-20.15f %-20.15f\n", x, y, z));
+    @BeforeClass
+    public static void setupTestProblem() {
+        testProblem = new ProblemDefinition() {
+            GoverningEquations govEqn = new ScalarAdvection(1.0, 1.0, 0.0);
+            Mesh mesh = createMesh();
+
+            private Mesh createMesh() {
+                double dx = (maxX - minX) / (xi - 1);
+                double dy = (maxY - minY) / (eta - 1);
+
+                File tempMeshFile = new File("test/test_data/tempMeshFile.cfds");
+                // <editor-fold desc="Create mesh file">
+                try (FileWriter meshFileWriter = new FileWriter(tempMeshFile)) {
+                    meshFileWriter.write("dimension = 2\n");
+                    meshFileWriter.write("mode = ASCII\n");
+                    meshFileWriter.write(String.format("xi = %d\n", xi));
+                    meshFileWriter.write(String.format("eta = %d\n", eta));
+                    for (int i = 0; i < xi; i++) {
+                        for (int j = 0; j < eta; j++) {
+                            double x = minX + dx * i;
+                            double y = minY + dy * j;
+                            double z = 0;
+                            meshFileWriter.write(String.format("%-20.15f %-20.15f %-20.15f\n", x, y, z));
+                        }
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+                //</editor-fold>
+
+                // <editor-fold desc="Read mesh file">
+                BoundaryCondition bc = new ExtrapolatedBC(govEqn);
+                Mesh mesh2D = null;
+                try {
+                    mesh2D = new Structured2DMesh(tempMeshFile,
+                            govEqn.numVars(), bc, bc, bc, bc);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                //</editor-fold>
+
+                // <editor-fold desc="Delete mesh file">
+                if (!tempMeshFile.delete()) {
+                    System.out.println("Unable to delete temporary mesh file: " + tempMeshFile.toString());
+                }
+                // </editor-fold>
+
+                return mesh2D;
             }
-            //</editor-fold>
 
-            // <editor-fold desc="Read mesh file">
-            BoundaryCondition bc = new ExtrapolatedBC(govEqn);
-            Mesh mesh2D = null;
-            try {
-                mesh2D = new Structured2DMesh(tempMeshFile,
-                        govEqn.numVars(), bc, bc, bc, bc);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+            TimeIntegrator timeIntegrator = createTimeIntegrator();
+
+            private TimeIntegrator createTimeIntegrator() {
+                List<ResidualCalculator> residuals = new ArrayList<>();
+
+                SolutionReconstructor reconstructor = new PiecewiseConstantSolutionReconstructor();
+                RiemannSolver rusanovSolver = new RusanovRiemannSolver(govEqn);
+                residuals.add(new ConvectiveResidual(reconstructor, rusanovSolver, mesh));
+                TimeStep timeStep = new GlobalTimeStep(mesh, govEqn);
+
+                return new ExplicitEulerTimeIntegrator(mesh, residuals, timeStep, govEqn.numVars());
             }
-            //</editor-fold>
 
-            // <editor-fold desc="Delete mesh file">
-            if (!tempMeshFile.delete()) {
-                System.out.println("Unable to delete temporary mesh file: " + tempMeshFile.toString());
+            @Override
+            public String description() {
+                return "Solver test problem - 2D Scalar Advection";
             }
-            // </editor-fold>
 
-            return mesh2D;
-        }
+            @Override
+            public GoverningEquations govEqn() {
+                return govEqn;
+            }
 
-        TimeIntegrator timeIntegrator = createTimeIntegrator();
+            @Override
+            public Mesh mesh() {
+                return mesh;
+            }
 
-        private TimeIntegrator createTimeIntegrator() {
-            List<ResidualCalculator> residuals = new ArrayList<>();
+            @Override
+            public SolutionInitializer solutionInitializer() {
+                return new FunctionInitializer(initFunction);
+            }
 
-            SolutionReconstructor reconstructor = new PiecewiseConstantSolutionReconstructor();
-            RiemannSolver rusanovSolver = new RusanovRiemannSolver(govEqn);
-            residuals.add(new ConvectiveResidual(reconstructor, rusanovSolver, mesh));
-            TimeStep timeStep = new GlobalTimeStep(mesh, govEqn);
+            @Override
+            public TimeIntegrator timeIntegrator() {
+                return timeIntegrator;
+            }
 
-            return new ExplicitEulerTimeIntegrator(mesh, residuals, timeStep, govEqn.numVars());
-        }
+            @Override
+            public Convergence convergence() {
+                return new Convergence(new double[]{1e-6});
+            }
 
-        @Override
-        public String description() {
-            return "Solver test problem - 2D Scalar Advection";
-        }
+            @Override
+            public Config config() {
+                Config config = new Config();
+                config.setMaxIterations(1);
 
-        @Override
-        public GoverningEquations govEqn() {
-            return govEqn;
-        }
-
-        @Override
-        public Mesh mesh() {
-            return mesh;
-        }
-
-        @Override
-        public SolutionInitializer solutionInitializer() {
-            return new FunctionInitializer(initFunction);
-        }
-
-        @Override
-        public TimeIntegrator timeIntegrator() {
-            return timeIntegrator;
-        }
-
-        @Override
-        public Convergence convergence() {
-            return new Convergence(new double[]{1e-6});
-        }
-
-        @Override
-        public Config config() {
-            Config config = new Config();
-            config.setMaxIterations(1);
-
-            return config;
-        }
-    };
+                return config;
+            }
+        };
+    }
 
     @Test
     public void solver() {

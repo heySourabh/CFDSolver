@@ -12,6 +12,7 @@ import main.solver.time.ExplicitEulerTimeIntegrator;
 import main.solver.time.GlobalTimeStep;
 import main.solver.time.TimeIntegrator;
 import main.util.DoubleArray;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -21,76 +22,80 @@ import java.util.List;
 import static org.junit.Assert.assertArrayEquals;
 
 public class SolverTestEulerEquations1 {
+    private static ProblemDefinition testProblem;
 
-    private ProblemDefinition problem = new ProblemDefinition() {
-        private final String description = "Single Cell Euler Equations.";
-        private final EulerEquations govEqn = new EulerEquations(1.4, 287);
-        private Mesh mesh;
+    @BeforeClass
+    public static void setupTestProblem() {
+        testProblem = new ProblemDefinition() {
+            private final String description = "Single Cell Euler Equations.";
+            private final EulerEquations govEqn = new EulerEquations(1.4, 287);
+            private Mesh mesh;
 
-        {
-            try {
-                mesh = new Structured2DMesh(
-                        new File("test/test_data/mesh_1cell_structured_2d.cfds"),
-                        govEqn.numVars(), null, null, null, null);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+            {
+                try {
+                    mesh = new Structured2DMesh(
+                            new File("test/test_data/mesh_1cell_structured_2d.cfds"),
+                            govEqn.numVars(), null, null, null, null);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
-        }
 
-        private final double rho = 1.2;
-        private final double u = 0.5;
-        private final double v = 0.25;
-        private final double w = -6.9;
-        private final double pr = 101325.0;
-        private final SolutionInitializer solutionInitializer = new FunctionInitializer(
-                p -> govEqn.conservativeVars(new double[]{rho, u, v, w, pr}));
-        ResidualCalculator convectiveCalculator = new ConvectiveResidual(new PiecewiseConstantSolutionReconstructor(),
-                new RusanovRiemannSolver(govEqn), mesh);
-        private final TimeIntegrator timeIntegrator = new ExplicitEulerTimeIntegrator(mesh,
-                List.of(convectiveCalculator), new GlobalTimeStep(mesh, govEqn), govEqn.numVars());
-        private final Convergence convergence = new Convergence(DoubleArray.newFilledArray(govEqn.numVars(), 1e-6));
-        private final Config config = new Config();
+            private final double rho = 1.2;
+            private final double u = 0.5;
+            private final double v = 0.25;
+            private final double w = -6.9;
+            private final double pr = 101325.0;
+            private final SolutionInitializer solutionInitializer = new FunctionInitializer(
+                    p -> govEqn.conservativeVars(new double[]{rho, u, v, w, pr}));
+            ResidualCalculator convectiveCalculator = new ConvectiveResidual(new PiecewiseConstantSolutionReconstructor(),
+                    new RusanovRiemannSolver(govEqn), mesh);
+            private final TimeIntegrator timeIntegrator = new ExplicitEulerTimeIntegrator(mesh,
+                    List.of(convectiveCalculator), new GlobalTimeStep(mesh, govEqn), govEqn.numVars());
+            private final Convergence convergence = new Convergence(DoubleArray.newFilledArray(govEqn.numVars(), 1e-6));
+            private final Config config = new Config();
 
-        @Override
-        public String description() {
-            return description;
-        }
+            @Override
+            public String description() {
+                return description;
+            }
 
-        @Override
-        public GoverningEquations govEqn() {
-            return govEqn;
-        }
+            @Override
+            public GoverningEquations govEqn() {
+                return govEqn;
+            }
 
-        @Override
-        public Mesh mesh() {
-            return mesh;
-        }
+            @Override
+            public Mesh mesh() {
+                return mesh;
+            }
 
-        @Override
-        public SolutionInitializer solutionInitializer() {
-            return solutionInitializer;
-        }
+            @Override
+            public SolutionInitializer solutionInitializer() {
+                return solutionInitializer;
+            }
 
-        @Override
-        public TimeIntegrator timeIntegrator() {
-            return timeIntegrator;
-        }
+            @Override
+            public TimeIntegrator timeIntegrator() {
+                return timeIntegrator;
+            }
 
-        @Override
-        public Convergence convergence() {
-            return convergence;
-        }
+            @Override
+            public Convergence convergence() {
+                return convergence;
+            }
 
-        @Override
-        public Config config() {
-            config.setMaxIterations(1);
-            return config;
-        }
-    };
+            @Override
+            public Config config() {
+                config.setMaxIterations(1);
+                return config;
+            }
+        };
+    }
 
     @Test
     public void solver_extrapolated() {
-        ProblemDefinition problem = this.problem;
+        ProblemDefinition problem = testProblem;
         GoverningEquations govEqn = problem.govEqn();
         BoundaryCondition bc = new ExtrapolatedBC(govEqn);
         Mesh mesh = problem.mesh();
