@@ -1,5 +1,6 @@
 package main;
 
+import main.io.VTKWriter;
 import main.mesh.Mesh;
 import main.mesh.factory.Unstructured2DMesh;
 import main.physics.bc.ExtrapolatedBC;
@@ -120,5 +121,6 @@ public class SolverEulerEquationsTest {
         }
 
         assertTrue(converged);
+        new VTKWriter(new File("test/test_data/output_airfoil_test.vtu"), mesh, problem.govEqn()).write();
     }
 }
