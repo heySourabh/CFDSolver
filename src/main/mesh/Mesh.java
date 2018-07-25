@@ -47,26 +47,6 @@ public interface Mesh {
         return boundaries().stream();
     }
 
-    default String stringify() {
-        String str = "";
-        str += "Number of nodes: " + nodes().size() + "\n";
-        str += "Number of cells: " + cells().size() + "\n";
-        str += "Number of internal faces: " + internalFaces().size() + "\n";
-        str += "Number of Boundies: " + boundaries().size() + "\n";
-        List<String> boundaryInfo = new ArrayList<>();
-        for (Boundary boundary : boundaries()) {
-            String boundaryString = Arrays
-                    .asList("Name: " + boundary.name,
-                            "Faces: " + boundary.faces.size(),
-                            "Type: " + boundary.bc.getClass().getSimpleName())
-                    .toString();
-            boundaryInfo.add("    " + boundaryString);
-        }
-        str += String.join("\n", boundaryInfo);
-
-        return str;
-    }
-
     static Cell ghostCell(Cell boundaryCell, Face boundaryFace) {
         int index = -1;
 
