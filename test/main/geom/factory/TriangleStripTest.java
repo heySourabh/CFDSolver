@@ -52,6 +52,25 @@ public class TriangleStripTest {
     }
 
     @Test
+    public void length() {
+        Point p0 = new Point(136.88, 499.52, 10.12);
+        Point p1 = new Point(191.42, 666.20, 5.67);
+        Point p2 = new Point(360.12, 444.97, -5.78);
+        Point p3 = new Point(382.34, 502.05, 6.12);
+        Point p4 = new Point(410.63, 445.48, 12.72);
+        Point p5 = new Point(480.33, 565.69, -8.18);
+
+        TriangleStrip triangleStrip = new TriangleStrip(p0, p1, p2, p3, p4, p5);
+
+        try {
+            triangleStrip.length();
+            fail("Expecting an ArithmeticException to be thrown.");
+        } catch (ArithmeticException ex) {
+            // OK: expecting an exception
+        }
+    }
+
+    @Test
     public void area() {
         Point p0 = new Point(-166.02170217, -194.54201633, -4.58945093);
         Point p1 = new Point(-166.02170217, -44.84761406, 83.20591431);
@@ -84,6 +103,25 @@ public class TriangleStripTest {
         double expectedArea = 32816.85202103886;
 
         assertEquals(0, (expectedArea - triangleStrip.area()) / expectedArea, 1e-8);
+    }
+
+    @Test
+    public void volume() {
+        Point p0 = new Point(136.88, 499.52, 10.12);
+        Point p1 = new Point(191.42, 666.20, 5.67);
+        Point p2 = new Point(360.12, 444.97, -5.78);
+        Point p3 = new Point(382.34, 502.05, 6.12);
+        Point p4 = new Point(410.63, 445.48, 12.72);
+        Point p5 = new Point(480.33, 565.69, -8.18);
+
+        TriangleStrip triangleStrip = new TriangleStrip(p0, p1, p2, p3, p4, p5);
+
+        try {
+            triangleStrip.volume();
+            fail("Expecting an ArithmeticException to be thrown.");
+        } catch (ArithmeticException ex) {
+            // OK: expecting an exception
+        }
     }
 
     @Test

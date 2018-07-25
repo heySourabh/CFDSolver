@@ -41,6 +41,42 @@ public class PyramidTest {
     }
 
     @Test
+    public void length() {
+        Point p0 = new Point(27.07853524, 27.63093514, -26.81737955);
+        Point p1 = new Point(27.07853524, 27.63093514, 27.51093247);
+        Point p2 = new Point(57.93934901, 24.93096379, 27.51093247);
+        Point p3 = new Point(57.93934901, 24.93096379, -26.81737955);
+        Point p4 = new Point(48.93204823, 70.89089319, -4.48906753);
+
+        Pyramid pyramid = new Pyramid(p0, p1, p2, p3, p4);
+
+        try {
+            pyramid.length();
+            fail("Expecting an ArithmeticException to be thrown.");
+        } catch (ArithmeticException ex) {
+            // OK: expecting an exception
+        }
+    }
+
+    @Test
+    public void area() {
+        Point p0 = new Point(27.07853524, 27.63093514, -26.81737955);
+        Point p1 = new Point(27.07853524, 27.63093514, 27.51093247);
+        Point p2 = new Point(57.93934901, 24.93096379, 27.51093247);
+        Point p3 = new Point(57.93934901, 24.93096379, -26.81737955);
+        Point p4 = new Point(48.93204823, 70.89089319, -4.48906753);
+
+        Pyramid pyramid = new Pyramid(p0, p1, p2, p3, p4);
+
+        try {
+            pyramid.area();
+            fail("Expecting an ArithmeticException to be thrown.");
+        } catch (ArithmeticException ex) {
+            // OK: expecting an exception
+        }
+    }
+
+    @Test
     public void volume1() {
         Point p0 = new Point(27.07853524, 27.63093514, -26.81737955);
         Point p1 = new Point(27.07853524, 27.63093514, 27.51093247);
@@ -94,5 +130,23 @@ public class PyramidTest {
         Point expectedCentroid = new Point(42.24712155, 37.59682897, -8.36044916);
 
         assertEquals(0, expectedCentroid.distance(pyramid.centroid()), 1e-8);
+    }
+
+    @Test
+    public void unitNormal() {
+        Point p0 = new Point(27.07853524, 27.63093514, -26.81737955);
+        Point p1 = new Point(27.07853524, 27.63093514, 27.51093247);
+        Point p2 = new Point(57.93934901, 24.93096379, 27.51093247);
+        Point p3 = new Point(57.93934901, 24.93096379, -26.81737955);
+        Point p4 = new Point(48.93204823, 70.89089319, -4.48906753);
+
+        Pyramid pyramid = new Pyramid(p0, p1, p2, p3, p4);
+
+        try {
+            pyramid.unitNormal();
+            fail("Expecting an ArithmeticException to be thrown.");
+        } catch (ArithmeticException ex) {
+            // OK: expecting an exception
+        }
     }
 }

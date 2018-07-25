@@ -38,6 +38,38 @@ public class TetraTest {
     }
 
     @Test
+    public void length() {
+        Point p0 = new Point(-1.31049078, 20, -36.98055193);
+        Point p1 = new Point(-3.02155309, 58, -11.31461721);
+        Point p2 = new Point(-28.49736977, 20, 4.65529772);
+        Point p3 = new Point(33.38111771, 20, 15.36596587);
+        Tetra tetra = new Tetra(p0, p1, p2, p3);
+
+        try {
+            tetra.length();
+            fail("Expecting an ArithmeticException to be thrown.");
+        } catch (ArithmeticException ex) {
+            // OK: expecting an exception
+        }
+    }
+
+    @Test
+    public void area() {
+        Point p0 = new Point(-1.31049078, 20, -36.98055193);
+        Point p1 = new Point(-3.02155309, 58, -11.31461721);
+        Point p2 = new Point(-28.49736977, 20, 4.65529772);
+        Point p3 = new Point(33.38111771, 20, 15.36596587);
+        Tetra tetra = new Tetra(p0, p1, p2, p3);
+
+        try {
+            tetra.area();
+            fail("Expecting an ArithmeticException to be thrown.");
+        } catch (ArithmeticException ex) {
+            // OK: expecting an exception
+        }
+    }
+
+    @Test
     public void volume1() {
         Point p0 = new Point(-1.31049078, 20, -36.98055193);
         Point p1 = new Point(-3.02155309, 58, -11.31461721);
@@ -87,5 +119,21 @@ public class TetraTest {
         Point expectedCentroid = new Point(-8.18221489, 10.14573362, -1.42707389);
 
         assertEquals(0, expectedCentroid.distance(tetra.centroid()), 1e-8);
+    }
+
+    @Test
+    public void unitNormal() {
+        Point p0 = new Point(-1.31049078, 20, -36.98055193);
+        Point p1 = new Point(-3.02155309, 58, -11.31461721);
+        Point p2 = new Point(-28.49736977, 20, 4.65529772);
+        Point p3 = new Point(33.38111771, 20, 15.36596587);
+        Tetra tetra = new Tetra(p0, p1, p2, p3);
+
+        try {
+            tetra.unitNormal();
+            fail("Expecting an ArithmeticException to be thrown.");
+        } catch (ArithmeticException ex) {
+            // OK: expecting an exception
+        }
     }
 }

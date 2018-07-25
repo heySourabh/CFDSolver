@@ -39,6 +39,23 @@ public class QuadTest {
     }
 
     @Test
+    public void length() {
+        Point p0 = new Point(-33.96370350, 21.50426152, -12.73844588);
+        Point p1 = new Point(18.80281320, 29.97229549, -13.27749442);
+        Point p2 = new Point(-19.85934057, 33.31053014, -17.29041133);
+        Point p3 = new Point(-26.17979609, 39.69737547, -20.64449113);
+
+        Quad quad = new Quad(p0, p1, p2, p3);
+
+        try {
+            quad.length();
+            fail("Expecting an ArithmeticException to be thrown.");
+        } catch (ArithmeticException ex) {
+            // OK: expecting an exception
+        }
+    }
+
+    @Test
     public void area() {
         Point p0 = new Point(-33.96370350, 21.50426152, -12.73844588);
         Point p1 = new Point(18.80281320, 29.97229549, -13.27749442);
@@ -49,6 +66,23 @@ public class QuadTest {
         double expectedArea = 368.66218945;
 
         assertEquals(0, (expectedArea - quad.area()) / expectedArea, 1e-8);
+    }
+
+    @Test
+    public void volume() {
+        Point p0 = new Point(-33.96370350, 21.50426152, -12.73844588);
+        Point p1 = new Point(18.80281320, 29.97229549, -13.27749442);
+        Point p2 = new Point(-19.85934057, 33.31053014, -17.29041133);
+        Point p3 = new Point(-26.17979609, 39.69737547, -20.64449113);
+
+        Quad quad = new Quad(p0, p1, p2, p3);
+
+        try {
+            quad.volume();
+            fail("Expecting an ArithmeticException to be thrown.");
+        } catch (ArithmeticException ex) {
+            // OK: expecting an exception
+        }
     }
 
     @Test

@@ -34,6 +34,21 @@ public class TriangleTest {
     }
 
     @Test
+    public void length() {
+        Point p0 = new Point(-11.29642784, 16.02452759, -38.94467857);
+        Point p1 = new Point(3.10731051, 10.31302616, -38.94467857);
+        Point p2 = new Point(30.23637047, 18.61893824, -0.41788033);
+        Triangle triangle = new Triangle(p0, p1, p2);
+
+        try {
+            triangle.length();
+            fail("Expecting an ArithmeticException to be thrown.");
+        } catch (ArithmeticException ex) {
+            // OK: expecting an exception
+        }
+    }
+
+    @Test
     public void area() {
         Point p0 = new Point(-11.29642784, 16.02452759, -38.94467857);
         Point p1 = new Point(3.10731051, 10.31302616, -38.94467857);
@@ -43,6 +58,21 @@ public class TriangleTest {
         double expectedArea = 328.54363842;
 
         assertEquals(0, (expectedArea - triangle.area()) / expectedArea, 1e-8);
+    }
+
+    @Test
+    public void volume() {
+        Point p0 = new Point(-11.29642784, 16.02452759, -38.94467857);
+        Point p1 = new Point(3.10731051, 10.31302616, -38.94467857);
+        Point p2 = new Point(30.23637047, 18.61893824, -0.41788033);
+        Triangle triangle = new Triangle(p0, p1, p2);
+
+        try {
+            triangle.volume();
+            fail("Expecting an ArithmeticException to be thrown.");
+        } catch (ArithmeticException ex) {
+            // OK: expecting an exception
+        }
     }
 
     @Test
