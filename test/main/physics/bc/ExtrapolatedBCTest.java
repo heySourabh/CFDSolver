@@ -6,14 +6,13 @@ import main.mesh.Face;
 import main.mesh.Surface;
 import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.factory.EulerEquations;
-import main.util.DoubleArray;
 import org.junit.Test;
 
 import java.util.Random;
 
 import static main.util.DoubleArray.copy;
 import static main.util.DoubleArray.random;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
 
 public class ExtrapolatedBCTest {
     private static GoverningEquations govEqn = new EulerEquations(1.4, 287);
