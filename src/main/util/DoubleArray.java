@@ -98,18 +98,6 @@ public class DoubleArray {
         return new double[length];
     }
 
-    public static double[] ones(int length) {
-        double[] ones = new double[length];
-
-        Arrays.fill(ones, 1.0);
-
-        return ones;
-    }
-
-    public static double[] random(int length) {
-        return random(length, new Random());
-    }
-
     public static double[] random(int length, Random generator) {
         double[] rDoubles = new double[length];
 
