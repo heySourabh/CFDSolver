@@ -2,12 +2,11 @@ package main.io;
 
 import main.geom.Point;
 
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class DataFileReader implements Closeable {
+public class DataFileReader implements AutoCloseable {
 
     private final Scanner fileScanner;
     private final String commentStr;
