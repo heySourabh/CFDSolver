@@ -23,27 +23,30 @@ public class Structured2DMesh implements Mesh {
     public Structured2DMesh(File meshFile, int numVars,
                             BoundaryCondition bc_xiMin, BoundaryCondition bc_xiMax,
                             BoundaryCondition bc_etaMin, BoundaryCondition bc_etaMax) throws FileNotFoundException {
-        DataFileReader meshFileReader = new DataFileReader(meshFile, "%");
-        int dim = meshFileReader.readIntParameter("dimension");
-        if (dim != 2) {
-            throw new IllegalArgumentException("The mesh file dimension must be 2.");
-        }
+        int num_xi, num_eta;
+        Node[][] nodeArray;
+        try (DataFileReader meshFileReader = new DataFileReader(meshFile, "%")) {
+            int dim = meshFileReader.readIntParameter("dimension");
+            if (dim != 2) {
+                throw new IllegalArgumentException("The mesh file dimension must be 2.");
+            }
 
-        String mode = meshFileReader.readParameter("mode");
-        if (!mode.equals("ASCII")) {
-            throw new IllegalArgumentException("Only ASCII mode is supported.");
-        }
+            String mode = meshFileReader.readParameter("mode");
+            if (!mode.equals("ASCII")) {
+                throw new IllegalArgumentException("Only ASCII mode is supported.");
+            }
 
-        int num_xi = meshFileReader.readIntParameter("xi");
-        int num_eta = meshFileReader.readIntParameter("eta");
+            num_xi = meshFileReader.readIntParameter("xi");
+            num_eta = meshFileReader.readIntParameter("eta");
 
-        Node[][] nodeArray = new Node[num_xi][num_eta];
-        this.nodes = new ArrayList<>();
-        for (int i = 0; i < num_xi; i++) {
-            for (int j = 0; j < num_eta; j++) {
-                Node node = new Node(meshFileReader.readXYZ());
-                nodeArray[i][j] = node;
-                nodes.add(node);
+            nodeArray = new Node[num_xi][num_eta];
+            this.nodes = new ArrayList<>();
+            for (int i = 0; i < num_xi; i++) {
+                for (int j = 0; j < num_eta; j++) {
+                    Node node = new Node(meshFileReader.readXYZ());
+                    nodeArray[i][j] = node;
+                    nodes.add(node);
+                }
             }
         }
 

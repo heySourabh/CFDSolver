@@ -26,20 +26,22 @@ public class Structured1DMesh implements Mesh {
     final private List<Boundary> boundaries;
 
     public Structured1DMesh(File meshFile, int numVars, BoundaryCondition bc_xiMin, BoundaryCondition bc_xiMax) throws FileNotFoundException {
-        DataFileReader meshFileReader = new DataFileReader(meshFile, "%");
-        int dim = meshFileReader.readIntParameter("dimension");
-        if (dim != 1) {
-            throw new IllegalArgumentException("The mesh file dimension must be 1.");
-        }
-        String mode = meshFileReader.readParameter("mode");
-        if (!mode.equals("ASCII")) {
-            throw new IllegalArgumentException("Only ASCII mode is supported.");
-        }
-        int xi = meshFileReader.readIntParameter("xi");
+        int xi;
+        try (DataFileReader meshFileReader = new DataFileReader(meshFile, "%")) {
+            int dim = meshFileReader.readIntParameter("dimension");
+            if (dim != 1) {
+                throw new IllegalArgumentException("The mesh file dimension must be 1.");
+            }
+            String mode = meshFileReader.readParameter("mode");
+            if (!mode.equals("ASCII")) {
+                throw new IllegalArgumentException("Only ASCII mode is supported.");
+            }
+            xi = meshFileReader.readIntParameter("xi");
 
-        this.nodes = IntStream.range(0, xi)
-                .mapToObj(i -> new Node(meshFileReader.readXYZ()))
-                .collect(toList());
+            this.nodes = IntStream.range(0, xi)
+                    .mapToObj(i -> new Node(meshFileReader.readXYZ()))
+                    .collect(toList());
+        }
 
         this.cells = new ArrayList<>();
         for (int i = 0; i < xi - 1; i++) {

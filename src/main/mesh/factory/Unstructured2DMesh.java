@@ -113,6 +113,7 @@ public class Unstructured2DMesh implements Mesh {
             boundaryArray[bi] = new Boundary(bndName, bndFaces, bcs.get(bndName));
         }
         this.boundaries = List.of(boundaryArray);
+        meshFileReader.close();
 
         // Setup node neighbors
         for (Cell cell : cells) {
