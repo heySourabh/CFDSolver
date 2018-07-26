@@ -122,6 +122,7 @@ public class Solver1DScalarAdvectionTest {
             public Config config() {
                 Config config = new Config();
                 config.setMaxIterations(1);
+                config.setConvergenceNorm(Norm.TWO_NORM);
                 return config;
             }
         };

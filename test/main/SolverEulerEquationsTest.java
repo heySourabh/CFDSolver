@@ -19,7 +19,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -97,6 +97,11 @@ public class SolverEulerEquationsTest {
             @Override
             public Config config() {
                 config.setMaxIterations(1500);
+                try {
+                    config.setWorkingDirectory(new File("test/test_data/"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 return config;
             }
         };
@@ -121,6 +126,6 @@ public class SolverEulerEquationsTest {
         }
 
         assertTrue(converged);
-        new VTKWriter(new File("test/test_data/output_airfoil_test.vtu"), mesh, problem.govEqn()).write();
+        new VTKWriter(new File(config.getWorkingDirectory(), "output_airfoil_test.vtu"), mesh, problem.govEqn()).write();
     }
 }
