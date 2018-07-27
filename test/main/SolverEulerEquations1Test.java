@@ -8,6 +8,7 @@ import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.factory.EulerEquations;
 import main.solver.*;
 import main.solver.problem.ProblemDefinition;
+import main.solver.reconstructor.PiecewiseConstantSolutionReconstructor;
 import main.solver.time.ExplicitEulerTimeIntegrator;
 import main.solver.time.GlobalTimeStep;
 import main.solver.time.TimeIntegrator;

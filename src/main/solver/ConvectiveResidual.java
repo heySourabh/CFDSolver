@@ -5,6 +5,7 @@ import main.mesh.Cell;
 import main.mesh.Face;
 import main.mesh.Mesh;
 import main.physics.bc.BoundaryCondition;
+import main.solver.reconstructor.SolutionReconstructor;
 import main.util.DoubleArray;
 
 import static main.util.DoubleArray.*;

@@ -1,4 +1,4 @@
-package main.solver;
+package main.solver.reconstructor;
 
 import main.geom.Point;
 import main.mesh.Cell;
