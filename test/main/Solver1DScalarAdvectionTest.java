@@ -8,7 +8,7 @@ import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.factory.ScalarAdvection;
 import main.solver.*;
 import main.solver.problem.ProblemDefinition;
-import main.solver.reconstructor.PiecewiseConstantSolutionReconstructor;
+import main.solver.reconstructor.PiecewiseConstantReconstructor;
 import main.solver.reconstructor.SolutionReconstructor;
 import main.solver.time.ExplicitEulerTimeIntegrator;
 import main.solver.time.GlobalTimeStep;
@@ -83,7 +83,7 @@ public class Solver1DScalarAdvectionTest {
             private TimeIntegrator createTimeIntegrator() {
                 ArrayList<ResidualCalculator> residuals = new ArrayList<>();
 
-                SolutionReconstructor reconstructor = new PiecewiseConstantSolutionReconstructor();
+                SolutionReconstructor reconstructor = new PiecewiseConstantReconstructor();
                 RiemannSolver riemannSolver = new RusanovRiemannSolver(govEqn);
                 residuals.add(new ConvectiveResidual(reconstructor, riemannSolver, mesh));
                 GlobalTimeStep timeStep = new GlobalTimeStep(mesh, govEqn);

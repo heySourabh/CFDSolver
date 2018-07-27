@@ -8,7 +8,7 @@ import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.factory.EulerEquations;
 import main.solver.*;
 import main.solver.problem.ProblemDefinition;
-import main.solver.reconstructor.PiecewiseConstantSolutionReconstructor;
+import main.solver.reconstructor.PiecewiseConstantReconstructor;
 import main.solver.time.ExplicitEulerTimeIntegrator;
 import main.solver.time.GlobalTimeStep;
 import main.solver.time.TimeIntegrator;
@@ -49,7 +49,7 @@ public class SolverEulerEquations1Test {
             private final double pr = 101325.0;
             private final SolutionInitializer solutionInitializer = new FunctionInitializer(
                     p -> govEqn.conservativeVars(new double[]{rho, u, v, w, pr}));
-            ResidualCalculator convectiveCalculator = new ConvectiveResidual(new PiecewiseConstantSolutionReconstructor(),
+            ResidualCalculator convectiveCalculator = new ConvectiveResidual(new PiecewiseConstantReconstructor(),
                     new RusanovRiemannSolver(govEqn), mesh);
             private final TimeIntegrator timeIntegrator = new ExplicitEulerTimeIntegrator(mesh,
                     List.of(convectiveCalculator), new GlobalTimeStep(mesh, govEqn), govEqn.numVars());
