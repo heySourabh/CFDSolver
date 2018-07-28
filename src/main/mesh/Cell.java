@@ -33,7 +33,7 @@ public class Cell {
 
         this.U = new double[numVars];
         this.residual = new double[numVars];
-        this.reconstructCoeffs = new double[numVars][];
+        this.reconstructCoeffs = new double[numVars][]; // The reconstructor can decide the length
     }
 
     @Override
