@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
-public class FaceNeighbors implements Neighbors {
+public class FaceNeighbors implements NeighborsCalculator {
     @Override
     public List<Cell> getFor(Cell cell) {
         return cell.faces.stream()

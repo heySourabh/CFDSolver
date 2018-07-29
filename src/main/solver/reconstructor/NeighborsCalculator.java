@@ -4,6 +4,6 @@ import main.mesh.Cell;
 
 import java.util.List;
 
-public interface Neighbors {
+public interface NeighborsCalculator {
     List<Cell> getFor(Cell cell);
 }
