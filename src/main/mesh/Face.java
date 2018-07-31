@@ -5,6 +5,8 @@ import main.geom.VTKType;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.util.Objects.requireNonNull;
+
 public class Face {
     public final Node[] nodes;
     public final VTKType vtkType;
@@ -21,8 +23,7 @@ public class Face {
         this.vtkType = vtkType;
         this.surface = surface;
 
-        if (left == null) throw new IllegalArgumentException("The left neighbor cannot be null");
-        this.left = left;
+        this.left = requireNonNull(left, "The left neighbor cannot be null");
         this.right = right;
 
         this.flux = new double[numVars];
