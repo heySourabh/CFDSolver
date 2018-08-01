@@ -103,10 +103,8 @@ public class Unstructured2DMesh implements Mesh {
                 for (int ni = 0; ni < faceNodes.length; ni++) {
                     faceNodes[ni] = nodes.get(connectivity[ni + 1]);
                 }
-                Face bndFace = search(faceNodes, allBoundaryFaces);
-                if (bndFace == null) {
-                    throw new IllegalStateException("Couldn't locate boundary face in mesh.");
-                }
+                Face bndFace = search(faceNodes, allBoundaryFaces)
+                        .orElseThrow(() -> new IllegalStateException("Couldn't locate boundary face in mesh."));
                 bndFace.right = Mesh.ghostCell(bndFace.left, bndFace);
                 bndFaces.add(bndFace);
             }
@@ -167,13 +165,13 @@ public class Unstructured2DMesh implements Mesh {
         return edgeTangent.cross(cellNormal).unit();
     }
 
-    private Face search(Node[] faceNodes, List<Face> faces) {
+    private Optional<Face> search(Node[] faceNodes, List<Face> faces) {
         for (Face face : faces) {
             if (sameNodes(faceNodes, face.nodes))
-                return face;
+                return Optional.of(face);
         }
 
-        return null;
+        return Optional.empty();
     }
 
     private boolean sameNodes(Node[] na1, Node[] na2) {
