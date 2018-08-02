@@ -1,12 +1,13 @@
 package main.geom.factory;
 
 import main.geom.Point;
-import main.geom.VTKType;
 import main.geom.Vector;
 import org.junit.Test;
 
+import static main.TestHelper.assertThrows;
 import static main.geom.VTKType.VTK_TRIANGLE;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public class TriangleTest {
 
@@ -39,13 +40,7 @@ public class TriangleTest {
         Point p1 = new Point(3.10731051, 10.31302616, -38.94467857);
         Point p2 = new Point(30.23637047, 18.61893824, -0.41788033);
         Triangle triangle = new Triangle(p0, p1, p2);
-
-        try {
-            triangle.length();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expecting an exception
-        }
+        assertThrows(ArithmeticException.class, triangle::length);
     }
 
     @Test
@@ -66,13 +61,7 @@ public class TriangleTest {
         Point p1 = new Point(3.10731051, 10.31302616, -38.94467857);
         Point p2 = new Point(30.23637047, 18.61893824, -0.41788033);
         Triangle triangle = new Triangle(p0, p1, p2);
-
-        try {
-            triangle.volume();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expecting an exception
-        }
+        assertThrows(ArithmeticException.class, triangle::volume);
     }
 
     @Test
