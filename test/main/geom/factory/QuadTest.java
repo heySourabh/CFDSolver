@@ -5,7 +5,9 @@ import main.geom.VTKType;
 import main.geom.Vector;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static main.TestHelper.assertThrows;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public class QuadTest {
 
@@ -46,13 +48,7 @@ public class QuadTest {
         Point p3 = new Point(-26.17979609, 39.69737547, -20.64449113);
 
         Quad quad = new Quad(p0, p1, p2, p3);
-
-        try {
-            quad.length();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expecting an exception
-        }
+        assertThrows(ArithmeticException.class, quad::length);
     }
 
     @Test
@@ -76,13 +72,7 @@ public class QuadTest {
         Point p3 = new Point(-26.17979609, 39.69737547, -20.64449113);
 
         Quad quad = new Quad(p0, p1, p2, p3);
-
-        try {
-            quad.volume();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expecting an exception
-        }
+        assertThrows(ArithmeticException.class, quad::volume);
     }
 
     @Test
