@@ -42,14 +42,9 @@ public class DoubleMatrixTest {
         assertMatrixEquals(expectedMatrix, DoubleMatrix.add(A, B));
 
         // Exception on different size matrices
-        A = new double[3][5];
-        B = new double[4][5];
-        try {
-            DoubleMatrix.add(A, B);
-            fail("Expected IllegalArgumentException not thrown.");
-        } catch (IllegalArgumentException ex) {
-            // OK expected exception.
-        }
+        double[][] sizeMismatchA = new double[3][5];
+        double[][] sizeMismatchB = new double[4][5];
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.add(sizeMismatchA, sizeMismatchB));
     }
 
     @Test
@@ -81,14 +76,9 @@ public class DoubleMatrixTest {
         assertMatrixEquals(expectedMatrix, DoubleMatrix.subtract(A, B));
 
         // Exception on different size matrices
-        A = new double[3][5];
-        B = new double[4][5];
-        try {
-            DoubleMatrix.subtract(A, B);
-            fail("Expected IllegalArgumentException not thrown.");
-        } catch (IllegalArgumentException ex) {
-            // OK expected exception.
-        }
+        double[][] sizeMismatchA = new double[3][5];
+        double[][] sizeMismatchB = new double[4][5];
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.subtract(sizeMismatchA, sizeMismatchB));
     }
 
     @Test
@@ -133,14 +123,9 @@ public class DoubleMatrixTest {
         assertArrayEquals(expectedVector, DoubleMatrix.multiply(A, v), 1e-12);
 
         // Exception on different size matrices
-        A = new double[3][5];
-        v = new double[3];
-        try {
-            DoubleMatrix.multiply(A, v);
-            fail("Expected IllegalArgumentException not thrown.");
-        } catch (IllegalArgumentException ex) {
-            // OK expected exception.
-        }
+        double[][] sizeMismatchA = new double[3][5];
+        double[] sizeMismatchV = new double[3];
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.multiply(sizeMismatchA, sizeMismatchV));
     }
 
     @Test
@@ -171,14 +156,9 @@ public class DoubleMatrixTest {
         assertMatrixEquals(expectedMatrix, DoubleMatrix.multiply(A, B));
 
         // Exception on different size matrices
-        A = new double[3][5];
-        B = new double[3][5];
-        try {
-            DoubleMatrix.multiply(A, B);
-            fail("Expected IllegalArgumentException not thrown.");
-        } catch (IllegalArgumentException ex) {
-            // OK expected exception.
-        }
+        double[][] sizeMismatchA = new double[3][5];
+        double[][] sizeMismatchB = new double[3][5];
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.multiply(sizeMismatchA, sizeMismatchB));
     }
 
     @Test
@@ -234,13 +214,8 @@ public class DoubleMatrixTest {
         assertEquals(expectedValue, DoubleMatrix.determinant(A), 1e-15);
 
         // not a square matrix exception
-        A = new double[3][4];
-        try {
-            DoubleMatrix.determinant(A);
-            fail("Expected IllegalArgumentException not thrown.");
-        } catch (IllegalArgumentException ex) {
-            // OK expected exception.
-        }
+        double[][] notSquare = new double[3][4];
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.determinant(notSquare));
     }
 
     @Test
@@ -262,26 +237,16 @@ public class DoubleMatrixTest {
         assertMatrixEquals(expectedMatrix, DoubleMatrix.invert(A));
 
         // not a square matrix exception
-        A = new double[3][4];
-        try {
-            DoubleMatrix.invert(A);
-            fail("Expected IllegalArgumentException not thrown.");
-        } catch (IllegalArgumentException ex) {
-            // OK expected exception.
-        }
+        double[][] nonSquare = new double[3][4];
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.invert(nonSquare));
 
         // Singular matrix exception
-        A = new double[][]{
+        double[][] singular = new double[][]{
                 {1, 2, 4},
                 {5, 6, 5},
                 {2, 4, 8}
         };
-        try {
-            DoubleMatrix.invert(A);
-            fail("Expected ArithmeticException not thrown.");
-        } catch (ArithmeticException ex) {
-            // OK expected exception.
-        }
+        assertThrows(ArithmeticException.class, () -> DoubleMatrix.invert(singular));
     }
 
     @Test
@@ -303,13 +268,8 @@ public class DoubleMatrixTest {
         assertMatrixEquals(expectedMatrix, DoubleMatrix.cofactorMatrix(A));
 
         // not a square matrix exception
-        A = new double[3][4];
-        try {
-            DoubleMatrix.cofactorMatrix(A);
-            fail("Expected IllegalArgumentException not thrown.");
-        } catch (IllegalArgumentException ex) {
-            // OK expected exception.
-        }
+        double[][] B = new double[3][4];
+        assertThrows(IllegalArgumentException.class, () -> DoubleMatrix.cofactorMatrix(B));
     }
 
     @Test
@@ -424,5 +384,17 @@ public class DoubleMatrixTest {
                 {0.13093656578156743, 0.45716337776708826, 0.7153420151113619, 0.47145897592472696}
         };
         assertMatrixEquals(expectedMatrix, DoubleMatrix.removeRow(A, 4));
+    }
+
+    private void assertThrows(Class<? extends Throwable> ex, Runnable codeBlock) {
+        try {
+            codeBlock.run();
+            fail("Expecting an exception to be thrown, but no exception is thrown.");
+        } catch (Exception e) {
+            if (e.getClass() != ex) {
+                fail("Exception: " + e.toString() + "\n" +
+                        "Expected \"" + ex.toString() + "\", but received \"" + e.getClass().toString());
+            }
+        }
     }
 }
