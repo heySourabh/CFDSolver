@@ -4,6 +4,7 @@ import main.geom.Point;
 import main.geom.VTKType;
 import org.junit.Test;
 
+import static main.TestHelper.assertThrows;
 import static org.junit.Assert.*;
 
 public class TetraTest {
@@ -44,13 +45,7 @@ public class TetraTest {
         Point p2 = new Point(-28.49736977, 20, 4.65529772);
         Point p3 = new Point(33.38111771, 20, 15.36596587);
         Tetra tetra = new Tetra(p0, p1, p2, p3);
-
-        try {
-            tetra.length();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expecting an exception
-        }
+        assertThrows(ArithmeticException.class, tetra::length);
     }
 
     @Test
@@ -60,13 +55,7 @@ public class TetraTest {
         Point p2 = new Point(-28.49736977, 20, 4.65529772);
         Point p3 = new Point(33.38111771, 20, 15.36596587);
         Tetra tetra = new Tetra(p0, p1, p2, p3);
-
-        try {
-            tetra.area();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expecting an exception
-        }
+        assertThrows(ArithmeticException.class, tetra::area);
     }
 
     @Test
@@ -128,12 +117,6 @@ public class TetraTest {
         Point p2 = new Point(-28.49736977, 20, 4.65529772);
         Point p3 = new Point(33.38111771, 20, 15.36596587);
         Tetra tetra = new Tetra(p0, p1, p2, p3);
-
-        try {
-            tetra.unitNormal();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expecting an exception
-        }
+        assertThrows(ArithmeticException.class, tetra::unitNormal);
     }
 }
