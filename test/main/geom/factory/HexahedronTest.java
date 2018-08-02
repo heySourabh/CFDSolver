@@ -4,7 +4,8 @@ import main.geom.Point;
 import main.geom.VTKType;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static main.TestHelper.assertThrows;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test for Hexahedron geometry.
@@ -53,12 +54,7 @@ public class HexahedronTest {
                 new Point(0, 0, 0), new Point(0, 0, 0),
                 new Point(0, 0, 0), new Point(0, 0, 0),
                 new Point(0, 0, 0), new Point(0, 0, 0));
-        try {
-            hexahedron.length();
-            fail("Expected to throw an ArithmeticException.");
-        } catch (ArithmeticException ex) {
-            // OK: Expected exception is thrown
-        }
+        assertThrows(ArithmeticException.class, hexahedron::length);
     }
 
     @Test
@@ -72,13 +68,7 @@ public class HexahedronTest {
                 new Point(-5.9, 0, -41.4),
                 new Point(52.1, 0, -41.4),
                 new Point(52.1, 24, -41.4));
-
-        try {
-            hexahedron.area();
-            fail("Expected to throw an ArithmeticException.");
-        } catch (ArithmeticException ex) {
-            // OK: Expected exception is thrown
-        }
+        assertThrows(ArithmeticException.class, hexahedron::area);
     }
 
     @Test
@@ -284,12 +274,6 @@ public class HexahedronTest {
                 new Point(-5.9, 0, -41.4),
                 new Point(52.1, 0, -41.4),
                 new Point(52.1, 24, -41.4));
-
-        try {
-            hexahedron.unitNormal();
-            fail("Expected to throw an ArithmeticException.");
-        } catch (ArithmeticException ex) {
-            // OK: Expected exception is thrown
-        }
+        assertThrows(ArithmeticException.class, hexahedron::unitNormal);
     }
 }
