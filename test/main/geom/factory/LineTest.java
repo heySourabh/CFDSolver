@@ -4,7 +4,8 @@ import main.geom.Point;
 import main.geom.VTKType;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static main.TestHelper.assertThrows;
+import static org.junit.Assert.assertEquals;
 
 public class LineTest {
 
@@ -48,23 +49,13 @@ public class LineTest {
     @Test
     public void area() {
         Line l = new Line(new Point(5, 6, 6), new Point(8, 11, 1));
-        try {
-            l.area();
-            fail("Expected ArithmeticException is not thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: Expected exception
-        }
+        assertThrows(ArithmeticException.class, l::area);
     }
 
     @Test
     public void volume() {
         Line l = new Line(new Point(5, 6, 6), new Point(8, 11, 1));
-        try {
-            l.volume();
-            fail("Expected ArithmeticException is not thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: Expected exception
-        }
+        assertThrows(ArithmeticException.class, l::volume);
     }
 
     @Test
@@ -89,11 +80,6 @@ public class LineTest {
     @Test
     public void unitNormal() {
         Line l = new Line(new Point(5, 6, 6), new Point(8, 11, 1));
-        try {
-            l.unitNormal();
-            fail("Expected ArithmeticException is not thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: Expected exception
-        }
+        assertThrows(ArithmeticException.class, l::unitNormal);
     }
 }
