@@ -4,7 +4,8 @@ import org.junit.Test;
 
 import java.util.Random;
 
-import static org.junit.Assert.*;
+import static main.TestHelper.assertThrows;
+import static org.junit.Assert.assertEquals;
 
 public class VectorTest {
 
@@ -115,12 +116,7 @@ public class VectorTest {
         assertEquals(0.178999835, actualUnitVector.y, 1e-8);
         assertEquals(0.335624692, actualUnitVector.z, 1e-8);
 
-        try {
-            new Vector(0, 0, 0).unit();
-            fail("Expected an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: Expecting an exception
-        }
+        assertThrows(ArithmeticException.class, () -> new Vector(0, 0, 0).unit());
     }
 
     @Test
