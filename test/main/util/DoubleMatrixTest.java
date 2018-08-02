@@ -2,6 +2,7 @@ package main.util;
 
 import org.junit.Test;
 
+import static main.TestHelper.assertThrows;
 import static org.junit.Assert.*;
 
 public class DoubleMatrixTest {
@@ -384,17 +385,5 @@ public class DoubleMatrixTest {
                 {0.13093656578156743, 0.45716337776708826, 0.7153420151113619, 0.47145897592472696}
         };
         assertMatrixEquals(expectedMatrix, DoubleMatrix.removeRow(A, 4));
-    }
-
-    private void assertThrows(Class<? extends Throwable> ex, Runnable codeBlock) {
-        try {
-            codeBlock.run();
-            fail("Expecting an exception to be thrown, but no exception is thrown.");
-        } catch (Exception e) {
-            if (e.getClass() != ex) {
-                fail("Exception: " + e.toString() + "\n" +
-                        "Expected \"" + ex.toString() + "\", but received \"" + e.getClass().toString());
-            }
-        }
     }
 }
