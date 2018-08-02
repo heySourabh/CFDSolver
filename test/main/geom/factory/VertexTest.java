@@ -6,7 +6,9 @@ import org.junit.Test;
 
 import java.util.Random;
 
-import static org.junit.Assert.*;
+import static main.TestHelper.assertThrows;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public class VertexTest {
 
@@ -48,13 +50,7 @@ public class VertexTest {
                 r.nextDouble() * range,
                 r.nextDouble() * range);
         Vertex vertex = new Vertex(p);
-
-        try {
-            vertex.length();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expecting an exception
-        }
+        assertThrows(ArithmeticException.class, vertex::length);
     }
 
     @Test
@@ -66,13 +62,7 @@ public class VertexTest {
                 r.nextDouble() * range,
                 r.nextDouble() * range);
         Vertex vertex = new Vertex(p);
-
-        try {
-            vertex.area();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expecting an exception
-        }
+        assertThrows(ArithmeticException.class, vertex::area);
     }
 
     @Test
@@ -84,13 +74,7 @@ public class VertexTest {
                 r.nextDouble() * range,
                 r.nextDouble() * range);
         Vertex vertex = new Vertex(p);
-
-        try {
-            vertex.volume();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expecting an exception
-        }
+        assertThrows(ArithmeticException.class, vertex::volume);
     }
 
     @Test
@@ -115,12 +99,6 @@ public class VertexTest {
                 r.nextDouble() * range,
                 r.nextDouble() * range);
         Vertex vertex = new Vertex(p);
-
-        try {
-            vertex.unitNormal();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expecting an exception
-        }
+        assertThrows(ArithmeticException.class, vertex::unitNormal);
     }
 }
