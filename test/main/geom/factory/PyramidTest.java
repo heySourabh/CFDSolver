@@ -4,7 +4,9 @@ import main.geom.Point;
 import main.geom.VTKType;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static main.TestHelper.assertThrows;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public class PyramidTest {
 
@@ -49,13 +51,7 @@ public class PyramidTest {
         Point p4 = new Point(48.93204823, 70.89089319, -4.48906753);
 
         Pyramid pyramid = new Pyramid(p0, p1, p2, p3, p4);
-
-        try {
-            pyramid.length();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expecting an exception
-        }
+        assertThrows(ArithmeticException.class, pyramid::length);
     }
 
     @Test
@@ -67,13 +63,7 @@ public class PyramidTest {
         Point p4 = new Point(48.93204823, 70.89089319, -4.48906753);
 
         Pyramid pyramid = new Pyramid(p0, p1, p2, p3, p4);
-
-        try {
-            pyramid.area();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expecting an exception
-        }
+        assertThrows(ArithmeticException.class, pyramid::area);
     }
 
     @Test
@@ -141,12 +131,6 @@ public class PyramidTest {
         Point p4 = new Point(48.93204823, 70.89089319, -4.48906753);
 
         Pyramid pyramid = new Pyramid(p0, p1, p2, p3, p4);
-
-        try {
-            pyramid.unitNormal();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expecting an exception
-        }
+        assertThrows(ArithmeticException.class, pyramid::unitNormal);
     }
 }
