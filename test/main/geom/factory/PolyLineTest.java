@@ -4,7 +4,8 @@ import main.geom.Point;
 import main.geom.VTKType;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static main.TestHelper.assertThrows;
+import static org.junit.Assert.assertEquals;
 
 public class PolyLineTest {
 
@@ -84,13 +85,7 @@ public class PolyLineTest {
                 new Point(4, 5, 6),
                 new Point(3, 2, 7)};
         PolyLine polyLine = new PolyLine(p);
-
-        try {
-            polyLine.area();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expected exception
-        }
+        assertThrows(ArithmeticException.class, polyLine::area);
     }
 
     @Test
@@ -100,13 +95,7 @@ public class PolyLineTest {
                 new Point(4, 5, 6),
                 new Point(3, 2, 7)};
         PolyLine polyLine = new PolyLine(p);
-
-        try {
-            polyLine.volume();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expected exception
-        }
+        assertThrows(ArithmeticException.class, polyLine::volume);
     }
 
     @Test
@@ -116,13 +105,7 @@ public class PolyLineTest {
                 new Point(4, 5, 6),
                 new Point(3, 2, 7)};
         PolyLine polyLine = new PolyLine(p);
-
-        try {
-            polyLine.centroid();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expected exception
-        }
+        assertThrows(ArithmeticException.class, polyLine::centroid);
     }
 
     @Test
@@ -132,12 +115,6 @@ public class PolyLineTest {
                 new Point(4, 5, 6),
                 new Point(3, 2, 7)};
         PolyLine polyLine = new PolyLine(p);
-
-        try {
-            polyLine.unitNormal();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expected exception
-        }
+        assertThrows(ArithmeticException.class, polyLine::unitNormal);
     }
 }
