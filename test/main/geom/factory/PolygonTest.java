@@ -5,7 +5,8 @@ import main.geom.VTKType;
 import main.geom.Vector;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static main.TestHelper.assertThrows;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test for Polygon geometry.
@@ -48,12 +49,7 @@ public class PolygonTest {
                 new Point(1, 4, 5),
                 new Point(-5, 4, 3)
         });
-        try {
-            polygon.length();
-            fail("Expected to throw ArithmeticException.");
-        } catch (ArithmeticException ex) {
-            // OK: expected to throw
-        }
+        assertThrows(ArithmeticException.class, polygon::length);
     }
 
     @Test
@@ -80,12 +76,7 @@ public class PolygonTest {
                 new Point(1, 4, 5),
                 new Point(-5, 4, 3)
         });
-        try {
-            polygon.volume();
-            fail("Expected to throw ArithmeticException.");
-        } catch (ArithmeticException ex) {
-            // OK: expected to throw
-        }
+        assertThrows(ArithmeticException.class, polygon::volume);
     }
 
     @Test
