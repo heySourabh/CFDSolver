@@ -4,7 +4,9 @@ import main.geom.Point;
 import main.geom.VTKType;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static main.TestHelper.assertThrows;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public class WedgeTest {
 
@@ -52,13 +54,7 @@ public class WedgeTest {
         Point p5 = new Point(51.84832137, 75.72060593, -39.24010317);
 
         Wedge wedge = new Wedge(p0, p1, p2, p3, p4, p5);
-
-        try {
-            wedge.length();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expecting an exception
-        }
+        assertThrows(ArithmeticException.class, wedge::length);
     }
 
     @Test
@@ -71,13 +67,7 @@ public class WedgeTest {
         Point p5 = new Point(51.84832137, 75.72060593, -39.24010317);
 
         Wedge wedge = new Wedge(p0, p1, p2, p3, p4, p5);
-
-        try {
-            wedge.area();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expecting an exception
-        }
+        assertThrows(ArithmeticException.class, wedge::area);
     }
 
     @Test
@@ -122,12 +112,6 @@ public class WedgeTest {
         Point p5 = new Point(51.84832137, 75.72060593, -39.24010317);
 
         Wedge wedge = new Wedge(p0, p1, p2, p3, p4, p5);
-
-        try {
-            wedge.unitNormal();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expecting an exception
-        }
+        assertThrows(ArithmeticException.class, wedge::unitNormal);
     }
 }
