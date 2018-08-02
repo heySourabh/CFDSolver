@@ -5,7 +5,9 @@ import main.geom.VTKType;
 import main.geom.Vector;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static main.TestHelper.assertThrows;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public class TriangleStripTest {
 
@@ -61,13 +63,7 @@ public class TriangleStripTest {
         Point p5 = new Point(480.33, 565.69, -8.18);
 
         TriangleStrip triangleStrip = new TriangleStrip(p0, p1, p2, p3, p4, p5);
-
-        try {
-            triangleStrip.length();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expecting an exception
-        }
+        assertThrows(ArithmeticException.class, triangleStrip::length);
     }
 
     @Test
@@ -115,13 +111,7 @@ public class TriangleStripTest {
         Point p5 = new Point(480.33, 565.69, -8.18);
 
         TriangleStrip triangleStrip = new TriangleStrip(p0, p1, p2, p3, p4, p5);
-
-        try {
-            triangleStrip.volume();
-            fail("Expecting an ArithmeticException to be thrown.");
-        } catch (ArithmeticException ex) {
-            // OK: expecting an exception
-        }
+        assertThrows(ArithmeticException.class, triangleStrip::volume);
     }
 
     @Test
