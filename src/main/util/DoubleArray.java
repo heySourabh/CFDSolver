@@ -92,9 +92,7 @@ public class DoubleArray {
      * @return Element-wise minimum.
      */
     public static double[] min(double[] a1, double[] a2) {
-        return IntStream.range(0, a1.length)
-                .mapToDouble(i -> Math.min(a1[i], a2[i]))
-                .toArray();
+        return apply(a1, a2, Math::min);
     }
 
     /**
@@ -105,9 +103,7 @@ public class DoubleArray {
      * @return Element-wise maximum.
      */
     public static double[] max(double[] a1, double[] a2) {
-        return IntStream.range(0, a1.length)
-                .mapToDouble(i -> Math.max(a1[i], a2[i]))
-                .toArray();
+        return apply(a1, a2, Math::max);
     }
 
     public static void copy(double[] from, double[] to) throws ArrayIndexOutOfBoundsException {
