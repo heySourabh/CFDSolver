@@ -86,6 +86,7 @@ public class DoubleArray {
 
     /**
      * Creates a new array by picking minimum of the elements at the index from the two arrays.
+     *
      * @param a1 array of double
      * @param a2 array of double
      * @return Element-wise minimum.
@@ -93,6 +94,19 @@ public class DoubleArray {
     public static double[] min(double[] a1, double[] a2) {
         return IntStream.range(0, a1.length)
                 .mapToDouble(i -> Math.min(a1[i], a2[i]))
+                .toArray();
+    }
+
+    /**
+     * Creates a new array by picking maximum of the elements at the index from the two arrays.
+     *
+     * @param a1 array of double
+     * @param a2 array of double
+     * @return Element-wise maximum.
+     */
+    public static double[] max(double[] a1, double[] a2) {
+        return IntStream.range(0, a1.length)
+                .mapToDouble(i -> Math.max(a1[i], a2[i]))
                 .toArray();
     }
 
