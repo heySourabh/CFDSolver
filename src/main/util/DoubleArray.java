@@ -4,9 +4,10 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.function.DoubleBinaryOperator;
 import java.util.function.DoubleUnaryOperator;
-import java.util.stream.IntStream;
 
 public class DoubleArray {
+    private final static double EPS = 1e-15;
+
     public static double[] add(double[] a1, double[] a2) {
         double[] result = new double[a1.length];
 
@@ -64,7 +65,25 @@ public class DoubleArray {
      * @return new array a1 * a2
      */
     public static double[] multiply(double[] a1, double[] a2) {
-        return apply(a1, a1, (e1, e2) -> e1 * e2);
+        return apply(a1, a2, (e1, e2) -> e1 * e2);
+    }
+
+    /**
+     * Element-wise divide
+     *
+     * @param a1 double array
+     * @param a2 double array
+     * @return new array a1 / a2
+     */
+    public static double[] divide(double[] a1, double[] a2) {
+        return apply(a1, a2, DoubleArray::divide);
+    }
+
+    private static double divide(double numerator, double denominator) {
+        if (Math.abs(denominator) < EPS) {
+            throw new ArithmeticException("divide by zero.");
+        }
+        return numerator / denominator;
     }
 
     public static double[] abs(double[] array) {
