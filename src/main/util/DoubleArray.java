@@ -56,6 +56,17 @@ public class DoubleArray {
         return result;
     }
 
+    /**
+     * Element-wise multiply
+     *
+     * @param a1 double array
+     * @param a2 double array
+     * @return new array a1 * a2
+     */
+    public static double[] multiply(double[] a1, double[] a2) {
+        return apply(a1, a1, (e1, e2) -> e1 * e2);
+    }
+
     public static double[] abs(double[] array) {
         return apply(array, Math::abs);
     }
