@@ -68,6 +68,10 @@ public class DoubleArray {
         return apply(a1, a2, (e1, e2) -> e1 * e2);
     }
 
+    public static double[] divide(double[] array, double denominator) {
+        return apply(array, e -> divide(e, denominator));
+    }
+
     /**
      * Element-wise divide
      *
