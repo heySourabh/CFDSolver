@@ -1,0 +1,44 @@
+% Mesh description
+dimension = 2       % 2, 3, hybrid
+mode = ASCII        % ASCII or BINARY
+
+points = 11
+222.86        0.0        427.14
+324.26        0.0        383.86
+372.75        0.0        432.85
+229.81        0.0        551.54
+434.37        0.0        575.28
+333.35        0.0        732.36
+458.61        0.0        486.89
+545.48        0.0        417.19
+518.21        0.0        661.65
+477.30        0.0        743.47
+500.53        0.0        548.01
+
+elements = 6
+9    0    1   2    3
+5    3    2   4
+7    2    6   7    10    4
+9    4    10  7    8
+9    4    8   9    5
+5    3    4   5
+
+boundaries = 3
+bname = Blue Boundary
+bfaces = 3
+3    0    3
+3    3    5
+3    5    9
+
+bname = Green Boundary
+bfaces = 4
+3    0    1
+3    1    2
+3    2    6
+3    6    7
+
+bname = Red Boundary
+bfaces = 2
+3    7    8
+3    8    9
+

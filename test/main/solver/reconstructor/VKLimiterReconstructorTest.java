@@ -53,10 +53,118 @@ public class VKLimiterReconstructorTest {
     }
 
     @Test
-    public void reconstruct_evaluation_smooth() throws FileNotFoundException {
+    public void reconstruct_evaluation_smooth_xy() throws FileNotFoundException {
         EulerEquations govEqn = new EulerEquations(1.4, 287);
         Mesh mesh = new Unstructured2DMesh(
                 new File("test/test_data/mesh_unstructured_2d.cfdu"), govEqn.numVars(), Map.of());
+
+        Cell cell_i = mesh.cells().get(1);
+        int numVars = cell_i.U.length;
+        Vector[] gradientsNotLimited = gradientsNotLimited();
+        mesh.cellStream().forEach(c -> copy(linearReconstruct(gradientsNotLimited, cell_i.shape.centroid, c.shape.centroid), c.U));
+
+        double[] negInf = newFilledArray(numVars, Double.NEGATIVE_INFINITY);
+        double[] posInf = newFilledArray(numVars, Double.POSITIVE_INFINITY);
+
+        Cell[] neighs = {mesh.cells().get(0), mesh.cells().get(2), mesh.cells().get(5)};
+        double[] minU = DoubleArray.min(Arrays.stream(neighs)
+                .map(cell -> cell.U)
+                .reduce(posInf, DoubleArray::min), cell_i.U);
+
+        double[] maxU = DoubleArray.max(Arrays.stream(neighs)
+                .map(cell -> cell.U)
+                .reduce(negInf, DoubleArray::max), cell_i.U);
+
+        double[] Phi = Arrays.stream(cell_i.nodes)
+                .map(n -> linearReconstruct(gradientsNotLimited, cell_i.shape.centroid, n.location()))
+                .map(Uj -> Phi(minU, maxU, cell_i.U, Uj))
+                .reduce(posInf, DoubleArray::min);
+
+        Vector[] gradientsLimited = IntStream.range(0, numVars)
+                .mapToObj(var -> gradientsNotLimited[var].mult(Phi[var]))
+                .toArray(Vector[]::new);
+
+        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh);
+        reconstructor.reconstruct();
+
+        Point p1 = new Line(mesh.nodes().get(2).location(), mesh.nodes().get(4).location())
+                .centroid();
+        Point p2 = new Line(mesh.nodes().get(3).location(), mesh.nodes().get(4).location())
+                .centroid();
+        Point p3 = new Line(mesh.nodes().get(2).location(), mesh.nodes().get(3).location())
+                .centroid();
+        double[] consVars1 = reconstructor.conservativeVars(cell_i, p1);
+        double[] expVars1 = linearReconstruct(gradientsLimited, cell_i.shape.centroid, p1);
+        assertArrayEquals(expVars1, consVars1, 1e-8);
+
+        double[] consVars2 = reconstructor.conservativeVars(cell_i, p2);
+        double[] expVars2 = linearReconstruct(gradientsLimited, cell_i.shape.centroid, p2);
+        assertArrayEquals(expVars2, consVars2, 1e-8);
+
+        double[] consVars3 = reconstructor.conservativeVars(cell_i, p3);
+        double[] expVars3 = linearReconstruct(gradientsLimited, cell_i.shape.centroid, p3);
+        assertArrayEquals(expVars3, consVars3, 1e-8);
+    }
+
+    @Test
+    public void reconstruct_evaluation_smooth_yz() throws FileNotFoundException {
+        EulerEquations govEqn = new EulerEquations(1.4, 287);
+        Mesh mesh = new Unstructured2DMesh(
+                new File("test/test_data/mesh_unstructured_2d_yz.cfdu"), govEqn.numVars(), Map.of());
+
+        Cell cell_i = mesh.cells().get(1);
+        int numVars = cell_i.U.length;
+        Vector[] gradientsNotLimited = gradientsNotLimited();
+        mesh.cellStream().forEach(c -> copy(linearReconstruct(gradientsNotLimited, cell_i.shape.centroid, c.shape.centroid), c.U));
+
+        double[] negInf = newFilledArray(numVars, Double.NEGATIVE_INFINITY);
+        double[] posInf = newFilledArray(numVars, Double.POSITIVE_INFINITY);
+
+        Cell[] neighs = {mesh.cells().get(0), mesh.cells().get(2), mesh.cells().get(5)};
+        double[] minU = DoubleArray.min(Arrays.stream(neighs)
+                .map(cell -> cell.U)
+                .reduce(posInf, DoubleArray::min), cell_i.U);
+
+        double[] maxU = DoubleArray.max(Arrays.stream(neighs)
+                .map(cell -> cell.U)
+                .reduce(negInf, DoubleArray::max), cell_i.U);
+
+        double[] Phi = Arrays.stream(cell_i.nodes)
+                .map(n -> linearReconstruct(gradientsNotLimited, cell_i.shape.centroid, n.location()))
+                .map(Uj -> Phi(minU, maxU, cell_i.U, Uj))
+                .reduce(posInf, DoubleArray::min);
+
+        Vector[] gradientsLimited = IntStream.range(0, numVars)
+                .mapToObj(var -> gradientsNotLimited[var].mult(Phi[var]))
+                .toArray(Vector[]::new);
+
+        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh);
+        reconstructor.reconstruct();
+
+        Point p1 = new Line(mesh.nodes().get(2).location(), mesh.nodes().get(4).location())
+                .centroid();
+        Point p2 = new Line(mesh.nodes().get(3).location(), mesh.nodes().get(4).location())
+                .centroid();
+        Point p3 = new Line(mesh.nodes().get(2).location(), mesh.nodes().get(3).location())
+                .centroid();
+        double[] consVars1 = reconstructor.conservativeVars(cell_i, p1);
+        double[] expVars1 = linearReconstruct(gradientsLimited, cell_i.shape.centroid, p1);
+        assertArrayEquals(expVars1, consVars1, 1e-8);
+
+        double[] consVars2 = reconstructor.conservativeVars(cell_i, p2);
+        double[] expVars2 = linearReconstruct(gradientsLimited, cell_i.shape.centroid, p2);
+        assertArrayEquals(expVars2, consVars2, 1e-8);
+
+        double[] consVars3 = reconstructor.conservativeVars(cell_i, p3);
+        double[] expVars3 = linearReconstruct(gradientsLimited, cell_i.shape.centroid, p3);
+        assertArrayEquals(expVars3, consVars3, 1e-8);
+    }
+
+    @Test
+    public void reconstruct_evaluation_smooth_xz() throws FileNotFoundException {
+        EulerEquations govEqn = new EulerEquations(1.4, 287);
+        Mesh mesh = new Unstructured2DMesh(
+                new File("test/test_data/mesh_unstructured_2d_xz.cfdu"), govEqn.numVars(), Map.of());
 
         Cell cell_i = mesh.cells().get(1);
         int numVars = cell_i.U.length;
