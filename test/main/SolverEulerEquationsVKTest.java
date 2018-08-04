@@ -16,6 +16,7 @@ import main.solver.time.LocalTimeStep;
 import main.solver.time.TimeIntegrator;
 import main.util.DoubleArray;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -109,6 +110,7 @@ public class SolverEulerEquationsVKTest {
         };
     }
 
+    @Ignore
     @Test
     public void solver() {
         ProblemDefinition problem = testProblem;
