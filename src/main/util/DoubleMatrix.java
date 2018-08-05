@@ -142,7 +142,7 @@ public class DoubleMatrix {
         for (int c = 0; c < numCols; c++) {
             int r = 0;
             double[][] mat = removeRowColumn(matrix, r, c);
-            det += matrix[r][c] * determinant(mat) * sign(r) * sign(c);
+            det = Math.fma(matrix[r][c], determinant(mat) * signOf(r, c), det);
         }
 
         return det;
@@ -179,15 +179,15 @@ public class DoubleMatrix {
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++) {
                 double[][] m = removeRowColumn(matrix, i, j);
-                result[i][j] = determinant(m) * sign(i) * sign(j);
+                result[i][j] = determinant(m) * signOf(i, j);
             }
         }
 
         return result;
     }
 
-    private static int sign(int index) {
-        return index % 2 == 0 ? 1 : -1;
+    private static int signOf(int row, int column) {
+        return (row % 2 == 0 ? 1 : -1) * (column % 2 == 0 ? 1 : -1);
     }
 
     public static double[][] removeRowColumn(double[][] matrix, int row, int col) {

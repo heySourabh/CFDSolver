@@ -110,7 +110,7 @@ public class SolverEulerEquationsTest {
         };
     }
 
-    @Ignore
+    // @Ignore
     @Test
     public void solver() {
         ProblemDefinition problem = testProblem;
