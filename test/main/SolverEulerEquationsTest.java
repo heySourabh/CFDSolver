@@ -16,13 +16,11 @@ import main.solver.time.LocalTimeStep;
 import main.solver.time.TimeIntegrator;
 import main.util.DoubleArray;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
