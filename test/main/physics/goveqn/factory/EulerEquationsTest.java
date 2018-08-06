@@ -1,14 +1,14 @@
 package main.physics.goveqn.factory;
 
 import main.geom.Vector;
-import main.util.DoubleArray;
 import org.junit.Test;
 
 import java.util.Random;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class EulerEquationsTest {
 
@@ -118,7 +118,7 @@ public class EulerEquationsTest {
         double expectedPrimVars[] = {rho, u, v, w, p};
         double[] actualPrimitiveVars = eulerEquations.primitiveVars(conservativeVars);
 
-        assertArrayEquals(expectedPrimVars, actualPrimitiveVars, 1e-8);
+        assertDoubleArrayEquals(expectedPrimVars, actualPrimitiveVars);
     }
 
     @Test
@@ -144,7 +144,7 @@ public class EulerEquationsTest {
 
         double[] actualConservativeVars = eulerEquations.conservativeVars(primitiveVars);
 
-        assertArrayEquals(expectedConservativeVars, actualConservativeVars, 1e-8);
+        assertDoubleArrayEquals(expectedConservativeVars, actualConservativeVars);
     }
 
     @Test
@@ -179,9 +179,8 @@ public class EulerEquationsTest {
         double[] expectedEV = new double[]{u - a, u, u, u, u + a};
         double expectedMaxAbsEV = abs(u) + a;
 
-        assertArrayEquals(new double[eulerEquations.numVars()],
-                DoubleArray.subtract(expectedFlux, eulerEquations.convection().flux(conservativeVars, unitDir)), 1e-6);
-        assertArrayEquals(expectedEV, eulerEquations.convection().sortedEigenvalues(conservativeVars, unitDir), 1e-8);
+        assertDoubleArrayEquals(expectedFlux, eulerEquations.convection().flux(conservativeVars, unitDir));
+        assertDoubleArrayEquals(expectedEV, eulerEquations.convection().sortedEigenvalues(conservativeVars, unitDir));
         assertEquals(expectedMaxAbsEV, eulerEquations.convection().maxAbsEigenvalues(conservativeVars, unitDir), 1e-8);
 
         unitDir = new Vector(0, 1, 0);
@@ -189,9 +188,8 @@ public class EulerEquationsTest {
         expectedEV = new double[]{v - a, v, v, v, v + a};
         expectedMaxAbsEV = abs(v) + a;
 
-        assertArrayEquals(new double[eulerEquations.numVars()],
-                DoubleArray.subtract(expectedFlux, eulerEquations.convection().flux(conservativeVars, unitDir)), 1e-6);
-        assertArrayEquals(expectedEV, eulerEquations.convection().sortedEigenvalues(conservativeVars, unitDir), 1e-8);
+        assertDoubleArrayEquals(expectedFlux, eulerEquations.convection().flux(conservativeVars, unitDir));
+        assertDoubleArrayEquals(expectedEV, eulerEquations.convection().sortedEigenvalues(conservativeVars, unitDir));
         assertEquals(expectedMaxAbsEV, eulerEquations.convection().maxAbsEigenvalues(conservativeVars, unitDir), 1e-8);
 
         unitDir = new Vector(0, 0, 1);
@@ -199,9 +197,8 @@ public class EulerEquationsTest {
         expectedEV = new double[]{w - a, w, w, w, w + a};
         expectedMaxAbsEV = abs(w) + a;
 
-        assertArrayEquals(new double[eulerEquations.numVars()],
-                DoubleArray.subtract(expectedFlux, eulerEquations.convection().flux(conservativeVars, unitDir)), 1e-6);
-        assertArrayEquals(expectedEV, eulerEquations.convection().sortedEigenvalues(conservativeVars, unitDir), 1e-8);
+        assertDoubleArrayEquals(expectedFlux, eulerEquations.convection().flux(conservativeVars, unitDir));
+        assertDoubleArrayEquals(expectedEV, eulerEquations.convection().sortedEigenvalues(conservativeVars, unitDir));
         assertEquals(expectedMaxAbsEV, eulerEquations.convection().maxAbsEigenvalues(conservativeVars, unitDir), 1e-8);
     }
 
@@ -216,7 +213,7 @@ public class EulerEquationsTest {
         Vector[] gradConsVars = new Vector[eulerEquations.numVars()];
         Vector unitNormal = new Vector(rnd.nextDouble(), rnd.nextDouble(), rnd.nextDouble());
 
-        assertArrayEquals(new double[]{0, 0, 0, 0, 0}, eulerEquations.diffusion().flux(consVars, gradConsVars, unitNormal), 1e-12);
+        assertDoubleArrayEquals(new double[]{0, 0, 0, 0, 0}, eulerEquations.diffusion().flux(consVars, gradConsVars, unitNormal));
     }
 
     @Test
@@ -228,6 +225,14 @@ public class EulerEquationsTest {
 
         double[] consVars = new double[eulerEquations.numVars()];
 
-        assertArrayEquals(new double[]{0, 0, 0, 0, 0}, eulerEquations.source().sourceVector(consVars), 1e-12);
+        assertDoubleArrayEquals(new double[]{0, 0, 0, 0, 0}, eulerEquations.source().sourceVector(consVars));
+    }
+
+    private void assertDoubleArrayEquals(double[] expected, double[] actual) {
+        assertEquals(expected.length, actual.length);
+        for (int i = 0; i < expected.length; i++) {
+            double scale = (-1 < expected[i] && expected[i] < 1) ? 1.0 : Math.abs(expected[i]);
+            assertEquals(expected[i] / scale, actual[i] / scale, 1.0e-12);
+        }
     }
 }
