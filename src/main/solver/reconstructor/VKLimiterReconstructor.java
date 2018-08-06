@@ -4,6 +4,8 @@ import main.geom.Point;
 import main.geom.Vector;
 import main.mesh.Cell;
 import main.mesh.Mesh;
+import main.solver.FaceNeighbors;
+import main.solver.NeighborsCalculator;
 
 import java.util.Arrays;
 import java.util.List;

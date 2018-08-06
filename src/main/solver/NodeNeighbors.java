@@ -1,4 +1,4 @@
-package main.solver.reconstructor;
+package main.solver;
 
 import main.mesh.Cell;
 

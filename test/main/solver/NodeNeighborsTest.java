@@ -1,10 +1,11 @@
-package main.solver.reconstructor;
+package main.solver;
 
 import main.mesh.Cell;
 import main.mesh.Face;
 import main.mesh.Mesh;
 import main.mesh.Node;
 import main.mesh.factory.Unstructured2DMesh;
+import main.solver.NodeNeighbors;
 import org.junit.Test;
 
 import java.io.File;
