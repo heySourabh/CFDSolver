@@ -110,7 +110,6 @@ public class SolverEulerEquationsTest {
         };
     }
 
-    // @Ignore
     @Test
     public void solver() {
         ProblemDefinition problem = testProblem;
@@ -122,7 +121,7 @@ public class SolverEulerEquationsTest {
         for (int iter = 0; iter < config.getMaxIterations(); iter++) {
             timeIntegrator.updateCellAverages(0);
             double[] totalResidual = timeIntegrator.currentTotalResidual(Norm.TWO_NORM);
-            System.out.println(iter + ": " + Arrays.toString(totalResidual));
+            // System.out.println(iter + ": " + Arrays.toString(totalResidual));
             if (problem.convergence().hasConverged(totalResidual)) {
                 converged = true;
                 break;
