@@ -9,7 +9,7 @@ import static java.util.stream.Collectors.toList;
 
 public class FaceNeighbors implements NeighborsCalculator {
     @Override
-    public List<Cell> getFor(Cell cell) {
+    public List<Cell> calculateFor(Cell cell) {
         return cell.faces.stream()
                 .flatMap(face -> Stream.of(face.left, face.right))
                 .filter(c -> c != cell)

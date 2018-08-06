@@ -32,7 +32,7 @@ public class VKLimiterReconstructor implements SolutionReconstructor {
     }
 
     private void setup(Cell cell) {
-        Cell[] neighs = neighsCalc.getFor(cell).toArray(new Cell[0]);
+        Cell[] neighs = neighsCalc.calculateFor(cell).toArray(new Cell[0]);
         neighbors[cell.index] = neighs;
 
         List<Vector> distanceVectors = Arrays.stream(neighs)

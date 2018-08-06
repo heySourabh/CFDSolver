@@ -5,7 +5,6 @@ import main.mesh.Face;
 import main.mesh.Mesh;
 import main.mesh.Node;
 import main.mesh.factory.Unstructured2DMesh;
-import main.solver.NodeNeighbors;
 import org.junit.Test;
 
 import java.io.File;
@@ -41,7 +40,7 @@ public class NodeNeighborsTest {
         Cell c35 = ghostCellFor(n3, n5, mesh).orElseThrow();
         List<Cell> expectedNeighs = List.of(c0, c2, c3, c4, c5, c03, c12, c26, c35);
 
-        List<Cell> actualNeighs = new NodeNeighbors().getFor(mesh.cells().get(1));
+        List<Cell> actualNeighs = new NodeNeighbors().calculateFor(mesh.cells().get(1));
 
         assertEquals(expectedNeighs.size(), actualNeighs.size());
         assertTrue(expectedNeighs.containsAll(actualNeighs));
