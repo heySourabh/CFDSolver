@@ -1,5 +1,6 @@
 package main.mesh.factory;
 
+import main.TestHelper;
 import main.geom.Geometry;
 import main.geom.Point;
 import main.geom.VTKType;
@@ -16,9 +17,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static main.geom.VTKType.VTK_LINE;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class Structured2DMeshTest {
 
@@ -408,5 +411,21 @@ public class Structured2DMeshTest {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void indexTest() throws FileNotFoundException {
+        Mesh actualMesh = new Structured2DMesh(new File("test/test_data/mesh_structured_2d.cfds"), numVars,
+                dummyBC, dummyBC, dummyBC, dummyBC);
+        List<Cell> cells = actualMesh.cells();
+        assertTrue(IntStream.range(0, cells.size())
+                .allMatch(i -> cells.get(i).index == i));
+    }
+
+    @Test
+    public void exceptionTest() {
+        File doesNotExist = new File("test/test_data/doesNotExist.cfds");
+        TestHelper.assertThrows(FileNotFoundException.class,
+                () -> new Structured2DMesh(doesNotExist, numVars, dummyBC, dummyBC, dummyBC, dummyBC));
     }
 }

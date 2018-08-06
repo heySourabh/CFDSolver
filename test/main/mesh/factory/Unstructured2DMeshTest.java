@@ -1,5 +1,6 @@
 package main.mesh.factory;
 
+import main.TestHelper;
 import main.geom.Geometry;
 import main.geom.Point;
 import main.geom.VTKType;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.*;
@@ -530,5 +532,23 @@ public class Unstructured2DMeshTest {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void indexTest() throws FileNotFoundException {
+        Unstructured2DMesh actualMesh = new Unstructured2DMesh(new File("test/test_data/mesh_unstructured_2d.cfdu"), numVars,
+                Map.of("Blue Boundary", dummyBC,
+                        "Green Boundary", dummyBC,
+                        "Red Boundary", dummyBC));
+        List<Cell> cells = actualMesh.cells();
+        assertTrue(IntStream.range(0, cells.size())
+                .allMatch(i -> cells.get(i).index == i));
+    }
+
+    @Test
+    public void exceptionTest() {
+        File doesNotExist = new File("test/test_data/doesNotExist.cfdu");
+        TestHelper.assertThrows(FileNotFoundException.class,
+                () -> new Unstructured2DMesh(doesNotExist, numVars, Map.of()));
     }
 }

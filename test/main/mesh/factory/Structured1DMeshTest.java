@@ -1,5 +1,6 @@
 package main.mesh.factory;
 
+import main.TestHelper;
 import main.geom.Geometry;
 import main.geom.Point;
 import main.geom.VTKType;
@@ -8,15 +9,18 @@ import main.geom.factory.Line;
 import main.geom.factory.Vertex;
 import main.mesh.*;
 import main.physics.bc.BoundaryCondition;
-import org.junit.Test;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class Structured1DMeshTest {
 
@@ -249,5 +253,19 @@ public class Structured1DMeshTest {
         for (int i = 0; i < expectedBoundaries.size(); i++) {
             assertBoundaryEquals(expectedBoundaries.get(i), actualMesh.boundaries().get(i));
         }
+    }
+
+    @Test
+    public void indexTest() {
+        List<Cell> cells = actualMesh.cells();
+        assertTrue(IntStream.range(0, cells.size())
+                .allMatch(i -> cells.get(i).index == i));
+    }
+
+    @Test
+    public void exceptionTest() {
+        File doesNotExist = new File("test/test_data/doesNotExist.cfds");
+        TestHelper.assertThrows(FileNotFoundException.class,
+                () -> new Structured1DMesh(doesNotExist, numVars, dummyBC, dummyBC));
     }
 }
