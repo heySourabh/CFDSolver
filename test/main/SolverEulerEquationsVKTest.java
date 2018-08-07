@@ -60,7 +60,7 @@ public class SolverEulerEquationsVKTest {
             private final double rhoE = 101325.0 / (1.4 - 1.0) / 1.0 + u * u / 2.0;
             private final SolutionInitializer solutionInitializer = new FunctionInitializer(
                     p -> new double[]{rho, rho * u, 0.0, 0.0, rhoE});
-            ResidualCalculator convectiveCalculator = new ConvectiveResidual(new VKLimiterReconstructor(mesh),
+            ResidualCalculator convectiveCalculator = new ConvectiveResidual(new VKLimiterReconstructor(mesh, new FaceNeighbors()),
                     new RusanovRiemannSolver(govEqn), mesh);
             private final TimeIntegrator timeIntegrator = new ExplicitEulerTimeIntegrator(mesh,
                     List.of(convectiveCalculator), new LocalTimeStep(mesh, govEqn), govEqn.numVars());
