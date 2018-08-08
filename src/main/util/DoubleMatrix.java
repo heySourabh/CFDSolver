@@ -1,5 +1,7 @@
 package main.util;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -224,5 +226,23 @@ public class DoubleMatrix {
         }
 
         return result;
+    }
+
+    public static String stringify(double[][] matrix) {
+        int numberWidth = 20;
+        int decimals = 10;
+        String startEndDelimiter = IntStream.range(0, numberWidth * matrix[0].length)
+                .mapToObj(i -> "-")
+                .collect(Collectors.joining(""));
+
+        String matrixString = Arrays.stream(matrix)
+                .map(row -> Arrays.stream(row)
+                        .mapToObj(d -> String.format("%-" + numberWidth + "." + decimals + "e", d))
+                        .collect(Collectors.joining("")))
+                .collect(Collectors.joining("\n"));
+
+        return startEndDelimiter + "\n"
+                + matrixString + "\n"
+                + startEndDelimiter;
     }
 }
