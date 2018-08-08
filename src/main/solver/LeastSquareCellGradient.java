@@ -6,32 +6,42 @@ import main.mesh.Mesh;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
-import static main.util.DoubleMatrix.invert;
-import static main.util.DoubleMatrix.multiply;
-import static main.util.DoubleMatrix.transpose;
+import static main.util.DoubleMatrix.*;
 
 public class LeastSquareCellGradient implements CellGradientCalculator {
 
     private final Cell[][] neighbors;
     private final double[][][] matrices;
+    private final double[][] weights;
 
     public LeastSquareCellGradient(Mesh mesh, NeighborsCalculator neighCalc) {
         int numCells = mesh.cells().size();
-        neighbors = new Cell[numCells][];
-        matrices = new double[numCells][][];
+        this.neighbors = new Cell[numCells][];
+        this.matrices = new double[numCells][][];
+        this.weights = new double[numCells][];
         mesh.cellStream()
                 .forEach(cell -> setup(cell, neighCalc));
     }
 
     private void setup(Cell cell, NeighborsCalculator neighCalc) {
         Cell[] neighs = neighCalc.calculateFor(cell).toArray(new Cell[0]);
-        neighbors[cell.index] = neighs;
+        this.neighbors[cell.index] = neighs;
 
         List<Vector> distanceVectors = Arrays.stream(neighs)
                 .map(neighCell -> new Vector(cell.shape.centroid, neighCell.shape.centroid))
                 .collect(toList());
+
+        this.weights[cell.index] = distanceVectors.stream()
+                .mapToDouble(Vector::mag)
+                .map(distance -> 1.0 / distance)
+                .toArray();
+        double sumWeights = Arrays.stream(this.weights[cell.index]).sum();
+        this.weights[cell.index] = Arrays.stream(this.weights[cell.index])
+                .map(w -> w / sumWeights)
+                .toArray();
 
         double minDistance = distanceVectors.stream()
                 .mapToDouble(Vector::mag)
@@ -52,15 +62,16 @@ public class LeastSquareCellGradient implements CellGradientCalculator {
         }
 
         double[][] A = new double[neighs.length][3];
-        for (int i = 0; i < A.length; i++) {
-            Vector distance = distanceVectors.get(i).add(shiftBy);
-            A[i][0] = distance.x;
-            A[i][1] = distance.y;
-            A[i][2] = distance.z;
+        for (int iNeigh = 0; iNeigh < neighs.length; iNeigh++) {
+            Vector distance = distanceVectors.get(iNeigh).add(shiftBy);
+            double w = this.weights[cell.index][iNeigh];
+            A[iNeigh][0] = distance.x * w;
+            A[iNeigh][1] = distance.y * w;
+            A[iNeigh][2] = distance.z * w;
         }
 
         double[][] AT = transpose(A);
-        matrices[cell.index] = multiply(invert(multiply(AT, A)), AT);
+        this.matrices[cell.index] = multiply(invert(multiply(AT, A)), AT);
     }
 
     @Override
@@ -78,7 +89,10 @@ public class LeastSquareCellGradient implements CellGradientCalculator {
         double[] deltaU = Arrays.stream(neighbors[cell.index])
                 .mapToDouble(neighCell -> neighCell.U[var] - cell.U[var])
                 .toArray();
-        double[] derivatives = multiply(matrices[cell.index], deltaU);
+        double[] deltaUWeighted = IntStream.range(0, deltaU.length)
+                .mapToDouble(iNeigh -> weights[cell.index][iNeigh] * deltaU[iNeigh])
+                .toArray();
+        double[] derivatives = multiply(matrices[cell.index], deltaUWeighted);
 
         return new Vector(derivatives[0], derivatives[1], derivatives[2]);
     }

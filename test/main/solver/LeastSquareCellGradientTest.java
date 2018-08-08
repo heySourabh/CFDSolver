@@ -41,7 +41,7 @@ public class LeastSquareCellGradientTest {
     }
 
     @Test
-    public void constant_gradients_faces() throws FileNotFoundException {
+    public void constant_gradients_faceNeigh() throws FileNotFoundException {
         GoverningEquations govEqn = new EulerEquations(1.4, 387);
         File meshFile = new File("test/test_data/mesh_unstructured_2d.cfdu");
         Mesh mesh = new Unstructured2DMesh(meshFile, govEqn.numVars(), Map.of());
@@ -71,7 +71,7 @@ public class LeastSquareCellGradientTest {
     }
 
     @Test
-    public void constant_gradients_nodes() throws FileNotFoundException {
+    public void constant_gradients_nodeNeigh() throws FileNotFoundException {
         GoverningEquations govEqn = new EulerEquations(1.4, 387);
         File meshFile = new File("test/test_data/mesh_unstructured_2d.cfdu");
         Mesh mesh = new Unstructured2DMesh(meshFile, govEqn.numVars(), Map.of());
@@ -97,6 +97,39 @@ public class LeastSquareCellGradientTest {
         assertEquals(expectedGradients.length, actualGradients.length);
         for (int i = 0; i < expectedGradients.length; i++) {
             assertVectorEquals(expectedGradients[i], actualGradients[i], 1e-12);
+        }
+    }
+
+    @Test
+    public void weighted_gradients_faceNeigh() throws FileNotFoundException {
+        GoverningEquations govEqn = new EulerEquations(1.4, 387);
+        File meshFile = new File("test/test_data/mesh_unstructured_2d.cfdu");
+        Mesh mesh = new Unstructured2DMesh(meshFile, govEqn.numVars(), Map.of());
+
+        Cell c0 = mesh.cells().get(1);
+        Cell n1 = mesh.cells().get(0);
+        Cell n2 = mesh.cells().get(2);
+        Cell n3 = mesh.cells().get(5);
+
+        DoubleArray.copy(new double[]{-40.0, -8.0, -28.0, 16.0, 36.0}, c0.U);
+        DoubleArray.copy(new double[]{-7.0, 26.0, -38.0, 28.0, 40.0}, n1.U);
+        DoubleArray.copy(new double[]{-18.0, -4.0, 25.0, 33.0, -5.0}, n2.U);
+        DoubleArray.copy(new double[]{18.0, 45.0, 33.0, -19.0, 49.0}, n3.U);
+
+        CellGradientCalculator gradientCalc = new LeastSquareCellGradient(mesh, new FaceNeighbors());
+        Vector[] actualGradients = gradientCalc.forCell(c0);
+
+        // Calculated using Maxima
+        Vector[] expectedGradients = {
+                new Vector(-0.1108005897734646, 0.1846678859321781, 0.4255757642320288),
+                new Vector(-0.2165559817261568, 0.1795085069391851, 0.3599794280078989),
+                new Vector(0.2616863785037125, 0.3539149984244665, 0.3250110263672676),
+                new Vector(0.1124081898622044, -0.318800250056661, -0.0189374168086574),
+                new Vector(-0.2908837194705362, 0.1407486411262102, -0.05441003538045309)
+        };
+
+        for (int var = 0; var < govEqn.numVars(); var++) {
+            assertVectorEquals(expectedGradients[var], actualGradients[var], 1e-12);
         }
     }
 
