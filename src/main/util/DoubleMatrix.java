@@ -229,20 +229,27 @@ public class DoubleMatrix {
     }
 
     public static String stringify(double[][] matrix) {
-        int numberWidth = 20;
         int decimals = 10;
+        int numberWidth = decimals + 10;
         String startEndDelimiter = IntStream.range(0, numberWidth * matrix[0].length)
                 .mapToObj(i -> "-")
                 .collect(Collectors.joining(""));
 
         String matrixString = Arrays.stream(matrix)
                 .map(row -> Arrays.stream(row)
-                        .mapToObj(d -> String.format("%-" + numberWidth + "." + decimals + "e", d))
+                        .mapToObj(d -> format(d, numberWidth, decimals))
                         .collect(Collectors.joining("")))
                 .collect(Collectors.joining("\n"));
 
         return startEndDelimiter + "\n"
                 + matrixString + "\n"
                 + startEndDelimiter;
+    }
+
+    private static String format(double number, int maxPrintWidth, int numDecimals) {
+        if (Math.abs(number) < 0.1 || Math.abs(number) >= 10)
+            return String.format("%-" + maxPrintWidth + "." + numDecimals + "E", number);
+        else
+            return String.format("%-" + maxPrintWidth + "." + numDecimals + "f", number);
     }
 }
