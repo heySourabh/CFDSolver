@@ -14,6 +14,7 @@ public class Face {
     public final Cell left;
     public Cell right;
 
+    public final double[] U;
     public final double[] flux;
 
     public double maxAbsEigenvalue;
@@ -26,6 +27,7 @@ public class Face {
         this.left = requireNonNull(left, "The left neighbor cannot be null");
         this.right = right;
 
+        this.U = new double[numVars];
         this.flux = new double[numVars];
     }
 
