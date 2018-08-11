@@ -1,5 +1,8 @@
 package main;
 
+import main.geom.Vector;
+
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;
 
 public class TestHelper {
@@ -13,6 +16,11 @@ public class TestHelper {
                         "Expected \"" + ex.toString() + "\", but received \"" + e.getClass().toString());
             }
         }
+    }
+
+    public static void assertVectorEquals(Vector expected, Vector actual, double tolerance) {
+        assertArrayEquals(new double[]{expected.x, expected.y, expected.z},
+                new double[]{actual.x, actual.y, actual.z}, tolerance);
     }
 
     @FunctionalInterface

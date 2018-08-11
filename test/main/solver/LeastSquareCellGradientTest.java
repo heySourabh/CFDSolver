@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Map;
 
+import static main.TestHelper.assertVectorEquals;
 import static org.junit.Assert.*;
 
 public class LeastSquareCellGradientTest {
@@ -131,10 +132,5 @@ public class LeastSquareCellGradientTest {
         for (int var = 0; var < govEqn.numVars(); var++) {
             assertVectorEquals(expectedGradients[var], actualGradients[var], 1e-12);
         }
-    }
-
-    private void assertVectorEquals(Vector expected, Vector actual, double tolerance) {
-        assertArrayEquals(new double[]{expected.x, expected.y, expected.z},
-                new double[]{actual.x, actual.y, actual.z}, tolerance);
     }
 }
