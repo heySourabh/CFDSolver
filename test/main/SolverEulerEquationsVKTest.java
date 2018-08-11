@@ -10,6 +10,7 @@ import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.factory.EulerEquations;
 import main.solver.*;
 import main.solver.problem.ProblemDefinition;
+import main.solver.reconstructor.SolutionReconstructor;
 import main.solver.reconstructor.VKLimiterReconstructor;
 import main.solver.time.ExplicitEulerTimeIntegrator;
 import main.solver.time.LocalTimeStep;
@@ -60,7 +61,10 @@ public class SolverEulerEquationsVKTest {
             private final double rhoE = 101325.0 / (1.4 - 1.0) / 1.0 + u * u / 2.0;
             private final SolutionInitializer solutionInitializer = new FunctionInitializer(
                     p -> new double[]{rho, rho * u, 0.0, 0.0, rhoE});
-            ResidualCalculator convectiveCalculator = new ConvectiveResidual(new VKLimiterReconstructor(mesh, new FaceNeighbors()),
+            NeighborsCalculator neighborsCalculator = new FaceNeighbors();
+            CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);
+            SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, cellGradientCalculator, neighborsCalculator);
+            ResidualCalculator convectiveCalculator = new ConvectiveResidual(reconstructor,
                     new RusanovRiemannSolver(govEqn), mesh);
             private final TimeIntegrator timeIntegrator = new ExplicitEulerTimeIntegrator(mesh,
                     List.of(convectiveCalculator), new LocalTimeStep(mesh, govEqn), govEqn.numVars());

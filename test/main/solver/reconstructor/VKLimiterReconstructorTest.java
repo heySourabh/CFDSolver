@@ -7,7 +7,10 @@ import main.mesh.Cell;
 import main.mesh.Mesh;
 import main.mesh.factory.Unstructured2DMesh;
 import main.physics.goveqn.factory.EulerEquations;
+import main.solver.CellGradientCalculator;
 import main.solver.FaceNeighbors;
+import main.solver.LeastSquareCellGradient;
+import main.solver.NeighborsCalculator;
 import main.util.DoubleArray;
 import org.junit.Test;
 
@@ -33,7 +36,9 @@ public class VKLimiterReconstructorTest {
         double[] U = {1.2, 45, 75, 18, 6546135};
         mesh.cellStream().forEach(cell -> copy(U, cell.U));
 
-        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, new FaceNeighbors());
+        NeighborsCalculator neighborsCalculator = new FaceNeighbors();
+        CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);
+        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, cellGradientCalculator, neighborsCalculator);
         reconstructor.reconstruct();
 
         Point p1 = new Line(mesh.nodes().get(2).location(), mesh.nodes().get(4).location())
@@ -85,7 +90,9 @@ public class VKLimiterReconstructorTest {
                 .mapToObj(var -> gradientsNotLimited[var].mult(Phi[var]))
                 .toArray(Vector[]::new);
 
-        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, new FaceNeighbors());
+        NeighborsCalculator neighborsCalculator = new FaceNeighbors();
+        CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);
+        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, cellGradientCalculator, neighborsCalculator);
         reconstructor.reconstruct();
 
         Point p1 = new Line(mesh.nodes().get(2).location(), mesh.nodes().get(4).location())
@@ -139,7 +146,9 @@ public class VKLimiterReconstructorTest {
                 .mapToObj(var -> gradientsNotLimited[var].mult(Phi[var]))
                 .toArray(Vector[]::new);
 
-        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, new FaceNeighbors());
+        NeighborsCalculator neighborsCalculator = new FaceNeighbors();
+        CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);
+        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, cellGradientCalculator, neighborsCalculator);
         reconstructor.reconstruct();
 
         Point p1 = new Line(mesh.nodes().get(2).location(), mesh.nodes().get(4).location())
@@ -193,7 +202,9 @@ public class VKLimiterReconstructorTest {
                 .mapToObj(var -> gradientsNotLimited[var].mult(Phi[var]))
                 .toArray(Vector[]::new);
 
-        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, new FaceNeighbors());
+        NeighborsCalculator neighborsCalculator = new FaceNeighbors();
+        CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);
+        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, cellGradientCalculator, neighborsCalculator);
         reconstructor.reconstruct();
 
         Point p1 = new Line(mesh.nodes().get(2).location(), mesh.nodes().get(4).location())

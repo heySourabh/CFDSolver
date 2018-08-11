@@ -5,7 +5,6 @@ import main.geom.Vector;
 import main.mesh.Cell;
 import main.mesh.Mesh;
 import main.solver.CellGradientCalculator;
-import main.solver.LeastSquareCellGradient;
 import main.solver.NeighborsCalculator;
 
 import java.util.Arrays;
@@ -18,10 +17,10 @@ public class VKLimiterReconstructor implements SolutionReconstructor {
     private final NeighborsCalculator neighCalc;
     private final Cell[][] neighbors;
 
-    public VKLimiterReconstructor(Mesh mesh, NeighborsCalculator neighCalc) {
+    public VKLimiterReconstructor(Mesh mesh, CellGradientCalculator gradientCalculator, NeighborsCalculator neighCalc) {
         int numCells = mesh.cells().size();
         this.mesh = mesh;
-        this.gradientCalculator = new LeastSquareCellGradient(mesh, neighCalc);
+        this.gradientCalculator = gradientCalculator;
         this.neighCalc = neighCalc;
         this.neighbors = new Cell[numCells][];
 
