@@ -1,8 +1,10 @@
 package main;
 
+import main.geom.Point;
 import main.geom.Vector;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class TestHelper {
@@ -19,8 +21,15 @@ public class TestHelper {
     }
 
     public static void assertVectorEquals(Vector expected, Vector actual, double tolerance) {
-        assertArrayEquals(new double[]{expected.x, expected.y, expected.z},
-                new double[]{actual.x, actual.y, actual.z}, tolerance);
+        assertEquals("x: ", expected.x, actual.x, tolerance);
+        assertEquals("y: ", expected.y, actual.y, tolerance);
+        assertEquals("z: ", expected.z, actual.z, tolerance);
+    }
+
+    public static void assertPointEquals(Point expected, Point actual, double tolerance) {
+        assertEquals("x: ", expected.x, actual.x, tolerance);
+        assertEquals("y: ", expected.y, actual.y, tolerance);
+        assertEquals("z: ", expected.z, actual.z, tolerance);
     }
 
     @FunctionalInterface
