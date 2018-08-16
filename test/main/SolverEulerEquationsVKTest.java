@@ -17,16 +17,15 @@ import main.solver.time.LocalTimeStep;
 import main.solver.time.TimeIntegrator;
 import main.util.DoubleArray;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class SolverEulerEquationsVKTest {
@@ -114,7 +113,7 @@ public class SolverEulerEquationsVKTest {
         };
     }
 
-    @Ignore
+    //@Ignore
     @Test
     public void solver() {
         ProblemDefinition problem = testProblem;
@@ -123,10 +122,11 @@ public class SolverEulerEquationsVKTest {
         TimeIntegrator timeIntegrator = problem.timeIntegrator();
         Config config = problem.config();
         boolean converged = false;
-        for (int iter = 0; iter < config.getMaxIterations(); iter++) {
+        int iter = 0;
+        for (; iter < config.getMaxIterations(); iter++) {
             timeIntegrator.updateCellAverages(0);
             double[] totalResidual = timeIntegrator.currentTotalResidual(Norm.TWO_NORM);
-            System.out.println(iter + ": " + Arrays.toString(totalResidual));
+            //System.out.println(iter + ": " + Arrays.toString(totalResidual));
             if (problem.convergence().hasConverged(totalResidual)) {
                 converged = true;
                 break;
@@ -134,6 +134,7 @@ public class SolverEulerEquationsVKTest {
         }
 
         assertTrue(converged);
+        assertEquals(1028, iter);
         new VTKWriter(new File(config.getWorkingDirectory(), "output_airfoil_vk_test.vtu"), mesh, problem.govEqn()).write();
     }
 }

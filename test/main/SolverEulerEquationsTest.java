@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class SolverEulerEquationsTest {
@@ -116,10 +117,11 @@ public class SolverEulerEquationsTest {
         TimeIntegrator timeIntegrator = problem.timeIntegrator();
         Config config = problem.config();
         boolean converged = false;
-        for (int iter = 0; iter < config.getMaxIterations(); iter++) {
+        int iter = 0;
+        for (; iter < config.getMaxIterations(); iter++) {
             timeIntegrator.updateCellAverages(0);
             double[] totalResidual = timeIntegrator.currentTotalResidual(Norm.TWO_NORM);
-            // System.out.println(iter + ": " + Arrays.toString(totalResidual));
+            //System.out.println(iter + ": " + Arrays.toString(totalResidual));
             if (problem.convergence().hasConverged(totalResidual)) {
                 converged = true;
                 break;
@@ -127,6 +129,7 @@ public class SolverEulerEquationsTest {
         }
 
         assertTrue(converged);
+        assertEquals(1211, iter);
         new VTKWriter(new File(config.getWorkingDirectory(), "output_airfoil_pw_test.vtu"), mesh, problem.govEqn()).write();
     }
 }
