@@ -54,7 +54,9 @@ public class ConvectiveResidual implements ResidualCalculator {
     }
 
     private void setFlux(Boundary boundary, double time) {
-        boundary.faces.forEach(bFace -> setFlux(bFace, boundary.bc, time));
+        BoundaryCondition bc = boundary.bc().orElseThrow(
+                () -> new IllegalArgumentException("Boundary condition is not defined."));
+        boundary.faces.forEach(bFace -> setFlux(bFace, bc, time));
     }
 
     private void setFlux(Face face, BoundaryCondition bc, double time) {

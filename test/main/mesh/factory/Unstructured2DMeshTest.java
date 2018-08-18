@@ -457,7 +457,7 @@ public class Unstructured2DMeshTest {
         assertTrue(hasEquivalentFaces(bnd1.faces, bnd2.faces));
 
         // Has same bc
-        assertEquals(bnd1.bc, bnd2.bc);
+        assertEquals(bnd1.bc().orElseThrow(), bnd2.bc().orElseThrow());
     }
 
     @Test

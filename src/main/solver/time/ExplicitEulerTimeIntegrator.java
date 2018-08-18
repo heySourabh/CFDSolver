@@ -1,7 +1,9 @@
 package main.solver.time;
 
+import main.mesh.Boundary;
 import main.mesh.Cell;
 import main.mesh.Mesh;
+import main.physics.bc.BoundaryCondition;
 import main.solver.Norm;
 import main.solver.ResidualCalculator;
 import main.util.DoubleArray;
@@ -93,9 +95,13 @@ public class ExplicitEulerTimeIntegrator implements TimeIntegrator {
     }
 
     private void setGhostCellValues(double time) {
-        mesh.boundaryStream()
-                .forEach(boundary -> boundary.faces
-                        .forEach(bFace -> boundary.bc.setGhostCellValues(bFace, time)));
+        mesh.boundaryStream().forEach(boundary -> setGhostCellValues(boundary, time));
+    }
+
+    private void setGhostCellValues(Boundary boundary, double time) {
+        BoundaryCondition bc = boundary.bc().orElseThrow(
+                () -> new IllegalArgumentException("Boundary condition is not defined."));
+        boundary.faces.forEach(bFace -> bc.setGhostCellValues(bFace, time));
     }
 
     private void setResiduals(double time) {

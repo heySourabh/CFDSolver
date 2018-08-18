@@ -217,7 +217,7 @@ public class Structured1DMeshTest {
         }
 
         // Have same boundary condition
-        assertEquals(expected.bc.getClass(), actual.bc.getClass());
+        assertEquals(expected.bc().orElseThrow().getClass(), actual.bc().orElseThrow().getClass());
     }
 
     @Test
