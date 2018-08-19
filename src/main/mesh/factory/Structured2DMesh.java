@@ -45,13 +45,13 @@ public class Structured2DMesh implements Mesh {
                 for (int j = 0; j < num_eta; j++) {
                     Node node = new Node(meshFileReader.readXYZ());
                     nodeArray[i][j] = node;
-                    nodes.add(node);
+                    this.nodes.add(node);
                 }
             }
         }
 
         Cell[][] cellArray = new Cell[num_xi - 1][num_eta - 1];
-        cells = new ArrayList<>();
+        this.cells = new ArrayList<>();
         int cellIndex = 0;
         for (int i = 0; i < num_xi - 1; i++) {
             for (int j = 0; j < num_eta - 1; j++) {
@@ -61,7 +61,7 @@ public class Structured2DMesh implements Mesh {
                 Cell cell = new Cell(cellIndex, n, VTKType.VTK_QUAD,
                         new Shape(cellGeom.area(), cellGeom.centroid()), numVars);
                 cellArray[i][j] = cell;
-                cells.add(cell);
+                this.cells.add(cell);
                 cellIndex++;
             }
         }
@@ -69,7 +69,7 @@ public class Structured2DMesh implements Mesh {
         this.internalFaces = new ArrayList<>();
         Set<Face> faceSet = new HashSet<>();
         Node na, nb;
-        for (Cell cell : cells) {
+        for (Cell cell : this.cells) {
             Node n0 = cell.nodes[0];
             Node n1 = cell.nodes[1];
             Node n2 = cell.nodes[2];
@@ -136,10 +136,10 @@ public class Structured2DMesh implements Mesh {
 
             faceSet.addAll(List.of(f0, f1, f2, f3));
         }
-        internalFaces.addAll(faceSet);
+        this.internalFaces.addAll(faceSet);
 
         // Remove all boundary faces
-        internalFaces.removeIf(face -> face.right == null);
+        this.internalFaces.removeIf(face -> face.right == null);
 
         this.boundaries = new ArrayList<>();
         Face[] xiMinFaces = new Face[num_eta - 1];
@@ -250,18 +250,18 @@ public class Structured2DMesh implements Mesh {
             boundaryFace.right = Mesh.ghostCell(left, boundaryFace);
             etaMaxFaces[i] = boundaryFace;
         }
-        boundaries.add(new Boundary("xi min", List.of(xiMinFaces), bc_xiMin));
-        boundaries.add(new Boundary("xi max", List.of(xiMaxFaces), bc_xiMax));
-        boundaries.add(new Boundary("eta min", List.of(etaMinFaces), bc_etaMin));
-        boundaries.add(new Boundary("eta max", List.of(etaMaxFaces), bc_etaMax));
+        this.boundaries.add(new Boundary("xi min", List.of(xiMinFaces), bc_xiMin));
+        this.boundaries.add(new Boundary("xi max", List.of(xiMaxFaces), bc_xiMax));
+        this.boundaries.add(new Boundary("eta min", List.of(etaMinFaces), bc_etaMin));
+        this.boundaries.add(new Boundary("eta max", List.of(etaMaxFaces), bc_etaMax));
 
         // Setup node neighbors
-        for (Cell cell : cells) {
+        for (Cell cell : this.cells) {
             for (Node node : cell.nodes) {
                 node.neighbors.add(cell);
             }
         }
-        for (Boundary bnd : boundaries) {
+        for (Boundary bnd : this.boundaries) {
             for (Face face : bnd.faces) {
                 for (Node node : face.right.nodes) {
                     node.neighbors.add(face.right);
@@ -270,11 +270,11 @@ public class Structured2DMesh implements Mesh {
         }
 
         // Setup faces of cells
-        for (Face face : internalFaces) {
+        for (Face face : this.internalFaces) {
             face.left.faces.add(face);
             face.right.faces.add(face);
         }
-        for (Boundary bnd : boundaries) {
+        for (Boundary bnd : this.boundaries) {
             for (Face face : bnd.faces) {
                 face.left.faces.add(face);
                 face.right.faces.add(face);
