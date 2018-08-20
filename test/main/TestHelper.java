@@ -67,6 +67,10 @@ public class TestHelper {
         assertEquals(numVars, actual.reconstructCoeffs.length);
     }
 
+    public static void assertFaceEquals(Face expected, Face actual, double tolerance) {
+        assertTrue(sameFaces(expected, actual, tolerance));
+    }
+
     private static void assertShapeEquals(Shape expected, Shape actual, double tolerance) {
         // assert volume equals
         assertEquals(expected.volume, actual.volume, tolerance);
