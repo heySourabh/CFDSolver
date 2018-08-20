@@ -42,41 +42,116 @@ public class TestHelper {
 
     public static void assertNodeEquals(Node expected, Node actual, double tolerance) {
         assertPointEquals(expected.location(), actual.location(), tolerance);
+        assertEquals(expected.neighbors.size(), actual.neighbors.size());
+        assertTrue(containsSameCells(expected.neighbors, actual.neighbors, tolerance));
     }
 
     public static void assertCellEquals(Cell expected, Cell actual, double tolerance) {
-        // Has same node index
-        assertEquals(expected.index, actual.index);
-
-        // Has same shape
-        assertShapeEquals(expected.shape, actual.shape, tolerance);
-
-        // Has same nodes
-        assertTrue(containsSameNodes(List.of(expected.nodes), List.of(actual.nodes), tolerance));
-
-        // Has same vtk type
-        assertEquals(expected.vtkType, actual.vtkType);
-
-        // Has same faces
-        assertTrue(containsSameFaces(expected.faces, actual.faces, tolerance));
-
-        // Has same lengths of arrays
-        int numVars = expected.U.length;
-        assertEquals(numVars, actual.U.length);
-        assertEquals(numVars, actual.residual.length);
-        assertEquals(numVars, actual.reconstructCoeffs.length);
+        assertTrue(sameCells(expected, actual, tolerance));
     }
 
     public static void assertFaceEquals(Face expected, Face actual, double tolerance) {
         assertTrue(sameFaces(expected, actual, tolerance));
     }
 
-    private static void assertShapeEquals(Shape expected, Shape actual, double tolerance) {
-        // assert volume equals
-        assertEquals(expected.volume, actual.volume, tolerance);
+    private static boolean sameCells(Cell expected, Cell actual, double tolerance) {
+        // has same index
+        if (expected.index != actual.index) {
+            System.err.println("Expected cell index: " + expected.index + "\n" +
+                    "Actual cell index: " + actual.index);
 
-        // assert centroid equals
-        assertPointEquals(expected.centroid, actual.centroid, tolerance);
+            return false;
+        }
+
+        // has same shape
+        if (!sameShape(expected.shape, actual.shape, tolerance)) {
+            System.err.println("Expected shape: " + expected.shape + "\n" +
+                    "Actual shape: " + actual.shape);
+            return false;
+        }
+
+        // has same nodes
+        if (!containsSameNodes(List.of(expected.nodes), List.of(actual.nodes), tolerance)) {
+            System.err.println("Cell does not have same nodes.");
+            return false;
+        }
+
+        // has same vtk type
+        if (expected.vtkType != actual.vtkType) {
+            System.err.println("Expected cell vtk type: " + expected.vtkType + "\n" +
+                    "Actual cell vtk type: " + actual.vtkType);
+            return false;
+        }
+
+        // has same faces
+        if (!containsSameFaces(expected.faces, actual.faces, tolerance)) {
+            System.err.println("Cell does not have same faces.");
+            return false;
+        }
+
+        // has same lengths of arrays
+        int numVars = expected.U.length;
+        if (numVars != actual.U.length) {
+            System.err.println("Expected variable array length: " + numVars + "\n" +
+                    "Actual variable array length: " + actual.U.length);
+            return false;
+        }
+        if (numVars != actual.residual.length) {
+            System.err.println("Expected residual array length: " + numVars + "\n" +
+                    "Actual residual array length: " + actual.residual.length);
+            return false;
+        }
+        if (numVars != actual.reconstructCoeffs.length) {
+            System.err.println("Expected reconstructCoeffs array length: " + numVars + "\n" +
+                    "Actual reconstructCoeffs array length: " + actual.reconstructCoeffs.length);
+            return false;
+        }
+
+        return true;
+    }
+
+    private static boolean sameShape(Shape expected, Shape actual, double tolerance) {
+        // has same volume
+        if (Math.abs(expected.volume - actual.volume) > tolerance) {
+            System.err.println("Expected volume: " + expected.volume + "\n" +
+                    "Actual volume: " + actual.volume);
+            return false;
+        }
+
+        // has same centroid
+        if (expected.centroid.distance(actual.centroid) > tolerance) {
+            System.err.println("Expected centroid: " + expected.centroid + "\n" +
+                    "Actual centroid: " + actual.centroid);
+            return false;
+        }
+
+        return true;
+    }
+
+    private static boolean containsSameCells(List<Cell> expected, List<Cell> actual, double tolerance) {
+        if (expected.size() != actual.size()) {
+            System.err.println("Number of expected cells: " + expected.size() + "\n" +
+                    "Number of actual cells: " + actual.size());
+            return false;
+        }
+
+        for (Cell ce : expected) {
+            if (!contains(actual, ce, tolerance)) {
+                System.err.println("Actual cell list does not contain expected : " + ce);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static boolean contains(List<Cell> cellList, Cell cell, double tolerance) {
+        for (Cell c : cellList) {
+            if (sameCells(c, cell, tolerance))
+                return true;
+        }
+
+        return false;
     }
 
     private static boolean sameNodes(Node expected, Node actual, double tolerance) {
@@ -175,7 +250,7 @@ public class TestHelper {
         }
         if (numVars != actual.flux.length) {
             System.err.println("Expected flux array length: " + numVars + "\n" +
-                    "Actual flux array length: " + actual.U.length);
+                    "Actual flux array length: " + actual.flux.length);
             return false;
         }
 
