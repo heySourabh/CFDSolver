@@ -235,10 +235,10 @@ public class TestHelper {
 
         // Has same left and right cells
         if (direction == 1) {
-            return expected.left == actual.left && expected.right == actual.right;
+            return sameCells(expected.left, actual.left, tolerance) && sameCells(expected.right, actual.right, tolerance);
         }
         if (direction == -1) {
-            return expected.left == actual.right && expected.right == actual.left;
+            return sameCells(expected.left, actual.right, tolerance) && sameCells(expected.right, actual.left, tolerance);
         }
 
         // Has same length of arrays
