@@ -17,6 +17,11 @@ public class TestHelper {
         void run() throws Exception;
     }
 
+    @FunctionalInterface
+    private interface TestIfSame<T> {
+        boolean areSame(T expected, T actual, double tolerance);
+    }
+
     public static void assertThrows(Class<? extends Throwable> ex, RunnableWithException code) {
         try {
             code.run();
@@ -52,7 +57,32 @@ public class TestHelper {
     }
 
     public static void assertFaceListEquals(List<Face> expected, List<Face> actual, double tolerance) {
-        assertTrue(containsSameFaces(expected, actual, tolerance));
+        assertTrue(containsSameElements(expected, actual, tolerance, TestHelper::sameFaces));
+    }
+
+    private static <T> boolean containsSameElements(List<T> expectedList, List<T> actualList, double tolerance, TestIfSame<T> test) {
+        if (expectedList.size() != actualList.size()) return false;
+
+        for (T e : expectedList) {
+            if (!contains(actualList, e, tolerance, test)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static <T> boolean contains(List<T> elementList, T element, double tolerance, TestIfSame<T> test) {
+        for (T e : elementList) {
+            if (test.areSame(e, element, tolerance))
+                return true;
+        }
+
+        return false;
+    }
+
+    private static boolean containsSameCells(List<Cell> expected, List<Cell> actual, double tolerance) {
+        return containsSameElements(expected, actual, tolerance, TestHelper::sameCells);
     }
 
     private static boolean sameCells(Cell expected, Cell actual, double tolerance) {
@@ -86,72 +116,16 @@ public class TestHelper {
         return !(expected.centroid.distance(actual.centroid) > tolerance);
     }
 
-    private static boolean containsSameCells(List<Cell> expected, List<Cell> actual, double tolerance) {
-        if (expected.size() != actual.size()) return false;
-
-        for (Cell ce : expected) {
-            if (!contains(actual, ce, tolerance)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private static boolean contains(List<Cell> cellList, Cell cell, double tolerance) {
-        for (Cell c : cellList) {
-            if (sameCells(c, cell, tolerance))
-                return true;
-        }
-
-        return false;
+    private static boolean containsSameNodes(List<Node> expected, List<Node> actual, double tolerance) {
+        return containsSameElements(expected, actual, tolerance, TestHelper::sameNodes);
     }
 
     private static boolean sameNodes(Node expected, Node actual, double tolerance) {
         return expected.location().distance(actual.location()) < tolerance;
     }
 
-
-    private static boolean containsSameNodes(List<Node> expected, List<Node> actual, double tolerance) {
-        if (expected.size() != actual.size()) return false;
-
-        for (Node ne : expected) {
-            if (!contains(actual, ne, tolerance)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private static boolean contains(List<Node> nodeList, Node node, double tolerance) {
-        for (Node n : nodeList) {
-            if (sameNodes(n, node, tolerance))
-                return true;
-        }
-
-        return false;
-    }
-
     private static boolean containsSameFaces(List<Face> expected, List<Face> actual, double tolerance) {
-        if (expected.size() != actual.size()) return false;
-
-        for (Face fe : expected) {
-            if (!contains(actual, fe, tolerance)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private static boolean contains(List<Face> faceList, Face face, double tolerance) {
-        for (Face f : faceList) {
-            if (sameFaces(f, face, tolerance))
-                return true;
-        }
-
-        return false;
+        return containsSameElements(expected, actual, tolerance, TestHelper::sameFaces);
     }
 
     private static boolean sameFaces(Face expected, Face actual, double tolerance) {
@@ -453,7 +427,7 @@ public class TestHelper {
     }
 
     @Test
-    public void faces_with_different_vtktype_are_not_same() {
+    public void faces_with_different_vtkType_are_not_same() {
         Node[] nodesFace = {
                 new Node(1, 2, 4),
                 new Node(8, 2, 4),
@@ -655,7 +629,7 @@ public class TestHelper {
     }
 
     @Test
-    public void cells_with_different_vtktype_are_not_same() {
+    public void cells_with_different_vtkType_are_not_same() {
         Node[] nodesCell1 = {
                 new Node(1, 2, 4),
                 new Node(8, 2, 4),
@@ -959,58 +933,58 @@ public class TestHelper {
         Random rand = new Random(19);
         int numVars = 5;
         Cell cell11 = createArbitraryCell(123, numVars);
-        Face face111 = createArbirtaryFace(98, cell11,
+        Face face111 = createArbitraryFace(98, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face112 = createArbirtaryFace(45, cell11,
+        Face face112 = createArbitraryFace(45, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face113 = createArbirtaryFace(78, cell11,
+        Face face113 = createArbitraryFace(78, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
         cell11.faces.addAll(List.of(face111, face112, face113));
 
         Cell cell12 = createArbitraryCell(54, numVars);
-        Face face121 = createArbirtaryFace(91, cell12,
+        Face face121 = createArbitraryFace(91, cell12,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face122 = createArbirtaryFace(5, cell12,
+        Face face122 = createArbitraryFace(5, cell12,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face123 = createArbirtaryFace(9, cell12,
+        Face face123 = createArbitraryFace(9, cell12,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
         cell12.faces.addAll(List.of(face121, face122, face123));
 
         Cell cell13 = createArbitraryCell(56, numVars);
-        Face face131 = createArbirtaryFace(1, cell13,
+        Face face131 = createArbitraryFace(1, cell13,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face132 = createArbirtaryFace(50, cell13,
+        Face face132 = createArbitraryFace(50, cell13,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face133 = createArbirtaryFace(49, cell13,
+        Face face133 = createArbitraryFace(49, cell13,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
         cell13.faces.addAll(List.of(face131, face132, face133));
 
 
         rand = new Random(19);
         Cell cell21 = createArbitraryCell(123, numVars);
-        Face face211 = createArbirtaryFace(98, cell21,
+        Face face211 = createArbitraryFace(98, cell21,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face212 = createArbirtaryFace(45, cell21,
+        Face face212 = createArbitraryFace(45, cell21,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face213 = createArbirtaryFace(78, cell21,
+        Face face213 = createArbitraryFace(78, cell21,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
         cell21.faces.addAll(List.of(face211, face212, face213));
 
         Cell cell22 = createArbitraryCell(54, numVars);
-        Face face221 = createArbirtaryFace(91, cell22,
+        Face face221 = createArbitraryFace(91, cell22,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face222 = createArbirtaryFace(5, cell22,
+        Face face222 = createArbitraryFace(5, cell22,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face223 = createArbirtaryFace(9, cell22,
+        Face face223 = createArbitraryFace(9, cell22,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
         cell22.faces.addAll(List.of(face221, face222, face223));
 
         Cell cell23 = createArbitraryCell(56, numVars);
-        Face face231 = createArbirtaryFace(1, cell23,
+        Face face231 = createArbitraryFace(1, cell23,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face232 = createArbirtaryFace(50, cell23,
+        Face face232 = createArbitraryFace(50, cell23,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face233 = createArbirtaryFace(49, cell23,
+        Face face233 = createArbitraryFace(49, cell23,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
         cell23.faces.addAll(List.of(face231, face232, face233));
 
@@ -1023,58 +997,58 @@ public class TestHelper {
         Random rand = new Random(19);
         int numVars = 5;
         Cell cell11 = createArbitraryCell(123, numVars);
-        Face face111 = createArbirtaryFace(98, cell11,
+        Face face111 = createArbitraryFace(98, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face112 = createArbirtaryFace(45, cell11,
+        Face face112 = createArbitraryFace(45, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face113 = createArbirtaryFace(78, cell11,
+        Face face113 = createArbitraryFace(78, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
         cell11.faces.addAll(List.of(face111, face112, face113));
 
         Cell cell12 = createArbitraryCell(54, numVars);
-        Face face121 = createArbirtaryFace(91, cell11,
+        Face face121 = createArbitraryFace(91, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face122 = createArbirtaryFace(5, cell11,
+        Face face122 = createArbitraryFace(5, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face123 = createArbirtaryFace(9, cell11,
+        Face face123 = createArbitraryFace(9, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
         cell12.faces.addAll(List.of(face121, face122, face123));
 
         Cell cell13 = createArbitraryCell(56, numVars);
-        Face face131 = createArbirtaryFace(1, cell11,
+        Face face131 = createArbitraryFace(1, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face132 = createArbirtaryFace(50, cell11,
+        Face face132 = createArbitraryFace(50, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face133 = createArbirtaryFace(49, cell11,
+        Face face133 = createArbitraryFace(49, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
         cell13.faces.addAll(List.of(face131, face132, face133));
 
 
         rand = new Random(19);
         Cell cell21 = createArbitraryCell(123, numVars);
-        Face face211 = createArbirtaryFace(98, cell11,
+        Face face211 = createArbitraryFace(98, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face212 = createArbirtaryFace(45, cell11,
+        Face face212 = createArbitraryFace(45, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face213 = createArbirtaryFace(78, cell11,
+        Face face213 = createArbitraryFace(78, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
         cell21.faces.addAll(List.of(face211, face212, face213));
 
         Cell cell22 = createArbitraryCell(54, numVars);
-        Face face221 = createArbirtaryFace(91, cell11,
+        Face face221 = createArbitraryFace(91, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face222 = createArbirtaryFace(5, cell11,
+        Face face222 = createArbitraryFace(5, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face223 = createArbirtaryFace(9, cell11,
+        Face face223 = createArbitraryFace(9, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
         cell22.faces.addAll(List.of(face221, face222, face223));
 
         Cell cell23 = createArbitraryCell(56, numVars);
-        Face face231 = createArbirtaryFace(1, cell11,
+        Face face231 = createArbitraryFace(1, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face232 = createArbirtaryFace(50, cell11,
+        Face face232 = createArbitraryFace(50, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face233 = createArbirtaryFace(49, cell11,
+        Face face233 = createArbitraryFace(49, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
         cell23.faces.addAll(List.of(face231, face232, face233));
 
@@ -1087,58 +1061,58 @@ public class TestHelper {
         Random rand = new Random(19);
         int numVars = 5;
         Cell cell11 = createArbitraryCell(123, numVars);
-        Face face111 = createArbirtaryFace(98, cell11,
+        Face face111 = createArbitraryFace(98, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face112 = createArbirtaryFace(45, cell11,
+        Face face112 = createArbitraryFace(45, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face113 = createArbirtaryFace(78, cell11,
+        Face face113 = createArbitraryFace(78, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
         cell11.faces.addAll(List.of(face111, face112, face113));
 
 //        Cell cell12 = createArbitraryCell(54, numVars);
-//        Face face121 = createArbirtaryFace(91, cell11,
+//        Face face121 = createArbitraryFace(91, cell11,
 //                createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-//        Face face122 = createArbirtaryFace(5, cell11,
+//        Face face122 = createArbitraryFace(5, cell11,
 //                createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-//        Face face123 = createArbirtaryFace(9, cell11,
+//        Face face123 = createArbitraryFace(9, cell11,
 //                createArbitraryCell(rand.nextInt(1220), numVars), numVars);
 //        cell12.faces.addAll(List.of(face121, face122, face123));
 
         Cell cell13 = createArbitraryCell(56, numVars);
-        Face face131 = createArbirtaryFace(1, cell11,
+        Face face131 = createArbitraryFace(1, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face132 = createArbirtaryFace(50, cell11,
+        Face face132 = createArbitraryFace(50, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face133 = createArbirtaryFace(49, cell11,
+        Face face133 = createArbitraryFace(49, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
         cell13.faces.addAll(List.of(face131, face132, face133));
 
 
         rand = new Random(19);
         Cell cell21 = createArbitraryCell(123, numVars);
-        Face face211 = createArbirtaryFace(98, cell11,
+        Face face211 = createArbitraryFace(98, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face212 = createArbirtaryFace(45, cell11,
+        Face face212 = createArbitraryFace(45, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face213 = createArbirtaryFace(78, cell11,
+        Face face213 = createArbitraryFace(78, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
         cell21.faces.addAll(List.of(face211, face212, face213));
 
         Cell cell22 = createArbitraryCell(54, numVars);
-        Face face221 = createArbirtaryFace(91, cell11,
+        Face face221 = createArbitraryFace(91, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face222 = createArbirtaryFace(5, cell11,
+        Face face222 = createArbitraryFace(5, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-        Face face223 = createArbirtaryFace(9, cell11,
+        Face face223 = createArbitraryFace(9, cell11,
                 createArbitraryCell(rand.nextInt(1220), numVars), numVars);
         cell22.faces.addAll(List.of(face221, face222, face223));
 
 //        Cell cell23 = createArbitraryCell(56, numVars);
-//        Face face231 = createArbirtaryFace(1, cell11,
+//        Face face231 = createArbitraryFace(1, cell11,
 //                createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-//        Face face232 = createArbirtaryFace(50, cell11,
+//        Face face232 = createArbitraryFace(50, cell11,
 //                createArbitraryCell(rand.nextInt(1220), numVars), numVars);
-//        Face face233 = createArbirtaryFace(49, cell11,
+//        Face face233 = createArbitraryFace(49, cell11,
 //                createArbitraryCell(rand.nextInt(1220), numVars), numVars);
 //        cell23.faces.addAll(List.of(face231, face232, face233));
 
@@ -1146,7 +1120,7 @@ public class TestHelper {
                 List.of(cell22, cell21), 1e-15));
     }
 
-    private Face createArbirtaryFace(int seed, Cell left, Cell right, int numVars) {
+    private Face createArbitraryFace(int seed, Cell left, Cell right, int numVars) {
         Random rand = new Random(seed);
         Surface surface = new Surface(
                 rand.nextDouble() * 100 - 50,
