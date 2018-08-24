@@ -1,6 +1,5 @@
 package main.mesh.factory;
 
-import main.TestHelper;
 import main.geom.Geometry;
 import main.geom.Point;
 import main.geom.VTKType;
@@ -14,11 +13,11 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import static main.TestHelper.*;
 import static main.geom.VTKType.VTK_LINE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -222,199 +221,46 @@ public class Structured2DMeshTest {
         return v1.mult(1 - ratio).add(v2.mult(ratio));
     }
 
-    private static boolean hasEquivalentNodes(List<Node> ln1, List<Node> ln2) {
-        if (ln1.size() != ln2.size()) return false;
-
-        for (Node n1 : ln1) {
-            boolean found = false;
-            for (Node n2 : ln2) {
-                if (equivalentNodes(n1, n2)) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) return false;
-        }
-        return true;
-    }
-
-    private static boolean equivalentNodes(Node n1, Node n2) {
-        return n1.location().distance(n2.location()) < 1e-15;
-    }
-
-    private static boolean equivalentShapes(Shape s1, Shape s2) {
-        return Math.abs(s1.volume - s2.volume) < 1e-15 &&
-                s1.centroid.distance(s2.centroid) < 1e-15;
-    }
-
-    private static int hasEquivalentNeighbors(Face f1, Face f2) {
-        boolean ll_rr = equivalentShapes(f1.left.shape, f2.left.shape) && equivalentShapes(f1.right.shape, f2.right.shape);
-        boolean lr_rl = equivalentShapes(f1.left.shape, f2.right.shape) && equivalentShapes(f1.right.shape, f2.left.shape);
-
-        if (ll_rr) return 1;
-        if (lr_rl) return -1;
-        return 0;
-    }
-
-    private static boolean hasEquivalentFaces(List<Face> lf1, List<Face> lf2) {
-        if (lf1.size() != lf2.size()) return false;
-
-        for (Face f1 : lf1) {
-            boolean found = false;
-            for (Face f2 : lf2) {
-                if (equivalentFaces(f1, f2)) {
-                    found = true;
-                    break;
-                }
-            }
-            if (!found) return false;
-        }
-        return true;
-    }
-
-    private static boolean equivalentFaces(Face f1, Face f2) {
-        // Have same number of nodes
-        if (f1.nodes.length != f2.nodes.length) return false;
-
-        // Have nodes at same location
-        if (!hasEquivalentNodes(List.of(f1.nodes), List.of(f2.nodes))) return false;
-
-        // Have same left and right cell shapes
-        int direction = hasEquivalentNeighbors(f1, f2);
-        if (direction == 0) return false;
-
-        // Have same surface
-        Surface s1 = f1.surface;
-        Surface s2 = f2.surface;
-        if (Math.abs(s1.area - s2.area) > 1e-15) return false;
-        if (s1.centroid.distance(s2.centroid) > 1e-15) return false;
-        return s1.unitNormal
-                .sub(s2.unitNormal.mult(direction))
-                .mag() < 1e-15;
-    }
-
-    private static void assertPointEquals(Point expectedPoint, Point actualPoint) {
-        assertEquals(0, expectedPoint.distance(actualPoint), 1e-15);
-    }
-
-    private static void assertNodeEquals(Node expectedNode, Node actualNode) {
-        // Location
-        assertPointEquals(expectedNode.location(), actualNode.location());
-
-        // Neighbors
-        assertEquals(expectedNode.neighbors.size(), actualNode.neighbors.size());
-        for (int i = 0; i < expectedNode.neighbors.size(); i++) {
-            assertShapeEquals(expectedNode.neighbors.get(i).shape, actualNode.neighbors.get(i).shape);
-        }
-    }
-
-    private static void assertShapeEquals(Shape expectedShape, Shape actualShape) {
-        // volume equals
-        assertEquals(expectedShape.volume, actualShape.volume, 1e-15);
-
-        // centroid equals
-        assertPointEquals(expectedShape.centroid, actualShape.centroid);
-    }
-
-    private static void assertCellEquals(Cell expectedCell, Cell actualCell) {
-        // index equal
-        assertEquals(expectedCell.index, actualCell.index);
-
-        // nodes equal
-        assertEquals(expectedCell.nodes.length, actualCell.nodes.length);
-        for (int i = 0; i < expectedCell.nodes.length; i++) {
-            assertNodeEquals(expectedCell.nodes[i], actualCell.nodes[i]);
-        }
-
-        // faces equal
-        assertEquals(expectedCell.faces.size(), actualCell.faces.size());
-        assertTrue(hasEquivalentFaces(expectedCell.faces, actualCell.faces));
-
-        // vtkType equal
-        assertEquals(expectedCell.vtkType, actualCell.vtkType);
-
-        // shape equal
-        assertShapeEquals(expectedCell.shape, actualCell.shape);
-
-        // U length equal
-        assertEquals(expectedCell.U.length, actualCell.U.length);
-
-        // residual length equal
-        assertEquals(expectedCell.residual.length, actualCell.residual.length);
-    }
-
-    private static void assertBoundaryEquals(Boundary bnd1, Boundary bnd2) {
-        // Has same name
-        assertEquals(bnd1.name, bnd2.name);
-
-        // Has same faces
-        assertTrue(hasEquivalentFaces(bnd1.faces, bnd2.faces));
-
-        // Has same bc
-        assertEquals(bnd1.bc().orElseThrow(), bnd2.bc().orElseThrow());
-    }
-
     @Test
-    public void cells() {
-        try {
-            Mesh actualMesh = new Structured2DMesh(new File("test/test_data/mesh_structured_2d.cfds"), numVars,
-                    dummyBC, dummyBC, dummyBC, dummyBC);
-            List<Cell> actualCells = actualMesh.cells();
-            assertEquals(expectedCells.size(), actualCells.size());
-            for (int i = 0; i < expectedCells.size(); i++) {
-                assertCellEquals(expectedCells.get(i), actualCells.get(i));
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+    public void cells() throws FileNotFoundException {
+        Mesh actualMesh = new Structured2DMesh(new File("test/test_data/mesh_structured_2d.cfds"), numVars,
+                dummyBC, dummyBC, dummyBC, dummyBC);
+        List<Cell> actualCells = actualMesh.cells();
+        assertEquals(expectedCells.size(), actualCells.size());
+        for (int i = 0; i < expectedCells.size(); i++) {
+            assertCellEquals(expectedCells.get(i), actualCells.get(i), 1e-12);
         }
     }
 
     @Test
-    public void internalFaces() {
-        try {
-            Mesh actualMesh = new Structured2DMesh(new File("test/test_data/mesh_structured_2d.cfds"), numVars,
-                    dummyBC, dummyBC, dummyBC, dummyBC);
-            List<Face> actualInternalFaces = actualMesh.internalFaces();
-            assertEquals(expectedInternalFaces.size(), actualInternalFaces.size());
-            assertTrue(hasEquivalentFaces(expectedInternalFaces, actualInternalFaces));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+    public void internalFaces() throws FileNotFoundException {
+        Mesh actualMesh = new Structured2DMesh(new File("test/test_data/mesh_structured_2d.cfds"), numVars,
+                dummyBC, dummyBC, dummyBC, dummyBC);
+        List<Face> actualInternalFaces = actualMesh.internalFaces();
+        assertFaceListEquals(expectedInternalFaces, actualInternalFaces, 1e-12);
+    }
+
+    @Test
+    public void nodes() throws FileNotFoundException {
+        Mesh actualMesh = new Structured2DMesh(new File("test/test_data/mesh_structured_2d.cfds"), numVars,
+                dummyBC, dummyBC, dummyBC, dummyBC);
+        List<Node> actualNodes = actualMesh.nodes();
+        assertEquals(expectedNodes.size(), actualNodes.size());
+        for (int i = 0; i < expectedNodes.size(); i++) {
+            assertNodeEquals(expectedNodes.get(i), actualNodes.get(i), 1e-12);
         }
     }
 
     @Test
-    public void nodes() {
-        try {
-            Mesh actualMesh = new Structured2DMesh(new File("test/test_data/mesh_structured_2d.cfds"), numVars,
-                    dummyBC, dummyBC, dummyBC, dummyBC);
-            List<Node> actualNodes = actualMesh.nodes();
-            assertEquals(expectedNodes.size(), actualNodes.size());
-            for (int i = 0; i < expectedNodes.size(); i++) {
-                assertNodeEquals(expectedNodes.get(i), actualNodes.get(i));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void boundaries() throws FileNotFoundException {
+        Mesh actualMesh = new Structured2DMesh(new File("test/test_data/mesh_structured_2d.cfds"), numVars,
+                dummyBC, dummyBC, dummyBC, dummyBC);
+        List<Boundary> actualBoundaries = actualMesh.boundaries();
+        assertBoundaryListEquals(expectedBoundaries, actualBoundaries, 1e-12);
     }
 
     @Test
-    public void boundaries() {
-        try {
-            Mesh actualMesh = new Structured2DMesh(new File("test/test_data/mesh_structured_2d.cfds"), numVars,
-                    dummyBC, dummyBC, dummyBC, dummyBC);
-            List<Boundary> actualBoundaries = actualMesh.boundaries();
-            assertEquals(expectedBoundaries.size(), actualBoundaries.size());
-            for (int i = 0; i < expectedBoundaries.size(); i++) {
-                assertBoundaryEquals(expectedBoundaries.get(i), actualBoundaries.get(i));
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void indexTest() throws FileNotFoundException {
+    public void list_index_of_cell_equals_index_stored_inside_cell_object() throws FileNotFoundException {
         Mesh actualMesh = new Structured2DMesh(new File("test/test_data/mesh_structured_2d.cfds"), numVars,
                 dummyBC, dummyBC, dummyBC, dummyBC);
         List<Cell> cells = actualMesh.cells();
@@ -423,9 +269,9 @@ public class Structured2DMeshTest {
     }
 
     @Test
-    public void exceptionTest() {
+    public void throw_exception_when_mesh_file_not_found() {
         File doesNotExist = new File("test/test_data/doesNotExist.cfds");
-        TestHelper.assertThrows(FileNotFoundException.class,
+        assertThrows(FileNotFoundException.class,
                 () -> new Structured2DMesh(doesNotExist, numVars, dummyBC, dummyBC, dummyBC, dummyBC));
     }
 }
