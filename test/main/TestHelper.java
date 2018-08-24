@@ -4,6 +4,10 @@ import main.geom.Point;
 import main.geom.VTKType;
 import main.geom.Vector;
 import main.mesh.*;
+import main.physics.bc.BoundaryCondition;
+import main.physics.bc.ExtrapolatedBC;
+import main.physics.goveqn.GoverningEquations;
+import main.physics.goveqn.factory.ScalarAdvection;
 import org.junit.Test;
 
 import java.util.List;
@@ -57,7 +61,11 @@ public class TestHelper {
     }
 
     public static void assertFaceListEquals(List<Face> expected, List<Face> actual, double tolerance) {
-        assertTrue(containsSameElements(expected, actual, tolerance, TestHelper::sameFaces));
+        assertTrue(containsSameFaces(expected, actual, tolerance));
+    }
+
+    public static void assertBoundaryListEquals(List<Boundary> expected, List<Boundary> actual, double tolerance) {
+        assertTrue(containsSameBoundaries(expected, actual, tolerance));
     }
 
     private static <T> boolean containsSameElements(List<T> expectedList, List<T> actualList, double tolerance, TestIfSame<T> test) {
@@ -167,6 +175,21 @@ public class TestHelper {
         if (expected.unitNormal.add(actual.unitNormal).mag() < tolerance) return -1;
 
         return 0;
+    }
+
+    private static boolean containsSameBoundaries(List<Boundary> expected, List<Boundary> actual, double tolerance) {
+        return containsSameElements(expected, actual, tolerance, TestHelper::sameBoundaries);
+    }
+
+    private static boolean sameBoundaries(Boundary expected, Boundary actual, double tolerance) {
+        // has same name
+        if (!expected.name.equals(actual.name)) return false;
+
+        // has same face list
+        if (!containsSameFaces(expected.faces, actual.faces, tolerance)) return false;
+
+        // has same boundary condition
+        return expected.bc().equals(actual.bc());
     }
 
     // -------------------------- Tests for this class ------------------------------------------
@@ -1119,6 +1142,151 @@ public class TestHelper {
         assertFalse(containsSameCells(List.of(cell11, cell13),
                 List.of(cell22, cell21), 1e-15));
     }
+
+    @Test
+    public void boundary_lists_with_same_boundary_in_any_order_are_same() {
+        GoverningEquations govEqn = new ScalarAdvection(1, 2, 3);
+        int numVars = govEqn.numVars();
+        BoundaryCondition bc1 = new ExtrapolatedBC(govEqn);
+        Boundary boundary11 = new Boundary("boundary 1", List.of(
+                createArbitraryFace(123, createArbitraryCell(87, numVars), createArbitraryCell(75, numVars), numVars),
+                createArbitraryFace(35, createArbitraryCell(25, numVars), createArbitraryCell(32, numVars), numVars),
+                createArbitraryFace(81, createArbitraryCell(24, numVars), createArbitraryCell(782, numVars), numVars)
+        ), bc1);
+
+        BoundaryCondition bc2 = new ExtrapolatedBC(govEqn);
+        Boundary boundary12 = new Boundary("boundary 2", List.of(
+                createArbitraryFace(24, createArbitraryCell(24, numVars), createArbitraryCell(72, numVars), numVars),
+                createArbitraryFace(83, createArbitraryCell(74, numVars), createArbitraryCell(12, numVars), numVars),
+                createArbitraryFace(1, createArbitraryCell(2, numVars), createArbitraryCell(82, numVars), numVars)
+        ), bc2);
+
+        BoundaryCondition bc3 = new ExtrapolatedBC(govEqn);
+        Boundary boundary13 = new Boundary("boundary 3", List.of(
+                createArbitraryFace(4, createArbitraryCell(29, numVars), createArbitraryCell(77, numVars), numVars),
+                createArbitraryFace(3, createArbitraryCell(79, numVars), createArbitraryCell(17, numVars), numVars),
+                createArbitraryFace(58, createArbitraryCell(9, numVars), createArbitraryCell(87, numVars), numVars)
+        ), bc3);
+
+        Boundary boundary21 = new Boundary("boundary 1", List.of(
+                createArbitraryFace(123, createArbitraryCell(87, numVars), createArbitraryCell(75, numVars), numVars),
+                createArbitraryFace(35, createArbitraryCell(25, numVars), createArbitraryCell(32, numVars), numVars),
+                createArbitraryFace(81, createArbitraryCell(24, numVars), createArbitraryCell(782, numVars), numVars)
+        ), bc1);
+
+        Boundary boundary22 = new Boundary("boundary 2", List.of(
+                createArbitraryFace(24, createArbitraryCell(24, numVars), createArbitraryCell(72, numVars), numVars),
+                createArbitraryFace(83, createArbitraryCell(74, numVars), createArbitraryCell(12, numVars), numVars),
+                createArbitraryFace(1, createArbitraryCell(2, numVars), createArbitraryCell(82, numVars), numVars)
+        ), bc2);
+
+        Boundary boundary23 = new Boundary("boundary 3", List.of(
+                createArbitraryFace(4, createArbitraryCell(29, numVars), createArbitraryCell(77, numVars), numVars),
+                createArbitraryFace(3, createArbitraryCell(79, numVars), createArbitraryCell(17, numVars), numVars),
+                createArbitraryFace(58, createArbitraryCell(9, numVars), createArbitraryCell(87, numVars), numVars)
+        ), bc3);
+
+        assertTrue(containsSameBoundaries(
+                List.of(boundary11, boundary12, boundary13),
+                List.of(boundary22, boundary21, boundary23), 1e-15));
+    }
+
+    @Test
+    public void boundary_lists_with_different_lengths_are_not_same() {
+        GoverningEquations govEqn = new ScalarAdvection(1, 2, 3);
+        int numVars = govEqn.numVars();
+        BoundaryCondition bc1 = new ExtrapolatedBC(govEqn);
+        Boundary boundary11 = new Boundary("boundary 1", List.of(
+                createArbitraryFace(123, createArbitraryCell(87, numVars), createArbitraryCell(75, numVars), numVars),
+                createArbitraryFace(35, createArbitraryCell(25, numVars), createArbitraryCell(32, numVars), numVars),
+                createArbitraryFace(81, createArbitraryCell(24, numVars), createArbitraryCell(782, numVars), numVars)
+        ), bc1);
+
+        BoundaryCondition bc2 = new ExtrapolatedBC(govEqn);
+//        Boundary boundary12 = new Boundary("boundary 2", List.of(
+//                createArbitraryFace(24, createArbitraryCell(24, numVars), createArbitraryCell(72, numVars), numVars),
+//                createArbitraryFace(83, createArbitraryCell(74, numVars), createArbitraryCell(12, numVars), numVars),
+//                createArbitraryFace(1, createArbitraryCell(2, numVars), createArbitraryCell(82, numVars), numVars)
+//        ), bc2);
+
+        BoundaryCondition bc3 = new ExtrapolatedBC(govEqn);
+        Boundary boundary13 = new Boundary("boundary 3", List.of(
+                createArbitraryFace(4, createArbitraryCell(29, numVars), createArbitraryCell(77, numVars), numVars),
+                createArbitraryFace(3, createArbitraryCell(79, numVars), createArbitraryCell(17, numVars), numVars),
+                createArbitraryFace(58, createArbitraryCell(9, numVars), createArbitraryCell(87, numVars), numVars)
+        ), bc3);
+
+        Boundary boundary21 = new Boundary("boundary 1", List.of(
+                createArbitraryFace(123, createArbitraryCell(87, numVars), createArbitraryCell(75, numVars), numVars),
+                createArbitraryFace(35, createArbitraryCell(25, numVars), createArbitraryCell(32, numVars), numVars),
+                createArbitraryFace(81, createArbitraryCell(24, numVars), createArbitraryCell(782, numVars), numVars)
+        ), bc1);
+
+        Boundary boundary22 = new Boundary("boundary 2", List.of(
+                createArbitraryFace(24, createArbitraryCell(24, numVars), createArbitraryCell(72, numVars), numVars),
+                createArbitraryFace(83, createArbitraryCell(74, numVars), createArbitraryCell(12, numVars), numVars),
+                createArbitraryFace(1, createArbitraryCell(2, numVars), createArbitraryCell(82, numVars), numVars)
+        ), bc2);
+
+        Boundary boundary23 = new Boundary("boundary 3", List.of(
+                createArbitraryFace(4, createArbitraryCell(29, numVars), createArbitraryCell(77, numVars), numVars),
+                createArbitraryFace(3, createArbitraryCell(79, numVars), createArbitraryCell(17, numVars), numVars),
+                createArbitraryFace(58, createArbitraryCell(9, numVars), createArbitraryCell(87, numVars), numVars)
+        ), bc3);
+
+        assertFalse(containsSameBoundaries(
+                List.of(boundary11, boundary13),
+                List.of(boundary22, boundary21, boundary23), 1e-15));
+    }
+
+    @Test
+    public void boundary_lists_with_different_boundaries_are_not_same() {
+        GoverningEquations govEqn = new ScalarAdvection(1, 2, 3);
+        int numVars = govEqn.numVars();
+        BoundaryCondition bc1 = new ExtrapolatedBC(govEqn);
+        Boundary boundary11 = new Boundary("boundary 1", List.of(
+                createArbitraryFace(123, createArbitraryCell(87, numVars), createArbitraryCell(75, numVars), numVars),
+                createArbitraryFace(35, createArbitraryCell(25, numVars), createArbitraryCell(32, numVars), numVars),
+                createArbitraryFace(81, createArbitraryCell(24, numVars), createArbitraryCell(782, numVars), numVars)
+        ), bc1);
+
+        BoundaryCondition bc2 = new ExtrapolatedBC(govEqn);
+//        Boundary boundary12 = new Boundary("boundary 2", List.of(
+//                createArbitraryFace(24, createArbitraryCell(24, numVars), createArbitraryCell(72, numVars), numVars),
+//                createArbitraryFace(83, createArbitraryCell(74, numVars), createArbitraryCell(12, numVars), numVars),
+//                createArbitraryFace(1, createArbitraryCell(2, numVars), createArbitraryCell(82, numVars), numVars)
+//        ), bc2);
+
+        BoundaryCondition bc3 = new ExtrapolatedBC(govEqn);
+        Boundary boundary13 = new Boundary("boundary 3", List.of(
+                createArbitraryFace(4, createArbitraryCell(29, numVars), createArbitraryCell(77, numVars), numVars),
+                createArbitraryFace(3, createArbitraryCell(79, numVars), createArbitraryCell(17, numVars), numVars),
+                createArbitraryFace(58, createArbitraryCell(9, numVars), createArbitraryCell(87, numVars), numVars)
+        ), bc3);
+
+//        Boundary boundary21 = new Boundary("boundary 1", List.of(
+//                createArbitraryFace(123, createArbitraryCell(87, numVars), createArbitraryCell(75, numVars), numVars),
+//                createArbitraryFace(35, createArbitraryCell(25, numVars), createArbitraryCell(32, numVars), numVars),
+//                createArbitraryFace(81, createArbitraryCell(24, numVars), createArbitraryCell(782, numVars), numVars)
+//        ), bc1);
+
+        Boundary boundary22 = new Boundary("boundary 2", List.of(
+                createArbitraryFace(24, createArbitraryCell(24, numVars), createArbitraryCell(72, numVars), numVars),
+                createArbitraryFace(83, createArbitraryCell(74, numVars), createArbitraryCell(12, numVars), numVars),
+                createArbitraryFace(1, createArbitraryCell(2, numVars), createArbitraryCell(82, numVars), numVars)
+        ), bc2);
+
+        Boundary boundary23 = new Boundary("boundary 3", List.of(
+                createArbitraryFace(4, createArbitraryCell(29, numVars), createArbitraryCell(77, numVars), numVars),
+                createArbitraryFace(3, createArbitraryCell(79, numVars), createArbitraryCell(17, numVars), numVars),
+                createArbitraryFace(58, createArbitraryCell(9, numVars), createArbitraryCell(87, numVars), numVars)
+        ), bc3);
+
+        assertFalse(containsSameBoundaries(
+                List.of(boundary11, boundary13),
+                List.of(boundary22, boundary23), 1e-15));
+    }
+
 
     private Face createArbitraryFace(int seed, Cell left, Cell right, int numVars) {
         Random rand = new Random(seed);
