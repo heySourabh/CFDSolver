@@ -162,7 +162,7 @@ public class Structured2DMesh implements Mesh {
             Geometry cellGeom = new Quad(n0.location(), n1.location(), n2.location(), n3.location());
             Vector cellNormal = cellGeom.unitNormal();
             Vector faceTangent = new Vector(na.location(), nb.location());
-            Vector unitVector = faceTangent.cross(cellNormal);
+            Vector unitVector = faceTangent.cross(cellNormal).unit();
 
             Geometry faceGeom = new Line(na.location(), nb.location());
 
@@ -188,7 +188,7 @@ public class Structured2DMesh implements Mesh {
             Geometry cellGeom = new Quad(n0.location(), n1.location(), n2.location(), n3.location());
             Vector cellNormal = cellGeom.unitNormal();
             Vector faceTangent = new Vector(na.location(), nb.location());
-            Vector unitVector = faceTangent.cross(cellNormal);
+            Vector unitVector = faceTangent.cross(cellNormal).unit();
 
             Geometry faceGeom = new Line(na.location(), nb.location());
 
@@ -214,7 +214,7 @@ public class Structured2DMesh implements Mesh {
             Geometry cellGeom = new Quad(n0.location(), n1.location(), n2.location(), n3.location());
             Vector cellNormal = cellGeom.unitNormal();
             Vector faceTangent = new Vector(na.location(), nb.location());
-            Vector unitVector = faceTangent.cross(cellNormal);
+            Vector unitVector = faceTangent.cross(cellNormal).unit();
 
             Geometry faceGeom = new Line(na.location(), nb.location());
 
@@ -240,7 +240,7 @@ public class Structured2DMesh implements Mesh {
             Geometry cellGeom = new Quad(n0.location(), n1.location(), n2.location(), n3.location());
             Vector cellNormal = cellGeom.unitNormal();
             Vector faceTangent = new Vector(na.location(), nb.location());
-            Vector unitVector = faceTangent.cross(cellNormal);
+            Vector unitVector = faceTangent.cross(cellNormal).unit();
 
             Geometry faceGeom = new Line(na.location(), nb.location());
 
