@@ -3,6 +3,7 @@ package main.mesh;
 import main.geom.VTKType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Cell {
     /**
@@ -39,8 +40,11 @@ public class Cell {
     @Override
     public String toString() {
         return "Cell{" +
-                "vtkType=" + vtkType +
-                ", shape=" + shape +
-                '}';
+                "\nindex=" + index +
+                "\nnodes=" + (nodes == null ? null : Arrays.asList(nodes)) +
+                "\nfaces=" + faces +
+                "\nvtkType=" + vtkType +
+                "\nshape=" + shape +
+                "\n}";
     }
 }
