@@ -71,4 +71,12 @@ public class Face {
         if (l1.size() != l2.size()) return false;
         return l1.containsAll(l2);
     }
+
+    @Override
+    public String toString() {
+        return "Face{" +
+                "vtkType=" + vtkType +
+                ", surface=" + surface +
+                '}';
+    }
 }
