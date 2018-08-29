@@ -114,7 +114,7 @@ public class GeometryHelper {
         return new Vector(xc, yc, zc);
     }
 
-    private static double signedVolume(TriGeom[] triangles) {
+    public static double signedVolume(TriGeom[] triangles) {
         double volume = 0.0;
         for (TriGeom t : triangles) {
             volume += volumeUnder(t);
