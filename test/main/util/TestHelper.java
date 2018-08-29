@@ -8,6 +8,7 @@ import main.physics.bc.BoundaryCondition;
 import main.physics.bc.ExtrapolatedBC;
 import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.factory.ScalarAdvection;
+import org.junit.ComparisonFailure;
 import org.junit.Test;
 
 import java.util.List;
@@ -58,7 +59,8 @@ public class TestHelper {
 
     public static void assertCellEquals(Cell expected, Cell actual, double tolerance) {
         if (!sameCells(expected, actual, tolerance)) {
-            fail("expected: " + expected + " but was: " + actual);
+            throw new ComparisonFailure("Cells are not same.",
+                    expected.toString(), actual.toString());
         }
     }
 
