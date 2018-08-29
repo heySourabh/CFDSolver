@@ -57,7 +57,9 @@ public class TestHelper {
     }
 
     public static void assertCellEquals(Cell expected, Cell actual, double tolerance) {
-        assertTrue(sameCells(expected, actual, tolerance));
+        if (!sameCells(expected, actual, tolerance)) {
+            fail("expected: " + expected + " but was: " + actual);
+        }
     }
 
     public static void assertFaceListEquals(List<Face> expected, List<Face> actual, double tolerance) {
