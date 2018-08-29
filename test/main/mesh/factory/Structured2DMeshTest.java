@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static main.TestHelper.*;
+import static main.util.TestHelper.*;
 import static main.geom.VTKType.VTK_LINE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

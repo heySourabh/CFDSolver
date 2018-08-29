@@ -15,7 +15,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-import static main.TestHelper.*;
+import static main.util.TestHelper.*;
 import static org.junit.Assert.assertEquals;
 
 public class Structured2DMeshSimpleTest {

@@ -4,7 +4,7 @@ import main.geom.Point;
 import main.geom.Vector;
 import org.junit.Test;
 
-import static main.TestHelper.assertThrows;
+import static main.util.TestHelper.assertThrows;
 import static main.geom.VTKType.VTK_TRIANGLE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;

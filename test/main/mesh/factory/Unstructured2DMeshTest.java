@@ -1,6 +1,6 @@
 package main.mesh.factory;
 
-import main.TestHelper;
+import main.util.TestHelper;
 import main.geom.Geometry;
 import main.geom.Point;
 import main.geom.VTKType;

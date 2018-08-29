@@ -1,4 +1,4 @@
-package main;
+package main.util;
 
 import main.geom.Point;
 import main.geom.VTKType;

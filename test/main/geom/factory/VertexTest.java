@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.util.Random;
 
-import static main.TestHelper.assertThrows;
+import static main.util.TestHelper.assertThrows;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 

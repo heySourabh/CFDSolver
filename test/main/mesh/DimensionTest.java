@@ -2,7 +2,7 @@ package main.mesh;
 
 import org.junit.Test;
 
-import static main.TestHelper.assertThrows;
+import static main.util.TestHelper.assertThrows;
 import static main.mesh.Dimension.*;
 import static org.junit.Assert.assertEquals;
 
@@ -22,6 +22,6 @@ public class DimensionTest {
         assertEquals(ONE_DIM, Dimension.getDimension(1));
         assertEquals(TWO_DIM, Dimension.getDimension(2));
         assertEquals(THREE_DIM, Dimension.getDimension(3));
-        assertThrows(IllegalArgumentException.class, () -> Dimension.getDimension(4));
+        assertThrows(IllegalArgumentException.class, () -> System.out.println(Dimension.getDimension(4)));
     }
 }

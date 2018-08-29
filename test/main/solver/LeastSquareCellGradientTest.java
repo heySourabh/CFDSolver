@@ -13,7 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Map;
 
-import static main.TestHelper.assertVectorEquals;
+import static main.util.TestHelper.assertVectorEquals;
 import static org.junit.Assert.*;
 
 public class LeastSquareCellGradientTest {

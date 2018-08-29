@@ -2,7 +2,7 @@ package main.util;
 
 import org.junit.Test;
 
-import static main.TestHelper.assertThrows;
+import static main.util.TestHelper.assertThrows;
 import static org.junit.Assert.*;
 
 public class DoubleMatrixTest {
