@@ -1,15 +1,11 @@
 package main.solver.time;
 
-import main.mesh.Boundary;
 import main.mesh.Cell;
 import main.mesh.Mesh;
-import main.physics.bc.BoundaryCondition;
 import main.solver.Norm;
-import main.solver.ResidualCalculator;
+import main.solver.SpaceDiscretization;
 import main.util.DoubleArray;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Stream;
 
 import static main.util.DoubleArray.*;
@@ -17,16 +13,16 @@ import static main.util.DoubleArray.*;
 public class ExplicitEulerTimeIntegrator implements TimeIntegrator {
 
     private final Mesh mesh;
-    private final List<ResidualCalculator> residuals;
+    private final SpaceDiscretization spaceDiscretization;
     private final int numVars;
     private final int numCells;
     private final double[][] U;
     private final TimeStep timeStep;
     private double courantNum = 1.0; // default
 
-    public ExplicitEulerTimeIntegrator(Mesh mesh, List<ResidualCalculator> residuals, TimeStep timeStep, int numVars) {
+    public ExplicitEulerTimeIntegrator(Mesh mesh, SpaceDiscretization spaceDiscretization, TimeStep timeStep, int numVars) {
         this.mesh = mesh;
-        this.residuals = residuals;
+        this.spaceDiscretization = spaceDiscretization;
         this.timeStep = timeStep;
         this.numVars = numVars;
         this.numCells = mesh.cells().size();
@@ -41,8 +37,7 @@ public class ExplicitEulerTimeIntegrator implements TimeIntegrator {
     @Override
     public void updateCellAverages() {
         saveCurrentAverages();
-        setGhostCellValues();
-        setResiduals();
+        spaceDiscretization.setResiduals();
         timeStep.updateCellTimeSteps(courantNum);
         calculateNewAverages();
     }
@@ -92,21 +87,6 @@ public class ExplicitEulerTimeIntegrator implements TimeIntegrator {
         }
 
         return totalResidue;
-    }
-
-    private void setGhostCellValues() {
-        mesh.boundaryStream().forEach(this::setGhostCellValues);
-    }
-
-    private void setGhostCellValues(Boundary boundary) {
-        BoundaryCondition bc = boundary.bc().orElseThrow(
-                () -> new IllegalArgumentException("Boundary condition is not defined."));
-        boundary.faces.forEach(bc::setGhostCellValues);
-    }
-
-    private void setResiduals() {
-        mesh.cellStream().forEach(cell -> Arrays.fill(cell.residual, 0.0));
-        residuals.forEach(ResidualCalculator::updateCellResiduals);
     }
 
     private void saveCurrentAverages() {

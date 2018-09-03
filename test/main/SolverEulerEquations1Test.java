@@ -52,7 +52,8 @@ public class SolverEulerEquations1Test {
             ResidualCalculator convectiveCalculator = new ConvectiveResidual(new PiecewiseConstantReconstructor(),
                     new RusanovRiemannSolver(govEqn), mesh);
             private final TimeIntegrator timeIntegrator = new ExplicitEulerTimeIntegrator(mesh,
-                    List.of(convectiveCalculator), new GlobalTimeStep(mesh, govEqn), govEqn.numVars());
+                    new SpaceDiscretization(mesh, List.of(convectiveCalculator)),
+                    new GlobalTimeStep(mesh, govEqn), govEqn.numVars());
             private final Convergence convergence = new Convergence(DoubleArray.newFilledArray(govEqn.numVars(), 1e-6));
             private final Config config = new Config();
 

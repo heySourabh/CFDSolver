@@ -67,7 +67,8 @@ public class SolverEulerEquationsVKTest {
             ResidualCalculator convectiveCalculator = new ConvectiveResidual(reconstructor,
                     new RusanovRiemannSolver(govEqn), mesh);
             private final TimeIntegrator timeIntegrator = new ExplicitEulerTimeIntegrator(mesh,
-                    List.of(convectiveCalculator), new LocalTimeStep(mesh, govEqn), govEqn.numVars());
+                    new SpaceDiscretization(mesh, List.of(convectiveCalculator)),
+                    new LocalTimeStep(mesh, govEqn), govEqn.numVars());
             private final Convergence convergence = new Convergence(DoubleArray.newFilledArray(govEqn.numVars(), 1e-3));
             private final Config config = new Config();
 
@@ -114,7 +115,7 @@ public class SolverEulerEquationsVKTest {
         };
     }
 
-    @Ignore
+    //@Ignore
     @Test
     public void solver() {
         ProblemDefinition problem = testProblem;
