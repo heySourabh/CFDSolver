@@ -8,11 +8,10 @@ import main.physics.bc.InletBC.InletProperties;
 import main.physics.goveqn.factory.EulerEquations;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.function.Function;
 
 import static main.util.DoubleArray.copy;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
 
 public class InletBCTest {
 
@@ -24,7 +23,7 @@ public class InletBCTest {
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 0.1;
-        Function<Double, InletProperties> inletProps = time -> new InletProperties(vel, rho, p);
+        InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
         Cell left = new Cell(0, null, null, null, govEqn.numVars());
@@ -36,10 +35,8 @@ public class InletBCTest {
         double[] insideConsVars = govEqn.conservativeVars(insidePrimVars);
 
         copy(insideConsVars, left.U);
-        double time = 0.0;
-        inletBC.setGhostCellValues(testFace, time);
-        InletProperties prop = inletProps.apply(time);
-        double[] primProp = new double[]{prop.density, prop.normalVelocityMagnitude, 0, 0, insidePrimVars[4]};
+        inletBC.setGhostCellValues(testFace);
+        double[] primProp = new double[]{inletProps.density, inletProps.normalVelocityMagnitude, 0, 0, insidePrimVars[4]};
         double[] consProp = govEqn.conservativeVars(primProp);
         assertArrayEquals(consProp, right.U, 1e-8);
     }
@@ -52,7 +49,7 @@ public class InletBCTest {
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 1.5;
-        Function<Double, InletProperties> inletProps = time -> new InletProperties(vel, rho, p);
+        InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
         Cell left = new Cell(0, null, null, null, govEqn.numVars());
@@ -64,10 +61,8 @@ public class InletBCTest {
         double[] insideConsVars = govEqn.conservativeVars(insidePrimVars);
 
         copy(insideConsVars, left.U);
-        double time = 0.0;
-        inletBC.setGhostCellValues(testFace, time);
-        InletProperties prop = inletProps.apply(time);
-        double[] primProp = new double[]{prop.density, prop.normalVelocityMagnitude, 0, 0, prop.pressure};
+        inletBC.setGhostCellValues(testFace);
+        double[] primProp = new double[]{inletProps.density, inletProps.normalVelocityMagnitude, 0, 0, inletProps.pressure};
         double[] consProp = govEqn.conservativeVars(primProp);
         assertArrayEquals(consProp, right.U, 1e-8);
     }
@@ -80,7 +75,7 @@ public class InletBCTest {
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 0.1;
-        Function<Double, InletProperties> inletProps = time -> new InletProperties(vel, rho, p);
+        InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
         Cell left = new Cell(0, null, null, null, govEqn.numVars());
@@ -92,10 +87,8 @@ public class InletBCTest {
         double[] insideConsVars = govEqn.conservativeVars(insidePrimVars);
 
         copy(insideConsVars, left.U);
-        double time = 0.0;
-        inletBC.setGhostCellValues(testFace, time);
-        InletProperties prop = inletProps.apply(time);
-        double[] primProp = new double[]{prop.density, 0, prop.normalVelocityMagnitude, 0, insidePrimVars[4]};
+        inletBC.setGhostCellValues(testFace);
+        double[] primProp = new double[]{inletProps.density, 0, inletProps.normalVelocityMagnitude, 0, insidePrimVars[4]};
         double[] consProp = govEqn.conservativeVars(primProp);
         assertArrayEquals(consProp, right.U, 1e-8);
     }
@@ -108,7 +101,7 @@ public class InletBCTest {
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 1.5;
-        Function<Double, InletProperties> inletProps = time -> new InletProperties(vel, rho, p);
+        InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
         Cell left = new Cell(0, null, null, null, govEqn.numVars());
@@ -120,10 +113,8 @@ public class InletBCTest {
         double[] insideConsVars = govEqn.conservativeVars(insidePrimVars);
 
         copy(insideConsVars, left.U);
-        double time = 0.0;
-        inletBC.setGhostCellValues(testFace, time);
-        InletProperties prop = inletProps.apply(time);
-        double[] primProp = new double[]{prop.density, 0, prop.normalVelocityMagnitude, 0, prop.pressure};
+        inletBC.setGhostCellValues(testFace);
+        double[] primProp = new double[]{inletProps.density, 0, inletProps.normalVelocityMagnitude, 0, inletProps.pressure};
         double[] consProp = govEqn.conservativeVars(primProp);
         assertArrayEquals(consProp, right.U, 1e-8);
     }
@@ -136,7 +127,7 @@ public class InletBCTest {
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 0.1;
-        Function<Double, InletProperties> inletProps = time -> new InletProperties(vel, rho, p);
+        InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
         Cell left = new Cell(0, null, null, null, govEqn.numVars());
@@ -148,10 +139,8 @@ public class InletBCTest {
         double[] insideConsVars = govEqn.conservativeVars(insidePrimVars);
 
         copy(insideConsVars, left.U);
-        double time = 0.0;
-        inletBC.setGhostCellValues(testFace, time);
-        InletProperties prop = inletProps.apply(time);
-        double[] primProp = new double[]{prop.density, 0, 0, prop.normalVelocityMagnitude, insidePrimVars[4]};
+        inletBC.setGhostCellValues(testFace);
+        double[] primProp = new double[]{inletProps.density, 0, 0, inletProps.normalVelocityMagnitude, insidePrimVars[4]};
         double[] consProp = govEqn.conservativeVars(primProp);
         assertArrayEquals(consProp, right.U, 1e-8);
     }
@@ -164,7 +153,7 @@ public class InletBCTest {
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 1.5;
-        Function<Double, InletProperties> inletProps = time -> new InletProperties(vel, rho, p);
+        InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
         Cell left = new Cell(0, null, null, null, govEqn.numVars());
@@ -176,10 +165,8 @@ public class InletBCTest {
         double[] insideConsVars = govEqn.conservativeVars(insidePrimVars);
 
         copy(insideConsVars, left.U);
-        double time = 0.0;
-        inletBC.setGhostCellValues(testFace, time);
-        InletProperties prop = inletProps.apply(time);
-        double[] primProp = new double[]{prop.density, 0, 0, prop.normalVelocityMagnitude, prop.pressure};
+        inletBC.setGhostCellValues(testFace);
+        double[] primProp = new double[]{inletProps.density, 0, 0, inletProps.normalVelocityMagnitude, inletProps.pressure};
         double[] consProp = govEqn.conservativeVars(primProp);
         assertArrayEquals(consProp, right.U, 1e-8);
     }
@@ -192,7 +179,7 @@ public class InletBCTest {
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 0.1;
-        Function<Double, InletProperties> inletProps = time -> new InletProperties(vel, rho, p);
+        InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
         Cell left = new Cell(0, null, null, null, govEqn.numVars());
@@ -204,10 +191,8 @@ public class InletBCTest {
         double[] insideConsVars = govEqn.conservativeVars(insidePrimVars);
 
         copy(insideConsVars, left.U);
-        double time = 0.0;
-        double[] actualFlux = inletBC.convectiveFlux(testFace, time);
-        InletProperties prop = inletProps.apply(time);
-        double[] primProp = new double[]{prop.density, prop.normalVelocityMagnitude, 0, 0, insidePrimVars[4]};
+        double[] actualFlux = inletBC.convectiveFlux(testFace);
+        double[] primProp = new double[]{inletProps.density, inletProps.normalVelocityMagnitude, 0, 0, insidePrimVars[4]};
         double[] consProp = govEqn.conservativeVars(primProp);
         double[] expectedFlux = govEqn.convection().flux(consProp, normal);
         assertArrayEquals(expectedFlux, actualFlux, 1e-8);
@@ -221,7 +206,7 @@ public class InletBCTest {
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 1.5;
-        Function<Double, InletProperties> inletProps = time -> new InletProperties(vel, rho, p);
+        InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
         Cell left = new Cell(0, null, null, null, govEqn.numVars());
@@ -233,10 +218,8 @@ public class InletBCTest {
         double[] insideConsVars = govEqn.conservativeVars(insidePrimVars);
 
         copy(insideConsVars, left.U);
-        double time = 0.0;
-        double[] actualFlux = inletBC.convectiveFlux(testFace, time);
-        InletProperties prop = inletProps.apply(time);
-        double[] primProp = new double[]{prop.density, prop.normalVelocityMagnitude, 0, 0, prop.pressure};
+        double[] actualFlux = inletBC.convectiveFlux(testFace);
+        double[] primProp = new double[]{inletProps.density, inletProps.normalVelocityMagnitude, 0, 0, inletProps.pressure};
         double[] consProp = govEqn.conservativeVars(primProp);
         double[] expectedFlux = govEqn.convection().flux(consProp, normal);
         assertArrayEquals(expectedFlux, actualFlux, 1e-8);
@@ -250,7 +233,7 @@ public class InletBCTest {
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 0.1;
-        Function<Double, InletProperties> inletProps = time -> new InletProperties(vel, rho, p);
+        InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
         Cell left = new Cell(0, null, null, null, govEqn.numVars());
@@ -262,10 +245,8 @@ public class InletBCTest {
         double[] insideConsVars = govEqn.conservativeVars(insidePrimVars);
 
         copy(insideConsVars, left.U);
-        double time = 0.0;
-        double[] actualFlux = inletBC.convectiveFlux(testFace, time);
-        InletProperties prop = inletProps.apply(time);
-        double[] primProp = new double[]{prop.density, 0, prop.normalVelocityMagnitude, 0, insidePrimVars[4]};
+        double[] actualFlux = inletBC.convectiveFlux(testFace);
+        double[] primProp = new double[]{inletProps.density, 0, inletProps.normalVelocityMagnitude, 0, insidePrimVars[4]};
         double[] consProp = govEqn.conservativeVars(primProp);
         double[] expectedFlux = govEqn.convection().flux(consProp, normal);
         assertArrayEquals(expectedFlux, actualFlux, 1e-8);
@@ -279,7 +260,7 @@ public class InletBCTest {
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 1.5;
-        Function<Double, InletProperties> inletProps = time -> new InletProperties(vel, rho, p);
+        InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
         Cell left = new Cell(0, null, null, null, govEqn.numVars());
@@ -291,10 +272,8 @@ public class InletBCTest {
         double[] insideConsVars = govEqn.conservativeVars(insidePrimVars);
 
         copy(insideConsVars, left.U);
-        double time = 0.0;
-        double[] actualFlux = inletBC.convectiveFlux(testFace, time);
-        InletProperties prop = inletProps.apply(time);
-        double[] primProp = new double[]{prop.density, 0, prop.normalVelocityMagnitude, 0, prop.pressure};
+        double[] actualFlux = inletBC.convectiveFlux(testFace);
+        double[] primProp = new double[]{inletProps.density, 0, inletProps.normalVelocityMagnitude, 0, inletProps.pressure};
         double[] consProp = govEqn.conservativeVars(primProp);
         double[] expectedFlux = govEqn.convection().flux(consProp, normal);
         assertArrayEquals(expectedFlux, actualFlux, 1e-8);
@@ -308,7 +287,7 @@ public class InletBCTest {
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 0.1;
-        Function<Double, InletProperties> inletProps = time -> new InletProperties(vel, rho, p);
+        InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
         Cell left = new Cell(0, null, null, null, govEqn.numVars());
@@ -320,10 +299,8 @@ public class InletBCTest {
         double[] insideConsVars = govEqn.conservativeVars(insidePrimVars);
 
         copy(insideConsVars, left.U);
-        double time = 0.0;
-        double[] actualFlux = inletBC.convectiveFlux(testFace, time);
-        InletProperties prop = inletProps.apply(time);
-        double[] primProp = new double[]{prop.density, 0, 0, prop.normalVelocityMagnitude, insidePrimVars[4]};
+        double[] actualFlux = inletBC.convectiveFlux(testFace);
+        double[] primProp = new double[]{inletProps.density, 0, 0, inletProps.normalVelocityMagnitude, insidePrimVars[4]};
         double[] consProp = govEqn.conservativeVars(primProp);
         double[] expectedFlux = govEqn.convection().flux(consProp, normal);
         assertArrayEquals(expectedFlux, actualFlux, 1e-8);
@@ -337,7 +314,7 @@ public class InletBCTest {
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 1.5;
-        Function<Double, InletProperties> inletProps = time -> new InletProperties(vel, rho, p);
+        InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
         Cell left = new Cell(0, null, null, null, govEqn.numVars());
@@ -349,10 +326,8 @@ public class InletBCTest {
         double[] insideConsVars = govEqn.conservativeVars(insidePrimVars);
 
         copy(insideConsVars, left.U);
-        double time = 0.0;
-        double[] actualFlux = inletBC.convectiveFlux(testFace, time);
-        InletProperties prop = inletProps.apply(time);
-        double[] primProp = new double[]{prop.density, 0, 0, prop.normalVelocityMagnitude, prop.pressure};
+        double[] actualFlux = inletBC.convectiveFlux(testFace);
+        double[] primProp = new double[]{inletProps.density, 0, 0, inletProps.normalVelocityMagnitude, inletProps.pressure};
         double[] consProp = govEqn.conservativeVars(primProp);
         double[] expectedFlux = govEqn.convection().flux(consProp, normal);
         assertArrayEquals(expectedFlux, actualFlux, 1e-8);

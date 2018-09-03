@@ -11,16 +11,16 @@ import static main.util.DoubleArray.copy;
 public class InletBC implements BoundaryCondition {
 
     private final EulerEquations govEqn;
-    private final Function<Double, InletProperties> unsteadyInletProperties;
+    private final InletProperties unsteadyInletProperties;
 
-    public InletBC(EulerEquations govEqn, Function<Double, InletProperties> unsteadyInletProperties) {
+    public InletBC(EulerEquations govEqn, InletProperties unsteadyInletProperties) {
         this.govEqn = govEqn;
         this.unsteadyInletProperties = unsteadyInletProperties;
     }
 
     @Override
-    public void setGhostCellValues(Face face, double time) {
-        InletProperties prop = unsteadyInletProperties.apply(time);
+    public void setGhostCellValues(Face face) {
+        InletProperties prop = unsteadyInletProperties;
         Vector velocity = face.surface.unitNormal
                 .mult(-prop.normalVelocityMagnitude); // negative since the normal is pointing out
         double[] primVars = new double[]{
@@ -38,8 +38,8 @@ public class InletBC implements BoundaryCondition {
     }
 
     @Override
-    public double[] convectiveFlux(Face face, double time) {
-        InletProperties prop = unsteadyInletProperties.apply(time);
+    public double[] convectiveFlux(Face face) {
+        InletProperties prop = unsteadyInletProperties;
         Vector velocity = face.surface.unitNormal
                 .mult(-prop.normalVelocityMagnitude); // negative since the normal is pointing out
         double[] primVars = new double[]{

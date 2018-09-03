@@ -27,7 +27,7 @@ public class InviscidWallBCTest {
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
 
         copy(new double[]{1.0, 0.0, 0.0, 0.0, 10.0}, left.U);
-        inviscidWallBC.setGhostCellValues(testFace, 0.0);
+        inviscidWallBC.setGhostCellValues(testFace);
         assertEquals(1.0, right.U[0], 1e-8);
         assertEquals(0.0, right.U[1], 1e-8);
         assertEquals(0.0, right.U[2], 1e-8);
@@ -35,7 +35,7 @@ public class InviscidWallBCTest {
         assertEquals(10.0, right.U[4], 1e-8);
 
         copy(new double[]{5.0, 4.5, 4.5, 4.5, 124.0}, left.U);
-        inviscidWallBC.setGhostCellValues(testFace, 0.0);
+        inviscidWallBC.setGhostCellValues(testFace);
         assertEquals(5.0, right.U[0], 1e-8);
         assertEquals(-4.5, right.U[1], 1e-8);
         assertEquals(-4.5, right.U[2], 1e-8);
@@ -54,7 +54,7 @@ public class InviscidWallBCTest {
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
 
         copy(new double[]{1.0, 5.0, 8.0, 10.2, 10.0}, left.U);
-        inviscidWallBC.setGhostCellValues(testFace, 0.0);
+        inviscidWallBC.setGhostCellValues(testFace);
         assertEquals(1.0, right.U[0], 1e-8);
         assertEquals(-5.0, right.U[1], 1e-8);
         assertEquals(8.0, right.U[2], 1e-8);
@@ -73,7 +73,7 @@ public class InviscidWallBCTest {
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
 
         copy(new double[]{1.0, 5.0, 8.0, 10.2, 10.0}, left.U);
-        inviscidWallBC.setGhostCellValues(testFace, 0.0);
+        inviscidWallBC.setGhostCellValues(testFace);
         assertEquals(1.0, right.U[0], 1e-8);
         assertEquals(5.0, right.U[1], 1e-8);
         assertEquals(-8.0, right.U[2], 1e-8);
@@ -92,7 +92,7 @@ public class InviscidWallBCTest {
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
 
         copy(new double[]{1.0, 5.0, 8.0, 10.2, 10.0}, left.U);
-        inviscidWallBC.setGhostCellValues(testFace, 0.0);
+        inviscidWallBC.setGhostCellValues(testFace);
         assertEquals(1.0, right.U[0], 1e-8);
         assertEquals(5.0, right.U[1], 1e-8);
         assertEquals(8.0, right.U[2], 1e-8);
@@ -124,7 +124,7 @@ public class InviscidWallBCTest {
         double[] expectedFlux = govEqn.convection().flux(consVars, normal);
 
         copy(consVars, testFace.left.U);
-        double[] actualFlux = inviscidWallBC.convectiveFlux(testFace, 0.0);
+        double[] actualFlux = inviscidWallBC.convectiveFlux(testFace);
 
         assertArrayEquals(expectedFlux, actualFlux, 1e-8);
     }
@@ -153,7 +153,7 @@ public class InviscidWallBCTest {
         double[] expectedFlux = govEqn.convection().flux(consVars, normal);
 
         copy(consVars, testFace.left.U);
-        double[] actualFlux = inviscidWallBC.convectiveFlux(testFace, 0.0);
+        double[] actualFlux = inviscidWallBC.convectiveFlux(testFace);
 
         assertArrayEquals(expectedFlux, actualFlux, 1e-8);
     }
@@ -182,7 +182,7 @@ public class InviscidWallBCTest {
         double[] expectedFlux = govEqn.convection().flux(consVars, normal);
 
         copy(consVars, testFace.left.U);
-        double[] actualFlux = inviscidWallBC.convectiveFlux(testFace, 0.0);
+        double[] actualFlux = inviscidWallBC.convectiveFlux(testFace);
 
         assertArrayEquals(expectedFlux, actualFlux, 1e-8);
     }
@@ -211,7 +211,7 @@ public class InviscidWallBCTest {
         double[] expectedFlux = govEqn.convection().flux(consVars, normal);
 
         copy(consVars, testFace.left.U);
-        double[] actualFlux = inviscidWallBC.convectiveFlux(testFace, 0.0);
+        double[] actualFlux = inviscidWallBC.convectiveFlux(testFace);
 
         assertArrayEquals(expectedFlux, actualFlux, 1e-8);
     }

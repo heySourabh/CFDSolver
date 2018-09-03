@@ -3,7 +3,7 @@ package main.solver.time;
 import main.solver.Norm;
 
 public interface TimeIntegrator {
-    void updateCellAverages(double time);
+    void updateCellAverages();
 
     void setCourantNum(double courantNum);
 

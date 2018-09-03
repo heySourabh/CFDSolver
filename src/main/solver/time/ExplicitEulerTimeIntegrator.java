@@ -39,10 +39,10 @@ public class ExplicitEulerTimeIntegrator implements TimeIntegrator {
     }
 
     @Override
-    public void updateCellAverages(double time) {
+    public void updateCellAverages() {
         saveCurrentAverages();
-        setGhostCellValues(time);
-        setResiduals(time);
+        setGhostCellValues();
+        setResiduals();
         timeStep.updateCellTimeSteps(courantNum);
         calculateNewAverages();
     }
@@ -94,19 +94,19 @@ public class ExplicitEulerTimeIntegrator implements TimeIntegrator {
         return totalResidue;
     }
 
-    private void setGhostCellValues(double time) {
-        mesh.boundaryStream().forEach(boundary -> setGhostCellValues(boundary, time));
+    private void setGhostCellValues() {
+        mesh.boundaryStream().forEach(this::setGhostCellValues);
     }
 
-    private void setGhostCellValues(Boundary boundary, double time) {
+    private void setGhostCellValues(Boundary boundary) {
         BoundaryCondition bc = boundary.bc().orElseThrow(
                 () -> new IllegalArgumentException("Boundary condition is not defined."));
-        boundary.faces.forEach(bFace -> bc.setGhostCellValues(bFace, time));
+        boundary.faces.forEach(bc::setGhostCellValues);
     }
 
-    private void setResiduals(double time) {
+    private void setResiduals() {
         mesh.cellStream().forEach(cell -> Arrays.fill(cell.residual, 0.0));
-        residuals.forEach(residual -> residual.updateCellResiduals(time));
+        residuals.forEach(ResidualCalculator::updateCellResiduals);
     }
 
     private void saveCurrentAverages() {

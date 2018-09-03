@@ -13,14 +13,14 @@ public class ExtrapolatedBC implements BoundaryCondition {
     }
 
     @Override
-    public void setGhostCellValues(Face face, double time) {
+    public void setGhostCellValues(Face face) {
         Cell outerCell = face.right;
         Cell innerCell = face.left;
         DoubleArray.copy(innerCell.U, outerCell.U);
     }
 
     @Override
-    public double[] convectiveFlux(Face face, double time) {
+    public double[] convectiveFlux(Face face) {
         double[] innerVars = face.left.U;
         return govEqn.convection().flux(innerVars, face.surface.unitNormal);
     }

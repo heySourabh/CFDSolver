@@ -144,9 +144,8 @@ public class Solver1DScalarAdvectionTest {
         TimeIntegrator timeIntegrator = problem.timeIntegrator();
         timeIntegrator.setCourantNum(1.6);
         Convergence convergence = problem.convergence();
-        double time = 0;
         for (int i = 0; i < config.getMaxIterations(); i++) {
-            timeIntegrator.updateCellAverages(time);
+            timeIntegrator.updateCellAverages();
             double[] totalResidual = timeIntegrator.currentTotalResidual(config.getConvergenceNorm());
             if (convergence.hasConverged(totalResidual)) {
                 break;
@@ -173,7 +172,7 @@ public class Solver1DScalarAdvectionTest {
 
         // Calculated solution after another iteration
         for (int i = 0; i < config.getMaxIterations(); i++) {
-            timeIntegrator.updateCellAverages(time);
+            timeIntegrator.updateCellAverages();
         }
         calculatedSolU = mesh.cellStream()
                 .mapToDouble(cell -> cell.U[0])
@@ -189,7 +188,7 @@ public class Solver1DScalarAdvectionTest {
 
         // Calculated solution after another iteration
         for (int i = 0; i < config.getMaxIterations(); i++) {
-            timeIntegrator.updateCellAverages(time);
+            timeIntegrator.updateCellAverages();
         }
         calculatedSolU = mesh.cellStream()
                 .mapToDouble(cell -> cell.U[0])
@@ -207,7 +206,7 @@ public class Solver1DScalarAdvectionTest {
 
         // Calculated solution after another 3 iterations
         for (int i = 0; i < 3; i++) {
-            timeIntegrator.updateCellAverages(time);
+            timeIntegrator.updateCellAverages();
         }
         calculatedSolU = mesh.cellStream()
                 .mapToDouble(cell -> cell.U[0])

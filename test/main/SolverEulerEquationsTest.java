@@ -46,8 +46,7 @@ public class SolverEulerEquationsTest {
                             "Top-Bottom", new ExtrapolatedBC(govEqn),
                             "Right", new ExtrapolatedBC(govEqn),
                             "Airfoil", new InviscidWallBC(govEqn),
-                            "Inlet", new InletBC(govEqn,
-                                    time -> new InletBC.InletProperties(700.0, 1.0, 101325.0))
+                            "Inlet", new InletBC(govEqn, new InletBC.InletProperties(700.0, 1.0, 101325.0))
                     ));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -119,7 +118,7 @@ public class SolverEulerEquationsTest {
         boolean converged = false;
         int iter = 0;
         for (; iter < config.getMaxIterations(); iter++) {
-            timeIntegrator.updateCellAverages(0);
+            timeIntegrator.updateCellAverages();
             double[] totalResidual = timeIntegrator.currentTotalResidual(Norm.TWO_NORM);
             //System.out.println(iter + ": " + Arrays.toString(totalResidual));
             if (problem.convergence().hasConverged(totalResidual)) {

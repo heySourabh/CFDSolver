@@ -22,7 +22,7 @@ public class ConvectiveResidual implements ResidualCalculator {
     }
 
     @Override
-    public void updateCellResiduals(double time) {
+    public void updateCellResiduals() {
         // solution reconstruction for all cells
         reconstructor.reconstruct();
 
@@ -30,7 +30,7 @@ public class ConvectiveResidual implements ResidualCalculator {
         mesh.internalFaceStream().forEach(this::setFlux);
 
         // Calculate the flux at the boundary faces and save
-        mesh.boundaryStream().forEach(boundary -> setFlux(boundary, time));
+        mesh.boundaryStream().forEach(this::setFlux);
 
         // add / subtract (flux * face.area) to the cells residual
         mesh.cellStream().forEach(this::updateCellResidual);
@@ -53,14 +53,14 @@ public class ConvectiveResidual implements ResidualCalculator {
         decrement(cell.residual, totalResidual);
     }
 
-    private void setFlux(Boundary boundary, double time) {
+    private void setFlux(Boundary boundary) {
         BoundaryCondition bc = boundary.bc().orElseThrow(
                 () -> new IllegalArgumentException("Boundary condition is not defined."));
-        boundary.faces.forEach(bFace -> setFlux(bFace, bc, time));
+        boundary.faces.forEach(bFace -> setFlux(bFace, bc));
     }
 
-    private void setFlux(Face face, BoundaryCondition bc, double time) {
-        double[] flux = bc.convectiveFlux(face, time);
+    private void setFlux(Face face, BoundaryCondition bc) {
+        double[] flux = bc.convectiveFlux(face);
         copy(flux, face.flux);
     }
 

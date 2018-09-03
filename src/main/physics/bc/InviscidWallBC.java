@@ -14,7 +14,7 @@ public class InviscidWallBC implements BoundaryCondition {
     }
 
     @Override
-    public void setGhostCellValues(Face face, double time) {
+    public void setGhostCellValues(Face face) {
         // extrapolate pressure and density
         // mirror velocity vector
         double[] insidePrimVars = govEqn.primitiveVars(face.left.U);
@@ -40,7 +40,7 @@ public class InviscidWallBC implements BoundaryCondition {
     }
 
     @Override
-    public double[] convectiveFlux(Face face, double time) {
+    public double[] convectiveFlux(Face face) {
         Vector n = face.surface.unitNormal;
         double[] insidePrimVars = govEqn.primitiveVars(face.left.U);
         double p = insidePrimVars[4];

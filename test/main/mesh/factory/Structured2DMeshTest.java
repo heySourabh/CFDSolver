@@ -38,12 +38,12 @@ public class Structured2DMeshTest {
 
     private static BoundaryCondition dummyBC = new BoundaryCondition() {
         @Override
-        public void setGhostCellValues(Face face, double time) {
+        public void setGhostCellValues(Face face) {
             throw new UnsupportedOperationException("Not implemented.");
         }
 
         @Override
-        public double[] convectiveFlux(Face face, double time) {
+        public double[] convectiveFlux(Face face) {
             throw new UnsupportedOperationException("Not implemented.");
         }
     };

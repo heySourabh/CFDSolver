@@ -49,7 +49,7 @@ public class SolverEulerEquationsVKTest {
                             "Right", new ExtrapolatedBC(govEqn),
                             "Airfoil", new InviscidWallBC(govEqn),
                             "Inlet", new InletBC(govEqn,
-                                    time -> new InletBC.InletProperties(700.0, 1.0, 101325.0))
+                                    new InletBC.InletProperties(700.0, 1.0, 101325.0))
                     ));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -125,7 +125,7 @@ public class SolverEulerEquationsVKTest {
         boolean converged = false;
         int iter = 0;
         for (; iter < config.getMaxIterations(); iter++) {
-            timeIntegrator.updateCellAverages(0);
+            timeIntegrator.updateCellAverages();
             double[] totalResidual = timeIntegrator.currentTotalResidual(Norm.TWO_NORM);
             //System.out.println(iter + ": " + Arrays.toString(totalResidual));
             if (problem.convergence().hasConverged(totalResidual)) {

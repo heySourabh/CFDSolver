@@ -26,7 +26,7 @@ public class ExtrapolatedBCTest {
 
         double[] expectedU = random(govEqn.numVars(), new Random(457));
         copy(expectedU, left.U);
-        extrapolatedBC.setGhostCellValues(testFace, 0.0);
+        extrapolatedBC.setGhostCellValues(testFace);
         assertArrayEquals(expectedU, testFace.right.U, 1e-15);
     }
 
@@ -42,7 +42,7 @@ public class ExtrapolatedBCTest {
 
         double[] consVars = random(govEqn.numVars(), rnd);
         copy(consVars, left.U);
-        double[] actualFlux = extrapolatedBC.convectiveFlux(testFace, 0.0);
+        double[] actualFlux = extrapolatedBC.convectiveFlux(testFace);
         double[] expectedFlux = govEqn.convection().flux(consVars, unitNormal);
 
         assertArrayEquals(expectedFlux, actualFlux, 1e-15);

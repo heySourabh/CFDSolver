@@ -106,7 +106,7 @@ public class SolverEulerEquations1Test {
         Config config = problem.config();
 
         for (int iter = 0; iter < config.getMaxIterations(); iter++) {
-            timeIntegrator.updateCellAverages(0);
+            timeIntegrator.updateCellAverages();
             double[] totalResidual = timeIntegrator.currentTotalResidual(Norm.ONE_NORM);
             if (problem.convergence().hasConverged(totalResidual)) break;
         }
