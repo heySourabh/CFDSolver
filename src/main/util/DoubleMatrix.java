@@ -114,6 +114,16 @@ public class DoubleMatrix {
         return result;
     }
 
+    public static double[] column(double[][] matrix, int col) {
+        int numRows = matrix.length;
+        double[] column = new double[numRows];
+        for (int r = 0; r < numRows; r++) {
+            column[r] = matrix[r][col];
+        }
+
+        return column;
+    }
+
     public static double[][] transpose(double[][] matrix) {
         int numRows = matrix.length;
         int numCols = matrix[0].length;

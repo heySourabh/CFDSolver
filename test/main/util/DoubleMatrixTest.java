@@ -4,7 +4,8 @@ import org.junit.Test;
 
 import static main.util.TestHelper.assertMatrixEquals;
 import static main.util.TestHelper.assertThrows;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class DoubleMatrixTest {
     @Test
@@ -390,6 +391,24 @@ public class DoubleMatrixTest {
         };
 
         assertMatrixEquals(A, DoubleMatrix.copyOf(A), 1e-12);
+    }
+
+    @Test
+    public void extract_column_from_an_arbitrary_matrix() {
+        double[][] A = {
+                {0.7145743975689531, 0.2671609402694344, 0.001845559237475758},
+                {0.34608934560491844, 0.4736962459305115, 0.2535484676104236},
+                {0.3254509941196886, 0.17868134542125047, 0.6412805512675501},
+                {0.13093656578156743, 0.45716337776708826, 0.7153420151113619}
+        };
+
+        double[] expectedColumn = {
+                0.7145743975689531,
+                0.34608934560491844,
+                0.3254509941196886,
+                0.13093656578156743};
+
+        assertArrayEquals(expectedColumn, DoubleMatrix.column(A, 0), 1e-15);
     }
 
     @Test
