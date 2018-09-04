@@ -228,6 +228,61 @@ public class DoubleMatrix {
         return result;
     }
 
+    public static double[][] copyOf(double[][] matrix) {
+        int numRows = matrix.length;
+        int numCols = matrix[0].length;
+
+        double[][] copy = new double[numRows][numCols];
+        for (int i = 0; i < numRows; i++) {
+            System.arraycopy(matrix[i], 0, copy[i], 0, numCols);
+        }
+
+        return copy;
+    }
+
+    public static double[][] swapRows(double[][] matrix, int row1, int row2) {
+        int numRows = matrix.length;
+        int numCols = matrix[0].length;
+
+        if (row1 < 0 || row1 >= numRows) throw new IllegalArgumentException("Row index is out of bounds: " + row1);
+        if (row2 < 0 || row2 >= numRows) throw new IllegalArgumentException("Row index is out of bounds: " + row2);
+        if (row1 == row2) return copyOf(matrix);
+
+        double[][] result = new double[numRows][numCols];
+        for (int i = 0; i < numRows; i++) {
+            if (i == row1)
+                System.arraycopy(matrix[row2], 0, result[row1], 0, numCols);
+            else if (i == row2)
+                System.arraycopy(matrix[row1], 0, result[row2], 0, numCols);
+            else
+                System.arraycopy(matrix[i], 0, result[i], 0, numCols);
+        }
+
+        return result;
+    }
+
+    public static double[][] swapColumns(double[][] matrix, int col1, int col2) {
+        int numRows = matrix.length;
+        int numCols = matrix[0].length;
+
+        if (col1 < 0 || col1 >= numCols) throw new IllegalArgumentException("Column index is out of bounds: " + col1);
+        if (col2 < 0 || col2 >= numCols) throw new IllegalArgumentException("Column index is out of bounds: " + col2);
+        if (col1 == col2) return copyOf(matrix);
+
+        double[][] result = new double[numRows][numCols];
+        for (int i = 0; i < numRows; i++)
+            for (int j = 0; j < numCols; j++) {
+                int jj = j;
+                if (j == col1) {
+                    jj = col2;
+                } else if (j == col2)
+                    jj = col1;
+                result[i][jj] = matrix[i][j];
+            }
+
+        return result;
+    }
+
     public static String stringify(double[][] matrix) {
         int decimals = 10;
         int numberWidth = decimals + 10;
