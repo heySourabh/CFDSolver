@@ -87,6 +87,7 @@ public class DoubleArray {
         if (Math.abs(denominator) < EPS) {
             throw new ArithmeticException("divide by zero.");
         }
+
         return numerator / denominator;
     }
 
@@ -131,6 +132,7 @@ public class DoubleArray {
         for (double e : array) {
             sum += e;
         }
+
         return sum;
     }
 
