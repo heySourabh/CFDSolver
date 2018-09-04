@@ -270,15 +270,16 @@ public class DoubleMatrix {
         if (col1 == col2) return copyOf(matrix);
 
         double[][] result = new double[numRows][numCols];
-        for (int i = 0; i < numRows; i++)
+        for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numCols; j++) {
                 int jj = j;
-                if (j == col1) {
+                if (j == col1)
                     jj = col2;
-                } else if (j == col2)
+                else if (j == col2)
                     jj = col1;
                 result[i][jj] = matrix[i][j];
             }
+        }
 
         return result;
     }
