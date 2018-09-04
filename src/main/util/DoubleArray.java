@@ -118,6 +118,22 @@ public class DoubleArray {
         return newArray;
     }
 
+    public static double norm2Sqr(double[] array) {
+        return sum(apply(array, e -> e * e));
+    }
+
+    public static double norm2(double[] array) {
+        return Math.sqrt(norm2Sqr(array));
+    }
+
+    public static double sum(double[] array) {
+        double sum = 0.0;
+        for (double e : array) {
+            sum += e;
+        }
+        return sum;
+    }
+
     /**
      * Creates a new array by picking minimum of the elements at the index from the two arrays.
      *

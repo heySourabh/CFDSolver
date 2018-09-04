@@ -41,4 +41,49 @@ public class DoubleArrayTest {
         double zero = 0.0;
         assertThrows(ArithmeticException.class, () -> DoubleArray.divide(array, zero));
     }
+
+    @Test
+    public void norm2Sqr_of_an_array_with_zeros_is_zero() {
+        double[] array = {0, 0, 0, 0};
+        assertEquals(0, DoubleArray.norm2Sqr(array), 1e-15);
+    }
+
+    @Test
+    public void norm2Sqr_of_an_array_with_ones_is_its_length() {
+        double[] array = {1, 1, 1, -1, 1, 1, 1};
+        assertEquals(array.length, DoubleArray.norm2Sqr(array), 1e-15);
+    }
+
+    @Test
+    public void norm2Sqr_of_arbitrary_an_array() {
+        double[] array = {-5, 6, 3.2, -7, -6};
+        double expectedResult = (5 * 5) + (6 * 6) + (3.2 * 3.2) + (7 * 7) + (6 * 6);
+        assertEquals(expectedResult, DoubleArray.norm2Sqr(array), 1e-15);
+    }
+
+    @Test
+    public void norm2_of_an_array_with_zeros_is_zero() {
+        double[] array = {0, 0, 0, 0};
+        assertEquals(0, DoubleArray.norm2(array), 1e-15);
+    }
+
+    @Test
+    public void norm2_of_an_array_with_ones_is_sqrt_of_its_length() {
+        double[] array = {1, -1, 1, 1, -1, 1, 1};
+        assertEquals(Math.sqrt(array.length), DoubleArray.norm2(array), 1e-15);
+    }
+
+    @Test
+    public void norm2_of_arbitrary_an_array() {
+        double[] array = {-5, 6, 3.2, -7, -6};
+        double expectedResult = Math.sqrt((5 * 5) + (6 * 6) + (3.2 * 3.2) + (7 * 7) + (6 * 6));
+        assertEquals(expectedResult, DoubleArray.norm2(array), 1e-15);
+    }
+
+    @Test
+    public void sum_of_an_arbitrary_array() {
+        double[] array = {-2, 6, 7, -9};
+        double expectedResult = -2 + 6 + 7 - 9;
+        assertEquals(expectedResult, DoubleArray.sum(array), 1e-15);
+    }
 }
