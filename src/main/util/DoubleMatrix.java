@@ -313,9 +313,9 @@ public class DoubleMatrix {
     }
 
     private static String format(double number, int maxPrintWidth, int numDecimals) {
-        if (Math.abs(number) < 0.1 || Math.abs(number) >= 10)
-            return String.format("%-" + maxPrintWidth + "." + numDecimals + "E", number);
-        else
+        if (Math.abs(number) >= 0.1 && Math.abs(number) < 10 || number == 0)
             return String.format("%-" + maxPrintWidth + "." + numDecimals + "f", number);
+        else
+            return String.format("%-" + maxPrintWidth + "." + numDecimals + "E", number);
     }
 }
