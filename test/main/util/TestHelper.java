@@ -39,6 +39,13 @@ public class TestHelper {
         }
     }
 
+    public static void assertMatrixEquals(double[][] expected, double[][] actual, double tolerance) {
+        assertEquals(expected.length, actual.length);
+        for (int i = 0; i < expected.length; i++) {
+            assertArrayEquals(expected[i], actual[i], tolerance);
+        }
+    }
+
     public static void assertVectorEquals(Vector expected, Vector actual, double tolerance) {
         assertEquals("x-component of vector", expected.x, actual.x, tolerance);
         assertEquals("y-component of vector", expected.y, actual.y, tolerance);

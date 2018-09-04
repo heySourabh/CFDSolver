@@ -2,18 +2,11 @@ package main.util;
 
 import org.junit.Test;
 
+import static main.util.TestHelper.assertMatrixEquals;
 import static main.util.TestHelper.assertThrows;
 import static org.junit.Assert.*;
 
 public class DoubleMatrixTest {
-
-    private void assertMatrixEquals(double[][] expected, double[][] actual) {
-        assertEquals(expected.length, actual.length);
-        for (int i = 0; i < expected.length; i++) {
-            assertArrayEquals(expected[i], actual[i], 1e-12);
-        }
-    }
-
     @Test
     public void add() {
         double[][] A = {
@@ -40,7 +33,7 @@ public class DoubleMatrixTest {
                 {0.8447880622480001, 1.101995933079133, 1.270165286183233, 0.6061544473318135}
         };
 
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.add(A, B));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.add(A, B), 1e-12);
 
         // Exception on different size matrices
         double[][] sizeMismatchA = new double[3][5];
@@ -74,7 +67,7 @@ public class DoubleMatrixTest {
                 {0.641333852015593, 0.7140847072308429, -0.3780371920391775, -0.0306844126694552}
         };
 
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.subtract(A, B));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.subtract(A, B), 1e-12);
 
         // Exception on different size matrices
         double[][] sizeMismatchA = new double[3][5];
@@ -101,7 +94,7 @@ public class DoubleMatrixTest {
                 {40.74946288910772, 49.79693115729954, 24.46215234143001, 15.77938835044186}
         };
 
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.multiply(A, scalar));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.multiply(A, scalar), 1e-12);
     }
 
     @Test
@@ -154,7 +147,7 @@ public class DoubleMatrixTest {
                 {1.294443390869627, 1.000117658394092, 1.242982239276248, 1.122150949713216, 1.426046263421709}
         };
 
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.multiply(A, B));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.multiply(A, B), 1e-12);
 
         // Exception on different size matrices
         double[][] sizeMismatchA = new double[3][5];
@@ -179,7 +172,7 @@ public class DoubleMatrixTest {
                 {0.7076840591058451, 0.7542072165322477, 0.1365200309090236, 0.4714589759247269, 0.2877350173311791}
         };
 
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.transpose(A));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.transpose(A), 1e-12);
     }
 
     @Test
@@ -235,7 +228,7 @@ public class DoubleMatrixTest {
                 {21.58318399597416, -35.47458758295441, -22.99452173205346, 33.13189124638124}
         };
 
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.invert(A));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.invert(A), 1e-12);
 
         // not a square matrix exception
         double[][] nonSquare = new double[3][4];
@@ -266,7 +259,7 @@ public class DoubleMatrixTest {
                 {-0.0630758993654805, -0.2218422521500477, 0.06247046401965749, 0.147275769721096}
         };
 
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.cofactorMatrix(A));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.cofactorMatrix(A), 1e-12);
 
         // not a square matrix exception
         double[][] B = new double[3][4];
@@ -288,7 +281,7 @@ public class DoubleMatrixTest {
                 {0.45716337776708826, 0.7153420151113619, 0.47145897592472696},
                 {0.9080403201549879, 0.44606404707202785, 0.2877350173311791}
         };
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.removeRowColumn(A, 2, 0));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.removeRowColumn(A, 2, 0), 1e-12);
     }
 
     @Test
@@ -307,7 +300,7 @@ public class DoubleMatrixTest {
                 {0.45716337776708826, 0.7153420151113619, 0.47145897592472696},
                 {0.9080403201549879, 0.44606404707202785, 0.2877350173311791}
         };
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.removeColumn(A, 0));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.removeColumn(A, 0), 1e-12);
 
         expectedMatrix = new double[][]{
                 {0.7145743975689531, 0.001845559237475758, 0.7076840591058451},
@@ -316,7 +309,7 @@ public class DoubleMatrixTest {
                 {0.13093656578156743, 0.7153420151113619, 0.47145897592472696},
                 {0.7430609571317965, 0.44606404707202785, 0.2877350173311791}
         };
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.removeColumn(A, 1));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.removeColumn(A, 1), 1e-12);
 
         expectedMatrix = new double[][]{
                 {0.7145743975689531, 0.2671609402694344, 0.7076840591058451},
@@ -325,7 +318,7 @@ public class DoubleMatrixTest {
                 {0.13093656578156743, 0.45716337776708826, 0.47145897592472696},
                 {0.7430609571317965, 0.9080403201549879, 0.2877350173311791}
         };
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.removeColumn(A, 2));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.removeColumn(A, 2), 1e-12);
 
         expectedMatrix = new double[][]{
                 {0.7145743975689531, 0.2671609402694344, 0.001845559237475758},
@@ -334,7 +327,7 @@ public class DoubleMatrixTest {
                 {0.13093656578156743, 0.45716337776708826, 0.7153420151113619},
                 {0.7430609571317965, 0.9080403201549879, 0.44606404707202785}
         };
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.removeColumn(A, 3));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.removeColumn(A, 3), 1e-12);
     }
 
     @Test
@@ -352,7 +345,7 @@ public class DoubleMatrixTest {
                 {0.13093656578156743, 0.45716337776708826, 0.7153420151113619, 0.47145897592472696},
                 {0.7430609571317965, 0.9080403201549879, 0.44606404707202785, 0.2877350173311791}
         };
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.removeRow(A, 0));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.removeRow(A, 0), 1e-12);
 
         expectedMatrix = new double[][]{
                 {0.7145743975689531, 0.2671609402694344, 0.001845559237475758, 0.7076840591058451},
@@ -360,7 +353,7 @@ public class DoubleMatrixTest {
                 {0.13093656578156743, 0.45716337776708826, 0.7153420151113619, 0.47145897592472696},
                 {0.7430609571317965, 0.9080403201549879, 0.44606404707202785, 0.2877350173311791}
         };
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.removeRow(A, 1));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.removeRow(A, 1), 1e-12);
 
         expectedMatrix = new double[][]{
                 {0.7145743975689531, 0.2671609402694344, 0.001845559237475758, 0.7076840591058451},
@@ -368,7 +361,7 @@ public class DoubleMatrixTest {
                 {0.13093656578156743, 0.45716337776708826, 0.7153420151113619, 0.47145897592472696},
                 {0.7430609571317965, 0.9080403201549879, 0.44606404707202785, 0.2877350173311791}
         };
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.removeRow(A, 2));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.removeRow(A, 2), 1e-12);
 
         expectedMatrix = new double[][]{
                 {0.7145743975689531, 0.2671609402694344, 0.001845559237475758, 0.7076840591058451},
@@ -376,7 +369,7 @@ public class DoubleMatrixTest {
                 {0.3254509941196886, 0.17868134542125047, 0.6412805512675501, 0.13652003090902365},
                 {0.7430609571317965, 0.9080403201549879, 0.44606404707202785, 0.2877350173311791}
         };
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.removeRow(A, 3));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.removeRow(A, 3), 1e-12);
 
         expectedMatrix = new double[][]{
                 {0.7145743975689531, 0.2671609402694344, 0.001845559237475758, 0.7076840591058451},
@@ -384,7 +377,7 @@ public class DoubleMatrixTest {
                 {0.3254509941196886, 0.17868134542125047, 0.6412805512675501, 0.13652003090902365},
                 {0.13093656578156743, 0.45716337776708826, 0.7153420151113619, 0.47145897592472696}
         };
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.removeRow(A, 4));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.removeRow(A, 4), 1e-12);
     }
 
     @Test
@@ -396,7 +389,7 @@ public class DoubleMatrixTest {
                 {0.13093656578156743, 0.45716337776708826, 0.7153420151113619}
         };
 
-        assertMatrixEquals(A, DoubleMatrix.copyOf(A));
+        assertMatrixEquals(A, DoubleMatrix.copyOf(A), 1e-12);
     }
 
     @Test
@@ -441,7 +434,7 @@ public class DoubleMatrixTest {
                 {0.13093656578156743, 0.45716337776708826, 0.7153420151113619}
         };
 
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.swapRows(A, 0, 0));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.swapRows(A, 0, 0), 1e-12);
     }
 
     @Test
@@ -460,7 +453,7 @@ public class DoubleMatrixTest {
                 {0.7145743975689531, 0.2671609402694344, 0.001845559237475758}
         };
 
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.swapRows(A, 0, 3));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.swapRows(A, 0, 3), 1e-12);
     }
 
     @Test
@@ -479,7 +472,7 @@ public class DoubleMatrixTest {
                 {0.7145743975689531, 0.2671609402694344, 0.001845559237475758}
         };
 
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.swapRows(A, 3, 0));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.swapRows(A, 3, 0), 1e-12);
     }
 
     @Test
@@ -498,7 +491,7 @@ public class DoubleMatrixTest {
                 {0.13093656578156743, 0.45716337776708826, 0.7153420151113619}
         };
 
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.swapRows(A, 1, 2));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.swapRows(A, 1, 2), 1e-12);
     }
 
     @Test
@@ -533,7 +526,7 @@ public class DoubleMatrixTest {
                 {0.13093656578156743, 0.45716337776708826, 0.7153420151113619}
         };
 
-        assertMatrixEquals(A, DoubleMatrix.swapColumns(A, 2, 2));
+        assertMatrixEquals(A, DoubleMatrix.swapColumns(A, 2, 2), 1e-12);
     }
 
     @Test
@@ -552,7 +545,7 @@ public class DoubleMatrixTest {
                 {0.45716337776708826, 0.13093656578156743, 0.7153420151113619}
         };
 
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.swapColumns(A, 0, 1));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.swapColumns(A, 0, 1), 1e-12);
     }
 
     @Test
@@ -571,7 +564,7 @@ public class DoubleMatrixTest {
                 {0.7153420151113619, 0.45716337776708826, 0.13093656578156743}
         };
 
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.swapColumns(A, 0, 2));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.swapColumns(A, 0, 2), 1e-12);
     }
 
     @Test
@@ -590,7 +583,7 @@ public class DoubleMatrixTest {
                 {0.7153420151113619, 0.45716337776708826, 0.13093656578156743}
         };
 
-        assertMatrixEquals(expectedMatrix, DoubleMatrix.swapColumns(A, 2, 0));
+        assertMatrixEquals(expectedMatrix, DoubleMatrix.swapColumns(A, 2, 0), 1e-12);
     }
 
     @Test
