@@ -15,22 +15,18 @@ public class QRDecompositionTest {
                 {2, 1},
                 {1, 5}
         };
-        double[][] Q = {
-                {2.0 / 3.0, -1.0 / Math.sqrt(18.0)},
-                {2.0 / 3.0, -1.0 / Math.sqrt(18.0)},
-                {1.0 / 3.0, 4.0 / Math.sqrt(18.0)}
-        };
-        double[][] R = {
-                {3.0, 3.0},
-                {0.0, Math.sqrt(18.0)}
-        };
-        assertMatrixEquals(A, multiply(Q, R), 1e-12);
 
-        QRDecomposition qrDecomposition = new QRDecomposition(A);
+        QRDecomposition qrDecomposition = new QRDecomposition(A, true);
+        double[][] Q = qrDecomposition.Q();
+        double[][] R = qrDecomposition.R();
+        int[] permutations = qrDecomposition.P();
+        double[][] P = createPermutationMatrix(permutations);
 
-        assertMatrixEquals(Q, qrDecomposition.Q(), 1e-12);
+        assertMatrixEquals(A, multiply(multiply(Q, R), P), 1e-12);
 
-        assertMatrixEquals(R, qrDecomposition.R(), 1e-12);
+        assertColumnsOrthonormal(Q, 1e-12);
+
+        assertUpperTriangular(R, 1e-12);
     }
 
     @Test
@@ -41,26 +37,18 @@ public class QRDecompositionTest {
                 {1, 1, 1},
                 {1, 1, 1}
         };
-        double sqrt76 = Math.sqrt(76);
-        double sqrt38 = Math.sqrt(38);
-        double[][] Q = {
-                {0.5, 5.0 / sqrt76, 4.0 / sqrt38},
-                {-0.5, 7.0 / sqrt76, -2.0 / sqrt38},
-                {0.5, 1.0 / sqrt76, -3.0 / sqrt38},
-                {0.5, 1.0 / sqrt76, -3.0 / sqrt38}
-        };
-        double[][] R = {
-                {2, 1.5, 2},
-                {0, 19.0 / sqrt76, 24.0 / sqrt76},
-                {0, 0, 4.0 / sqrt38}
-        };
-        assertMatrixEquals(A, multiply(Q, R), 1e-12);
 
-        QRDecomposition qrDecomposition = new QRDecomposition(A);
+        QRDecomposition qrDecomposition = new QRDecomposition(A, true);
+        double[][] Q = qrDecomposition.Q();
+        double[][] R = qrDecomposition.R();
+        int[] permutations = qrDecomposition.P();
+        double[][] P = createPermutationMatrix(permutations);
 
-        assertMatrixEquals(Q, qrDecomposition.Q(), 1e-12);
+        assertMatrixEquals(A, multiply(multiply(Q, R), P), 1e-12);
 
-        assertMatrixEquals(R, qrDecomposition.R(), 1e-12);
+        assertColumnsOrthonormal(Q, 1e-12);
+
+        assertUpperTriangular(R, 1e-12);
     }
 
     @Test
@@ -87,7 +75,7 @@ public class QRDecompositionTest {
         };
         assertMatrixEquals(A, multiply(Q, R), 1e-12);
 
-        QRDecomposition qrDecomposition = new QRDecomposition(A);
+        QRDecomposition qrDecomposition = new QRDecomposition(A, false);
 
         assertMatrixEquals(Q, qrDecomposition.Q(), 1e-12);
 
@@ -113,7 +101,7 @@ public class QRDecompositionTest {
         };
         assertMatrixEquals(A, multiply(Q, R), 1e-12);
 
-        QRDecomposition qrDecomposition = new QRDecomposition(A);
+        QRDecomposition qrDecomposition = new QRDecomposition(A, false);
 
         assertMatrixEquals(Q, qrDecomposition.Q(), 1e-12);
 
@@ -123,17 +111,19 @@ public class QRDecompositionTest {
     @Test
     public void checking_properties_of_qr_decomposition_of_tall_matrix() {
         double[][] A = {
-                {1, -1, 6},
-                {1, 2, 0},
-                {1, 3, -1},
-                {1, 4, -1}
+                {6, -1, 1},
+                {0, 2, 1},
+                {-1, 3, 1},
+                {-1, 4, 1}
         };
 
-        QRDecomposition qrDecomposition = new QRDecomposition(A);
+        QRDecomposition qrDecomposition = new QRDecomposition(A, true);
         double[][] Q = qrDecomposition.Q();
         double[][] R = qrDecomposition.R();
+        int[] permutations = qrDecomposition.P();
+        double[][] P = createPermutationMatrix(permutations);
 
-        assertMatrixEquals(A, multiply(Q, R), 1e-12);
+        assertMatrixEquals(A, multiply(multiply(Q, R), P), 1e-12);
 
         assertColumnsOrthonormal(Q, 1e-12);
 
@@ -148,27 +138,17 @@ public class QRDecompositionTest {
                 {0, 5, 0}
         };
 
-        double sqrt2 = Math.sqrt(2);
-        double sqrt2x5 = sqrt2 * 5;
-        double[][] Q = {
-                {4.0 / 5.0, -3.0 / sqrt2x5, -3.0 / sqrt2x5},
-                {3.0 / 5.0, 4.0 / sqrt2x5, 4.0 / sqrt2x5},
-                {0.0, 1.0 / sqrt2, -1.0 / sqrt2}
-        };
+        QRDecomposition qrDecomposition = new QRDecomposition(A, true);
+        double[][] Q = qrDecomposition.Q();
+        double[][] R = qrDecomposition.R();
+        int[] permutations = qrDecomposition.P();
+        double[][] P = createPermutationMatrix(permutations);
 
-        double[][] R = {
-                {5, 15, -10},
-                {0, sqrt2x5, sqrt2x5},
-                {0, 0, sqrt2x5}
-        };
+        assertMatrixEquals(A, multiply(multiply(Q, R), P), 1e-12);
 
-        assertMatrixEquals(A, multiply(Q, R), 1e-12);
+        assertColumnsOrthonormal(Q, 1e-12);
 
-        QRDecomposition qrDecomposition = new QRDecomposition(A);
-
-        assertMatrixEquals(Q, qrDecomposition.Q(), 1e-12);
-
-        assertMatrixEquals(R, qrDecomposition.R(), 1e-12);
+        assertUpperTriangular(R, 1e-12);
     }
 
     @Test
@@ -193,7 +173,7 @@ public class QRDecompositionTest {
 
         assertMatrixEquals(A, multiply(Q, R), 1e-12);
 
-        QRDecomposition qrDecomposition = new QRDecomposition(A);
+        QRDecomposition qrDecomposition = new QRDecomposition(A, false);
 
         assertMatrixEquals(Q, qrDecomposition.Q(), 1e-12);
 
@@ -208,15 +188,26 @@ public class QRDecompositionTest {
                 {0, 5, 12}
         };
 
-        QRDecomposition qrDecomposition = new QRDecomposition(A);
+        QRDecomposition qrDecomposition = new QRDecomposition(A, true);
         double[][] Q = qrDecomposition.Q();
         double[][] R = qrDecomposition.R();
+        int[] permutations = qrDecomposition.P();
+        double[][] P = createPermutationMatrix(permutations);
 
-        assertMatrixEquals(A, multiply(Q, R), 1e-12);
+        assertMatrixEquals(A, multiply(multiply(Q, R), P), 1e-12);
 
         assertColumnsOrthonormal(Q, 1e-15);
 
         assertUpperTriangular(R, 1e-15);
+    }
+
+    private double[][] createPermutationMatrix(int[] permutations) {
+        double[][] P = new double[permutations.length][permutations.length];
+        for (int i = 0; i < P.length; i++) {
+            P[i][permutations[i]] = 1.0;
+        }
+
+        return P;
     }
 
     private void assertOrthonormal(double[] v1, double[] v2, double tolerance) {
