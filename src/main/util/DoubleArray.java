@@ -136,6 +136,15 @@ public class DoubleArray {
         return sum;
     }
 
+    public static double dot(double[] v1, double[] v2) {
+        double innerProduct = 0.0;
+        for (int i = 0; i < v1.length; i++) {
+            innerProduct += v1[i] * v2[i];
+        }
+
+        return innerProduct;
+    }
+
     /**
      * Creates a new array by picking minimum of the elements at the index from the two arrays.
      *

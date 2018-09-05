@@ -86,4 +86,14 @@ public class DoubleArrayTest {
         double expectedResult = -2 + 6 + 7 - 9;
         assertEquals(expectedResult, DoubleArray.sum(array), 1e-15);
     }
+
+    @Test
+    public void dot_product_of_two_vectors() {
+        double[] v1 = {1, 2, -5, 6};
+        double[] v2 = {5, 5, 5, -5};
+
+        double dotProduct = 1. * 5 + 2 * 5 + (-5) * 5 + 6 * (-5);
+
+        assertEquals(dotProduct, DoubleArray.dot(v1, v2), 1e-15);
+    }
 }
