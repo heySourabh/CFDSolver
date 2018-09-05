@@ -42,7 +42,7 @@ public class QRDecomposition {
     }
 
     private double[] projection(double[] ofVector, double[] onUnitVector) {
-        double projectionLength = sum(multiply(ofVector, onUnitVector));
+        double projectionLength = dot(ofVector, onUnitVector);
         return multiply(onUnitVector, projectionLength);
     }
 
