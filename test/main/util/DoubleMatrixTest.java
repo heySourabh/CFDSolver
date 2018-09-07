@@ -157,6 +157,29 @@ public class DoubleMatrixTest {
     }
 
     @Test
+    public void multiply_multiple_matrices() {
+        double[][] M1 = {{1, 4}, {5, 9}, {1, 0}};
+        double[][] M2 = {{12, 2, 7}, {7, 8, 3}};
+        double[][] M3 = {{2, 0, 7, -3}, {-4, 4, 7, 0}, {2, 25, 4, 8}};
+
+        // Calculated using Maxima software
+        double[][] expectedResult = {{-18, 611, 594, 32}, {42, 1878, 1683, 127}, {30, 183, 126, 20}};
+
+        assertMatrixEquals(expectedResult, DoubleMatrix.multiply(M1, M2, M3), 1e-12);
+
+        double[][] M4 = {{-9, 5, 8}, {2, -6, 2}, {5, 7, 0}, {2, 6, -5}};
+
+        // calculated using Maxima software
+        expectedResult = new double[][]{{4418, 594, 918}, {12047, 1485, 3457}, {766, 54, 506}};
+        assertMatrixEquals(expectedResult, DoubleMatrix.multiply(M1, M2, M3, M4), 1e-12);
+    }
+
+    @Test
+    public void identity_matrix() {
+        assertMatrixEquals(new double[][]{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}, DoubleMatrix.I(3), 1e-12);
+    }
+
+    @Test
     public void transpose() {
         double[][] A = {
                 {0.7145743975689531, 0.2671609402694344, 0.001845559237475758, 0.7076840591058451},
@@ -606,7 +629,7 @@ public class DoubleMatrixTest {
     }
 
     @Test
-    public void stringify() {
+    public void stringify_formats_correctly() {
         double[][] A = {
                 {3.0, 0.2671609402694344, 0.001845559237475758, 0.7076840591058451},
                 {0.34608934560491844, 0.4736962459305115, 0.2535484676104236, 0.7542072165322476},

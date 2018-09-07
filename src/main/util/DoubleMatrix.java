@@ -93,6 +93,12 @@ public class DoubleMatrix {
         return result;
     }
 
+    public static double[][] multiply(double[][] matrix1, double[][] matrix2, double[][]... matrices) {
+        double[][] M = multiply(matrix1, matrix2);
+        return Arrays.stream(matrices)
+                .reduce(M, DoubleMatrix::multiply);
+    }
+
     public static double[] multiply(double[][] matrix, double[] vector) {
         int numRows = matrix.length;
         int numCols = matrix[0].length;
@@ -112,6 +118,15 @@ public class DoubleMatrix {
         }
 
         return result;
+    }
+
+    public static double[][] I(int n) {
+        double[][] identityMatrix = new double[n][n];
+        for (int i = 0; i < n; i++) {
+            identityMatrix[i][i] = 1.0;
+        }
+
+        return identityMatrix;
     }
 
     public static double[] column(double[][] matrix, int col) {
