@@ -196,9 +196,9 @@ public class QRDecompositionTest {
 
         assertMatrixEquals(A, multiply(multiply(Q, R), P), 1e-12);
 
-        assertColumnsOrthonormal(Q, 1e-15);
+        assertColumnsOrthonormal(Q, 1e-12);
 
-        assertUpperTriangular(R, 1e-15);
+        assertUpperTriangular(R, 1e-12);
     }
 
     private double[][] createPermutationMatrix(int[] permutations) {
