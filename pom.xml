@@ -31,11 +31,11 @@
             <systemPath>${project.basedir}/libs/VaTiKa.jar</systemPath>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/net.sourceforge.parallelcolt/parallelcolt -->
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-math3 -->
         <dependency>
-            <groupId>net.sourceforge.parallelcolt</groupId>
-            <artifactId>parallelcolt</artifactId>
-            <version>0.10.1</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>3.6.1</version>
         </dependency>
 
     </dependencies>
