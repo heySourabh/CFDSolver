@@ -3,27 +3,29 @@ package main.solver;
 import main.geom.Vector;
 import main.mesh.Cell;
 import main.mesh.Mesh;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.DiagonalMatrix;
+import org.apache.commons.math3.linear.SingularValueDecomposition;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
-import static main.util.DoubleMatrix.*;
+import static main.util.DoubleArray.divide;
+import static main.util.DoubleArray.sum;
+import static main.util.DoubleMatrix.multiply;
 
 public class LeastSquareCellGradient implements CellGradientCalculator {
 
     private final Cell[][] neighbors;
     private final double[][][] matrices;
-    private final double[][] weights;
 
     public LeastSquareCellGradient(Mesh mesh, NeighborsCalculator neighCalc) {
         int numCells = mesh.cells().size();
         this.neighbors = new Cell[numCells][];
         this.matrices = new double[numCells][][];
-        this.weights = new double[numCells][];
-        mesh.cellStream()
-                .forEach(cell -> setup(cell, neighCalc));
+
+        mesh.cellStream().forEach(cell -> setup(cell, neighCalc));
     }
 
     private void setup(Cell cell, NeighborsCalculator neighCalc) {
@@ -34,44 +36,25 @@ public class LeastSquareCellGradient implements CellGradientCalculator {
                 .map(neighCell -> new Vector(cell.shape.centroid, neighCell.shape.centroid))
                 .collect(toList());
 
-        this.weights[cell.index] = distanceVectors.stream()
+        double[] weights = normalizeWeights(distanceVectors.stream()
                 .mapToDouble(Vector::mag)
                 .map(distance -> 1.0 / distance)
-                .toArray();
-        double sumWeights = Arrays.stream(this.weights[cell.index]).sum();
-        this.weights[cell.index] = Arrays.stream(this.weights[cell.index])
-                .map(w -> w / sumWeights)
-                .toArray();
-
-        double minDistance = distanceVectors.stream()
-                .mapToDouble(Vector::mag)
-                .min().orElse(1.0);
-
-        Vector shiftBy = new Vector(0, 0, 0);
-        boolean xZero = distanceVectors.stream().allMatch(v -> Math.abs(v.x) < 1e-15);
-        if (xZero) {
-            shiftBy = shiftBy.add(new Vector(minDistance, 0, 0));
-        }
-        boolean yZero = distanceVectors.stream().allMatch(v -> Math.abs(v.y) < 1e-15);
-        if (yZero) {
-            shiftBy = shiftBy.add(new Vector(0, minDistance, 0));
-        }
-        boolean zZero = distanceVectors.stream().allMatch(v -> Math.abs(v.z) < 1e-15);
-        if (zZero) {
-            shiftBy = shiftBy.add(new Vector(0, 0, minDistance));
-        }
+                .toArray());
 
         double[][] A = new double[neighs.length][3];
         for (int iNeigh = 0; iNeigh < neighs.length; iNeigh++) {
-            Vector distance = distanceVectors.get(iNeigh).add(shiftBy);
-            double w = this.weights[cell.index][iNeigh];
+            Vector distance = distanceVectors.get(iNeigh);
+            double w = weights[iNeigh];
             A[iNeigh][0] = distance.x * w;
             A[iNeigh][1] = distance.y * w;
             A[iNeigh][2] = distance.z * w;
         }
 
-        double[][] AT = transpose(A);
-        this.matrices[cell.index] = multiply(invert(multiply(AT, A)), AT);
+        SingularValueDecomposition svd = new SingularValueDecomposition(new Array2DRowRealMatrix(A));
+        this.matrices[cell.index] = svd.getSolver()
+                .getInverse()
+                .multiply(new DiagonalMatrix(weights))
+                .getData();
     }
 
     @Override
@@ -89,11 +72,12 @@ public class LeastSquareCellGradient implements CellGradientCalculator {
         double[] deltaU = Arrays.stream(neighbors[cell.index])
                 .mapToDouble(neighCell -> neighCell.U[var] - cell.U[var])
                 .toArray();
-        double[] deltaUWeighted = IntStream.range(0, deltaU.length)
-                .mapToDouble(iNeigh -> weights[cell.index][iNeigh] * deltaU[iNeigh])
-                .toArray();
-        double[] derivatives = multiply(matrices[cell.index], deltaUWeighted);
+        double[] derivatives = multiply(matrices[cell.index], deltaU);
 
         return new Vector(derivatives[0], derivatives[1], derivatives[2]);
+    }
+
+    private double[] normalizeWeights(double[] positiveWeights) {
+        return divide(positiveWeights, sum(positiveWeights));
     }
 }
