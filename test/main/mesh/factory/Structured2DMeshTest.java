@@ -69,8 +69,9 @@ public class Structured2DMeshTest {
                 Node[] n = new Node[]{nodeArray[i][j], nodeArray[i + 1][j], nodeArray[i + 1][j + 1], nodeArray[i][j + 1]};
                 Geometry cellGeom = new Quad(n[0].location(), n[1].location(),
                         n[2].location(), n[3].location());
-                Cell cell = new Cell(cellIndex, n, VTKType.VTK_QUAD,
+                Cell cell = new Cell(n, VTKType.VTK_QUAD,
                         new Shape(cellGeom.area(), cellGeom.centroid()), numVars);
+                cell.setIndex(cellIndex);
                 cellArray[i][j] = cell;
                 expectedCells.add(cell);
                 cellIndex++;
@@ -265,7 +266,7 @@ public class Structured2DMeshTest {
                 dummyBC, dummyBC, dummyBC, dummyBC);
         List<Cell> cells = actualMesh.cells();
         assertTrue(IntStream.range(0, cells.size())
-                .allMatch(i -> cells.get(i).index == i));
+                .allMatch(i -> cells.get(i).index() == i));
     }
 
     @Test

@@ -26,8 +26,9 @@ public class InletBCTest {
         InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Vector normal = new Vector(-1, 0, 0);
         Surface surface = new Surface(1.0, null, normal);
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
@@ -52,8 +53,9 @@ public class InletBCTest {
         InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Vector normal = new Vector(-1, 0, 0);
         Surface surface = new Surface(1.0, null, normal);
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
@@ -78,8 +80,9 @@ public class InletBCTest {
         InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Vector normal = new Vector(0, -1, 0);
         Surface surface = new Surface(1.0, null, normal);
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
@@ -104,8 +107,9 @@ public class InletBCTest {
         InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Vector normal = new Vector(0, -1, 0);
         Surface surface = new Surface(1.0, null, normal);
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
@@ -130,8 +134,9 @@ public class InletBCTest {
         InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Vector normal = new Vector(0, 0, -1);
         Surface surface = new Surface(1.0, null, normal);
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
@@ -156,8 +161,9 @@ public class InletBCTest {
         InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Vector normal = new Vector(0, 0, -1);
         Surface surface = new Surface(1.0, null, normal);
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
@@ -182,8 +188,9 @@ public class InletBCTest {
         InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Vector normal = new Vector(-1, 0, 0);
         Surface surface = new Surface(1.0, null, normal);
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
@@ -209,8 +216,9 @@ public class InletBCTest {
         InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Vector normal = new Vector(-1, 0, 0);
         Surface surface = new Surface(1.0, null, normal);
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
@@ -236,8 +244,9 @@ public class InletBCTest {
         InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Vector normal = new Vector(0, -1, 0);
         Surface surface = new Surface(1.0, null, normal);
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
@@ -263,8 +272,9 @@ public class InletBCTest {
         InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Vector normal = new Vector(0, -1, 0);
         Surface surface = new Surface(1.0, null, normal);
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
@@ -290,8 +300,9 @@ public class InletBCTest {
         InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Vector normal = new Vector(0, 0, -1);
         Surface surface = new Surface(1.0, null, normal);
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
@@ -317,8 +328,9 @@ public class InletBCTest {
         InletProperties inletProps = new InletProperties(vel, rho, p);
         InletBC inletBC = new InletBC(govEqn, inletProps);
 
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Vector normal = new Vector(0, 0, -1);
         Surface surface = new Surface(1.0, null, normal);
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());

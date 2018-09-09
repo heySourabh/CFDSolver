@@ -71,13 +71,14 @@ public class Unstructured2DMesh implements Mesh {
                     throw new UnsupportedOperationException("Cell: The geometry type " + vtkType + " is not supported.");
             }
             Shape cellShape = new Shape(cellGeom.area() * 1.0, cellGeom.centroid());
-            Cell cell = new Cell(i, cellNodes, vtkType, cellShape, numVars);
+            Cell cell = new Cell(cellNodes, vtkType, cellShape, numVars);
             cellList.add(cell);
 
             // Create and add faces of the cell to Set
             faceSet.addAll(createCellFaces(cell, cellGeom));
         }
         this.cells = List.copyOf(cellList);
+        setAllCellIndices();
 
         List<Face> allBoundaryFaces = faceSet.stream()
                 .filter(f -> f.right == null)

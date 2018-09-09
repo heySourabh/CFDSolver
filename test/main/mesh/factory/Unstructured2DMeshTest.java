@@ -89,7 +89,9 @@ public class Unstructured2DMeshTest {
                     .toArray(Node[]::new);
             Geometry geom = cellGeom[i];
             Shape shape = new Shape(geom.area() * 1.0, geom.centroid());
-            expectedCells.add(new Cell(i, n, geom.vtkType(), shape, numVars));
+            Cell cell = new Cell(n, geom.vtkType(), shape, numVars);
+            cell.setIndex(i);
+            expectedCells.add(cell);
         }
 
         expectedInternalFaces = new ArrayList<>();
@@ -131,7 +133,7 @@ public class Unstructured2DMeshTest {
         n3 = expectedNodes.get(3);
         volume = 12836.432349999997;
         centroid = new Point(165.41106041983, 461.740326228124, 0.0);
-        Cell ghostCell_03 = new Cell(-1, new Node[]{n0, n1, n2, n3},
+        Cell ghostCell_03 = new Cell(new Node[]{n0, n1, n2, n3},
                 VTKType.VTK_QUAD, new Shape(volume, centroid), numVars);
         Face f_03 = createFace(n3, n0, expectedCells.get(0), ghostCell_03);
         blueBoundaryFaces.add(f_03);
@@ -141,7 +143,7 @@ public class Unstructured2DMeshTest {
         n5 = expectedNodes.get(5);
         volume = 17265.249800000005;
         centroid = new Point(236.6352558568723, 674.6258537509463, 0.0);
-        Cell ghostCell_35 = new Cell(-1, new Node[]{n3, n4, n5},
+        Cell ghostCell_35 = new Cell(new Node[]{n3, n4, n5},
                 VTKType.VTK_TRIANGLE, new Shape(volume, centroid), numVars);
         Face f_35 = createFace(n5, n3, expectedCells.get(5), ghostCell_35);
         blueBoundaryFaces.add(f_35);
@@ -152,7 +154,7 @@ public class Unstructured2DMeshTest {
         n5 = expectedNodes.get(5);
         volume = 17063.591850000008;
         centroid = new Point(424.01573307823, 802.94285443000, 0.0);
-        Cell ghostCell_59 = new Cell(-1, new Node[]{n4, n8, n9, n5},
+        Cell ghostCell_59 = new Cell(new Node[]{n4, n8, n9, n5},
                 VTKType.VTK_QUAD, new Shape(volume, centroid), numVars);
         Face f_59 = createFace(n9, n5, expectedCells.get(4), ghostCell_59);
         blueBoundaryFaces.add(f_59);
@@ -164,7 +166,7 @@ public class Unstructured2DMeshTest {
         n3 = new Node(137.839, 336.063, 0.0);
         volume = 12836.432349999997;
         centroid = new Point(244.813042114931, 363.771023553490, 0.0);
-        Cell ghostCell_01 = new Cell(-1, new Node[]{n0, n1, n2, n3},
+        Cell ghostCell_01 = new Cell(new Node[]{n0, n1, n2, n3},
                 VTKType.VTK_QUAD, new Shape(volume, centroid), numVars);
         Face f_01 = createFace(n0, n1, expectedCells.get(0), ghostCell_01);
         greenBoundaryFaces.add(f_01);
@@ -175,7 +177,7 @@ public class Unstructured2DMeshTest {
         n3 = new Node(492.9, 291.135, 0.0);
         volume = 12836.432349999997;
         centroid = new Point(395.9370872904792, 344.1387053406701, 0.0);
-        Cell ghostCell_12 = new Cell(-1, new Node[]{n0, n1, n2, n3},
+        Cell ghostCell_12 = new Cell(new Node[]{n0, n1, n2, n3},
                 VTKType.VTK_QUAD, new Shape(volume, centroid), numVars);
         Face f_12 = createFace(n1, n2, expectedCells.get(0), ghostCell_12);
         greenBoundaryFaces.add(f_12);
@@ -187,7 +189,7 @@ public class Unstructured2DMeshTest {
         n4 = new Node(527.82, 426.804, 0.0);
         volume = 11158.635499999997;
         centroid = new Point(473.330094313819, 482.678303375872, 0.0);
-        Cell ghostCell_26 = new Cell(-1, new Node[]{n2, n6, n7, n10, n4},
+        Cell ghostCell_26 = new Cell(new Node[]{n2, n6, n7, n10, n4},
                 VTKType.VTK_POLYGON, new Shape(volume, centroid), numVars);
         Face f_26 = createFace(n2, n6, expectedCells.get(2), ghostCell_26);
         greenBoundaryFaces.add(f_26);
@@ -199,7 +201,7 @@ public class Unstructured2DMeshTest {
         n4 = new Node(367.067, 491.398, 0.0);
         volume = 11158.635499999997;
         centroid = new Point(444.43192205819, 481.110582128155, 0.0);
-        Cell ghostCell_67 = new Cell(-1, new Node[]{n2, n6, n7, n10, n4},
+        Cell ghostCell_67 = new Cell(new Node[]{n2, n6, n7, n10, n4},
                 VTKType.VTK_POLYGON, new Shape(volume, centroid), numVars);
         Face f_67 = createFace(n6, n7, expectedCells.get(2), ghostCell_67);
         greenBoundaryFaces.add(f_67);
@@ -211,7 +213,7 @@ public class Unstructured2DMeshTest {
         n8 = expectedNodes.get(8);
         volume = 7710.785800000003;
         centroid = new Point(554.11333761658, 575.413715290550, 0.0);
-        Cell ghostCell_78 = new Cell(-1, new Node[]{n4, n10, n7, n8},
+        Cell ghostCell_78 = new Cell(new Node[]{n4, n10, n7, n8},
                 VTKType.VTK_QUAD, new Shape(volume, centroid), numVars);
         Face f_78 = createFace(n7, n8, expectedCells.get(3), ghostCell_78);
         redBoundaryFaces.add(f_78);
@@ -222,7 +224,7 @@ public class Unstructured2DMeshTest {
         n5 = new Node(572.558, 851.964, 0.0);
         volume = 17063.591850000008;
         centroid = new Point(556.9722373381545, 738.1250853163604, 0.0);
-        Cell ghostCell_89 = new Cell(-1, new Node[]{n4, n8, n9, n5},
+        Cell ghostCell_89 = new Cell(new Node[]{n4, n8, n9, n5},
                 VTKType.VTK_QUAD, new Shape(volume, centroid), numVars);
         Face f_89 = createFace(n8, n9, expectedCells.get(4), ghostCell_89);
         redBoundaryFaces.add(f_89);
@@ -416,7 +418,7 @@ public class Unstructured2DMeshTest {
 
     private static void assertCellEquals(Cell expectedCell, Cell actualCell) {
         // index equal
-        assertEquals(expectedCell.index, actualCell.index);
+        assertEquals(expectedCell.index(), actualCell.index());
 
         // nodes equal
         assertEquals(expectedCell.nodes.length, actualCell.nodes.length);
@@ -542,7 +544,7 @@ public class Unstructured2DMeshTest {
                         "Red Boundary", dummyBC));
         List<Cell> cells = actualMesh.cells();
         assertTrue(IntStream.range(0, cells.size())
-                .allMatch(i -> cells.get(i).index == i));
+                .allMatch(i -> cells.get(i).index() == i));
     }
 
     @Test

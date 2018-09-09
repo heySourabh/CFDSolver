@@ -71,6 +71,7 @@ public class Structured3DMesh implements Mesh {
                 }
             }
         }
+        setAllCellIndices();
 
         this.internalFaces = this.cells.stream()
                 .flatMap(cell -> hexCellFaces(cell).stream())
@@ -323,10 +324,6 @@ public class Structured3DMesh implements Mesh {
     }
 
     private Cell hexCell(Node[][][] nodeArray, int i, int j, int k, int numVars) {
-        int numYCells = nodeArray[0].length - 1;
-        int numZCells = nodeArray[0][0].length - 1;
-
-        int index = k + j * (numZCells) + i * (numYCells * numZCells);
         Node n0 = nodeArray[i][j][k];
         Node n1 = nodeArray[i + 1][j][k];
         Node n2 = nodeArray[i + 1][j + 1][k];
@@ -348,7 +345,7 @@ public class Structured3DMesh implements Mesh {
         Hexahedron hexahedron = new Hexahedron(p0, p1, p2, p3, p4, p5, p6, p7);
         Shape shape = new Shape(hexahedron.volume(), hexahedron.centroid());
 
-        return new Cell(index, new Node[]{n0, n1, n2, n3, n4, n5, n6, n7}, hexahedron.vtkType(), shape, numVars);
+        return new Cell(new Node[]{n0, n1, n2, n3, n4, n5, n6, n7}, hexahedron.vtkType(), shape, numVars);
     }
 
     private List<Face> hexCellFaces(Cell cell) {

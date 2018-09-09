@@ -20,8 +20,9 @@ public class ExtrapolatedBCTest {
     @Test
     public void setGhostCellValues() {
         ExtrapolatedBC extrapolatedBC = new ExtrapolatedBC(govEqn);
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Face testFace = new Face(null, null, null, left, right, govEqn.numVars());
 
         double[] expectedU = random(govEqn.numVars(), new Random(457));
@@ -34,8 +35,9 @@ public class ExtrapolatedBCTest {
     public void convectiveFlux() {
         Random rnd = new Random(457);
         ExtrapolatedBC extrapolatedBC = new ExtrapolatedBC(govEqn);
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Vector unitNormal = new Vector(rnd.nextDouble(), rnd.nextDouble(), rnd.nextDouble()).unit();
         Surface surface = new Surface(rnd.nextDouble(), null, unitNormal);
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());

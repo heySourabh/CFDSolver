@@ -49,9 +49,10 @@ public class Structured1DMesh implements Mesh {
             Node n1 = nodes.get(i + 1);
             Geometry cellGeometry = new Line(new Point(n0.x, n0.y, n0.z), new Point(n1.x, n1.y, n1.z));
             Shape cellShape = new Shape(cellGeometry.length() * 1.0 * 1.0, cellGeometry.centroid());
-            Cell cell = new Cell(i, new Node[]{n0, n1}, VTKType.VTK_LINE, cellShape, numVars);
+            Cell cell = new Cell(new Node[]{n0, n1}, VTKType.VTK_LINE, cellShape, numVars);
             this.cells.add(cell);
         }
+        setAllCellIndices();
 
         this.internalFaces = new ArrayList<>();
         for (int i = 1; i < xi - 1; i++) {

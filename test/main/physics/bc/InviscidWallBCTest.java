@@ -22,8 +22,9 @@ public class InviscidWallBCTest {
         InviscidWallBC inviscidWallBC = new InviscidWallBC(govEqn);
         Vector normal = new Vector(1, 1, 1).unit();
         Surface surface = new Surface(1.0, null, normal);
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
 
         copy(new double[]{1.0, 0.0, 0.0, 0.0, 10.0}, left.U);
@@ -49,8 +50,9 @@ public class InviscidWallBCTest {
         InviscidWallBC inviscidWallBC = new InviscidWallBC(govEqn);
         Vector normal = new Vector(1, 0, 0).unit();
         Surface surface = new Surface(1.0, null, normal);
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
 
         copy(new double[]{1.0, 5.0, 8.0, 10.2, 10.0}, left.U);
@@ -68,8 +70,9 @@ public class InviscidWallBCTest {
         InviscidWallBC inviscidWallBC = new InviscidWallBC(govEqn);
         Vector normal = new Vector(0, 1, 0).unit();
         Surface surface = new Surface(1.0, null, normal);
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
 
         copy(new double[]{1.0, 5.0, 8.0, 10.2, 10.0}, left.U);
@@ -87,8 +90,9 @@ public class InviscidWallBCTest {
         InviscidWallBC inviscidWallBC = new InviscidWallBC(govEqn);
         Vector normal = new Vector(0, 0, -1).unit();
         Surface surface = new Surface(1.0, null, normal);
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
 
         copy(new double[]{1.0, 5.0, 8.0, 10.2, 10.0}, left.U);
@@ -107,8 +111,9 @@ public class InviscidWallBCTest {
         Random rnd = new Random();
         Vector normal = new Vector(rnd.nextDouble(), rnd.nextDouble(), rnd.nextDouble()).unit();
         Surface surface = new Surface(rnd.nextDouble() * rnd.nextInt(100), null, normal);
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
 
         double u = rnd.nextDouble();
@@ -136,8 +141,9 @@ public class InviscidWallBCTest {
         Random rnd = new Random();
         Vector normal = new Vector(1, 0, 0).unit();
         Surface surface = new Surface(rnd.nextDouble() * rnd.nextInt(100), null, normal);
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
 
         double u = rnd.nextDouble();
@@ -165,8 +171,9 @@ public class InviscidWallBCTest {
         Random rnd = new Random();
         Vector normal = new Vector(0, 1, 0).unit();
         Surface surface = new Surface(rnd.nextDouble() * rnd.nextInt(100), null, normal);
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
 
         double u = rnd.nextDouble();
@@ -194,8 +201,9 @@ public class InviscidWallBCTest {
         Random rnd = new Random();
         Vector normal = new Vector(0, 0, 1).unit();
         Surface surface = new Surface(rnd.nextDouble() * rnd.nextInt(100), null, normal);
-        Cell left = new Cell(0, null, null, null, govEqn.numVars());
-        Cell right = new Cell(-1, null, null, null, govEqn.numVars());
+        Cell left = new Cell(null, null, null, govEqn.numVars());
+        left.setIndex(0);
+        Cell right = new Cell(null, null, null, govEqn.numVars());
         Face testFace = new Face(null, null, surface, left, right, govEqn.numVars());
 
         double u = rnd.nextDouble();

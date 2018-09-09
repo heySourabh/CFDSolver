@@ -66,17 +66,19 @@ public class Structured3DMeshSimpleTest {
 
         // left cell
         Shape shape = new Shape(13.125, new Point(0.75, 0.25, 1.75));
-        Cell leftCell = new Cell(0, new Node[]{n0, n6, n8, n2, n1, n7, n9, n3},
+        Cell leftCell = new Cell(new Node[]{n0, n6, n8, n2, n1, n7, n9, n3},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
+        leftCell.setIndex(0);
 
         // right cell
         shape = new Shape(13.125, new Point(0.75, 1.75, 1.75));
-        Cell rightCell = new Cell(1, new Node[]{n2, n8, n10, n4, n3, n9, n11, n5},
+        Cell rightCell = new Cell(new Node[]{n2, n8, n10, n4, n3, n9, n11, n5},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
+        rightCell.setIndex(1);
 
         // left ghost
         shape = new Shape(13.125, new Point(0.75, -1.25, 1.75));
-        Cell leftGhost = new Cell(-1, new Node[]{
+        Cell leftGhost = new Cell(new Node[]{
                 n0, n6, n7, n1,
                 new Node(-0.5, -2, 0.0), new Node(2.0, -2.0, 0.0),
                 new Node(2.0, -2.0, 3.5), new Node(-0.5, -2.0, 3.5)},
@@ -84,7 +86,7 @@ public class Structured3DMeshSimpleTest {
 
         // right ghost
         shape = new Shape(13.125, new Point(0.75, 3.25, 1.75));
-        Cell rightGhost = new Cell(-1, new Node[]{
+        Cell rightGhost = new Cell(new Node[]{
                 n4, n10, n11, n5,
                 new Node(-0.5, 4.0, 0.0), new Node(2.0, 4.0, 0.0),
                 new Node(2.0, 4.0, 3.5), new Node(-0.5, 4.0, 3.5)},
@@ -92,7 +94,7 @@ public class Structured3DMeshSimpleTest {
 
         // top-left ghost
         shape = new Shape(13.125, new Point(0.75, 0.25, 5.25));
-        Cell topLeftGhost = new Cell(-1, new Node[]{
+        Cell topLeftGhost = new Cell(new Node[]{
                 n1, n7, n9, n3,
                 new Node(-0.5, -0.5, 7.0), new Node(2.0, -0.5, 7.0),
                 new Node(2.0, 1.0, 7.0), new Node(-0.5, 1.0, 7.0)},
@@ -100,7 +102,7 @@ public class Structured3DMeshSimpleTest {
 
         // top-right ghost
         shape = new Shape(13.125, new Point(0.75, 1.75, 5.25));
-        Cell topRightGhost = new Cell(-1, new Node[]{
+        Cell topRightGhost = new Cell(new Node[]{
                 n3, n9, n11, n5,
                 new Node(-0.5, 1.0, 7.0), new Node(2.0, 1.0, 7.0),
                 new Node(2.0, 2.5, 7.0), new Node(-0.5, 2.5, 7.0)},
@@ -108,7 +110,7 @@ public class Structured3DMeshSimpleTest {
 
         // bottom-left ghost
         shape = new Shape(13.125, new Point(0.75, 0.25, -1.75));
-        Cell bottomLeftGhost = new Cell(-1, new Node[]{
+        Cell bottomLeftGhost = new Cell(new Node[]{
                 n0, n6, n8, n2,
                 new Node(-0.5, -0.5, -3.5), new Node(2.0, -0.5, -3.5),
                 new Node(2.0, 1.0, -3.5), new Node(-0.5, 1.0, -3.5)},
@@ -116,7 +118,7 @@ public class Structured3DMeshSimpleTest {
 
         // bottom-right ghost
         shape = new Shape(13.125, new Point(0.75, 1.75, -1.75));
-        Cell bottomRightGhost = new Cell(-1, new Node[]{
+        Cell bottomRightGhost = new Cell(new Node[]{
                 n2, n8, n10, n4,
                 new Node(-0.5, 1.0, -3.5), new Node(2.0, 1.0, -3.5),
                 new Node(2.0, 2.5, -3.5), new Node(-0.5, 2.5, -3.5)},
@@ -124,7 +126,7 @@ public class Structured3DMeshSimpleTest {
 
         // front-left ghost
         shape = new Shape(13.125, new Point(3.25, 0.25, 1.75));
-        Cell frontLeftGhost = new Cell(-1, new Node[]{
+        Cell frontLeftGhost = new Cell(new Node[]{
                 n6, n8, n9, n7,
                 new Node(4.5, -0.5, 0.0), new Node(4.5, 1.0, 0.0),
                 new Node(4.5, 1.0, 3.5), new Node(4.5, -0.5, 3.5)},
@@ -132,7 +134,7 @@ public class Structured3DMeshSimpleTest {
 
         // front-right ghost
         shape = new Shape(13.125, new Point(3.25, 1.75, 1.75));
-        Cell frontRightGhost = new Cell(-1, new Node[]{
+        Cell frontRightGhost = new Cell(new Node[]{
                 n8, n9, n11, n10,
                 new Node(4.5, 1.0, 0.0), new Node(4.5, 1.0, 3.5),
                 new Node(4.5, 2.5, 3.5), new Node(4.5, 2.5, 0.0)},
@@ -140,7 +142,7 @@ public class Structured3DMeshSimpleTest {
 
         // back-left ghost
         shape = new Shape(13.125, new Point(-1.75, 0.25, 1.75));
-        Cell backLeftGhost = new Cell(-1, new Node[]{
+        Cell backLeftGhost = new Cell(new Node[]{
                 n0, n1, n3, n2,
                 new Node(-3.0, -0.5, 0.0), new Node(-3.0, -0.5, 3.5),
                 new Node(-3.0, 1.0, 3.5), new Node(-3.0, 1.0, 0.0)},
@@ -148,7 +150,7 @@ public class Structured3DMeshSimpleTest {
 
         // back-right ghost
         shape = new Shape(13.125, new Point(-1.75, 1.75, 1.75));
-        Cell backRightGhost = new Cell(-1, new Node[]{
+        Cell backRightGhost = new Cell(new Node[]{
                 n2, n3, n5, n4,
                 new Node(-3.0, 1.0, 0.0), new Node(-3.0, 1.0, 3.5),
                 new Node(-3.0, 2.5, 3.5), new Node(-3.0, 2.5, 0.0)},
@@ -288,17 +290,19 @@ public class Structured3DMeshSimpleTest {
 
         // left cell
         Shape shape = new Shape(13.125, new Point(0.75, 0.25, 1.75));
-        Cell leftCell = new Cell(0, new Node[]{n0, n6, n8, n2, n1, n7, n9, n3},
+        Cell leftCell = new Cell(new Node[]{n0, n6, n8, n2, n1, n7, n9, n3},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
+        leftCell.setIndex(0);
 
         // right cell
         shape = new Shape(13.125, new Point(0.75, 1.75, 1.75));
-        Cell rightCell = new Cell(1, new Node[]{n2, n8, n10, n4, n3, n9, n11, n5},
+        Cell rightCell = new Cell(new Node[]{n2, n8, n10, n4, n3, n9, n11, n5},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
+        rightCell.setIndex(1);
 
         // left ghost
         shape = new Shape(13.125, new Point(0.75, -1.25, 1.75));
-        Cell leftGhost = new Cell(-1, new Node[]{
+        Cell leftGhost = new Cell(new Node[]{
                 n0, n6, n7, n1,
                 new Node(-0.5, -2, 0.0), new Node(2.0, -2.0, 0.0),
                 new Node(2.0, -2.0, 3.5), new Node(-0.5, -2.0, 3.5)},
@@ -306,7 +310,7 @@ public class Structured3DMeshSimpleTest {
 
         // right ghost
         shape = new Shape(13.125, new Point(0.75, 3.25, 1.75));
-        Cell rightGhost = new Cell(-1, new Node[]{
+        Cell rightGhost = new Cell(new Node[]{
                 n4, n10, n11, n5,
                 new Node(-0.5, 4.0, 0.0), new Node(2.0, 4.0, 0.0),
                 new Node(2.0, 4.0, 3.5), new Node(-0.5, 4.0, 3.5)},
@@ -314,7 +318,7 @@ public class Structured3DMeshSimpleTest {
 
         // top-left ghost
         shape = new Shape(13.125, new Point(0.75, 0.25, 5.25));
-        Cell topLeftGhost = new Cell(-1, new Node[]{
+        Cell topLeftGhost = new Cell(new Node[]{
                 n1, n7, n9, n3,
                 new Node(-0.5, -0.5, 7.0), new Node(2.0, -0.5, 7.0),
                 new Node(2.0, 1.0, 7.0), new Node(-0.5, 1.0, 7.0)},
@@ -322,7 +326,7 @@ public class Structured3DMeshSimpleTest {
 
         // top-right ghost
         shape = new Shape(13.125, new Point(0.75, 1.75, 5.25));
-        Cell topRightGhost = new Cell(-1, new Node[]{
+        Cell topRightGhost = new Cell(new Node[]{
                 n3, n9, n11, n5,
                 new Node(-0.5, 1.0, 7.0), new Node(2.0, 1.0, 7.0),
                 new Node(2.0, 2.5, 7.0), new Node(-0.5, 2.5, 7.0)},
@@ -330,7 +334,7 @@ public class Structured3DMeshSimpleTest {
 
         // bottom-left ghost
         shape = new Shape(13.125, new Point(0.75, 0.25, -1.75));
-        Cell bottomLeftGhost = new Cell(-1, new Node[]{
+        Cell bottomLeftGhost = new Cell(new Node[]{
                 n0, n6, n8, n2,
                 new Node(-0.5, -0.5, -3.5), new Node(2.0, -0.5, -3.5),
                 new Node(2.0, 1.0, -3.5), new Node(-0.5, 1.0, -3.5)},
@@ -338,7 +342,7 @@ public class Structured3DMeshSimpleTest {
 
         // bottom-right ghost
         shape = new Shape(13.125, new Point(0.75, 1.75, -1.75));
-        Cell bottomRightGhost = new Cell(-1, new Node[]{
+        Cell bottomRightGhost = new Cell(new Node[]{
                 n2, n8, n10, n4,
                 new Node(-0.5, 1.0, -3.5), new Node(2.0, 1.0, -3.5),
                 new Node(2.0, 2.5, -3.5), new Node(-0.5, 2.5, -3.5)},
@@ -346,7 +350,7 @@ public class Structured3DMeshSimpleTest {
 
         // front-left ghost
         shape = new Shape(13.125, new Point(3.25, 0.25, 1.75));
-        Cell frontLeftGhost = new Cell(-1, new Node[]{
+        Cell frontLeftGhost = new Cell(new Node[]{
                 n0, n1, n3, n2,
                 new Node(4.5, -0.5, 0.0), new Node(4.5, 1.0, 0.0),
                 new Node(4.5, 1.0, 3.5), new Node(4.5, -0.5, 3.5)},
@@ -354,7 +358,7 @@ public class Structured3DMeshSimpleTest {
 
         // front-right ghost
         shape = new Shape(13.125, new Point(3.25, 1.75, 1.75));
-        Cell frontRightGhost = new Cell(-1, new Node[]{
+        Cell frontRightGhost = new Cell(new Node[]{
                 n2, n3, n5, n4,
                 new Node(4.5, 1.0, 0.0), new Node(4.5, 1.0, 3.5),
                 new Node(4.5, 2.5, 3.5), new Node(4.5, 2.5, 0.0)},
@@ -362,7 +366,7 @@ public class Structured3DMeshSimpleTest {
 
         // back-left ghost
         shape = new Shape(13.125, new Point(-1.75, 0.25, 1.75));
-        Cell backLeftGhost = new Cell(-1, new Node[]{
+        Cell backLeftGhost = new Cell(new Node[]{
                 n6, n8, n9, n7,
                 new Node(-3.0, -0.5, 0.0), new Node(-3.0, -0.5, 3.5),
                 new Node(-3.0, 1.0, 3.5), new Node(-3.0, 1.0, 0.0)},
@@ -370,7 +374,7 @@ public class Structured3DMeshSimpleTest {
 
         // back-right ghost
         shape = new Shape(13.125, new Point(-1.75, 1.75, 1.75));
-        Cell backRightGhost = new Cell(-1, new Node[]{
+        Cell backRightGhost = new Cell(new Node[]{
                 n8, n9, n11, n10,
                 new Node(-3.0, 1.0, 0.0), new Node(-3.0, 1.0, 3.5),
                 new Node(-3.0, 2.5, 3.5), new Node(-3.0, 2.5, 0.0)},

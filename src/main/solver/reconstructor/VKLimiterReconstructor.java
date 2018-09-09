@@ -28,7 +28,7 @@ public class VKLimiterReconstructor implements SolutionReconstructor {
     }
 
     private void setup(Cell cell) {
-        neighbors[cell.index] = neighCalc.calculateFor(cell).toArray(new Cell[0]);
+        neighbors[cell.index()] = neighCalc.calculateFor(cell).toArray(new Cell[0]);
 
         for (int var = 0; var < cell.U.length; var++) {
             cell.reconstructCoeffs[var] = new double[3];
@@ -48,13 +48,13 @@ public class VKLimiterReconstructor implements SolutionReconstructor {
     }
 
     private void reconstructVar(Cell cell, Vector[] gradients, int var) {
-        double uMax = Arrays.stream(neighbors[cell.index])
+        double uMax = Arrays.stream(neighbors[cell.index()])
                 .mapToDouble(neighCell -> neighCell.U[var])
                 .max().orElse(Double.POSITIVE_INFINITY);
         uMax = Math.max(uMax, cell.U[var]);
         double duMax = uMax - cell.U[var];
 
-        double uMin = Arrays.stream(neighbors[cell.index])
+        double uMin = Arrays.stream(neighbors[cell.index()])
                 .mapToDouble(neighCell -> neighCell.U[var])
                 .min().orElse(Double.NEGATIVE_INFINITY);
         uMin = Math.min(uMin, cell.U[var]);

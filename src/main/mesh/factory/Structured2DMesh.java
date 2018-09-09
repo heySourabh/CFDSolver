@@ -52,19 +52,18 @@ public class Structured2DMesh implements Mesh {
 
         Cell[][] cellArray = new Cell[num_xi - 1][num_eta - 1];
         this.cells = new ArrayList<>();
-        int cellIndex = 0;
         for (int i = 0; i < num_xi - 1; i++) {
             for (int j = 0; j < num_eta - 1; j++) {
                 Node[] n = new Node[]{nodeArray[i][j], nodeArray[i + 1][j], nodeArray[i + 1][j + 1], nodeArray[i][j + 1]};
                 Geometry cellGeom = new Quad(n[0].location(), n[1].location(),
                         n[2].location(), n[3].location());
-                Cell cell = new Cell(cellIndex, n, VTKType.VTK_QUAD,
+                Cell cell = new Cell(n, VTKType.VTK_QUAD,
                         new Shape(cellGeom.area(), cellGeom.centroid()), numVars);
                 cellArray[i][j] = cell;
                 this.cells.add(cell);
-                cellIndex++;
             }
         }
+        setAllCellIndices();
 
         this.internalFaces = new ArrayList<>();
         Set<Face> faceSet = new HashSet<>();

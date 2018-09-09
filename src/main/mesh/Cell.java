@@ -10,7 +10,7 @@ public class Cell {
      * This value must be equal to the index in Mesh.cells() List.
      * This value must be equal to -1 for ghost cells.
      */
-    public final int index;
+    private int index;
     public final Node[] nodes;
     public final ArrayList<Face> faces;
     public final VTKType vtkType;
@@ -25,8 +25,8 @@ public class Cell {
      */
     public double dt;
 
-    public Cell(int index, Node[] nodes, VTKType vtkType, Shape shape, int numVars) {
-        this.index = index;
+    public Cell(Node[] nodes, VTKType vtkType, Shape shape, int numVars) {
+        this.index = -1;
         this.nodes = nodes;
         this.faces = new ArrayList<>();
         this.vtkType = vtkType;
@@ -35,6 +35,17 @@ public class Cell {
         this.U = new double[numVars];
         this.residual = new double[numVars];
         this.reconstructCoeffs = new double[numVars][]; // The reconstructor can decide the length
+    }
+
+    public int index() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        if (this.index != -1) {
+            throw new IllegalStateException("The index of a cell can be set only once.");
+        }
+        this.index = index;
     }
 
     @Override

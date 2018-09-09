@@ -106,7 +106,7 @@ public class TestHelper {
 
     private static boolean sameCells(Cell expected, Cell actual, double tolerance) {
         // has same index
-        if (expected.index != actual.index) return false;
+        if (expected.index() != actual.index()) return false;
 
         // has same shape
         if (!sameShape(expected.shape, actual.shape, tolerance)) return false;
@@ -374,16 +374,20 @@ public class TestHelper {
         int numVars = 4;
 
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
-        Cell cell1 = new Cell(0, nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1.setIndex(0);
         Shape shape2 = new Shape(23.4, new Point(5, 8, 9));
-        Cell cell2 = new Cell(1, nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        Cell cell2 = new Cell(nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2.setIndex(1);
         Surface surface = new Surface(0.1, new Point(1.5, 4.1, 2), new Vector(.2, .5, .5).unit());
         Face f1 = new Face(nodesFace, VTKType.VTK_TRIANGLE, surface, cell1, cell2, numVars);
 
         shape1 = new Shape(45.4, new Point(4, 8, 9));
-        cell1 = new Cell(0, nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1.setIndex(0);
         shape2 = new Shape(23.4, new Point(5, 8, 9));
-        cell2 = new Cell(1, nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2 = new Cell(nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2.setIndex(1);
         surface = new Surface(0.1, new Point(1.5, 4.1, 2), new Vector(.2, .5, .5).unit());
         Face f2 = new Face(nodesFace, VTKType.VTK_TRIANGLE, surface, cell1, cell2, numVars);
 
@@ -409,16 +413,20 @@ public class TestHelper {
         int numVars = 4;
 
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
-        Cell cell1 = new Cell(0, nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1.setIndex(0);
         Shape shape2 = new Shape(23.4, new Point(5, 8, 9));
-        Cell cell2 = new Cell(1, nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        Cell cell2 = new Cell(nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2.setIndex(1);
         Surface surface = new Surface(0.1, new Point(1.5, 4.1, 2), new Vector(.2, .5, .5).unit());
         Face f1 = new Face(nodesFace, VTKType.VTK_TRIANGLE, surface, cell1, cell2, numVars);
 
         shape1 = new Shape(45.4, new Point(4, 8, 9));
-        cell1 = new Cell(0, nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1.setIndex(0);
         shape2 = new Shape(23.4, new Point(5, 8, 9));
-        cell2 = new Cell(1, nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2 = new Cell(nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2.setIndex(1);
         surface = new Surface(0.1, new Point(1.5, 4.1, 2), new Vector(.2, .5, .5).unit().mult(-1));
         Face f2 = new Face(nodesFace, VTKType.VTK_TRIANGLE, surface, cell2, cell1, numVars);
 
@@ -444,16 +452,20 @@ public class TestHelper {
         int numVars = 4;
 
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
-        Cell cell1 = new Cell(0, nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1.setIndex(0);
         Shape shape2 = new Shape(23.4, new Point(5, 8, 9));
-        Cell cell2 = new Cell(1, nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        Cell cell2 = new Cell(nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2.setIndex(1);
         Surface surface = new Surface(0.1, new Point(1.5, 4.1, 2), new Vector(.2, .5, .5).unit());
         Face f1 = new Face(nodesFace, VTKType.VTK_TRIANGLE, surface, cell1, cell2, numVars);
 
         shape1 = new Shape(5.4, new Point(4, 8, 9));
-        cell1 = new Cell(0, nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1.setIndex(0);
         shape2 = new Shape(23.4, new Point(5, 8, 9));
-        cell2 = new Cell(1, nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2 = new Cell(nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2.setIndex(1);
         surface = new Surface(0.1, new Point(1.5, 4.1, 2), new Vector(.2, .5, .5).unit());
         Face f2 = new Face(nodesFace, VTKType.VTK_TRIANGLE, surface, cell1, cell2, numVars);
 
@@ -479,16 +491,20 @@ public class TestHelper {
         int numVars = 4;
 
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
-        Cell cell1 = new Cell(0, nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1.setIndex(0);
         Shape shape2 = new Shape(23.4, new Point(5, 8, 9));
-        Cell cell2 = new Cell(1, nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        Cell cell2 = new Cell(nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2.setIndex(1);
         Surface surface = new Surface(0.1, new Point(1.5, 4.1, 2), new Vector(.2, .5, .5).unit());
         Face f1 = new Face(nodesFace, VTKType.VTK_QUAD, surface, cell1, cell2, numVars);
 
         shape1 = new Shape(45.4, new Point(4, 8, 9));
-        cell1 = new Cell(0, nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1.setIndex(0);
         shape2 = new Shape(23.4, new Point(5, 8, 9));
-        cell2 = new Cell(1, nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2 = new Cell(nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2.setIndex(1);
         surface = new Surface(0.1, new Point(1.5, 4.1, 2), new Vector(.2, .5, .5).unit());
         Face f2 = new Face(nodesFace, VTKType.VTK_TRIANGLE, surface, cell1, cell2, numVars);
 
@@ -514,16 +530,20 @@ public class TestHelper {
         int numVars = 4;
 
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
-        Cell cell1 = new Cell(0, nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1.setIndex(0);
         Shape shape2 = new Shape(23.4, new Point(5, 8, 9));
-        Cell cell2 = new Cell(1, nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        Cell cell2 = new Cell(nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2.setIndex(1);
         Surface surface = new Surface(0.1, new Point(1.5, 4.1, 2), new Vector(.2, .5, .5).unit());
         Face f1 = new Face(nodesFace, VTKType.VTK_TRIANGLE, surface, cell1, cell2, numVars);
 
         shape1 = new Shape(45.4, new Point(4, 8, 9));
-        cell1 = new Cell(0, nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1.setIndex(0);
         shape2 = new Shape(23.4, new Point(5, 8, 9));
-        cell2 = new Cell(1, nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2 = new Cell(nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2.setIndex(1);
         surface = new Surface(0.1, new Point(1.5, 4.1, 2), new Vector(.2, .5, .5).unit());
         nodesFace = List.of(nodesFace).subList(1, nodesFace.length).toArray(new Node[0]);
         Face f2 = new Face(nodesFace, VTKType.VTK_TRIANGLE, surface, cell1, cell2, numVars);
@@ -550,16 +570,20 @@ public class TestHelper {
         int numVars = 4;
 
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
-        Cell cell1 = new Cell(0, nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1.setIndex(0);
         Shape shape2 = new Shape(23.4, new Point(5, 8, 9));
-        Cell cell2 = new Cell(1, nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        Cell cell2 = new Cell(nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2.setIndex(1);
         Surface surface = new Surface(0.1, new Point(1.5, 4.1, 2), new Vector(.2, .5, .5).unit());
         Face f1 = new Face(nodesFace, VTKType.VTK_TRIANGLE, surface, cell1, cell2, numVars);
 
         shape1 = new Shape(45.4, new Point(4, 8, 9));
-        cell1 = new Cell(0, nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1.setIndex(0);
         shape2 = new Shape(23.4, new Point(5, 8, 9));
-        cell2 = new Cell(1, nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2 = new Cell(nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2.setIndex(1);
         surface = new Surface(1.0, new Point(1.5, 4.1, 2), new Vector(.2, .5, .5).unit());
         Face f2 = new Face(nodesFace, VTKType.VTK_TRIANGLE, surface, cell1, cell2, numVars);
 
@@ -583,9 +607,11 @@ public class TestHelper {
 
         int numVars = 5;
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
-        Cell cell1 = new Cell(0, nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1.setIndex(0);
         Shape shape2 = new Shape(45.4, new Point(4, 8, 9));
-        Cell cell2 = new Cell(0, nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        Cell cell2 = new Cell(nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2.setIndex(0);
 
         assertCellEquals(cell1, cell2, 1e-15);
     }
@@ -607,9 +633,11 @@ public class TestHelper {
 
         int numVars = 5;
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
-        Cell cell1 = new Cell(0, nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1.setIndex(0);
         Shape shape2 = new Shape(45.4, new Point(4, 8, 9));
-        Cell cell2 = new Cell(1, nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        Cell cell2 = new Cell(nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2.setIndex(1);
 
         assertFalse(sameCells(cell1, cell2, 1e-15));
     }
@@ -631,9 +659,11 @@ public class TestHelper {
 
         int numVars = 5;
         Shape shape1 = new Shape(5.4, new Point(4, 8, 9));
-        Cell cell1 = new Cell(0, nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1.setIndex(0);
         Shape shape2 = new Shape(45.4, new Point(4, 8, 9));
-        Cell cell2 = new Cell(0, nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        Cell cell2 = new Cell(nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2.setIndex(1);
 
         assertFalse(sameCells(cell1, cell2, 1e-15));
     }
@@ -655,9 +685,11 @@ public class TestHelper {
 
         int numVars = 5;
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
-        Cell cell1 = new Cell(0, nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
+        cell1.setIndex(0);
         Shape shape2 = new Shape(45.4, new Point(4, 8, 9));
-        Cell cell2 = new Cell(0, nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        Cell cell2 = new Cell(nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2.setIndex(1);
 
         assertFalse(sameCells(cell1, cell2, 1e-15));
     }
@@ -679,9 +711,11 @@ public class TestHelper {
 
         int numVars = 5;
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
-        Cell cell1 = new Cell(0, nodesCell1, VTKType.VTK_HEXAHEDRON, shape1, numVars);
+        Cell cell1 = new Cell(nodesCell1, VTKType.VTK_HEXAHEDRON, shape1, numVars);
+        cell1.setIndex(0);
         Shape shape2 = new Shape(45.4, new Point(4, 8, 9));
-        Cell cell2 = new Cell(0, nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        Cell cell2 = new Cell(nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2.setIndex(1);
 
         assertFalse(sameCells(cell1, cell2, 1e-15));
     }
@@ -703,9 +737,11 @@ public class TestHelper {
 
         int numVars = 5;
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
-        Cell cell1 = new Cell(0, nodesCell1, VTKType.VTK_TETRA, shape1, numVars + 1);
+        Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars + 1);
+        cell1.setIndex(0);
         Shape shape2 = new Shape(45.4, new Point(4, 8, 9));
-        Cell cell2 = new Cell(0, nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        Cell cell2 = new Cell(nodesCell2, VTKType.VTK_TETRA, shape2, numVars);
+        cell2.setIndex(1);
 
         assertFalse(sameCells(cell1, cell2, 1e-15));
     }
@@ -758,16 +794,20 @@ public class TestHelper {
 
         int numVars = 2;
         Shape shapeCenterCell = new Shape(90, new Point(35, 54, 87));
-        Cell cell = new Cell(1, centerCellNodes, VTKType.VTK_TETRA, shapeCenterCell, numVars);
+        Cell cell = new Cell(centerCellNodes, VTKType.VTK_TETRA, shapeCenterCell, numVars);
+        cell.setIndex(1);
 
         Shape shapeNeigh1 = new Shape(45, new Point(7, 5, 51));
-        Cell cellNeigh1 = new Cell(10, neigh1CellNodes, VTKType.VTK_TETRA, shapeNeigh1, numVars);
+        Cell cellNeigh1 = new Cell(neigh1CellNodes, VTKType.VTK_TETRA, shapeNeigh1, numVars);
+        cellNeigh1.setIndex(10);
 
         Shape shapeNeigh2 = new Shape(71, new Point(54, -78, 1));
-        Cell cellNeigh2 = new Cell(12, neigh2CellNodes, VTKType.VTK_TETRA, shapeNeigh2, numVars);
+        Cell cellNeigh2 = new Cell(neigh2CellNodes, VTKType.VTK_TETRA, shapeNeigh2, numVars);
+        cellNeigh2.setIndex(12);
 
         Shape shapeNeigh3 = new Shape(78, new Point(-27, 8, 0));
-        Cell cellNeigh3 = new Cell(21, neigh3CellNodes, VTKType.VTK_TETRA, shapeNeigh3, numVars);
+        Cell cellNeigh3 = new Cell(neigh3CellNodes, VTKType.VTK_TETRA, shapeNeigh3, numVars);
+        cellNeigh3.setIndex(21);
 
         Surface surface11 = new Surface(90, new Point(34, 56, 87), new Vector(1, 3, 5).unit());
         Face f11 = new Face(nodesFace1, VTKType.VTK_TRIANGLE, surface11, cell, cellNeigh1, numVars);
@@ -842,16 +882,20 @@ public class TestHelper {
 
         int numVars = 2;
         Shape shapeCenterCell = new Shape(90, new Point(35, 54, 87));
-        Cell cell = new Cell(1, centerCellNodes, VTKType.VTK_TETRA, shapeCenterCell, numVars);
+        Cell cell = new Cell(centerCellNodes, VTKType.VTK_TETRA, shapeCenterCell, numVars);
+        cell.setIndex(1);
 
         Shape shapeNeigh1 = new Shape(45, new Point(7, 5, 51));
-        Cell cellNeigh1 = new Cell(10, neigh1CellNodes, VTKType.VTK_TETRA, shapeNeigh1, numVars);
+        Cell cellNeigh1 = new Cell(neigh1CellNodes, VTKType.VTK_TETRA, shapeNeigh1, numVars);
+        cellNeigh1.setIndex(10);
 
         Shape shapeNeigh2 = new Shape(71, new Point(54, -78, 1));
-        Cell cellNeigh2 = new Cell(12, neigh2CellNodes, VTKType.VTK_TETRA, shapeNeigh2, numVars);
+        Cell cellNeigh2 = new Cell(neigh2CellNodes, VTKType.VTK_TETRA, shapeNeigh2, numVars);
+        cellNeigh2.setIndex(12);
 
         Shape shapeNeigh3 = new Shape(78, new Point(-27, 8, 0));
-        Cell cellNeigh3 = new Cell(21, neigh3CellNodes, VTKType.VTK_TETRA, shapeNeigh3, numVars);
+        Cell cellNeigh3 = new Cell(neigh3CellNodes, VTKType.VTK_TETRA, shapeNeigh3, numVars);
+        cellNeigh3.setIndex(21);
 
         Surface surface11 = new Surface(90, new Point(34, 56, 87), new Vector(1, 3, 5).unit());
         Face f11 = new Face(nodesFace1, VTKType.VTK_TRIANGLE, surface11, cell, cellNeigh1, numVars);
@@ -926,16 +970,20 @@ public class TestHelper {
 
         int numVars = 2;
         Shape shapeCenterCell = new Shape(90, new Point(35, 54, 87));
-        Cell cell = new Cell(1, centerCellNodes, VTKType.VTK_TETRA, shapeCenterCell, numVars);
+        Cell cell = new Cell(centerCellNodes, VTKType.VTK_TETRA, shapeCenterCell, numVars);
+        cell.setIndex(1);
 
         Shape shapeNeigh1 = new Shape(45, new Point(7, 5, 51));
-        Cell cellNeigh1 = new Cell(10, neigh1CellNodes, VTKType.VTK_TETRA, shapeNeigh1, numVars);
+        Cell cellNeigh1 = new Cell(neigh1CellNodes, VTKType.VTK_TETRA, shapeNeigh1, numVars);
+        cellNeigh1.setIndex(10);
 
         Shape shapeNeigh2 = new Shape(71, new Point(54, -78, 1));
-        Cell cellNeigh2 = new Cell(12, neigh2CellNodes, VTKType.VTK_TETRA, shapeNeigh2, numVars);
+        Cell cellNeigh2 = new Cell(neigh2CellNodes, VTKType.VTK_TETRA, shapeNeigh2, numVars);
+        cellNeigh2.setIndex(12);
 
         Shape shapeNeigh3 = new Shape(78, new Point(-27, 8, 0));
-        Cell cellNeigh3 = new Cell(21, neigh3CellNodes, VTKType.VTK_TETRA, shapeNeigh3, numVars);
+        Cell cellNeigh3 = new Cell(neigh3CellNodes, VTKType.VTK_TETRA, shapeNeigh3, numVars);
+        cellNeigh3.setIndex(21);
 
         Surface surface11 = new Surface(90, new Point(34, 56, 87), new Vector(1, 3, 5).unit());
         Face f11 = new Face(nodesFace1, VTKType.VTK_TRIANGLE, surface11, cell, cellNeigh1, numVars);
@@ -1346,6 +1394,8 @@ public class TestHelper {
                 new Point(rand.nextDouble() * 100 - 50,
                         rand.nextDouble() * 100 - 50,
                         rand.nextDouble() * 100 - 50));
-        return new Cell(rand.nextInt(123456), nodes, vtkType, shape, numVars);
+        Cell cell = new Cell(nodes, vtkType, shape, numVars);
+        cell.setIndex(rand.nextInt(123456));
+        return cell;
     }
 }

@@ -63,7 +63,8 @@ public class Structured1DMeshTest {
                     new Point(cellNodes[1].x, cellNodes[1].y, cellNodes[1].z));
             Shape shape = new Shape(cellGeom.length() * 1.0 * 1.0, cellGeom.centroid());
             int index = (i == 0 || i == cells.length - 1) ? -1 : i - 1;
-            cells[i] = new Cell(index, cellNodes, VTKType.VTK_LINE, shape, numVars);
+            cells[i] = new Cell(cellNodes, VTKType.VTK_LINE, shape, numVars);
+            cells[i].setIndex(index);
         }
         expectedCells = Arrays.asList(cells).subList(1, cells.length - 1);
 
@@ -180,7 +181,7 @@ public class Structured1DMeshTest {
 
     private static void assertCellEquals(Cell expected, Cell actual) {
         // Have same index
-        assertEquals(expected.index, actual.index);
+        assertEquals(expected.index(), actual.index());
 
         // Have same nodes in same order
         assertEquals(expected.nodes.length, actual.nodes.length);
@@ -258,7 +259,7 @@ public class Structured1DMeshTest {
     public void indexTest() {
         List<Cell> cells = actualMesh.cells();
         assertTrue(IntStream.range(0, cells.size())
-                .allMatch(i -> cells.get(i).index == i));
+                .allMatch(i -> cells.get(i).index() == i));
     }
 
     @Test

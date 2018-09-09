@@ -47,9 +47,13 @@ public interface Mesh {
         return boundaries().stream();
     }
 
-    static Cell ghostCell(Cell boundaryCell, Face boundaryFace) {
-        int index = -1;
+    default void setAllCellIndices() {
+        for (int i = 0; i < cells().size(); i++) {
+            cells().get(i).setIndex(i);
+        }
+    }
 
+    static Cell ghostCell(Cell boundaryCell, Face boundaryFace) {
         // mirror cell nodes about the face
         List<Node> ghostCellNodes = new ArrayList<>();
         for (Node node : boundaryCell.nodes) {
@@ -67,7 +71,7 @@ public interface Mesh {
         Shape shape = new Shape(boundaryCell.shape.volume, ghostCellCentroid);
         int numVars = boundaryCell.U.length;
 
-        return new Cell(index, nodes, vtkType, shape, numVars);
+        return new Cell(nodes, vtkType, shape, numVars);
     }
 
     static private Node mirrorNode(Face face, Node node) {

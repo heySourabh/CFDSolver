@@ -30,7 +30,7 @@ public class LeastSquareCellGradient implements CellGradientCalculator {
 
     private void setup(Cell cell, NeighborsCalculator neighCalc) {
         Cell[] neighs = neighCalc.calculateFor(cell).toArray(new Cell[0]);
-        this.neighbors[cell.index] = neighs;
+        this.neighbors[cell.index()] = neighs;
 
         List<Vector> distanceVectors = Arrays.stream(neighs)
                 .map(neighCell -> new Vector(cell.shape.centroid, neighCell.shape.centroid))
@@ -51,7 +51,7 @@ public class LeastSquareCellGradient implements CellGradientCalculator {
         }
 
         SingularValueDecomposition svd = new SingularValueDecomposition(new Array2DRowRealMatrix(A));
-        this.matrices[cell.index] = svd.getSolver()
+        this.matrices[cell.index()] = svd.getSolver()
                 .getInverse()
                 .multiply(new DiagonalMatrix(weights))
                 .getData();
@@ -69,10 +69,10 @@ public class LeastSquareCellGradient implements CellGradientCalculator {
     }
 
     private Vector forVar(Cell cell, int var) {
-        double[] deltaU = Arrays.stream(neighbors[cell.index])
+        double[] deltaU = Arrays.stream(neighbors[cell.index()])
                 .mapToDouble(neighCell -> neighCell.U[var] - cell.U[var])
                 .toArray();
-        double[] derivatives = multiply(matrices[cell.index], deltaU);
+        double[] derivatives = multiply(matrices[cell.index()], deltaU);
 
         return new Vector(derivatives[0], derivatives[1], derivatives[2]);
     }

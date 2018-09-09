@@ -47,7 +47,7 @@ public class ExplicitEulerTimeIntegrator implements TimeIntegrator {
         double[] zeros = new double[numVars];
 
         Stream<double[]> absResidualStream = mesh.cellStream()
-                .map(cell -> apply(cell.U, U[cell.index], (e1, e2) -> (e1 - e2) / cell.dt))
+                .map(cell -> apply(cell.U, U[cell.index()], (e1, e2) -> (e1 - e2) / cell.dt))
                 .map(DoubleArray::abs);
 
         double[] totalResidue;
@@ -90,7 +90,7 @@ public class ExplicitEulerTimeIntegrator implements TimeIntegrator {
     }
 
     private void saveCurrentAverages() {
-        mesh.cellStream().forEach(cell -> copy(cell.U, U[cell.index]));
+        mesh.cellStream().forEach(cell -> copy(cell.U, U[cell.index()]));
     }
 
     private void calculateNewAverages() {

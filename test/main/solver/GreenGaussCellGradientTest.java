@@ -35,7 +35,8 @@ public class GreenGaussCellGradientTest {
 
         Line line = new Line(n1.location(), n2.location());
         Shape shape = new Shape(line.length(), line.centroid());
-        Cell cell = new Cell(0, new Node[]{n1, n2}, VTKType.VTK_LINE, shape, numVars);
+        Cell cell = new Cell(new Node[]{n1, n2}, VTKType.VTK_LINE, shape, numVars);
+        cell.setIndex(0);
 
         Surface surface = new Surface(1.0, n1.location(), new Vector(-1, 0, 0));
         Face f1 = new Face(new Node[]{n1}, VTKType.VTK_VERTEX, surface, cell, null, numVars);
@@ -293,7 +294,8 @@ public class GreenGaussCellGradientTest {
         Shape shape = new Shape(quad.area() * 1.0, quad.centroid());
 
         int numVars = 3;
-        Cell cell = new Cell(0, new Node[]{n0, n1, n2, n3}, quad.vtkType(), shape, numVars);
+        Cell cell = new Cell(new Node[]{n0, n1, n2, n3}, quad.vtkType(), shape, numVars);
+        cell.setIndex(0);
 
         Line line = new Line(p0, p1);
         Surface surface = new Surface(line.length() * 1.0, line.centroid(), new Vector(0, -1, 0));
@@ -343,7 +345,8 @@ public class GreenGaussCellGradientTest {
         Triangle tri = new Triangle(p0, p1, p2);
         Shape shape = new Shape(tri.area() * 1.0, tri.centroid());
         int numVars = 3;
-        Cell cell = new Cell(0, new Node[]{n0, n1, n2}, tri.vtkType(), shape, numVars);
+        Cell cell = new Cell(new Node[]{n0, n1, n2}, tri.vtkType(), shape, numVars);
+        cell.setIndex(0);
 
         Vector up = new Vector(0, 0, 1);
         Line line = new Line(p2, p1);
@@ -460,7 +463,8 @@ public class GreenGaussCellGradientTest {
         Triangle tri = new Triangle(p0, p1, p2);
         Shape shape = new Shape(tri.area() * 1.0, tri.centroid());
         int numVars = 3;
-        Cell cell = new Cell(0, new Node[]{n0, n1, n2}, tri.vtkType(), shape, numVars);
+        Cell cell = new Cell(new Node[]{n0, n1, n2}, tri.vtkType(), shape, numVars);
+        cell.setIndex(0);
 
         Vector up = new Vector(1, 0, 0);
         Line line = new Line(p2, p1);
@@ -515,7 +519,8 @@ public class GreenGaussCellGradientTest {
         Triangle tri = new Triangle(p0, p1, p2);
         Shape shape = new Shape(tri.area() * 1.0, tri.centroid());
         int numVars = 3;
-        Cell cell = new Cell(0, new Node[]{n0, n1, n2}, tri.vtkType(), shape, numVars);
+        Cell cell = new Cell(new Node[]{n0, n1, n2}, tri.vtkType(), shape, numVars);
+        cell.setIndex(0);
 
         Vector up = new Vector(0, -1, 0);
         Line line = new Line(p2, p1);
@@ -570,7 +575,8 @@ public class GreenGaussCellGradientTest {
         Triangle tri = new Triangle(p0, p1, p2);
         Shape shape = new Shape(tri.area() * 1.0, tri.centroid());
         int numVars = 3;
-        Cell cell = new Cell(0, new Node[]{n0, n1, n2}, tri.vtkType(), shape, numVars);
+        Cell cell = new Cell(new Node[]{n0, n1, n2}, tri.vtkType(), shape, numVars);
+        cell.setIndex(0);
 
         Vector up = new Vector(p2, p1).cross(new Vector(p2, p0)).unit();
         Line line = new Line(p2, p1);
@@ -643,7 +649,8 @@ public class GreenGaussCellGradientTest {
 
         Shape shape = new Shape(hexahedron.volume(), hexahedron.centroid());
         int numVars = 3;
-        Cell cell = new Cell(0, new Node[]{n0, n1, n2, n3, n4, n5, n6, n7}, hexahedron.vtkType(), shape, numVars);
+        Cell cell = new Cell(new Node[]{n0, n1, n2, n3, n4, n5, n6, n7}, hexahedron.vtkType(), shape, numVars);
+        cell.setIndex(0);
 
         Quad quad = new Quad(p3, p2, p1, p0);
         Surface surface = new Surface(quad.area(), quad.centroid(), quad.unitNormal());
@@ -713,7 +720,8 @@ public class GreenGaussCellGradientTest {
 
         Shape shape = new Shape(tetra.volume(), tetra.centroid());
         int numVars = 3;
-        Cell cell = new Cell(0, new Node[]{n0, n1, n2, n3}, tetra.vtkType(), shape, numVars);
+        Cell cell = new Cell(new Node[]{n0, n1, n2, n3}, tetra.vtkType(), shape, numVars);
+        cell.setIndex(0);
 
         Triangle tri = new Triangle(p0, p1, p2);
         Surface surface = new Surface(tri.area(), tri.centroid(), tri.unitNormal());

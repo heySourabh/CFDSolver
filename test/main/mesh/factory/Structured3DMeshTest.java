@@ -104,8 +104,9 @@ public class Structured3DMeshTest {
                     if (i > 0 && i < numXCells + 1 && j > 0 && j < numYCells + 1 && k > 0 && k < numZCells + 1) {
                         cellID = index;
                     }
-                    Cell cell = new Cell(cellID, new Node[]{n0, n1, n2, n3, n4, n5, n6, n7},
+                    Cell cell = new Cell(new Node[]{n0, n1, n2, n3, n4, n5, n6, n7},
                             hexahedron.vtkType(), shape, numVars);
+                    cell.setIndex(cellID);
                     cellArray[i][j][k] = cell;
                     if (i > 0 && i < numXCells + 1 && j > 0 && j < numYCells + 1 && k > 0 && k < numZCells + 1) {
                         index++;
