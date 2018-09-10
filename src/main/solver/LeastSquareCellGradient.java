@@ -3,8 +3,10 @@ package main.solver;
 import main.geom.Vector;
 import main.mesh.Cell;
 import main.mesh.Mesh;
+import main.util.DoubleArray;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.DiagonalMatrix;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.SingularValueDecomposition;
 
 import java.util.Arrays;
@@ -20,6 +22,15 @@ public class LeastSquareCellGradient implements CellGradientCalculator {
     private final Cell[][] neighbors;
     private final double[][][] matrices;
 
+    /**
+     * This gradient calculator can be used for 3D.
+     * When using for 2D / 1D make sure that all the cells are in one single plane(2D) / line(1D),
+     * otherwise the gradients will be erroneous.<br>
+     * In case the mesh is not on a single plane(2D) / line(1D), then use GreenGaussCellGradient.
+     *
+     * @param mesh      Mesh
+     * @param neighCalc (cell) -> List<Cell>
+     */
     public LeastSquareCellGradient(Mesh mesh, NeighborsCalculator neighCalc) {
         int numCells = mesh.cells().size();
         this.neighbors = new Cell[numCells][];
@@ -51,8 +62,7 @@ public class LeastSquareCellGradient implements CellGradientCalculator {
         }
 
         SingularValueDecomposition svd = new SingularValueDecomposition(new Array2DRowRealMatrix(A));
-        this.matrices[cell.index()] = svd.getSolver()
-                .getInverse()
+        this.matrices[cell.index()] = invert(svd)
                 .multiply(new DiagonalMatrix(weights))
                 .getData();
     }
@@ -79,5 +89,14 @@ public class LeastSquareCellGradient implements CellGradientCalculator {
 
     private double[] normalizeWeights(double[] positiveWeights) {
         return divide(positiveWeights, sum(positiveWeights));
+    }
+
+    private RealMatrix invert(SingularValueDecomposition svd) {
+        double[] singularValues = svd.getSingularValues();
+        double maxS = singularValues[0];
+        double[] invSingularValues = DoubleArray.apply(singularValues, s -> s > maxS / 10.0 ? 1.0 / s : 0.0);
+
+        RealMatrix invS = new DiagonalMatrix(invSingularValues);
+        return svd.getV().multiply(invS).multiply(svd.getUT());
     }
 }
