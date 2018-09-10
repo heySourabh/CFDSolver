@@ -47,13 +47,13 @@ public class Structured1DMeshTest {
     @BeforeClass
     public static void setUp() throws FileNotFoundException {
         Node[] nodes = new Node[7];
-        nodes[0] = new Node(-3.25, -0.25, 0.0); // Ghost node
-        nodes[1] = new Node(-2.0, 0, 0);
-        nodes[2] = new Node(-0.75, 0.25, 0);
-        nodes[3] = new Node(0.5, 0.5, 0);
-        nodes[4] = new Node(1.75, 0.75, 0);
-        nodes[5] = new Node(3.0, 1.0, 0);
-        nodes[6] = new Node(4.25, 1.25, 0.0); // Ghost node
+        nodes[0] = new Node(-3.25, -0.25, 0.0, numVars); // Ghost node
+        nodes[1] = new Node(-2.0, 0, 0, numVars);
+        nodes[2] = new Node(-0.75, 0.25, 0, numVars);
+        nodes[3] = new Node(0.5, 0.5, 0, numVars);
+        nodes[4] = new Node(1.75, 0.75, 0, numVars);
+        nodes[5] = new Node(3.0, 1.0, 0, numVars);
+        nodes[6] = new Node(4.25, 1.25, 0.0, numVars); // Ghost node
         expectedNodes = Arrays.asList(nodes).subList(1, nodes.length - 1);
 
         Cell[] cells = new Cell[nodes.length - 1];

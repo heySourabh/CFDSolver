@@ -61,7 +61,7 @@ public class Structured3DMeshTest {
                 double y = minY + j * dy;
                 for (int k = -1; k < numZCells + 2; k++) {
                     double z = minZ + k * dz;
-                    nodeArray[i + 1][j + 1][k + 1] = new Node(x, y, z);
+                    nodeArray[i + 1][j + 1][k + 1] = new Node(x, y, z, numVars);
                 }
             }
         }

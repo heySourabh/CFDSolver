@@ -51,18 +51,18 @@ public class Structured3DMeshSimpleTest {
         if (!tempFile.delete())
             System.out.println("Unable to delete temporary file: " + tempFile);
 
-        Node n0 = new Node(-0.5, -0.5, 0.0);
-        Node n1 = new Node(-0.5, -0.5, 3.5);
-        Node n2 = new Node(-0.5, 1.0, 0.0);
-        Node n3 = new Node(-0.5, 1.0, 3.5);
-        Node n4 = new Node(-0.5, 2.5, 0.0);
-        Node n5 = new Node(-0.5, 2.5, 3.5);
-        Node n6 = new Node(2.0, -0.5, 0.0);
-        Node n7 = new Node(2.0, -0.5, 3.5);
-        Node n8 = new Node(2.0, 1.0, 0.0);
-        Node n9 = new Node(2.0, 1.0, 3.5);
-        Node n10 = new Node(2.0, 2.5, 0.0);
-        Node n11 = new Node(2.0, 2.5, 3.5);
+        Node n0 = new Node(-0.5, -0.5, 0.0, numVars);
+        Node n1 = new Node(-0.5, -0.5, 3.5, numVars);
+        Node n2 = new Node(-0.5, 1.0, 0.0, numVars);
+        Node n3 = new Node(-0.5, 1.0, 3.5, numVars);
+        Node n4 = new Node(-0.5, 2.5, 0.0, numVars);
+        Node n5 = new Node(-0.5, 2.5, 3.5, numVars);
+        Node n6 = new Node(2.0, -0.5, 0.0, numVars);
+        Node n7 = new Node(2.0, -0.5, 3.5, numVars);
+        Node n8 = new Node(2.0, 1.0, 0.0, numVars);
+        Node n9 = new Node(2.0, 1.0, 3.5, numVars);
+        Node n10 = new Node(2.0, 2.5, 0.0, numVars);
+        Node n11 = new Node(2.0, 2.5, 3.5, numVars);
 
         // left cell
         Shape shape = new Shape(13.125, new Point(0.75, 0.25, 1.75));
@@ -80,80 +80,80 @@ public class Structured3DMeshSimpleTest {
         shape = new Shape(13.125, new Point(0.75, -1.25, 1.75));
         Cell leftGhost = new Cell(new Node[]{
                 n0, n6, n7, n1,
-                new Node(-0.5, -2, 0.0), new Node(2.0, -2.0, 0.0),
-                new Node(2.0, -2.0, 3.5), new Node(-0.5, -2.0, 3.5)},
+                new Node(-0.5, -2, 0.0, numVars), new Node(2.0, -2.0, 0.0, numVars),
+                new Node(2.0, -2.0, 3.5, numVars), new Node(-0.5, -2.0, 3.5, numVars)},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
 
         // right ghost
         shape = new Shape(13.125, new Point(0.75, 3.25, 1.75));
         Cell rightGhost = new Cell(new Node[]{
                 n4, n10, n11, n5,
-                new Node(-0.5, 4.0, 0.0), new Node(2.0, 4.0, 0.0),
-                new Node(2.0, 4.0, 3.5), new Node(-0.5, 4.0, 3.5)},
+                new Node(-0.5, 4.0, 0.0, numVars), new Node(2.0, 4.0, 0.0, numVars),
+                new Node(2.0, 4.0, 3.5, numVars), new Node(-0.5, 4.0, 3.5, numVars)},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
 
         // top-left ghost
         shape = new Shape(13.125, new Point(0.75, 0.25, 5.25));
         Cell topLeftGhost = new Cell(new Node[]{
                 n1, n7, n9, n3,
-                new Node(-0.5, -0.5, 7.0), new Node(2.0, -0.5, 7.0),
-                new Node(2.0, 1.0, 7.0), new Node(-0.5, 1.0, 7.0)},
+                new Node(-0.5, -0.5, 7.0, numVars), new Node(2.0, -0.5, 7.0, numVars),
+                new Node(2.0, 1.0, 7.0, numVars), new Node(-0.5, 1.0, 7.0, numVars)},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
 
         // top-right ghost
         shape = new Shape(13.125, new Point(0.75, 1.75, 5.25));
         Cell topRightGhost = new Cell(new Node[]{
                 n3, n9, n11, n5,
-                new Node(-0.5, 1.0, 7.0), new Node(2.0, 1.0, 7.0),
-                new Node(2.0, 2.5, 7.0), new Node(-0.5, 2.5, 7.0)},
+                new Node(-0.5, 1.0, 7.0, numVars), new Node(2.0, 1.0, 7.0, numVars),
+                new Node(2.0, 2.5, 7.0, numVars), new Node(-0.5, 2.5, 7.0, numVars)},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
 
         // bottom-left ghost
         shape = new Shape(13.125, new Point(0.75, 0.25, -1.75));
         Cell bottomLeftGhost = new Cell(new Node[]{
                 n0, n6, n8, n2,
-                new Node(-0.5, -0.5, -3.5), new Node(2.0, -0.5, -3.5),
-                new Node(2.0, 1.0, -3.5), new Node(-0.5, 1.0, -3.5)},
+                new Node(-0.5, -0.5, -3.5, numVars), new Node(2.0, -0.5, -3.5, numVars),
+                new Node(2.0, 1.0, -3.5, numVars), new Node(-0.5, 1.0, -3.5, numVars)},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
 
         // bottom-right ghost
         shape = new Shape(13.125, new Point(0.75, 1.75, -1.75));
         Cell bottomRightGhost = new Cell(new Node[]{
                 n2, n8, n10, n4,
-                new Node(-0.5, 1.0, -3.5), new Node(2.0, 1.0, -3.5),
-                new Node(2.0, 2.5, -3.5), new Node(-0.5, 2.5, -3.5)},
+                new Node(-0.5, 1.0, -3.5, numVars), new Node(2.0, 1.0, -3.5, numVars),
+                new Node(2.0, 2.5, -3.5, numVars), new Node(-0.5, 2.5, -3.5, numVars)},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
 
         // front-left ghost
         shape = new Shape(13.125, new Point(3.25, 0.25, 1.75));
         Cell frontLeftGhost = new Cell(new Node[]{
                 n6, n8, n9, n7,
-                new Node(4.5, -0.5, 0.0), new Node(4.5, 1.0, 0.0),
-                new Node(4.5, 1.0, 3.5), new Node(4.5, -0.5, 3.5)},
+                new Node(4.5, -0.5, 0.0, numVars), new Node(4.5, 1.0, 0.0, numVars),
+                new Node(4.5, 1.0, 3.5, numVars), new Node(4.5, -0.5, 3.5, numVars)},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
 
         // front-right ghost
         shape = new Shape(13.125, new Point(3.25, 1.75, 1.75));
         Cell frontRightGhost = new Cell(new Node[]{
                 n8, n9, n11, n10,
-                new Node(4.5, 1.0, 0.0), new Node(4.5, 1.0, 3.5),
-                new Node(4.5, 2.5, 3.5), new Node(4.5, 2.5, 0.0)},
+                new Node(4.5, 1.0, 0.0, numVars), new Node(4.5, 1.0, 3.5, numVars),
+                new Node(4.5, 2.5, 3.5, numVars), new Node(4.5, 2.5, 0.0, numVars)},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
 
         // back-left ghost
         shape = new Shape(13.125, new Point(-1.75, 0.25, 1.75));
         Cell backLeftGhost = new Cell(new Node[]{
                 n0, n1, n3, n2,
-                new Node(-3.0, -0.5, 0.0), new Node(-3.0, -0.5, 3.5),
-                new Node(-3.0, 1.0, 3.5), new Node(-3.0, 1.0, 0.0)},
+                new Node(-3.0, -0.5, 0.0, numVars), new Node(-3.0, -0.5, 3.5, numVars),
+                new Node(-3.0, 1.0, 3.5, numVars), new Node(-3.0, 1.0, 0.0, numVars)},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
 
         // back-right ghost
         shape = new Shape(13.125, new Point(-1.75, 1.75, 1.75));
         Cell backRightGhost = new Cell(new Node[]{
                 n2, n3, n5, n4,
-                new Node(-3.0, 1.0, 0.0), new Node(-3.0, 1.0, 3.5),
-                new Node(-3.0, 2.5, 3.5), new Node(-3.0, 2.5, 0.0)},
+                new Node(-3.0, 1.0, 0.0, numVars), new Node(-3.0, 1.0, 3.5, numVars),
+                new Node(-3.0, 2.5, 3.5, numVars), new Node(-3.0, 2.5, 0.0, numVars)},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
 
 
@@ -275,18 +275,18 @@ public class Structured3DMeshSimpleTest {
         if (!tempFile.delete())
             System.out.println("Unable to delete temporary file: " + tempFile);
 
-        Node n0 = new Node(2.0, -0.5, 0.0);
-        Node n1 = new Node(2.0, -0.5, 3.5);
-        Node n2 = new Node(2.0, 1.0, 0.0);
-        Node n3 = new Node(2.0, 1.0, 3.5);
-        Node n4 = new Node(2.0, 2.5, 0.0);
-        Node n5 = new Node(2.0, 2.5, 3.5);
-        Node n6 = new Node(-0.5, -0.5, 0.0);
-        Node n7 = new Node(-0.5, -0.5, 3.5);
-        Node n8 = new Node(-0.5, 1.0, 0.0);
-        Node n9 = new Node(-0.5, 1.0, 3.5);
-        Node n10 = new Node(-0.5, 2.5, 0.0);
-        Node n11 = new Node(-0.5, 2.5, 3.5);
+        Node n0 = new Node(2.0, -0.5, 0.0, numVars);
+        Node n1 = new Node(2.0, -0.5, 3.5, numVars);
+        Node n2 = new Node(2.0, 1.0, 0.0, numVars);
+        Node n3 = new Node(2.0, 1.0, 3.5, numVars);
+        Node n4 = new Node(2.0, 2.5, 0.0, numVars);
+        Node n5 = new Node(2.0, 2.5, 3.5, numVars);
+        Node n6 = new Node(-0.5, -0.5, 0.0, numVars);
+        Node n7 = new Node(-0.5, -0.5, 3.5, numVars);
+        Node n8 = new Node(-0.5, 1.0, 0.0, numVars);
+        Node n9 = new Node(-0.5, 1.0, 3.5, numVars);
+        Node n10 = new Node(-0.5, 2.5, 0.0, numVars);
+        Node n11 = new Node(-0.5, 2.5, 3.5, numVars);
 
         // left cell
         Shape shape = new Shape(13.125, new Point(0.75, 0.25, 1.75));
@@ -304,80 +304,80 @@ public class Structured3DMeshSimpleTest {
         shape = new Shape(13.125, new Point(0.75, -1.25, 1.75));
         Cell leftGhost = new Cell(new Node[]{
                 n0, n6, n7, n1,
-                new Node(-0.5, -2, 0.0), new Node(2.0, -2.0, 0.0),
-                new Node(2.0, -2.0, 3.5), new Node(-0.5, -2.0, 3.5)},
+                new Node(-0.5, -2, 0.0, numVars), new Node(2.0, -2.0, 0.0, numVars),
+                new Node(2.0, -2.0, 3.5, numVars), new Node(-0.5, -2.0, 3.5, numVars)},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
 
         // right ghost
         shape = new Shape(13.125, new Point(0.75, 3.25, 1.75));
         Cell rightGhost = new Cell(new Node[]{
                 n4, n10, n11, n5,
-                new Node(-0.5, 4.0, 0.0), new Node(2.0, 4.0, 0.0),
-                new Node(2.0, 4.0, 3.5), new Node(-0.5, 4.0, 3.5)},
+                new Node(-0.5, 4.0, 0.0, numVars), new Node(2.0, 4.0, 0.0, numVars),
+                new Node(2.0, 4.0, 3.5, numVars), new Node(-0.5, 4.0, 3.5, numVars)},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
 
         // top-left ghost
         shape = new Shape(13.125, new Point(0.75, 0.25, 5.25));
         Cell topLeftGhost = new Cell(new Node[]{
                 n1, n7, n9, n3,
-                new Node(-0.5, -0.5, 7.0), new Node(2.0, -0.5, 7.0),
-                new Node(2.0, 1.0, 7.0), new Node(-0.5, 1.0, 7.0)},
+                new Node(-0.5, -0.5, 7.0, numVars), new Node(2.0, -0.5, 7.0, numVars),
+                new Node(2.0, 1.0, 7.0, numVars), new Node(-0.5, 1.0, 7.0, numVars)},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
 
         // top-right ghost
         shape = new Shape(13.125, new Point(0.75, 1.75, 5.25));
         Cell topRightGhost = new Cell(new Node[]{
                 n3, n9, n11, n5,
-                new Node(-0.5, 1.0, 7.0), new Node(2.0, 1.0, 7.0),
-                new Node(2.0, 2.5, 7.0), new Node(-0.5, 2.5, 7.0)},
+                new Node(-0.5, 1.0, 7.0, numVars), new Node(2.0, 1.0, 7.0, numVars),
+                new Node(2.0, 2.5, 7.0, numVars), new Node(-0.5, 2.5, 7.0, numVars)},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
 
         // bottom-left ghost
         shape = new Shape(13.125, new Point(0.75, 0.25, -1.75));
         Cell bottomLeftGhost = new Cell(new Node[]{
                 n0, n6, n8, n2,
-                new Node(-0.5, -0.5, -3.5), new Node(2.0, -0.5, -3.5),
-                new Node(2.0, 1.0, -3.5), new Node(-0.5, 1.0, -3.5)},
+                new Node(-0.5, -0.5, -3.5, numVars), new Node(2.0, -0.5, -3.5, numVars),
+                new Node(2.0, 1.0, -3.5, numVars), new Node(-0.5, 1.0, -3.5, numVars)},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
 
         // bottom-right ghost
         shape = new Shape(13.125, new Point(0.75, 1.75, -1.75));
         Cell bottomRightGhost = new Cell(new Node[]{
                 n2, n8, n10, n4,
-                new Node(-0.5, 1.0, -3.5), new Node(2.0, 1.0, -3.5),
-                new Node(2.0, 2.5, -3.5), new Node(-0.5, 2.5, -3.5)},
+                new Node(-0.5, 1.0, -3.5, numVars), new Node(2.0, 1.0, -3.5, numVars),
+                new Node(2.0, 2.5, -3.5, numVars), new Node(-0.5, 2.5, -3.5, numVars)},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
 
         // front-left ghost
         shape = new Shape(13.125, new Point(3.25, 0.25, 1.75));
         Cell frontLeftGhost = new Cell(new Node[]{
                 n0, n1, n3, n2,
-                new Node(4.5, -0.5, 0.0), new Node(4.5, 1.0, 0.0),
-                new Node(4.5, 1.0, 3.5), new Node(4.5, -0.5, 3.5)},
+                new Node(4.5, -0.5, 0.0, numVars), new Node(4.5, 1.0, 0.0, numVars),
+                new Node(4.5, 1.0, 3.5, numVars), new Node(4.5, -0.5, 3.5, numVars)},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
 
         // front-right ghost
         shape = new Shape(13.125, new Point(3.25, 1.75, 1.75));
         Cell frontRightGhost = new Cell(new Node[]{
                 n2, n3, n5, n4,
-                new Node(4.5, 1.0, 0.0), new Node(4.5, 1.0, 3.5),
-                new Node(4.5, 2.5, 3.5), new Node(4.5, 2.5, 0.0)},
+                new Node(4.5, 1.0, 0.0, numVars), new Node(4.5, 1.0, 3.5, numVars),
+                new Node(4.5, 2.5, 3.5, numVars), new Node(4.5, 2.5, 0.0, numVars)},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
 
         // back-left ghost
         shape = new Shape(13.125, new Point(-1.75, 0.25, 1.75));
         Cell backLeftGhost = new Cell(new Node[]{
                 n6, n8, n9, n7,
-                new Node(-3.0, -0.5, 0.0), new Node(-3.0, -0.5, 3.5),
-                new Node(-3.0, 1.0, 3.5), new Node(-3.0, 1.0, 0.0)},
+                new Node(-3.0, -0.5, 0.0, numVars), new Node(-3.0, -0.5, 3.5, numVars),
+                new Node(-3.0, 1.0, 3.5, numVars), new Node(-3.0, 1.0, 0.0, numVars)},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
 
         // back-right ghost
         shape = new Shape(13.125, new Point(-1.75, 1.75, 1.75));
         Cell backRightGhost = new Cell(new Node[]{
                 n8, n9, n11, n10,
-                new Node(-3.0, 1.0, 0.0), new Node(-3.0, 1.0, 3.5),
-                new Node(-3.0, 2.5, 3.5), new Node(-3.0, 2.5, 0.0)},
+                new Node(-3.0, 1.0, 0.0, numVars), new Node(-3.0, 1.0, 3.5, numVars),
+                new Node(-3.0, 2.5, 3.5, numVars), new Node(-3.0, 2.5, 0.0, numVars)},
                 VTKType.VTK_HEXAHEDRON, shape, numVars);
 
 

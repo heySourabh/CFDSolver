@@ -77,7 +77,8 @@ public interface Mesh {
     static private Node mirrorNode(Face face, Node node) {
         Point mirroredPoint = mirrorPoint(face, node.location());
 
-        return new Node(mirroredPoint);
+        int numVars = face.U.length;
+        return new Node(mirroredPoint, numVars);
     }
 
     static private Point mirrorPoint(Face face, Point point) {

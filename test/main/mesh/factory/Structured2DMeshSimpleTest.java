@@ -42,26 +42,26 @@ public class Structured2DMeshSimpleTest {
         if (!tempFile.delete())
             System.out.println("Unable to delete temporary file: " + tempFile);
 
-        Node n0 = new Node(0.0, 0.0, 0.0);
-        Node n1 = new Node(0.0, 1.0, 0.0);
-        Node n2 = new Node(1.0, 0.0, 0.0);
-        Node n3 = new Node(1.0, 1.0, 0.0);
+        Node n0 = new Node(0.0, 0.0, 0.0, numVars);
+        Node n1 = new Node(0.0, 1.0, 0.0, numVars);
+        Node n2 = new Node(1.0, 0.0, 0.0, numVars);
+        Node n3 = new Node(1.0, 1.0, 0.0, numVars);
 
         Shape shape = new Shape(1, new Point(0.5, 0.5, 0));
         Cell cell = new Cell(new Node[]{n0, n1, n3, n2}, VTKType.VTK_QUAD, shape, numVars);
         cell.setIndex(0);
 
         Cell ghostCellLeft = new Cell(new Node[]{
-                n0, n1, new Node(-1, 1, 0), new Node(-1, 0, 0)}, VTKType.VTK_QUAD,
+                n0, n1, new Node(-1, 1, 0, numVars), new Node(-1, 0, 0, numVars)}, VTKType.VTK_QUAD,
                 new Shape(1, new Point(-0.5, 0.5, 0)), numVars);
         Cell ghostCellRight = new Cell(new Node[]{
-                n2, n3, new Node(2, 1, 0), new Node(2, 0, 0)}, VTKType.VTK_QUAD,
+                n2, n3, new Node(2, 1, 0, numVars), new Node(2, 0, 0, numVars)}, VTKType.VTK_QUAD,
                 new Shape(1, new Point(1.5, 0.5, 0)), numVars);
         Cell ghostCellBottom = new Cell(new Node[]{
-                n0, n2, new Node(1, -1, 0), new Node(0, -1, 0)}, VTKType.VTK_QUAD,
+                n0, n2, new Node(1, -1, 0, numVars), new Node(0, -1, 0, numVars)}, VTKType.VTK_QUAD,
                 new Shape(1, new Point(0.5, -0.5, 0)), numVars);
         Cell ghostCellTop = new Cell(new Node[]{
-                n1, n3, new Node(1, 2, 0), new Node(0, 2, 0)}, VTKType.VTK_QUAD,
+                n1, n3, new Node(1, 2, 0, numVars), new Node(0, 2, 0, numVars)}, VTKType.VTK_QUAD,
                 new Shape(1, new Point(0.5, 1.5, 0)), numVars);
 
         Surface surface = new Surface(1, new Point(0, 0.5, 0), new Vector(-1, 0, 0));
@@ -136,26 +136,26 @@ public class Structured2DMeshSimpleTest {
         if (!tempFile.delete())
             System.out.println("Unable to delete temporary file: " + tempFile);
 
-        Node n0 = new Node(1.0, 0.0, 0.0);
-        Node n1 = new Node(1.0, 1.0, 0.0);
-        Node n2 = new Node(0.0, 0.0, 0.0);
-        Node n3 = new Node(0.0, 1.0, 0.0);
+        Node n0 = new Node(1.0, 0.0, 0.0, numVars);
+        Node n1 = new Node(1.0, 1.0, 0.0, numVars);
+        Node n2 = new Node(0.0, 0.0, 0.0, numVars);
+        Node n3 = new Node(0.0, 1.0, 0.0, numVars);
 
         Shape shape = new Shape(1, new Point(0.5, 0.5, 0));
         Cell cell = new Cell(new Node[]{n2, n3, n1, n0}, VTKType.VTK_QUAD, shape, numVars);
         cell.setIndex(0);
 
         Cell ghostCellLeft = new Cell(new Node[]{
-                n2, n3, new Node(-1, 1, 0), new Node(-1, 0, 0)}, VTKType.VTK_QUAD,
+                n2, n3, new Node(-1, 1, 0, numVars), new Node(-1, 0, 0, numVars)}, VTKType.VTK_QUAD,
                 new Shape(1, new Point(-0.5, 0.5, 0)), numVars);
         Cell ghostCellRight = new Cell(new Node[]{
-                n0, n1, new Node(2, 1, 0), new Node(2, 0, 0)}, VTKType.VTK_QUAD,
+                n0, n1, new Node(2, 1, 0, numVars), new Node(2, 0, 0, numVars)}, VTKType.VTK_QUAD,
                 new Shape(1, new Point(1.5, 0.5, 0)), numVars);
         Cell ghostCellBottom = new Cell(new Node[]{
-                n2, n0, new Node(1, -1, 0), new Node(0, -1, 0)}, VTKType.VTK_QUAD,
+                n2, n0, new Node(1, -1, 0, numVars), new Node(0, -1, 0, numVars)}, VTKType.VTK_QUAD,
                 new Shape(1, new Point(0.5, -0.5, 0)), numVars);
         Cell ghostCellTop = new Cell(new Node[]{
-                n3, n1, new Node(1, 2, 0), new Node(0, 2, 0)}, VTKType.VTK_QUAD,
+                n3, n1, new Node(1, 2, 0, numVars), new Node(0, 2, 0, numVars)}, VTKType.VTK_QUAD,
                 new Shape(1, new Point(0.5, 1.5, 0)), numVars);
 
         Surface surface = new Surface(1, new Point(0, 0.5, 0), new Vector(-1, 0, 0));
@@ -232,12 +232,12 @@ public class Structured2DMeshSimpleTest {
         if (!tempFile.delete())
             System.out.println("Unable to delete temporary file: " + tempFile);
 
-        Node n0 = new Node(-1.0, -0.5, 0.0);
-        Node n1 = new Node(-1.0, 0.5, 0.0);
-        Node n2 = new Node(0.0, -0.5, 0.0);
-        Node n3 = new Node(0.0, 0.5, 0.0);
-        Node n4 = new Node(1.0, -0.5, 0.0);
-        Node n5 = new Node(1.0, 0.5, 0.0);
+        Node n0 = new Node(-1.0, -0.5, 0.0, numVars);
+        Node n1 = new Node(-1.0, 0.5, 0.0, numVars);
+        Node n2 = new Node(0.0, -0.5, 0.0, numVars);
+        Node n3 = new Node(0.0, 0.5, 0.0, numVars);
+        Node n4 = new Node(1.0, -0.5, 0.0, numVars);
+        Node n5 = new Node(1.0, 0.5, 0.0, numVars);
 
         Shape shape0 = new Shape(1, new Point(-0.5, 0, 0));
         Cell cell0 = new Cell(new Node[]{n0, n1, n3, n2}, VTKType.VTK_QUAD, shape0, numVars);
@@ -249,37 +249,37 @@ public class Structured2DMeshSimpleTest {
 
         Shape shape = new Shape(1, new Point(-1.5, 0, 0));
         Cell ghostCellLeft = new Cell(new Node[]{
-                n0, n1, new Node(-2, -0.5, 0), new Node(-2, 0.5, 0)},
+                n0, n1, new Node(-2, -0.5, 0, numVars), new Node(-2, 0.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
         shape = new Shape(1, new Point(1.5, 0, 0));
         Cell ghostCellRight = new Cell(new Node[]{
-                n4, n5, new Node(2, 0.5, 0), new Node(2, -0.5, 0)},
+                n4, n5, new Node(2, 0.5, 0, numVars), new Node(2, -0.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
         shape = new Shape(1, new Point(-0.5, 1, 0));
         Cell ghostCellTopLeft = new Cell(new Node[]{
-                n1, n3, new Node(0, 1.5, 0), new Node(-1, 1.5, 0)},
+                n1, n3, new Node(0, 1.5, 0, numVars), new Node(-1, 1.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
         shape = new Shape(1, new Point(0.5, 1, 0));
         Cell ghostCellTopRight = new Cell(new Node[]{
-                n3, n5, new Node(1, 1.5, 0), new Node(0, 1.5, 0)},
+                n3, n5, new Node(1, 1.5, 0, numVars), new Node(0, 1.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
         shape = new Shape(1, new Point(-0.5, -1, 0));
         Cell ghostCellBottomLeft = new Cell(new Node[]{
-                n0, n2, new Node(0, -1.5, 0), new Node(-1, -1.5, 0)},
+                n0, n2, new Node(0, -1.5, 0, numVars), new Node(-1, -1.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
         shape = new Shape(1, new Point(0.5, -1, 0));
         Cell ghostCellBottomRight = new Cell(new Node[]{
-                n2, n4, new Node(1, -1.5, 0), new Node(0, -1.5, 0)},
+                n2, n4, new Node(1, -1.5, 0, numVars), new Node(0, -1.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
@@ -377,12 +377,12 @@ public class Structured2DMeshSimpleTest {
         if (!tempFile.delete())
             System.out.println("Unable to delete temporary file: " + tempFile);
 
-        Node n0 = new Node(1.0, -0.5, 0.0);
-        Node n1 = new Node(1.0, 0.5, 0.0);
-        Node n2 = new Node(0.0, -0.5, 0.0);
-        Node n3 = new Node(0.0, 0.5, 0.0);
-        Node n4 = new Node(-1.0, -0.5, 0.0);
-        Node n5 = new Node(-1.0, 0.5, 0.0);
+        Node n0 = new Node(1.0, -0.5, 0.0, numVars);
+        Node n1 = new Node(1.0, 0.5, 0.0, numVars);
+        Node n2 = new Node(0.0, -0.5, 0.0, numVars);
+        Node n3 = new Node(0.0, 0.5, 0.0, numVars);
+        Node n4 = new Node(-1.0, -0.5, 0.0, numVars);
+        Node n5 = new Node(-1.0, 0.5, 0.0, numVars);
 
         Shape shape0 = new Shape(1, new Point(-0.5, 0, 0));
         Cell cellLeft = new Cell(new Node[]{n2, n3, n5, n4}, VTKType.VTK_QUAD, shape0, numVars);
@@ -394,37 +394,37 @@ public class Structured2DMeshSimpleTest {
 
         Shape shape = new Shape(1, new Point(-1.5, 0, 0));
         Cell ghostCellLeft = new Cell(new Node[]{
-                n4, n5, new Node(-2, -0.5, 0), new Node(-2, 0.5, 0)},
+                n4, n5, new Node(-2, -0.5, 0, numVars), new Node(-2, 0.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
         shape = new Shape(1, new Point(1.5, 0, 0));
         Cell ghostCellRight = new Cell(new Node[]{
-                n0, n1, new Node(2, 0.5, 0), new Node(2, -0.5, 0)},
+                n0, n1, new Node(2, 0.5, 0, numVars), new Node(2, -0.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
         shape = new Shape(1, new Point(-0.5, 1, 0));
         Cell ghostCellTopLeft = new Cell(new Node[]{
-                n5, n3, new Node(0, 1.5, 0), new Node(-1, 1.5, 0)},
+                n5, n3, new Node(0, 1.5, 0, numVars), new Node(-1, 1.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
         shape = new Shape(1, new Point(0.5, 1, 0));
         Cell ghostCellTopRight = new Cell(new Node[]{
-                n3, n1, new Node(1, 1.5, 0), new Node(0, 1.5, 0)},
+                n3, n1, new Node(1, 1.5, 0, numVars), new Node(0, 1.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
         shape = new Shape(1, new Point(-0.5, -1, 0));
         Cell ghostCellBottomLeft = new Cell(new Node[]{
-                n4, n2, new Node(0, -1.5, 0), new Node(-1, -1.5, 0)},
+                n4, n2, new Node(0, -1.5, 0, numVars), new Node(-1, -1.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
         shape = new Shape(1, new Point(0.5, -1, 0));
         Cell ghostCellBottomRight = new Cell(new Node[]{
-                n2, n0, new Node(1, -1.5, 0), new Node(0, -1.5, 0)},
+                n2, n0, new Node(1, -1.5, 0, numVars), new Node(0, -1.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
@@ -522,12 +522,12 @@ public class Structured2DMeshSimpleTest {
         if (!tempFile.delete())
             System.out.println("Unable to delete temporary file: " + tempFile);
 
-        Node n0 = new Node(-1.0, 0.5, 0.0);
-        Node n1 = new Node(-1.0, -0.5, 0.0);
-        Node n2 = new Node(0.0, 0.5, 0.0);
-        Node n3 = new Node(0.0, -0.5, 0.0);
-        Node n4 = new Node(1.0, 0.5, 0.0);
-        Node n5 = new Node(1.0, -0.5, 0.0);
+        Node n0 = new Node(-1.0, 0.5, 0.0, numVars);
+        Node n1 = new Node(-1.0, -0.5, 0.0, numVars);
+        Node n2 = new Node(0.0, 0.5, 0.0, numVars);
+        Node n3 = new Node(0.0, -0.5, 0.0, numVars);
+        Node n4 = new Node(1.0, 0.5, 0.0, numVars);
+        Node n5 = new Node(1.0, -0.5, 0.0, numVars);
 
         Shape shape0 = new Shape(1, new Point(-0.5, 0, 0));
         Cell cell0 = new Cell(new Node[]{n0, n1, n3, n2}, VTKType.VTK_QUAD, shape0, numVars);
@@ -539,37 +539,37 @@ public class Structured2DMeshSimpleTest {
 
         Shape shape = new Shape(1, new Point(-1.5, 0, 0));
         Cell ghostCellLeft = new Cell(new Node[]{
-                n0, n1, new Node(-2, -0.5, 0), new Node(-2, 0.5, 0)},
+                n0, n1, new Node(-2, -0.5, 0, numVars), new Node(-2, 0.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
         shape = new Shape(1, new Point(1.5, 0, 0));
         Cell ghostCellRight = new Cell(new Node[]{
-                n4, n5, new Node(2, 0.5, 0), new Node(2, -0.5, 0)},
+                n4, n5, new Node(2, 0.5, 0, numVars), new Node(2, -0.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
         shape = new Shape(1, new Point(-0.5, 1, 0));
         Cell ghostCellTopLeft = new Cell(new Node[]{
-                n0, n2, new Node(0, 1.5, 0), new Node(-1, 1.5, 0)},
+                n0, n2, new Node(0, 1.5, 0, numVars), new Node(-1, 1.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
         shape = new Shape(1, new Point(0.5, 1, 0));
         Cell ghostCellTopRight = new Cell(new Node[]{
-                n2, n4, new Node(1, 1.5, 0), new Node(0, 1.5, 0)},
+                n2, n4, new Node(1, 1.5, 0, numVars), new Node(0, 1.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
         shape = new Shape(1, new Point(-0.5, -1, 0));
         Cell ghostCellBottomLeft = new Cell(new Node[]{
-                n1, n3, new Node(0, -1.5, 0), new Node(-1, -1.5, 0)},
+                n1, n3, new Node(0, -1.5, 0, numVars), new Node(-1, -1.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
         shape = new Shape(1, new Point(0.5, -1, 0));
         Cell ghostCellBottomRight = new Cell(new Node[]{
-                n3, n5, new Node(1, -1.5, 0), new Node(0, -1.5, 0)},
+                n3, n5, new Node(1, -1.5, 0, numVars), new Node(0, -1.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
@@ -667,12 +667,12 @@ public class Structured2DMeshSimpleTest {
         if (!tempFile.delete())
             System.out.println("Unable to delete temporary file: " + tempFile);
 
-        Node n0 = new Node(1.0, 0.5, 0.0);
-        Node n1 = new Node(1.0, -0.5, 0.0);
-        Node n2 = new Node(0.0, 0.5, 0.0);
-        Node n3 = new Node(0.0, -0.5, 0.0);
-        Node n4 = new Node(-1.0, 0.5, 0.0);
-        Node n5 = new Node(-1.0, -0.5, 0.0);
+        Node n0 = new Node(1.0, 0.5, 0.0, numVars);
+        Node n1 = new Node(1.0, -0.5, 0.0, numVars);
+        Node n2 = new Node(0.0, 0.5, 0.0, numVars);
+        Node n3 = new Node(0.0, -0.5, 0.0, numVars);
+        Node n4 = new Node(-1.0, 0.5, 0.0, numVars);
+        Node n5 = new Node(-1.0, -0.5, 0.0, numVars);
 
         Shape shapeLeft = new Shape(1, new Point(-0.5, 0, 0));
         Cell cellLeft = new Cell(new Node[]{n2, n3, n5, n4}, VTKType.VTK_QUAD, shapeLeft, numVars);
@@ -684,37 +684,37 @@ public class Structured2DMeshSimpleTest {
 
         Shape shape = new Shape(1, new Point(-1.5, 0, 0));
         Cell ghostCellLeft = new Cell(new Node[]{
-                n4, n5, new Node(-2, -0.5, 0), new Node(-2, 0.5, 0)},
+                n4, n5, new Node(-2, -0.5, 0, numVars), new Node(-2, 0.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
         shape = new Shape(1, new Point(1.5, 0, 0));
         Cell ghostCellRight = new Cell(new Node[]{
-                n0, n1, new Node(2, 0.5, 0), new Node(2, -0.5, 0)},
+                n0, n1, new Node(2, 0.5, 0, numVars), new Node(2, -0.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
         shape = new Shape(1, new Point(-0.5, 1, 0));
         Cell ghostCellTopLeft = new Cell(new Node[]{
-                n4, n2, new Node(0, 1.5, 0), new Node(-1, 1.5, 0)},
+                n4, n2, new Node(0, 1.5, 0, numVars), new Node(-1, 1.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
         shape = new Shape(1, new Point(0.5, 1, 0));
         Cell ghostCellTopRight = new Cell(new Node[]{
-                n2, n0, new Node(1, 1.5, 0), new Node(0, 1.5, 0)},
+                n2, n0, new Node(1, 1.5, 0, numVars), new Node(0, 1.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
         shape = new Shape(1, new Point(-0.5, -1, 0));
         Cell ghostCellBottomLeft = new Cell(new Node[]{
-                n5, n3, new Node(0, -1.5, 0), new Node(-1, -1.5, 0)},
+                n5, n3, new Node(0, -1.5, 0, numVars), new Node(-1, -1.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
         shape = new Shape(1, new Point(0.5, -1, 0));
         Cell ghostCellBottomRight = new Cell(new Node[]{
-                n3, n1, new Node(1, -1.5, 0), new Node(0, -1.5, 0)},
+                n3, n1, new Node(1, -1.5, 0, numVars), new Node(0, -1.5, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars
         );
 
@@ -815,15 +815,15 @@ public class Structured2DMeshSimpleTest {
         if (!tempFile.delete())
             System.out.println("Unable to delete temporary file: " + tempFile);
 
-        Node n0 = new Node(2.00, 1.00, 0.00);
-        Node n1 = new Node(2.00, 2.00, 0.00);
-        Node n2 = new Node(2.00, 3.00, 0.00);
-        Node n3 = new Node(3.50, 1.00, 0.00);
-        Node n4 = new Node(3.50, 2.00, 0.00);
-        Node n5 = new Node(3.50, 3.00, 0.00);
-        Node n6 = new Node(5.00, 1.00, 0.00);
-        Node n7 = new Node(5.00, 2.00, 0.00);
-        Node n8 = new Node(5.00, 3.00, 0.00);
+        Node n0 = new Node(2.00, 1.00, 0.00, numVars);
+        Node n1 = new Node(2.00, 2.00, 0.00, numVars);
+        Node n2 = new Node(2.00, 3.00, 0.00, numVars);
+        Node n3 = new Node(3.50, 1.00, 0.00, numVars);
+        Node n4 = new Node(3.50, 2.00, 0.00, numVars);
+        Node n5 = new Node(3.50, 3.00, 0.00, numVars);
+        Node n6 = new Node(5.00, 1.00, 0.00, numVars);
+        Node n7 = new Node(5.00, 2.00, 0.00, numVars);
+        Node n8 = new Node(5.00, 3.00, 0.00, numVars);
 
         Shape shape = new Shape(1.5, new Point(2.75, 1.5, 0));
         Cell cellLowerLeft = new Cell(new Node[]{n0, n1, n4, n3}, VTKType.VTK_QUAD, shape, numVars);
@@ -843,42 +843,42 @@ public class Structured2DMeshSimpleTest {
 
         shape = new Shape(1.5, new Point(1.25, 1.5, 0));
         Cell ghostCellLeft0 = new Cell(new Node[]{
-                n0, n1, new Node(0.5, 2, 0), new Node(0.5, 1, 0)},
+                n0, n1, new Node(0.5, 2, 0, numVars), new Node(0.5, 1, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(1.5, new Point(1.25, 2.5, 0));
         Cell ghostCellLeft1 = new Cell(new Node[]{
-                n1, n2, new Node(0.5, 3, 0), new Node(0.5, 2, 0)},
+                n1, n2, new Node(0.5, 3, 0, numVars), new Node(0.5, 2, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(1.5, new Point(5.75, 1.5, 0));
         Cell ghostCellRight0 = new Cell(new Node[]{
-                n6, n7, new Node(6.5, 2, 0), new Node(6.5, 1, 0)},
+                n6, n7, new Node(6.5, 2, 0, numVars), new Node(6.5, 1, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(1.5, new Point(5.75, 2.5, 0));
         Cell ghostCellRight1 = new Cell(new Node[]{
-                n7, n8, new Node(6.5, 3, 0), new Node(6.5, 2, 0)},
+                n7, n8, new Node(6.5, 3, 0, numVars), new Node(6.5, 2, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(1.5, new Point(2.75, 0.5, 0));
         Cell ghostCellBottom0 = new Cell(new Node[]{
-                n0, n3, new Node(3.5, 0, 0), new Node(2.0, 0, 0)},
+                n0, n3, new Node(3.5, 0, 0, numVars), new Node(2.0, 0, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(1.5, new Point(4.25, 0.5, 0));
         Cell ghostCellBottom1 = new Cell(new Node[]{
-                n3, n6, new Node(5.0, 0, 0), new Node(3.5, 0, 0)},
+                n3, n6, new Node(5.0, 0, 0, numVars), new Node(3.5, 0, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(1.5, new Point(2.75, 3.5, 0));
         Cell ghostCellTop0 = new Cell(new Node[]{
-                n2, n5, new Node(3.5, 4, 0), new Node(2.0, 4, 0)},
+                n2, n5, new Node(3.5, 4, 0, numVars), new Node(2.0, 4, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(1.5, new Point(4.25, 3.5, 0));
         Cell ghostCellTop1 = new Cell(new Node[]{
-                n5, n8, new Node(5.0, 4.0, 0), new Node(3.5, 4.0, 0)},
+                n5, n8, new Node(5.0, 4.0, 0, numVars), new Node(3.5, 4.0, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         Surface surface = new Surface(1.5, new Point(2.75, 1, 0), new Vector(0, -1, 0));
@@ -996,15 +996,15 @@ public class Structured2DMeshSimpleTest {
         if (!tempFile.delete())
             System.out.println("Unable to delete temporary file: " + tempFile);
 
-        Node n0 = new Node(2.00, 0.00, 1.00);
-        Node n1 = new Node(2.00, 0.00, 2.00);
-        Node n2 = new Node(2.00, 0.00, 3.00);
-        Node n3 = new Node(3.50, 0.00, 1.00);
-        Node n4 = new Node(3.50, 0.00, 2.00);
-        Node n5 = new Node(3.50, 0.00, 3.00);
-        Node n6 = new Node(5.00, 0.00, 1.00);
-        Node n7 = new Node(5.00, 0.00, 2.00);
-        Node n8 = new Node(5.00, 0.00, 3.00);
+        Node n0 = new Node(2.00, 0.00, 1.00, numVars);
+        Node n1 = new Node(2.00, 0.00, 2.00, numVars);
+        Node n2 = new Node(2.00, 0.00, 3.00, numVars);
+        Node n3 = new Node(3.50, 0.00, 1.00, numVars);
+        Node n4 = new Node(3.50, 0.00, 2.00, numVars);
+        Node n5 = new Node(3.50, 0.00, 3.00, numVars);
+        Node n6 = new Node(5.00, 0.00, 1.00, numVars);
+        Node n7 = new Node(5.00, 0.00, 2.00, numVars);
+        Node n8 = new Node(5.00, 0.00, 3.00, numVars);
 
         Shape shape = new Shape(1.5, new Point(2.75, 0, 1.5));
         Cell cellLowerLeft = new Cell(new Node[]{n0, n1, n4, n3}, VTKType.VTK_QUAD, shape, numVars);
@@ -1024,42 +1024,42 @@ public class Structured2DMeshSimpleTest {
 
         shape = new Shape(1.5, new Point(1.25, 0, 1.5));
         Cell ghostCellLeft0 = new Cell(new Node[]{
-                n0, n1, new Node(0.5, 0, 2), new Node(0.5, 0, 1)},
+                n0, n1, new Node(0.5, 0, 2, numVars), new Node(0.5, 0, 1, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(1.5, new Point(1.25, 0, 2.5));
         Cell ghostCellLeft1 = new Cell(new Node[]{
-                n1, n2, new Node(0.5, 0, 3), new Node(0.5, 0, 2)},
+                n1, n2, new Node(0.5, 0, 3, numVars), new Node(0.5, 0, 2, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(1.5, new Point(5.75, 0, 1.5));
         Cell ghostCellRight0 = new Cell(new Node[]{
-                n6, n7, new Node(6.5, 0, 2), new Node(6.5, 0, 1)},
+                n6, n7, new Node(6.5, 0, 2, numVars), new Node(6.5, 0, 1, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(1.5, new Point(5.75, 0, 2.5));
         Cell ghostCellRight1 = new Cell(new Node[]{
-                n7, n8, new Node(6.5, 0, 3), new Node(6.5, 0, 2)},
+                n7, n8, new Node(6.5, 0, 3, numVars), new Node(6.5, 0, 2, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(1.5, new Point(2.75, 0, 0.5));
         Cell ghostCellBottom0 = new Cell(new Node[]{
-                n0, n3, new Node(3.5, 0, 0), new Node(2.0, 0, 0)},
+                n0, n3, new Node(3.5, 0, 0, numVars), new Node(2.0, 0, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(1.5, new Point(4.25, 0, 0.5));
         Cell ghostCellBottom1 = new Cell(new Node[]{
-                n3, n6, new Node(5.0, 0, 0), new Node(3.5, 0, 0)},
+                n3, n6, new Node(5.0, 0, 0, numVars), new Node(3.5, 0, 0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(1.5, new Point(2.75, 0, 3.5));
         Cell ghostCellTop0 = new Cell(new Node[]{
-                n2, n5, new Node(3.5, 0, 4), new Node(2.0, 0, 4)},
+                n2, n5, new Node(3.5, 0, 4, numVars), new Node(2.0, 0, 4, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(1.5, new Point(4.25, 0, 3.5));
         Cell ghostCellTop1 = new Cell(new Node[]{
-                n5, n8, new Node(5.0, 0, 4.0), new Node(3.5, 0, 4.0)},
+                n5, n8, new Node(5.0, 0, 4.0, numVars), new Node(3.5, 0, 4.0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         Surface surface = new Surface(1.5, new Point(2.75, 0, 1), new Vector(0, 0, -1));
@@ -1178,15 +1178,15 @@ public class Structured2DMeshSimpleTest {
         if (!tempFile.delete())
             System.out.println("Unable to delete temporary file: " + tempFile);
 
-        Node n0 = new Node(-32.0, -11.0, 20.0);
-        Node n1 = new Node(-36.5, -1.0, 20.0);
-        Node n2 = new Node(-40.0, 30.0, 20.0);
-        Node n3 = new Node(-10.0, -6.0, 20.0);
-        Node n4 = new Node(-12.0, 10.0, 20.0);
-        Node n5 = new Node(-12.0, 40.0, 20.0);
-        Node n6 = new Node(19.0, -8.0, 20.0);
-        Node n7 = new Node(12.0, 15.5, 20.0);
-        Node n8 = new Node(11.5, 34.0, 20.0);
+        Node n0 = new Node(-32.0, -11.0, 20.0, numVars);
+        Node n1 = new Node(-36.5, -1.0, 20.0, numVars);
+        Node n2 = new Node(-40.0, 30.0, 20.0, numVars);
+        Node n3 = new Node(-10.0, -6.0, 20.0, numVars);
+        Node n4 = new Node(-12.0, 10.0, 20.0, numVars);
+        Node n5 = new Node(-12.0, 40.0, 20.0, numVars);
+        Node n6 = new Node(19.0, -8.0, 20.0, numVars);
+        Node n7 = new Node(12.0, 15.5, 20.0, numVars);
+        Node n8 = new Node(11.5, 34.0, 20.0, numVars);
 
         Shape shape = new Shape(328.25, new Point(-21.96255395, -1.58568164, 20.0));
         Cell cellLowerLeft = new Cell(new Node[]{n0, n1, n4, n3}, VTKType.VTK_QUAD, shape, numVars);
@@ -1206,42 +1206,42 @@ public class Structured2DMeshSimpleTest {
 
         shape = new Shape(328.25, new Point(-45.70291039, -12.26884204, 20.0));
         Cell ghostCellLeft0 = new Cell(new Node[]{
-                n0, n1, new Node(-50.33264033, -24.14968815, 20.0), new Node(-60.98128898, -12.04158004, 20.0)},
+                n0, n1, new Node(-50.33264033, -24.14968815, 20.0, numVars), new Node(-60.98128898, -12.04158004, 20.0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(819.0, new Point(-52.09054933, 16.98515855, 20.0));
         Cell ghostCellLeft1 = new Cell(new Node[]{
-                n1, n2, new Node(-62.83585923, 4.26046751, 20.0), new Node(-69.52478808, 33.50526586, 20.0)},
+                n1, n2, new Node(-62.83585923, 4.26046751, 20.0, numVars), new Node(-69.52478808, 33.50526586, 20.0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(531.25, new Point(26.38778525, 9.64997024, 20.0));
         Cell ghostCellRight0 = new Cell(new Node[]{
-                n6, n7, new Node(42.17879418, 9.54261954, 20.0), new Node(35.09771310, 24.02910603, 20.0)},
+                n6, n7, new Node(42.17879418, 9.54261954, 20.0, numVars), new Node(35.09771310, 24.02910603, 20.0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(575.875, new Point(24.54041417, 25.52424740, 20.0));
         Cell ghostCellRight1 = new Cell(new Node[]{
-                n7, n8, new Node(34.64160584, 41.26058394, 20.0), new Node(36.26204380, 11.30437956, 20.0)},
+                n7, n8, new Node(34.64160584, 41.26058394, 20.0, numVars), new Node(36.26204380, 11.30437956, 20.0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(328.25, new Point(-18.87949356, -15.15114733, 20.0));
         Cell ghostCellBottom0 = new Cell(new Node[]{
-                n0, n3, new Node(-31.73575638, -21.96267191, 20.0), new Node(-4.88801572, -21.29273084, 20.0)},
+                n0, n3, new Node(-31.73575638, -21.96267191, 20.0, numVars), new Node(-4.88801572, -21.29273084, 20.0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(531.25, new Point(1.83533589, -16.45429632, 20.0));
         Cell ghostCellBottom1 = new Cell(new Node[]{
-                n3, n6, new Node(-14.17751479, -21.57396450, 20), new Node(8.84023669, -30.31656805, 20.0)},
+                n3, n6, new Node(-14.17751479, -21.57396450, 20, numVars), new Node(8.84023669, -30.31656805, 20.0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(819.0, new Point(-34.96447770, 47.03558031, 20.0));
         Cell ghostCellTop0 = new Cell(new Node[]{
-                n2, n5, new Node(-56.92986425, 56.20361991, 20.0), new Node(-31.00452489, 63.21266968, 20.0)},
+                n2, n5, new Node(-56.92986425, 56.20361991, 20.0, numVars), new Node(-31.00452489, 63.21266968, 20.0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(575.875, new Point(4.86908936, 48.06846857, 20.0));
         Cell ghostCellTop1 = new Cell(new Node[]{
-                n5, n8, new Node(2.38164046, 66.32809180, 20.0), new Node(20.80747981, 49.99596260, 20.0)},
+                n5, n8, new Node(2.38164046, 66.32809180, 20.0, numVars), new Node(20.80747981, 49.99596260, 20.0, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         Surface surface = new Surface(22.56102835, new Point(-21, -8.5, 20.0), new Vector(0.22162110, -0.97513286, 0.0));
@@ -1359,15 +1359,15 @@ public class Structured2DMeshSimpleTest {
         if (!tempFile.delete())
             System.out.println("Unable to delete temporary file: " + tempFile);
 
-        Node n0 = new Node(-32.0, 20.0, -11.0);
-        Node n1 = new Node(-36.5, 20.0, -1.0);
-        Node n2 = new Node(-40.0, 20.0, 30.0);
-        Node n3 = new Node(-10.0, 20.0, -6.0);
-        Node n4 = new Node(-12.0, 20.0, 10.0);
-        Node n5 = new Node(-12.0, 20.0, 40.0);
-        Node n6 = new Node(19.0, 20.0, -8.0);
-        Node n7 = new Node(12.0, 20.0, 15.5);
-        Node n8 = new Node(11.5, 20.0, 34.0);
+        Node n0 = new Node(-32.0, 20.0, -11.0, numVars);
+        Node n1 = new Node(-36.5, 20.0, -1.0, numVars);
+        Node n2 = new Node(-40.0, 20.0, 30.0, numVars);
+        Node n3 = new Node(-10.0, 20.0, -6.0, numVars);
+        Node n4 = new Node(-12.0, 20.0, 10.0, numVars);
+        Node n5 = new Node(-12.0, 20.0, 40.0, numVars);
+        Node n6 = new Node(19.0, 20.0, -8.0, numVars);
+        Node n7 = new Node(12.0, 20.0, 15.5, numVars);
+        Node n8 = new Node(11.5, 20.0, 34.0, numVars);
 
         Shape shape = new Shape(328.25, new Point(-21.96255395, 20.0, -1.58568164));
         Cell cellLowerLeft = new Cell(new Node[]{n0, n1, n4, n3}, VTKType.VTK_QUAD, shape, numVars);
@@ -1387,42 +1387,42 @@ public class Structured2DMeshSimpleTest {
 
         shape = new Shape(328.25, new Point(-45.70291039, 20.0, -12.26884204));
         Cell ghostCellLeft0 = new Cell(new Node[]{
-                n0, n1, new Node(-50.33264033, 20.0, -24.14968815), new Node(-60.98128898, 20.0, -12.04158004)},
+                n0, n1, new Node(-50.33264033, 20.0, -24.14968815, numVars), new Node(-60.98128898, 20.0, -12.04158004, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(819.0, new Point(-52.09054933, 20.0, 16.98515855));
         Cell ghostCellLeft1 = new Cell(new Node[]{
-                n1, n2, new Node(-62.83585923, 20.0, 4.26046751), new Node(-69.52478808, 20.0, 33.50526586)},
+                n1, n2, new Node(-62.83585923, 20.0, 4.26046751, numVars), new Node(-69.52478808, 20.0, 33.50526586, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(531.25, new Point(26.38778525, 20.0, 9.64997024));
         Cell ghostCellRight0 = new Cell(new Node[]{
-                n6, n7, new Node(42.17879418, 20.0, 9.54261954), new Node(35.09771310, 20.0, 24.02910603)},
+                n6, n7, new Node(42.17879418, 20.0, 9.54261954, numVars), new Node(35.09771310, 20.0, 24.02910603, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(575.875, new Point(24.54041417, 20.0, 25.52424740));
         Cell ghostCellRight1 = new Cell(new Node[]{
-                n7, n8, new Node(34.64160584, 20.0, 41.26058394), new Node(36.26204380, 20.0, 11.30437956)},
+                n7, n8, new Node(34.64160584, 20.0, 41.26058394, numVars), new Node(36.26204380, 20.0, 11.30437956, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(328.25, new Point(-18.87949356, 20.0, -15.15114733));
         Cell ghostCellBottom0 = new Cell(new Node[]{
-                n0, n3, new Node(-31.73575638, 20.0, -21.96267191), new Node(-4.88801572, 20.0, -21.29273084)},
+                n0, n3, new Node(-31.73575638, 20.0, -21.96267191, numVars), new Node(-4.88801572, 20.0, -21.29273084, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(531.25, new Point(1.83533589, 20.0, -16.45429632));
         Cell ghostCellBottom1 = new Cell(new Node[]{
-                n3, n6, new Node(-14.17751479, 20, -21.57396450), new Node(8.84023669, 20.0, -30.31656805)},
+                n3, n6, new Node(-14.17751479, 20, -21.57396450, numVars), new Node(8.84023669, 20.0, -30.31656805, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(819.0, new Point(-34.96447770, 20.0, 47.03558031));
         Cell ghostCellTop0 = new Cell(new Node[]{
-                n2, n5, new Node(-56.92986425, 20.0, 56.20361991), new Node(-31.00452489, 20.0, 63.21266968)},
+                n2, n5, new Node(-56.92986425, 20.0, 56.20361991, numVars), new Node(-31.00452489, 20.0, 63.21266968, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         shape = new Shape(575.875, new Point(4.86908936, 20.0, 48.06846857));
         Cell ghostCellTop1 = new Cell(new Node[]{
-                n5, n8, new Node(2.38164046, 20.0, 66.32809180), new Node(20.80747981, 20.0, 49.99596260)},
+                n5, n8, new Node(2.38164046, 20.0, 66.32809180, numVars), new Node(20.80747981, 20.0, 49.99596260, numVars)},
                 VTKType.VTK_QUAD, shape, numVars);
 
         Surface surface = new Surface(22.56102835, new Point(-21, 20.0, -8.5), new Vector(0.22162110, 0.0, -0.97513286));

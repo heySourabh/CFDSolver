@@ -43,7 +43,7 @@ public class Structured2DMesh implements Mesh {
             this.nodes = new ArrayList<>();
             for (int i = 0; i < num_xi; i++) {
                 for (int j = 0; j < num_eta; j++) {
-                    Node node = new Node(meshFileReader.readXYZ());
+                    Node node = new Node(meshFileReader.readXYZ(), numVars);
                     nodeArray[i][j] = node;
                     this.nodes.add(node);
                 }

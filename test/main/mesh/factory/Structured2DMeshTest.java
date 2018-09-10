@@ -56,7 +56,7 @@ public class Structured2DMeshTest {
         expectedNodes = new ArrayList<>();
         for (int i = 0; i < num_xi; i++) {
             for (int j = 0; j < num_eta; j++) {
-                Node node = new Node(transform(i, j));
+                Node node = new Node(transform(i, j), numVars);
                 nodeArray[i][j] = node;
                 expectedNodes.add(node);
             }

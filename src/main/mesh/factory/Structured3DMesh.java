@@ -52,7 +52,7 @@ public class Structured3DMesh implements Mesh {
             for (int i = 0; i < num_xi; i++) {
                 for (int j = 0; j < num_eta; j++) {
                     for (int k = 0; k < num_zeta; k++) {
-                        Node node = new Node(meshFileReader.readXYZ());
+                        Node node = new Node(meshFileReader.readXYZ(), numVars);
                         nodeArray[i][j][k] = node;
                         this.nodes.add(node);
                     }

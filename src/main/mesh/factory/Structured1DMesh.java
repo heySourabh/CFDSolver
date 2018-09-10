@@ -39,7 +39,7 @@ public class Structured1DMesh implements Mesh {
             xi = meshFileReader.readIntParameter("xi");
 
             this.nodes = IntStream.range(0, xi)
-                    .mapToObj(i -> new Node(meshFileReader.readXYZ()))
+                    .mapToObj(i -> new Node(meshFileReader.readXYZ(), numVars))
                     .collect(toList());
         }
 

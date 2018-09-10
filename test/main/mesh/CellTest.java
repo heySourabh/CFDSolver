@@ -34,13 +34,14 @@ public class CellTest {
 
     @Test
     public void test_toString() {
+        int numVars = 4;
         Node[] nodes = {
-                new Node(1, 3, 5),
-                new Node(6, 7, 4)
+                new Node(1, 3, 5, numVars),
+                new Node(6, 7, 4, numVars)
         };
         Cell cell = new Cell(nodes, VTKType.VTK_QUAD, new Shape(1.5, new Point(5, 7, 4)), 3);
         cell.faces.addAll(List.of(
-                new Face(new Node[]{new Node(0, 6, 3)}, VTKType.VTK_LINE,
+                new Face(new Node[]{new Node(0, 6, 3, numVars)}, VTKType.VTK_LINE,
                         new Surface(2.3, new Point(7, 8, 9), new Vector(3.5, 9, 2).unit()),
                         cell, null, 4)
         ));

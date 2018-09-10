@@ -62,7 +62,7 @@ public class Unstructured2DMeshTest {
                 new Point(500.53, 548.01, 0.0)
         );
         expectedNodes = points.stream()
-                .map(Node::new)
+                .map(p -> new Node(p, numVars))
                 .collect(toList());
 
         int[][] con = {
@@ -128,8 +128,8 @@ public class Unstructured2DMeshTest {
         Point centroid;
         List<Face> blueBoundaryFaces = new ArrayList<>();
         n0 = expectedNodes.get(0);
-        n1 = new Node(117.27, 395.424, 0.0);
-        n2 = new Node(74.5388, 449.511, 0.0);
+        n1 = new Node(117.27, 395.424, 0.0, numVars);
+        n2 = new Node(74.5388, 449.511, 0.0, numVars);
         n3 = expectedNodes.get(3);
         volume = 12836.432349999997;
         centroid = new Point(165.41106041983, 461.740326228124, 0.0);
@@ -139,7 +139,7 @@ public class Unstructured2DMeshTest {
         blueBoundaryFaces.add(f_03);
 
         n3 = expectedNodes.get(3);
-        n4 = new Node(146.746, 739.978, 0.0);
+        n4 = new Node(146.746, 739.978, 0.0, numVars);
         n5 = expectedNodes.get(5);
         volume = 17265.249800000005;
         centroid = new Point(236.6352558568723, 674.6258537509463, 0.0);
@@ -148,8 +148,8 @@ public class Unstructured2DMeshTest {
         Face f_35 = createFace(n5, n3, expectedCells.get(5), ghostCell_35);
         blueBoundaryFaces.add(f_35);
 
-        n4 = new Node(409.07, 903.081, 0.0);
-        n8 = new Node(505.171, 830.598, 0.0);
+        n4 = new Node(409.07, 903.081, 0.0, numVars);
+        n8 = new Node(505.171, 830.598, 0.0, numVars);
         n9 = expectedNodes.get(9);
         n5 = expectedNodes.get(5);
         volume = 17063.591850000008;
@@ -162,8 +162,8 @@ public class Unstructured2DMeshTest {
         List<Face> greenBoundaryFaces = new ArrayList<>();
         n0 = expectedNodes.get(0);
         n1 = expectedNodes.get(1);
-        n2 = new Node(322.429, 314.955, 0.0);
-        n3 = new Node(137.839, 336.063, 0.0);
+        n2 = new Node(322.429, 314.955, 0.0, numVars);
+        n3 = new Node(137.839, 336.063, 0.0, numVars);
         volume = 12836.432349999997;
         centroid = new Point(244.813042114931, 363.771023553490, 0.0);
         Cell ghostCell_01 = new Cell(new Node[]{n0, n1, n2, n3},
@@ -171,10 +171,10 @@ public class Unstructured2DMeshTest {
         Face f_01 = createFace(n0, n1, expectedCells.get(0), ghostCell_01);
         greenBoundaryFaces.add(f_01);
 
-        n0 = new Node(368.578, 282.909, 0.0);
+        n0 = new Node(368.578, 282.909, 0.0, numVars);
         n1 = expectedNodes.get(1);
         n2 = expectedNodes.get(2);
-        n3 = new Node(492.9, 291.135, 0.0);
+        n3 = new Node(492.9, 291.135, 0.0, numVars);
         volume = 12836.432349999997;
         centroid = new Point(395.9370872904792, 344.1387053406701, 0.0);
         Cell ghostCell_12 = new Cell(new Node[]{n0, n1, n2, n3},
@@ -184,9 +184,9 @@ public class Unstructured2DMeshTest {
 
         n2 = expectedNodes.get(2);
         n6 = expectedNodes.get(6);
-        n7 = new Node(433.34, 595.361, 0.0);
-        n10 = new Node(531.849, 498.25, 0.0);
-        n4 = new Node(527.82, 426.804, 0.0);
+        n7 = new Node(433.34, 595.361, 0.0, numVars);
+        n10 = new Node(531.849, 498.25, 0.0, numVars);
+        n4 = new Node(527.82, 426.804, 0.0, numVars);
         volume = 11158.635499999997;
         centroid = new Point(473.330094313819, 482.678303375872, 0.0);
         Cell ghostCell_26 = new Cell(new Node[]{n2, n6, n7, n10, n4},
@@ -194,11 +194,11 @@ public class Unstructured2DMeshTest {
         Face f_26 = createFace(n2, n6, expectedCells.get(2), ghostCell_26);
         greenBoundaryFaces.add(f_26);
 
-        n2 = new Node(540.478, 593.516, 0.0);
+        n2 = new Node(540.478, 593.516, 0.0, numVars);
         n6 = expectedNodes.get(6);
         n7 = expectedNodes.get(7);
-        n10 = new Node(408.028, 432.72, 0.0);
-        n4 = new Node(367.067, 491.398, 0.0);
+        n10 = new Node(408.028, 432.72, 0.0, numVars);
+        n4 = new Node(367.067, 491.398, 0.0, numVars);
         volume = 11158.635499999997;
         centroid = new Point(444.43192205819, 481.110582128155, 0.0);
         Cell ghostCell_67 = new Cell(new Node[]{n2, n6, n7, n10, n4},
@@ -207,8 +207,8 @@ public class Unstructured2DMeshTest {
         greenBoundaryFaces.add(f_67);
 
         List<Face> redBoundaryFaces = new ArrayList<>();
-        n4 = new Node(619.022, 595.878, 0.0);
-        n10 = new Node(560.497, 554.699, 0.0);
+        n4 = new Node(619.022, 595.878, 0.0, numVars);
+        n10 = new Node(560.497, 554.699, 0.0, numVars);
         n7 = expectedNodes.get(7);
         n8 = expectedNodes.get(8);
         volume = 7710.785800000003;
@@ -218,10 +218,10 @@ public class Unstructured2DMeshTest {
         Face f_78 = createFace(n7, n8, expectedCells.get(3), ghostCell_78);
         redBoundaryFaces.add(f_78);
 
-        n4 = new Node(637.61, 676.9, 0.0);
+        n4 = new Node(637.61, 676.9, 0.0, numVars);
         n8 = expectedNodes.get(8);
         n9 = expectedNodes.get(9);
-        n5 = new Node(572.558, 851.964, 0.0);
+        n5 = new Node(572.558, 851.964, 0.0, numVars);
         volume = 17063.591850000008;
         centroid = new Point(556.9722373381545, 738.1250853163604, 0.0);
         Cell ghostCell_89 = new Cell(new Node[]{n4, n8, n9, n5},

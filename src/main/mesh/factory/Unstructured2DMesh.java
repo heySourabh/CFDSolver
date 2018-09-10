@@ -35,7 +35,7 @@ public class Unstructured2DMesh implements Mesh {
 
         int numPoints = meshFileReader.readIntParameter("points");
         this.nodes = List.copyOf(IntStream.range(0, numPoints)
-                .mapToObj(i -> new Node(meshFileReader.readXYZ()))
+                .mapToObj(i -> new Node(meshFileReader.readXYZ(), numVars))
                 .collect(toList()));
 
         int numElements = meshFileReader.readIntParameter("elements");

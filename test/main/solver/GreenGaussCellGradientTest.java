@@ -30,8 +30,8 @@ public class GreenGaussCellGradientTest {
     @Test
     public void oneDim_x_single_cell() {
         int numVars = 2;
-        Node n1 = new Node(0.5, 0.0, 0.0);
-        Node n2 = new Node(2.8, 0.0, 0.0);
+        Node n1 = new Node(0.5, 0.0, 0.0, numVars);
+        Node n2 = new Node(2.8, 0.0, 0.0, numVars);
 
         Line line = new Line(n1.location(), n2.location());
         Shape shape = new Shape(line.length(), line.centroid());
@@ -281,19 +281,19 @@ public class GreenGaussCellGradientTest {
 
     @Test
     public void twoDim_xy_single_quad_cell() {
+        int numVars = 3;
         Point p0 = new Point(0, 0, 0);
         Point p1 = new Point(1, 0, 0);
         Point p2 = new Point(1, 1, 0);
         Point p3 = new Point(0, 1, 0);
-        Node n0 = new Node(p0);
-        Node n1 = new Node(p1);
-        Node n2 = new Node(p2);
-        Node n3 = new Node(p3);
+        Node n0 = new Node(p0, numVars);
+        Node n1 = new Node(p1, numVars);
+        Node n2 = new Node(p2, numVars);
+        Node n3 = new Node(p3, numVars);
 
         Quad quad = new Quad(p0, p1, p2, p3);
         Shape shape = new Shape(quad.area() * 1.0, quad.centroid());
 
-        int numVars = 3;
         Cell cell = new Cell(new Node[]{n0, n1, n2, n3}, quad.vtkType(), shape, numVars);
         cell.setIndex(0);
 
@@ -335,16 +335,17 @@ public class GreenGaussCellGradientTest {
 
     @Test
     public void twoDim_xy_single_tri_cell() {
+        int numVars = 3;
         Point p0 = new Point(0, 2, 0);
         Point p1 = new Point(1, 1, 0);
         Point p2 = new Point(-1, 0, 0);
-        Node n0 = new Node(p0);
-        Node n1 = new Node(p1);
-        Node n2 = new Node(p2);
+        Node n0 = new Node(p0, numVars);
+        Node n1 = new Node(p1, numVars);
+        Node n2 = new Node(p2, numVars);
 
         Triangle tri = new Triangle(p0, p1, p2);
         Shape shape = new Shape(tri.area() * 1.0, tri.centroid());
-        int numVars = 3;
+
         Cell cell = new Cell(new Node[]{n0, n1, n2}, tri.vtkType(), shape, numVars);
         cell.setIndex(0);
 
@@ -453,16 +454,17 @@ public class GreenGaussCellGradientTest {
 
     @Test
     public void twoDim_yz_single_tri_cell() {
+        int numVars = 3;
         Point p0 = new Point(0, 0, 2);
         Point p1 = new Point(0, 1, 1);
         Point p2 = new Point(0, -1, 0);
-        Node n0 = new Node(p0);
-        Node n1 = new Node(p1);
-        Node n2 = new Node(p2);
+        Node n0 = new Node(p0, numVars);
+        Node n1 = new Node(p1, numVars);
+        Node n2 = new Node(p2, numVars);
 
         Triangle tri = new Triangle(p0, p1, p2);
         Shape shape = new Shape(tri.area() * 1.0, tri.centroid());
-        int numVars = 3;
+
         Cell cell = new Cell(new Node[]{n0, n1, n2}, tri.vtkType(), shape, numVars);
         cell.setIndex(0);
 
@@ -509,16 +511,17 @@ public class GreenGaussCellGradientTest {
 
     @Test
     public void twoDim_xz_single_tri_cell() {
+        int numVars = 3;
         Point p0 = new Point(0, 0, 2);
         Point p1 = new Point(1, 0, 1);
         Point p2 = new Point(-1, 0, 0);
-        Node n0 = new Node(p0);
-        Node n1 = new Node(p1);
-        Node n2 = new Node(p2);
+        Node n0 = new Node(p0, numVars);
+        Node n1 = new Node(p1, numVars);
+        Node n2 = new Node(p2, numVars);
 
         Triangle tri = new Triangle(p0, p1, p2);
         Shape shape = new Shape(tri.area() * 1.0, tri.centroid());
-        int numVars = 3;
+
         Cell cell = new Cell(new Node[]{n0, n1, n2}, tri.vtkType(), shape, numVars);
         cell.setIndex(0);
 
@@ -565,16 +568,17 @@ public class GreenGaussCellGradientTest {
 
     @Test
     public void twoDim_xyz_single_tri_cell() {
+        int numVars = 3;
         Point p0 = new Point(0, 2, 0);
         Point p1 = new Point(1, 1, 0);
         Point p2 = new Point(-1, 0, 0.5);
-        Node n0 = new Node(p0);
-        Node n1 = new Node(p1);
-        Node n2 = new Node(p2);
+        Node n0 = new Node(p0, numVars);
+        Node n1 = new Node(p1, numVars);
+        Node n2 = new Node(p2, numVars);
 
         Triangle tri = new Triangle(p0, p1, p2);
         Shape shape = new Shape(tri.area() * 1.0, tri.centroid());
-        int numVars = 3;
+
         Cell cell = new Cell(new Node[]{n0, n1, n2}, tri.vtkType(), shape, numVars);
         cell.setIndex(0);
 
@@ -627,6 +631,7 @@ public class GreenGaussCellGradientTest {
 
     @Test
     public void threeDim_hexahedron() {
+        int numVars = 3;
         Point p0 = new Point(-1, -1, -1);
         Point p1 = new Point(1, -1, -1);
         Point p2 = new Point(1, 1, -1);
@@ -638,17 +643,17 @@ public class GreenGaussCellGradientTest {
 
         Hexahedron hexahedron = new Hexahedron(p0, p1, p2, p3, p4, p5, p6, p7);
 
-        Node n0 = new Node(p0);
-        Node n1 = new Node(p1);
-        Node n2 = new Node(p2);
-        Node n3 = new Node(p3);
-        Node n4 = new Node(p4);
-        Node n5 = new Node(p5);
-        Node n6 = new Node(p6);
-        Node n7 = new Node(p7);
+        Node n0 = new Node(p0, numVars);
+        Node n1 = new Node(p1, numVars);
+        Node n2 = new Node(p2, numVars);
+        Node n3 = new Node(p3, numVars);
+        Node n4 = new Node(p4, numVars);
+        Node n5 = new Node(p5, numVars);
+        Node n6 = new Node(p6, numVars);
+        Node n7 = new Node(p7, numVars);
 
         Shape shape = new Shape(hexahedron.volume(), hexahedron.centroid());
-        int numVars = 3;
+
         Cell cell = new Cell(new Node[]{n0, n1, n2, n3, n4, n5, n6, n7}, hexahedron.vtkType(), shape, numVars);
         cell.setIndex(0);
 
@@ -706,6 +711,7 @@ public class GreenGaussCellGradientTest {
 
     @Test
     public void threeDim_tetrahedron() {
+        int numVars = 3;
         Point p0 = new Point(2, 3, -3);
         Point p1 = new Point(0, 0, 0);
         Point p2 = new Point(5, 1, -0.5);
@@ -713,13 +719,13 @@ public class GreenGaussCellGradientTest {
 
         Tetra tetra = new Tetra(p0, p1, p2, p3);
 
-        Node n0 = new Node(p0);
-        Node n1 = new Node(p1);
-        Node n2 = new Node(p2);
-        Node n3 = new Node(p3);
+        Node n0 = new Node(p0, numVars);
+        Node n1 = new Node(p1, numVars);
+        Node n2 = new Node(p2, numVars);
+        Node n3 = new Node(p3, numVars);
 
         Shape shape = new Shape(tetra.volume(), tetra.centroid());
-        int numVars = 3;
+
         Cell cell = new Cell(new Node[]{n0, n1, n2, n3}, tetra.vtkType(), shape, numVars);
         cell.setIndex(0);
 

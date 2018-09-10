@@ -60,6 +60,7 @@ public class TestHelper {
 
     public static void assertNodeEquals(Node expected, Node actual, double tolerance) {
         assertPointEquals(expected.location(), actual.location(), tolerance);
+        assertEquals(expected.U.length, actual.U.length);
         assertEquals(expected.neighbors.size(), actual.neighbors.size());
         assertTrue(containsSameCells(expected.neighbors, actual.neighbors, tolerance));
     }
@@ -140,6 +141,7 @@ public class TestHelper {
     }
 
     private static boolean sameNodes(Node expected, Node actual, double tolerance) {
+        if (expected.U.length != actual.U.length) return false;
         return expected.location().distance(actual.location()) < tolerance;
     }
 
@@ -206,29 +208,41 @@ public class TestHelper {
     // -------------------------- Tests for this class ------------------------------------------
     @Test
     public void nodes_at_same_location_are_same() {
-        Node n1 = new Node(5, 6, 7);
-        Node n2 = new Node(5, 6, 7);
+        int numVars = 3;
+        Node n1 = new Node(5, 6, 7, numVars);
+        Node n2 = new Node(5, 6, 7, numVars);
         assertTrue(sameNodes(n1, n2, 1e-15));
     }
 
     @Test
     public void nodes_at_different_location_are_not_same() {
-        Node n1 = new Node(5, 6, 7);
-        Node n2 = new Node(1, 6, 7);
+        int numVars = 5;
+        Node n1 = new Node(5, 6, 7, numVars);
+        Node n2 = new Node(1, 6, 7, numVars);
+        assertFalse(sameNodes(n1, n2, 1e-15));
+    }
+
+    @Test
+    public void nodes_having_different_length_of_variables_are_not_same() {
+        int numVars1 = 3;
+        int numVars2 = 4;
+        Node n1 = new Node(3, 5, 6, numVars1);
+        Node n2 = new Node(3, 5, 6, numVars2);
         assertFalse(sameNodes(n1, n2, 1e-15));
     }
 
     @Test
     public void node_lists_of_different_lengths_are_not_same() {
-        Node n11 = new Node(1, 2, 3);
+        int numVars = 5;
+        Node n11 = new Node(1, 2, 3, numVars);
 
         List<Node> l1 = List.of(n11);
         List<Node> l2 = List.of();
 
         assertFalse(containsSameNodes(l1, l2, 1e-15));
 
-        Node n12 = new Node(2, 3, 5);
-        Node n22 = new Node(2, 3, 5);
+        Node n12 = new Node(2, 3, 5, numVars);
+        Node n22 = new Node(2, 3, 5, numVars);
 
         l1 = List.of(n11, n12);
         l2 = List.of(n22);
@@ -238,24 +252,25 @@ public class TestHelper {
 
     @Test
     public void node_lists_containing_same_nodes_in_any_order_are_same() {
-        Node n11 = new Node(1, 2, 3);
-        Node n21 = new Node(1, 2, 3);
+        int numVars = 5;
+        Node n11 = new Node(1, 2, 3, numVars);
+        Node n21 = new Node(1, 2, 3, numVars);
 
         List<Node> l1 = List.of(n11);
         List<Node> l2 = List.of(n21);
 
         assertTrue(containsSameNodes(l1, l2, 1e-15));
 
-        Node n12 = new Node(2, 3, 5);
-        Node n22 = new Node(2, 3, 5);
+        Node n12 = new Node(2, 3, 5, numVars);
+        Node n22 = new Node(2, 3, 5, numVars);
 
         l1 = List.of(n11, n12);
         l2 = List.of(n22, n21);
 
         assertTrue(containsSameNodes(l1, l2, 1e-15));
 
-        Node n13 = new Node(5, 36, 2);
-        Node n23 = new Node(5, 36, 2);
+        Node n13 = new Node(5, 36, 2, numVars);
+        Node n23 = new Node(5, 36, 2, numVars);
 
         l1 = List.of(n11, n12, n13);
         l2 = List.of(n21, n23, n22);
@@ -265,24 +280,25 @@ public class TestHelper {
 
     @Test
     public void node_lists_containing_different_nodes_are_not_same() {
-        Node n11 = new Node(1, 2, 3);
-        Node n21 = new Node(1, 3, 3);
+        int numVars = 3;
+        Node n11 = new Node(1, 2, 3, numVars);
+        Node n21 = new Node(1, 3, 3, numVars);
 
         List<Node> l1 = List.of(n11);
         List<Node> l2 = List.of(n21);
 
         assertFalse(containsSameNodes(l1, l2, 1e-15));
 
-        Node n12 = new Node(2, 3, 5);
-        Node n22 = new Node(5, 3, 5);
+        Node n12 = new Node(2, 3, 5, numVars);
+        Node n22 = new Node(5, 3, 5, numVars);
 
         l1 = List.of(n11, n12);
         l2 = List.of(n21, n22);
 
         assertFalse(containsSameNodes(l1, l2, 1e-15));
 
-        Node n13 = new Node(5, 36, 2);
-        Node n23 = new Node(5, 36, 2);
+        Node n13 = new Node(5, 36, 2, numVars);
+        Node n23 = new Node(5, 36, 2, numVars);
 
         l1 = List.of(n11, n12, n13);
         l2 = List.of(n21, n23, n22);
@@ -357,21 +373,20 @@ public class TestHelper {
 
     @Test
     public void faces_with_same_parameters_are_same() {
+        int numVars = 4;
         Node[] nodesFace = {
-                new Node(1, 2, 4),
-                new Node(8, 2, 4),
-                new Node(7, 9, 12)
+                new Node(1, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(7, 9, 12, numVars)
         };
         Node[] nodesCell1 = {
                 nodesFace[0], nodesFace[1], nodesFace[2],
-                new Node(24, 4, 4)
+                new Node(24, 4, 4, numVars)
         };
         Node[] nodesCell2 = {
                 nodesFace[0], nodesFace[1], nodesFace[2],
-                new Node(4, 4, 4)
+                new Node(4, 4, 4, numVars)
         };
-
-        int numVars = 4;
 
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
         Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
@@ -396,21 +411,20 @@ public class TestHelper {
 
     @Test
     public void faces_with_same_parameters_but_opposite_normals_must_have_opposite_left_right_cells() {
+        int numVars = 4;
         Node[] nodesFace = {
-                new Node(1, 2, 4),
-                new Node(8, 2, 4),
-                new Node(7, 9, 12)
+                new Node(1, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(7, 9, 12, numVars)
         };
         Node[] nodesCell1 = {
                 nodesFace[0], nodesFace[1], nodesFace[2],
-                new Node(4, 4, 4)
+                new Node(4, 4, 4, numVars)
         };
         Node[] nodesCell2 = {
                 nodesFace[0], nodesFace[1], nodesFace[2],
-                new Node(24, 4, 4)
+                new Node(24, 4, 4, numVars)
         };
-
-        int numVars = 4;
 
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
         Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
@@ -435,21 +449,20 @@ public class TestHelper {
 
     @Test
     public void faces_with_different_neighbor_cell_shapes_are_not_same() {
+        int numVars = 4;
         Node[] nodesFace = {
-                new Node(1, 2, 4),
-                new Node(8, 2, 4),
-                new Node(7, 9, 12)
+                new Node(1, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(7, 9, 12, numVars)
         };
         Node[] nodesCell1 = {
                 nodesFace[0], nodesFace[1], nodesFace[2],
-                new Node(24, 4, 4)
+                new Node(24, 4, 4, numVars)
         };
         Node[] nodesCell2 = {
                 nodesFace[0], nodesFace[1], nodesFace[2],
-                new Node(4, 4, 4)
+                new Node(4, 4, 4, numVars)
         };
-
-        int numVars = 4;
 
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
         Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
@@ -474,21 +487,20 @@ public class TestHelper {
 
     @Test
     public void faces_with_different_vtkType_are_not_same() {
+        int numVars = 4;
         Node[] nodesFace = {
-                new Node(1, 2, 4),
-                new Node(8, 2, 4),
-                new Node(7, 9, 12)
+                new Node(1, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(7, 9, 12, numVars)
         };
         Node[] nodesCell1 = {
                 nodesFace[0], nodesFace[1], nodesFace[2],
-                new Node(24, 4, 4)
+                new Node(24, 4, 4, numVars)
         };
         Node[] nodesCell2 = {
                 nodesFace[0], nodesFace[1], nodesFace[2],
-                new Node(4, 4, 4)
+                new Node(4, 4, 4, numVars)
         };
-
-        int numVars = 4;
 
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
         Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
@@ -513,21 +525,20 @@ public class TestHelper {
 
     @Test
     public void faces_with_different_nodes_are_not_same() {
+        int numVars = 4;
         Node[] nodesFace = {
-                new Node(1, 2, 4),
-                new Node(8, 2, 4),
-                new Node(7, 9, 12)
+                new Node(1, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(7, 9, 12, numVars)
         };
         Node[] nodesCell1 = {
                 nodesFace[0], nodesFace[1], nodesFace[2],
-                new Node(24, 4, 4)
+                new Node(24, 4, 4, numVars)
         };
         Node[] nodesCell2 = {
                 nodesFace[0], nodesFace[1], nodesFace[2],
-                new Node(4, 4, 4)
+                new Node(4, 4, 4, numVars)
         };
-
-        int numVars = 4;
 
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
         Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
@@ -553,21 +564,20 @@ public class TestHelper {
 
     @Test
     public void faces_with_different_surfaces_are_not_same() {
+        int numVars = 4;
         Node[] nodesFace = {
-                new Node(1, 2, 4),
-                new Node(8, 2, 4),
-                new Node(7, 9, 12)
+                new Node(1, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(7, 9, 12, numVars)
         };
         Node[] nodesCell1 = {
                 nodesFace[0], nodesFace[1], nodesFace[2],
-                new Node(24, 4, 4)
+                new Node(24, 4, 4, numVars)
         };
         Node[] nodesCell2 = {
                 nodesFace[0], nodesFace[1], nodesFace[2],
-                new Node(4, 4, 4)
+                new Node(4, 4, 4, numVars)
         };
-
-        int numVars = 4;
 
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
         Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
@@ -592,20 +602,20 @@ public class TestHelper {
 
     @Test
     public void cells_with_same_parameters_are_same() {
+        int numVars = 5;
         Node[] nodesCell1 = {
-                new Node(1, 2, 4),
-                new Node(8, 2, 4),
-                new Node(7, 9, 12),
-                new Node(24, 4, 4)
+                new Node(1, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(7, 9, 12, numVars),
+                new Node(24, 4, 4, numVars)
         };
         Node[] nodesCell2 = {
-                new Node(1, 2, 4),
-                new Node(8, 2, 4),
-                new Node(7, 9, 12),
-                new Node(24, 4, 4)
+                new Node(1, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(7, 9, 12, numVars),
+                new Node(24, 4, 4, numVars)
         };
 
-        int numVars = 5;
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
         Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
         cell1.setIndex(0);
@@ -618,20 +628,20 @@ public class TestHelper {
 
     @Test
     public void cells_with_different_index_are_not_same() {
+        int numVars = 5;
         Node[] nodesCell1 = {
-                new Node(1, 2, 4),
-                new Node(8, 2, 4),
-                new Node(7, 9, 12),
-                new Node(24, 4, 4)
+                new Node(1, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(7, 9, 12, numVars),
+                new Node(24, 4, 4, numVars)
         };
         Node[] nodesCell2 = {
-                new Node(1, 2, 4),
-                new Node(8, 2, 4),
-                new Node(7, 9, 12),
-                new Node(24, 4, 4)
+                new Node(1, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(7, 9, 12, numVars),
+                new Node(24, 4, 4, numVars)
         };
 
-        int numVars = 5;
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
         Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
         cell1.setIndex(0);
@@ -644,20 +654,20 @@ public class TestHelper {
 
     @Test
     public void cells_with_different_shapes_are_not_same() {
+        int numVars = 5;
         Node[] nodesCell1 = {
-                new Node(1, 2, 4),
-                new Node(8, 2, 4),
-                new Node(7, 9, 12),
-                new Node(24, 4, 4)
+                new Node(1, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(7, 9, 12, numVars),
+                new Node(24, 4, 4, numVars)
         };
         Node[] nodesCell2 = {
-                new Node(1, 2, 4),
-                new Node(8, 2, 4),
-                new Node(7, 9, 12),
-                new Node(24, 4, 4)
+                new Node(1, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(7, 9, 12, numVars),
+                new Node(24, 4, 4, numVars)
         };
 
-        int numVars = 5;
         Shape shape1 = new Shape(5.4, new Point(4, 8, 9));
         Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
         cell1.setIndex(0);
@@ -670,20 +680,20 @@ public class TestHelper {
 
     @Test
     public void cells_with_different_nodes_are_not_same() {
+        int numVars = 5;
         Node[] nodesCell1 = {
-                new Node(1, 2, 4),
-                new Node(8, 2, 4),
-                new Node(7, 9, 12),
-                new Node(24, 4, 4)
+                new Node(1, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(7, 9, 12, numVars),
+                new Node(24, 4, 4, numVars)
         };
         Node[] nodesCell2 = {
-                new Node(0, 2, 4),
-                new Node(1, 2, 4),
-                new Node(2, 9, 12),
-                new Node(3, 4, 4)
+                new Node(0, 2, 4, numVars),
+                new Node(1, 2, 4, numVars),
+                new Node(2, 9, 12, numVars),
+                new Node(3, 4, 4, numVars)
         };
 
-        int numVars = 5;
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
         Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars);
         cell1.setIndex(0);
@@ -696,20 +706,20 @@ public class TestHelper {
 
     @Test
     public void cells_with_different_vtkType_are_not_same() {
+        int numVars = 5;
         Node[] nodesCell1 = {
-                new Node(1, 2, 4),
-                new Node(8, 2, 4),
-                new Node(7, 9, 12),
-                new Node(24, 4, 4)
+                new Node(1, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(7, 9, 12, numVars),
+                new Node(24, 4, 4, numVars)
         };
         Node[] nodesCell2 = {
-                new Node(1, 2, 4),
-                new Node(8, 2, 4),
-                new Node(7, 9, 12),
-                new Node(24, 4, 4)
+                new Node(1, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(7, 9, 12, numVars),
+                new Node(24, 4, 4, numVars)
         };
 
-        int numVars = 5;
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
         Cell cell1 = new Cell(nodesCell1, VTKType.VTK_HEXAHEDRON, shape1, numVars);
         cell1.setIndex(0);
@@ -722,20 +732,20 @@ public class TestHelper {
 
     @Test
     public void cells_with_different_numVars_are_not_same() {
+        int numVars = 5;
         Node[] nodesCell1 = {
-                new Node(1, 2, 4),
-                new Node(8, 2, 4),
-                new Node(7, 9, 12),
-                new Node(24, 4, 4)
+                new Node(1, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(7, 9, 12, numVars),
+                new Node(24, 4, 4, numVars)
         };
         Node[] nodesCell2 = {
-                new Node(1, 2, 4),
-                new Node(8, 2, 4),
-                new Node(7, 9, 12),
-                new Node(24, 4, 4)
+                new Node(1, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(7, 9, 12, numVars),
+                new Node(24, 4, 4, numVars)
         };
 
-        int numVars = 5;
         Shape shape1 = new Shape(45.4, new Point(4, 8, 9));
         Cell cell1 = new Cell(nodesCell1, VTKType.VTK_TETRA, shape1, numVars + 1);
         cell1.setIndex(0);
@@ -748,51 +758,51 @@ public class TestHelper {
 
     @Test
     public void face_lists_containing_same_faces_in_any_order_are_same() {
+        int numVars = 2;
         Node[] nodesFace1 = {
-                new Node(1, 2, 4),
-                new Node(8, 2, 4),
-                new Node(7, 9, 12),
-                new Node(24, 4, 4)
+                new Node(1, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(7, 9, 12, numVars),
+                new Node(24, 4, 4, numVars)
         };
         Node[] nodesFace2 = {
-                new Node(66, 2, 4),
-                new Node(8, 6, 4),
-                new Node(78, 9, 12),
-                new Node(24, 78, 4)
+                new Node(66, 2, 4, numVars),
+                new Node(8, 6, 4, numVars),
+                new Node(78, 9, 12, numVars),
+                new Node(24, 78, 4, numVars)
         };
         Node[] nodesFace3 = {
-                new Node(56, 2, 4),
-                new Node(8, 21, 4),
-                new Node(67, 9, 12),
-                new Node(24, 41, 46)
+                new Node(56, 2, 4, numVars),
+                new Node(8, 21, 4, numVars),
+                new Node(67, 9, 12, numVars),
+                new Node(24, 41, 46, numVars)
         };
 
         Node[] centerCellNodes = new Node[]{
-                new Node(56, 2, 4),
-                new Node(8, 21, 4),
-                new Node(67, 9, 12),
-                new Node(24, 41, 46)
+                new Node(56, 2, 4, numVars),
+                new Node(8, 21, 4, numVars),
+                new Node(67, 9, 12, numVars),
+                new Node(24, 41, 46, numVars)
         };
         Node[] neigh1CellNodes = new Node[]{
-                new Node(4, 2, 4),
-                new Node(8, 2, 4),
-                new Node(67, 6, 12),
-                new Node(24, 41, 3)
+                new Node(4, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(67, 6, 12, numVars),
+                new Node(24, 41, 3, numVars)
         };
         Node[] neigh2CellNodes = new Node[]{
-                new Node(4, 46, 4),
-                new Node(8, 93, 4),
-                new Node(90, 6, 37),
-                new Node(24, 4, 3)
+                new Node(4, 46, 4, numVars),
+                new Node(8, 93, 4, numVars),
+                new Node(90, 6, 37, numVars),
+                new Node(24, 4, 3, numVars)
         };
         Node[] neigh3CellNodes = new Node[]{
-                new Node(48, 46, 4),
-                new Node(80, 9, 4),
-                new Node(90, 16, 37),
-                new Node(2, 40, 34)
+                new Node(48, 46, 4, numVars),
+                new Node(80, 9, 4, numVars),
+                new Node(90, 16, 37, numVars),
+                new Node(2, 40, 34, numVars)
         };
 
-        int numVars = 2;
         Shape shapeCenterCell = new Shape(90, new Point(35, 54, 87));
         Cell cell = new Cell(centerCellNodes, VTKType.VTK_TETRA, shapeCenterCell, numVars);
         cell.setIndex(1);
@@ -836,51 +846,51 @@ public class TestHelper {
 
     @Test
     public void face_lists_of_different_lengths_are_not_same() {
+        int numVars = 2;
         Node[] nodesFace1 = {
-                new Node(1, 2, 4),
-                new Node(8, 2, 4),
-                new Node(7, 9, 12),
-                new Node(24, 4, 4)
+                new Node(1, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(7, 9, 12, numVars),
+                new Node(24, 4, 4, numVars)
         };
         Node[] nodesFace2 = {
-                new Node(66, 2, 4),
-                new Node(8, 6, 4),
-                new Node(78, 9, 12),
-                new Node(24, 78, 4)
+                new Node(66, 2, 4, numVars),
+                new Node(8, 6, 4, numVars),
+                new Node(78, 9, 12, numVars),
+                new Node(24, 78, 4, numVars)
         };
         Node[] nodesFace3 = {
-                new Node(56, 2, 4),
-                new Node(8, 21, 4),
-                new Node(67, 9, 12),
-                new Node(24, 41, 46)
+                new Node(56, 2, 4, numVars),
+                new Node(8, 21, 4, numVars),
+                new Node(67, 9, 12, numVars),
+                new Node(24, 41, 46, numVars)
         };
 
         Node[] centerCellNodes = new Node[]{
-                new Node(56, 2, 4),
-                new Node(8, 21, 4),
-                new Node(67, 9, 12),
-                new Node(24, 41, 46)
+                new Node(56, 2, 4, numVars),
+                new Node(8, 21, 4, numVars),
+                new Node(67, 9, 12, numVars),
+                new Node(24, 41, 46, numVars)
         };
         Node[] neigh1CellNodes = new Node[]{
-                new Node(4, 2, 4),
-                new Node(8, 2, 4),
-                new Node(67, 6, 12),
-                new Node(24, 41, 3)
+                new Node(4, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(67, 6, 12, numVars),
+                new Node(24, 41, 3, numVars)
         };
         Node[] neigh2CellNodes = new Node[]{
-                new Node(4, 46, 4),
-                new Node(8, 93, 4),
-                new Node(90, 6, 37),
-                new Node(24, 4, 3)
+                new Node(4, 46, 4, numVars),
+                new Node(8, 93, 4, numVars),
+                new Node(90, 6, 37, numVars),
+                new Node(24, 4, 3, numVars)
         };
         Node[] neigh3CellNodes = new Node[]{
-                new Node(48, 46, 4),
-                new Node(80, 9, 4),
-                new Node(90, 16, 37),
-                new Node(2, 40, 34)
+                new Node(48, 46, 4, numVars),
+                new Node(80, 9, 4, numVars),
+                new Node(90, 16, 37, numVars),
+                new Node(2, 40, 34, numVars)
         };
 
-        int numVars = 2;
         Shape shapeCenterCell = new Shape(90, new Point(35, 54, 87));
         Cell cell = new Cell(centerCellNodes, VTKType.VTK_TETRA, shapeCenterCell, numVars);
         cell.setIndex(1);
@@ -924,51 +934,51 @@ public class TestHelper {
 
     @Test
     public void face_lists_containing_different_faces_are_not_same() {
+        int numVars = 2;
         Node[] nodesFace1 = {
-                new Node(1, 2, 4),
-                new Node(8, 2, 4),
-                new Node(7, 9, 12),
-                new Node(24, 4, 4)
+                new Node(1, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(7, 9, 12, numVars),
+                new Node(24, 4, 4, numVars)
         };
         Node[] nodesFace2 = {
-                new Node(66, 2, 4),
-                new Node(8, 6, 4),
-                new Node(78, 9, 12),
-                new Node(24, 78, 4)
+                new Node(66, 2, 4, numVars),
+                new Node(8, 6, 4, numVars),
+                new Node(78, 9, 12, numVars),
+                new Node(24, 78, 4, numVars)
         };
         Node[] nodesFace3 = {
-                new Node(56, 2, 4),
-                new Node(8, 21, 4),
-                new Node(67, 9, 12),
-                new Node(24, 41, 46)
+                new Node(56, 2, 4, numVars),
+                new Node(8, 21, 4, numVars),
+                new Node(67, 9, 12, numVars),
+                new Node(24, 41, 46, numVars)
         };
 
         Node[] centerCellNodes = new Node[]{
-                new Node(56, 2, 4),
-                new Node(8, 21, 4),
-                new Node(67, 9, 12),
-                new Node(24, 41, 46)
+                new Node(56, 2, 4, numVars),
+                new Node(8, 21, 4, numVars),
+                new Node(67, 9, 12, numVars),
+                new Node(24, 41, 46, numVars)
         };
         Node[] neigh1CellNodes = new Node[]{
-                new Node(4, 2, 4),
-                new Node(8, 2, 4),
-                new Node(67, 6, 12),
-                new Node(24, 41, 3)
+                new Node(4, 2, 4, numVars),
+                new Node(8, 2, 4, numVars),
+                new Node(67, 6, 12, numVars),
+                new Node(24, 41, 3, numVars)
         };
         Node[] neigh2CellNodes = new Node[]{
-                new Node(4, 46, 4),
-                new Node(8, 93, 4),
-                new Node(90, 6, 37),
-                new Node(24, 4, 3)
+                new Node(4, 46, 4, numVars),
+                new Node(8, 93, 4, numVars),
+                new Node(90, 6, 37, numVars),
+                new Node(24, 4, 3, numVars)
         };
         Node[] neigh3CellNodes = new Node[]{
-                new Node(48, 46, 4),
-                new Node(80, 9, 4),
-                new Node(90, 16, 37),
-                new Node(2, 40, 34)
+                new Node(48, 46, 4, numVars),
+                new Node(80, 9, 4, numVars),
+                new Node(90, 16, 37, numVars),
+                new Node(2, 40, 34, numVars)
         };
 
-        int numVars = 2;
         Shape shapeCenterCell = new Shape(90, new Point(35, 54, 87));
         Cell cell = new Cell(centerCellNodes, VTKType.VTK_TETRA, shapeCenterCell, numVars);
         cell.setIndex(1);
@@ -1366,7 +1376,7 @@ public class TestHelper {
         for (int i = 0; i < numNodes; i++) {
             nodes[i] = new Node(rand.nextDouble() * 100 - 50,
                     rand.nextDouble() * 100 - 50,
-                    rand.nextDouble() * 100 - 50);
+                    rand.nextDouble() * 100 - 50, numVars);
         }
 
         VTKType[] vtkTypes = {VTKType.VTK_LINE, VTKType.VTK_TRIANGLE, VTKType.VTK_QUAD};
@@ -1384,7 +1394,7 @@ public class TestHelper {
         for (int i = 0; i < numNodes; i++) {
             nodes[i] = new Node(rand.nextDouble() * 100 - 50,
                     rand.nextDouble() * 100 - 50,
-                    rand.nextDouble() * 100 - 50);
+                    rand.nextDouble() * 100 - 50, numVars);
         }
 
         VTKType[] vtkTypes = {VTKType.VTK_LINE, VTKType.VTK_TRIANGLE, VTKType.VTK_QUAD, VTKType.VTK_HEXAHEDRON, VTKType.VTK_WEDGE, VTKType.VTK_TETRA};
