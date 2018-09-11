@@ -7,7 +7,7 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
-public class NodeNeighbors implements NeighborsCalculator {
+public class NodeBasedCellNeighbors implements CellNeighborCalculator {
     @Override
     public List<Cell> calculateFor(Cell cell) {
         return Arrays.stream(cell.nodes)

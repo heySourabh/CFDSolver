@@ -8,9 +8,9 @@ import main.mesh.Mesh;
 import main.mesh.factory.Unstructured2DMesh;
 import main.physics.goveqn.factory.EulerEquations;
 import main.solver.CellGradientCalculator;
-import main.solver.FaceNeighbors;
+import main.solver.FaceBasedCellNeighbors;
 import main.solver.LeastSquareCellGradient;
-import main.solver.NeighborsCalculator;
+import main.solver.CellNeighborCalculator;
 import main.util.DoubleArray;
 import org.junit.Test;
 
@@ -36,7 +36,7 @@ public class VKLimiterReconstructorTest {
         double[] U = {1.2, 45, 75, 18, 6546135};
         mesh.cellStream().forEach(cell -> copy(U, cell.U));
 
-        NeighborsCalculator neighborsCalculator = new FaceNeighbors();
+        CellNeighborCalculator neighborsCalculator = new FaceBasedCellNeighbors();
         CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);
         SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, cellGradientCalculator, neighborsCalculator);
         reconstructor.reconstruct();
@@ -90,7 +90,7 @@ public class VKLimiterReconstructorTest {
                 .mapToObj(var -> gradientsNotLimited[var].mult(Phi[var]))
                 .toArray(Vector[]::new);
 
-        NeighborsCalculator neighborsCalculator = new FaceNeighbors();
+        CellNeighborCalculator neighborsCalculator = new FaceBasedCellNeighbors();
         CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);
         SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, cellGradientCalculator, neighborsCalculator);
         reconstructor.reconstruct();
@@ -146,7 +146,7 @@ public class VKLimiterReconstructorTest {
                 .mapToObj(var -> gradientsNotLimited[var].mult(Phi[var]))
                 .toArray(Vector[]::new);
 
-        NeighborsCalculator neighborsCalculator = new FaceNeighbors();
+        CellNeighborCalculator neighborsCalculator = new FaceBasedCellNeighbors();
         CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);
         SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, cellGradientCalculator, neighborsCalculator);
         reconstructor.reconstruct();
@@ -202,7 +202,7 @@ public class VKLimiterReconstructorTest {
                 .mapToObj(var -> gradientsNotLimited[var].mult(Phi[var]))
                 .toArray(Vector[]::new);
 
-        NeighborsCalculator neighborsCalculator = new FaceNeighbors();
+        CellNeighborCalculator neighborsCalculator = new FaceBasedCellNeighbors();
         CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);
         SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, cellGradientCalculator, neighborsCalculator);
         reconstructor.reconstruct();

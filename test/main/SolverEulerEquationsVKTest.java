@@ -17,7 +17,6 @@ import main.solver.time.LocalTimeStep;
 import main.solver.time.TimeIntegrator;
 import main.util.DoubleArray;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -62,7 +61,7 @@ public class SolverEulerEquationsVKTest {
             private final double rhoE = 101325.0 / (1.4 - 1.0) / 1.0 + u * u / 2.0;
             private final SolutionInitializer solutionInitializer = new FunctionInitializer(
                     p -> new double[]{rho, rho * u, 0.0, 0.0, rhoE});
-            NeighborsCalculator neighborsCalculator = new FaceNeighbors();
+            CellNeighborCalculator neighborsCalculator = new FaceBasedCellNeighbors();
             CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);
             SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, cellGradientCalculator, neighborsCalculator);
             ResidualCalculator convectiveCalculator = new ConvectiveResidual(reconstructor,

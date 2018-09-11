@@ -5,7 +5,7 @@ import main.geom.Vector;
 import main.mesh.Cell;
 import main.mesh.Mesh;
 import main.solver.CellGradientCalculator;
-import main.solver.NeighborsCalculator;
+import main.solver.CellNeighborCalculator;
 
 import java.util.Arrays;
 
@@ -14,10 +14,10 @@ import static main.util.DoubleArray.add;
 public class VKLimiterReconstructor implements SolutionReconstructor {
     private final Mesh mesh;
     private final CellGradientCalculator gradientCalculator;
-    private final NeighborsCalculator neighCalc;
+    private final CellNeighborCalculator neighCalc;
     private final Cell[][] neighbors;
 
-    public VKLimiterReconstructor(Mesh mesh, CellGradientCalculator gradientCalculator, NeighborsCalculator neighCalc) {
+    public VKLimiterReconstructor(Mesh mesh, CellGradientCalculator gradientCalculator, CellNeighborCalculator neighCalc) {
         int numCells = mesh.cells().size();
         this.mesh = mesh;
         this.gradientCalculator = gradientCalculator;

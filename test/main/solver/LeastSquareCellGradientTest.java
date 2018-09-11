@@ -3,7 +3,6 @@ package main.solver;
 import main.geom.Point;
 import main.geom.Vector;
 import main.mesh.Cell;
-import main.mesh.Face;
 import main.mesh.Mesh;
 import main.mesh.factory.Structured1DMesh;
 import main.mesh.factory.Structured3DMesh;
@@ -36,7 +35,7 @@ public class LeastSquareCellGradientTest {
         mesh.cellStream()
                 .forEach(cell -> copy(new double[]{45, 78, 25, 134, -24}, cell.U));
 
-        CellGradientCalculator gradientCalc = new LeastSquareCellGradient(mesh, new FaceNeighbors());
+        CellGradientCalculator gradientCalc = new LeastSquareCellGradient(mesh, new FaceBasedCellNeighbors());
         Vector[] actualGradients = gradientCalc.forCell(mesh.cells().get(1));
 
         Vector[] expectedGradients = new Vector[]{
@@ -70,7 +69,7 @@ public class LeastSquareCellGradientTest {
             }
         });
 
-        CellGradientCalculator gradientCalc = new LeastSquareCellGradient(mesh, new FaceNeighbors());
+        CellGradientCalculator gradientCalc = new LeastSquareCellGradient(mesh, new FaceBasedCellNeighbors());
         Vector[] actualGradients = gradientCalc.forCell(c0);
 
         assertEquals(expectedGradients.length, actualGradients.length);
@@ -100,7 +99,7 @@ public class LeastSquareCellGradientTest {
             }
         });
 
-        CellGradientCalculator gradientCalc = new LeastSquareCellGradient(mesh, new NodeNeighbors());
+        CellGradientCalculator gradientCalc = new LeastSquareCellGradient(mesh, new NodeBasedCellNeighbors());
         Vector[] actualGradients = gradientCalc.forCell(c0);
 
         assertEquals(expectedGradients.length, actualGradients.length);
@@ -125,7 +124,7 @@ public class LeastSquareCellGradientTest {
         copy(new double[]{-18.0, -4.0, 25.0, 33.0, -5.0}, n2.U);
         copy(new double[]{18.0, 45.0, 33.0, -19.0, 49.0}, n3.U);
 
-        CellGradientCalculator gradientCalc = new LeastSquareCellGradient(mesh, new FaceNeighbors());
+        CellGradientCalculator gradientCalc = new LeastSquareCellGradient(mesh, new FaceBasedCellNeighbors());
         Vector[] actualGradients = gradientCalc.forCell(c0);
 
         // Calculated using Maxima
@@ -170,7 +169,7 @@ public class LeastSquareCellGradientTest {
         copy(new double[]{2, 5, 8}, cell.U);
         copy(new double[]{2, 3, -2}, neigh2.U);
 
-        LeastSquareCellGradient cellGradient = new LeastSquareCellGradient(mesh, new FaceNeighbors());
+        LeastSquareCellGradient cellGradient = new LeastSquareCellGradient(mesh, new FaceBasedCellNeighbors());
         Vector[] actualGradients = cellGradient.forCell(cell);
 
         Point p1 = neigh1.shape.centroid;
@@ -216,7 +215,7 @@ public class LeastSquareCellGradientTest {
         copy(new double[]{2, 5, 8}, cell.U);
         copy(new double[]{2, 3, -2}, neigh2.U);
 
-        LeastSquareCellGradient cellGradient = new LeastSquareCellGradient(mesh, new FaceNeighbors());
+        LeastSquareCellGradient cellGradient = new LeastSquareCellGradient(mesh, new FaceBasedCellNeighbors());
         Vector[] actualGradients = cellGradient.forCell(cell);
 
         Point p1 = neigh1.shape.centroid;
@@ -262,7 +261,7 @@ public class LeastSquareCellGradientTest {
         copy(new double[]{2, 5, 8}, cell.U);
         copy(new double[]{2, 3, -2}, neigh2.U);
 
-        LeastSquareCellGradient cellGradient = new LeastSquareCellGradient(mesh, new FaceNeighbors());
+        LeastSquareCellGradient cellGradient = new LeastSquareCellGradient(mesh, new FaceBasedCellNeighbors());
         Vector[] actualGradients = cellGradient.forCell(cell);
 
         Point p1 = neigh1.shape.centroid;
@@ -308,7 +307,7 @@ public class LeastSquareCellGradientTest {
         copy(new double[]{2, 5, 8}, cell.U);
         copy(new double[]{2, 3, -2}, neigh2.U);
 
-        LeastSquareCellGradient cellGradient = new LeastSquareCellGradient(mesh, new FaceNeighbors());
+        LeastSquareCellGradient cellGradient = new LeastSquareCellGradient(mesh, new FaceBasedCellNeighbors());
         Vector[] actualGradients = cellGradient.forCell(cell);
 
         Point p1 = neigh1.shape.centroid;
@@ -354,7 +353,7 @@ public class LeastSquareCellGradientTest {
         copy(new double[]{2, 5, 8}, cell.U);
         copy(new double[]{2, 3, -2}, neigh2.U);
 
-        LeastSquareCellGradient cellGradient = new LeastSquareCellGradient(mesh, new FaceNeighbors());
+        LeastSquareCellGradient cellGradient = new LeastSquareCellGradient(mesh, new FaceBasedCellNeighbors());
         Vector[] actualGradients = cellGradient.forCell(cell);
 
         Point p1 = neigh1.shape.centroid;
@@ -463,7 +462,7 @@ public class LeastSquareCellGradientTest {
         };
 
         double[] U0 = {4.31, -7.18};
-        FaceNeighbors neighborsCalc = new FaceNeighbors();
+        FaceBasedCellNeighbors neighborsCalc = new FaceBasedCellNeighbors();
         List<Cell> neighbors = neighborsCalc.calculateFor(cell);
         for (Cell neigh : neighbors) {
             Vector dr = new Vector(cell.shape.centroid, neigh.shape.centroid);

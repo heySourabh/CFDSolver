@@ -40,7 +40,7 @@ public class NodeNeighborsTest {
         Cell c35 = ghostCellFor(n3, n5, mesh).orElseThrow();
         List<Cell> expectedNeighs = List.of(c0, c2, c3, c4, c5, c03, c12, c26, c35);
 
-        List<Cell> actualNeighs = new NodeNeighbors().calculateFor(mesh.cells().get(1));
+        List<Cell> actualNeighs = new NodeBasedCellNeighbors().calculateFor(mesh.cells().get(1));
 
         assertEquals(expectedNeighs.size(), actualNeighs.size());
         assertTrue(expectedNeighs.containsAll(actualNeighs));

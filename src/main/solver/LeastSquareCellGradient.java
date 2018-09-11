@@ -23,7 +23,7 @@ public class LeastSquareCellGradient implements CellGradientCalculator {
      * @param mesh      Mesh
      * @param neighCalc (cell) -> List<Cell>
      */
-    public LeastSquareCellGradient(Mesh mesh, NeighborsCalculator neighCalc) {
+    public LeastSquareCellGradient(Mesh mesh, CellNeighborCalculator neighCalc) {
         int numCells = mesh.cells().size();
         this.cellSupport = new Cell[numCells][];
         this.interpolators = new LeastSquareLinearInterpolator[numCells];
@@ -31,7 +31,7 @@ public class LeastSquareCellGradient implements CellGradientCalculator {
         mesh.cellStream().forEach(cell -> setup(cell, neighCalc));
     }
 
-    private void setup(Cell cell, NeighborsCalculator neighCalc) {
+    private void setup(Cell cell, CellNeighborCalculator neighCalc) {
         List<Cell> neighs = neighCalc.calculateFor(cell);
         Cell[] allCells = Stream.concat(Stream.of(cell), neighs.stream())
                 .toArray(Cell[]::new);

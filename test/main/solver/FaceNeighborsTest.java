@@ -25,7 +25,7 @@ public class FaceNeighborsTest {
         Cell c5 = mesh.cells().get(5);
         List<Cell> expectedNeighs = List.of(c0, c2, c5);
 
-        List<Cell> actualNeighs = new FaceNeighbors().calculateFor(c1);
+        List<Cell> actualNeighs = new FaceBasedCellNeighbors().calculateFor(c1);
 
         assertEquals(expectedNeighs.size(), actualNeighs.size());
         assertTrue(expectedNeighs.containsAll(actualNeighs));
