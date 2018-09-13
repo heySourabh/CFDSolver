@@ -6,7 +6,6 @@ import main.mesh.Face;
 import main.mesh.Mesh;
 import main.physics.bc.BoundaryCondition;
 import main.solver.reconstructor.SolutionReconstructor;
-import main.util.DoubleArray;
 
 import static main.util.DoubleArray.*;
 
@@ -38,19 +37,17 @@ public class ConvectiveResidual implements ResidualCalculator {
 
     private void updateCellResidual(Cell cell) {
         int numVars = cell.residual.length;
-        // Add flux from faces with normal pointing outward
-        double[] totalResidual = cell.faces.stream()
-                .filter(face -> face.left == cell)
-                .map(face -> multiply(face.flux, face.surface.area))
-                .reduce(zeros(numVars), DoubleArray::add);
-        increment(cell.residual, totalResidual);
+        double[] totalResidual = new double[numVars];
+        for (Face face : cell.faces) {
+            double[] flux = multiply(face.flux, face.surface.area);
+            if (face.left == cell) {
+                increment(totalResidual, flux);
+            } else {
+                decrement(totalResidual, flux);
+            }
+        }
 
-        // Subtract flux from faces with normal pointing inward
-        totalResidual = cell.faces.stream()
-                .filter(face -> face.right == cell)
-                .map(face -> multiply(face.flux, face.surface.area))
-                .reduce(zeros(numVars), DoubleArray::add);
-        decrement(cell.residual, totalResidual);
+        increment(cell.residual, totalResidual);
     }
 
     private void setFlux(Boundary boundary) {
