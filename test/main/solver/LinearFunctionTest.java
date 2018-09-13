@@ -31,4 +31,10 @@ public class LinearFunctionTest {
 
         assertEquals(expectedValue, function.valueAt(valueAt), 1e-15);
     }
+
+    @Test
+    public void test_toString() {
+        assertEquals("LinearFunction{point=Point{x=1.0, y=3.0, z=5.0}, value=6.0, gradient=Vector{x=1.0, y=8.0, z=0.0}}",
+                new LinearFunction(new Point(1, 3, 5), 6, new Vector(1, 8, 0)).toString());
+    }
 }

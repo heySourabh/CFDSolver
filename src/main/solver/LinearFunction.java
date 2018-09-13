@@ -21,4 +21,13 @@ public class LinearFunction {
     public double valueAt(Point p) {
         return value + new Vector(point, p).dot(gradient);
     }
+
+    @Override
+    public String toString() {
+        return "LinearFunction{" +
+                "point=" + point +
+                ", value=" + value +
+                ", gradient=" + gradient +
+                '}';
+    }
 }
