@@ -31,10 +31,12 @@ public class LocalTimeStep implements TimeStep {
     }
 
     private void updateTimeStep(Cell cell, double courantNum) {
+        double summation = 0.0;
+        for (Face face : cell.faces) {
+            summation += face.maxAbsEigenvalue * face.surface.area;
+        }
+
         double volume = cell.shape.volume;
-        double summation = cell.faces.stream()
-                .mapToDouble(face -> face.maxAbsEigenvalue * face.surface.area)
-                .sum();
         cell.dt = (volume / summation) * courantNum;
     }
 
