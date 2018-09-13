@@ -12,7 +12,7 @@ import java.util.Map;
 
 import static org.junit.Assert.*;
 
-public class FaceNeighborsTest {
+public class FaceBasedCellNeighborsTest {
 
     @Test
     public void get() throws FileNotFoundException {

@@ -15,7 +15,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 
-public class NodeNeighborsTest {
+public class NodeBasedCellNeighborsTest {
 
     @Test
     public void getFor() throws FileNotFoundException {
