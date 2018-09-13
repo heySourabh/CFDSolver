@@ -59,12 +59,12 @@ public class LeastSquareLinearInterpolator {
         return new LinearFunction(p0, v0, new Vector(solution[0], solution[1], solution[2]));
     }
 
-    // Ignores singular values smaller than 10% of largest value
+    // Ignores smaller singular values compared to largest value
     private RealMatrix invert(RealMatrix matrix) {
         SingularValueDecomposition svd = new SingularValueDecomposition(matrix);
         double[] singularValues = svd.getSingularValues();
         double maxS = singularValues[0];
-        double[] invSingularValues = DoubleArray.apply(singularValues, s -> s > maxS / 10.0 ? 1.0 / s : 0.0);
+        double[] invSingularValues = DoubleArray.apply(singularValues, s -> s > maxS / 50.0 ? 1.0 / s : 0.0);
 
         RealMatrix invS = new DiagonalMatrix(invSingularValues);
         return svd.getV().multiply(invS).multiply(svd.getUT());
