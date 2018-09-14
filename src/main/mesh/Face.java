@@ -1,6 +1,7 @@
 package main.mesh;
 
 import main.geom.VTKType;
+import main.geom.Vector;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.List;
 import static java.util.Objects.requireNonNull;
 
 public class Face {
+    private int index;
+
     public final Node[] nodes;
     public final VTKType vtkType;
     public final Surface surface;
@@ -20,6 +23,7 @@ public class Face {
     public double maxAbsEigenvalue;
 
     public Face(Node[] nodes, VTKType vtkType, Surface surface, Cell left, Cell right, int numVars) {
+        this.index = -1;
         this.nodes = nodes;
         this.vtkType = vtkType;
         this.surface = surface;
@@ -29,6 +33,18 @@ public class Face {
 
         this.U = new double[numVars];
         this.flux = new double[numVars];
+    }
+
+    public void setIndex(int index) {
+        if (this.index == -1) {
+            this.index = index;
+        } else {
+            throw new IllegalStateException("The index can be set only once.");
+        }
+    }
+
+    public int index() {
+        return this.index;
     }
 
     @Override
@@ -46,12 +62,11 @@ public class Face {
             otherFace.right = thisFace.left;
 
             // Average of the normal from the other face (subtract since it is pointing in opposite direction)
-            thisFace.surface.unitNormal = thisFace.surface.unitNormal
+            Vector avgNormal = thisFace.surface.unitNormal
                     .sub(otherFace.surface.unitNormal)
-                    .mult(0.5).unit();
-            otherFace.surface.unitNormal = otherFace.surface.unitNormal
-                    .sub(thisFace.surface.unitNormal)
-                    .mult(0.5).unit();
+                    .unit();
+            thisFace.surface.unitNormal = avgNormal;
+            otherFace.surface.unitNormal = avgNormal.mult(-1);
         }
 
         return same;
