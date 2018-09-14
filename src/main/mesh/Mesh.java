@@ -53,6 +53,23 @@ public interface Mesh {
         }
     }
 
+    default void setAllFaceIndices() {
+        // set internal face indices
+        int index = 0;
+        for (Face face : internalFaces()) {
+            face.setIndex(index);
+            index++;
+        }
+
+        // set boundary face indices
+        for (Boundary boundary : boundaries()) {
+            for (Face face : boundary.faces) {
+                face.setIndex(index);
+                index++;
+            }
+        }
+    }
+
     static Cell ghostCell(Cell boundaryCell, Face boundaryFace) {
         // mirror cell nodes about the face
         List<Node> ghostCellNodes = new ArrayList<>();

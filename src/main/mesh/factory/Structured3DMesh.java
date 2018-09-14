@@ -276,6 +276,8 @@ public class Structured3DMesh implements Mesh {
                 new Boundary("zeta min", zetaMinFaces, bc_zetaMin),
                 new Boundary("zeta max", zetaMaxFaces, bc_zetaMax));
 
+        setAllFaceIndices();
+
         // set cell faces
         for (Face face : this.internalFaces) {
             face.left.faces.add(face);

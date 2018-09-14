@@ -13,9 +13,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static main.util.TestHelper.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class Structured3DMeshTest {
 
@@ -360,5 +364,19 @@ public class Structured3DMeshTest {
         List<Boundary> actualBoundaries = mesh.boundaries();
 
         assertBoundaryListEquals(expectedBoundaries, actualBoundaries, 1e-12);
+    }
+
+    @Test
+    public void indexTest() throws FileNotFoundException {
+        File file = new File("test/test_data/mesh_structured_3d.cfds");
+        Mesh actualMesh = new Structured3DMesh(file, numVars, dummyBC, dummyBC, dummyBC, dummyBC, dummyBC, dummyBC);
+        List<Cell> cells = actualMesh.cells();
+        assertTrue(IntStream.range(0, cells.size())
+                .allMatch(i -> cells.get(i).index() == i));
+
+        List<Face> allFaceList = Stream.concat(actualMesh.internalFaceStream(),
+                actualMesh.boundaryStream().flatMap(b -> b.faces.stream())).collect(Collectors.toList());
+        assertTrue(IntStream.range(0, allFaceList.size())
+                .allMatch(i -> allFaceList.get(i).index() == i));
     }
 }

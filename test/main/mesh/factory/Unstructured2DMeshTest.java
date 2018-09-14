@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.*;
@@ -545,6 +547,11 @@ public class Unstructured2DMeshTest {
         List<Cell> cells = actualMesh.cells();
         assertTrue(IntStream.range(0, cells.size())
                 .allMatch(i -> cells.get(i).index() == i));
+
+        List<Face> allFaceList = Stream.concat(actualMesh.internalFaceStream(),
+                actualMesh.boundaryStream().flatMap(b -> b.faces.stream())).collect(Collectors.toList());
+        assertTrue(IntStream.range(0, allFaceList.size())
+                .allMatch(i -> allFaceList.get(i).index() == i));
     }
 
     @Test

@@ -15,7 +15,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static main.util.TestHelper.*;
 import static main.geom.VTKType.VTK_LINE;
@@ -267,6 +269,16 @@ public class Structured2DMeshTest {
         List<Cell> cells = actualMesh.cells();
         assertTrue(IntStream.range(0, cells.size())
                 .allMatch(i -> cells.get(i).index() == i));
+    }
+
+    @Test
+    public void face_indexTest() throws FileNotFoundException {
+        Mesh actualMesh = new Structured2DMesh(new File("test/test_data/mesh_structured_2d.cfds"), numVars,
+                dummyBC, dummyBC, dummyBC, dummyBC);
+        List<Face> allFaceList = Stream.concat(actualMesh.internalFaceStream(),
+                actualMesh.boundaryStream().flatMap(b -> b.faces.stream())).collect(Collectors.toList());
+        assertTrue(IntStream.range(0, allFaceList.size())
+                .allMatch(i -> allFaceList.get(i).index() == i));
     }
 
     @Test

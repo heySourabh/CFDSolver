@@ -114,6 +114,7 @@ public class Structured1DMesh implements Mesh {
 
         boundary = new Boundary("xi max", List.of(boundaryFace), bc_xiMax);
         boundaries.add(boundary);
+        setAllFaceIndices();
 
         // Setup the faces of cells
         for (Face face : internalFaces) {

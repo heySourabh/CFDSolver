@@ -16,7 +16,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -260,6 +262,11 @@ public class Structured1DMeshTest {
         List<Cell> cells = actualMesh.cells();
         assertTrue(IntStream.range(0, cells.size())
                 .allMatch(i -> cells.get(i).index() == i));
+
+        List<Face> allFaceList = Stream.concat(actualMesh.internalFaceStream(),
+                actualMesh.boundaryStream().flatMap(b -> b.faces.stream())).collect(Collectors.toList());
+        assertTrue(IntStream.range(0, allFaceList.size())
+                .allMatch(i -> allFaceList.get(i).index() == i));
     }
 
     @Test

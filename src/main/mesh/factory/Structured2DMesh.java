@@ -254,6 +254,8 @@ public class Structured2DMesh implements Mesh {
         this.boundaries.add(new Boundary("eta min", List.of(etaMinFaces), bc_etaMin));
         this.boundaries.add(new Boundary("eta max", List.of(etaMaxFaces), bc_etaMax));
 
+        setAllFaceIndices();
+
         // Setup node neighbors
         for (Cell cell : this.cells) {
             for (Node node : cell.nodes) {
