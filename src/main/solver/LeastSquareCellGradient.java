@@ -1,18 +1,25 @@
 package main.solver;
 
-import main.geom.Point;
 import main.geom.Vector;
 import main.mesh.Cell;
 import main.mesh.Mesh;
+import main.util.DoubleArray;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.DiagonalMatrix;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.SingularValueDecomposition;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
+
+import static main.util.DoubleArray.divide;
+import static main.util.DoubleArray.sum;
+import static main.util.DoubleMatrix.multiply;
 
 public class LeastSquareCellGradient implements CellGradientCalculator {
 
-    private final Cell[][] cellSupport;
-    private final LeastSquareLinearInterpolator[] interpolators;
+    private final Cell[][] neighbors;
+    private final double[][][] inverseMatrix;
 
     /**
      * This gradient calculator can be used for 3D.
@@ -25,20 +32,55 @@ public class LeastSquareCellGradient implements CellGradientCalculator {
      */
     public LeastSquareCellGradient(Mesh mesh, CellNeighborCalculator neighCalc) {
         int numCells = mesh.cells().size();
-        this.cellSupport = new Cell[numCells][];
-        this.interpolators = new LeastSquareLinearInterpolator[numCells];
+        this.neighbors = new Cell[numCells][];
+        this.inverseMatrix = new double[numCells][][];
 
         mesh.cellStream().forEach(cell -> setup(cell, neighCalc));
     }
 
     private void setup(Cell cell, CellNeighborCalculator neighCalc) {
         List<Cell> neighs = neighCalc.calculateFor(cell);
-        Cell[] allCells = Stream.concat(Stream.of(cell), neighs.stream())
-                .toArray(Cell[]::new);
-        this.cellSupport[cell.index()] = allCells;
-        this.interpolators[cell.index()] = new LeastSquareLinearInterpolator(
-                Arrays.stream(allCells)
-                        .map(c -> c.shape.centroid).toArray(Point[]::new));
+        this.neighbors[cell.index()] = neighs.toArray(new Cell[0]);
+        this.inverseMatrix[cell.index()] = leastSquareMatrix(cell, neighs);
+    }
+
+    private double[][] leastSquareMatrix(Cell cell, List<Cell> neighs) {
+        Vector[] distances = neighs.stream()
+                .map(neigh -> new Vector(cell.shape.centroid, neigh.shape.centroid))
+                .toArray(Vector[]::new);
+
+        double[] weights = normalize(Arrays.stream(distances)
+                .mapToDouble(this::weight)
+                .toArray());
+
+        RealMatrix A = new Array2DRowRealMatrix(neighs.size(), 3);
+        for (int i = 0; i < neighs.size(); i++) {
+            Vector r = distances[i].mult(weights[i]);
+            A.setRow(i, new double[]{r.x, r.y, r.z});
+        }
+
+        return invert(A).multiply(new DiagonalMatrix(weights))
+                .getData();
+    }
+
+    private RealMatrix invert(RealMatrix matrix) {
+        SingularValueDecomposition svd = new SingularValueDecomposition(matrix);
+        double[] singularValues = svd.getSingularValues();
+        double maxS = singularValues[0];
+        double cutoffValue = maxS / 100.0;
+        double[] invSingularValues = DoubleArray.apply(singularValues, s -> s > cutoffValue ? 1.0 / s : 0.0);
+
+        RealMatrix invS = new DiagonalMatrix(invSingularValues);
+
+        return svd.getV().multiply(invS).multiply(svd.getUT());
+    }
+
+    private double weight(Vector dr) {
+        return 1.0 / dr.mag();
+    }
+
+    private double[] normalize(double[] positiveWeights) {
+        return divide(positiveWeights, sum(positiveWeights));
     }
 
     @Override
@@ -54,13 +96,14 @@ public class LeastSquareCellGradient implements CellGradientCalculator {
 
     private Vector forVar(Cell cell, int var) {
         int cellIndex = cell.index();
-        Cell[] neighCells = cellSupport[cellIndex];
-        double[] U = new double[neighCells.length];
+        Cell[] neighCells = neighbors[cellIndex];
+        double[] dU = new double[neighCells.length];
 
-        for (int neigh = 0; neigh < U.length; neigh++) {
-            U[neigh] = neighCells[neigh].U[var];
+        for (int neigh = 0; neigh < dU.length; neigh++) {
+            dU[neigh] = neighCells[neigh].U[var] - cell.U[var];
         }
+        double[] solution = multiply(inverseMatrix[cellIndex], dU);
 
-        return interpolators[cellIndex].interpolate(U).gradient();
+        return new Vector(solution[0], solution[1], solution[2]);
     }
 }
