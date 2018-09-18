@@ -11,14 +11,17 @@ public class SpaceDiscretization {
 
     private final Mesh mesh;
     private final List<ResidualCalculator> residuals;
+    private final LeastSquareFaceInterpolation faceInterpolation;
 
     public SpaceDiscretization(Mesh mesh, List<ResidualCalculator> residuals) {
         this.mesh = mesh;
         this.residuals = residuals;
+        this.faceInterpolation = new LeastSquareFaceInterpolation(mesh);
     }
 
     public void setResiduals() {
         setGhostCellValues();
+        faceInterpolation.setupAllFaces();
 
         mesh.cellStream().forEach(cell -> Arrays.fill(cell.residual, 0.0));
         residuals.forEach(ResidualCalculator::updateCellResiduals);
