@@ -29,7 +29,7 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class SolverEulerEquationsVKTest {
+public class SolverEulerEquationsVKGDTest {
 
     private static ProblemDefinition testProblem;
 
@@ -62,7 +62,7 @@ public class SolverEulerEquationsVKTest {
             private final SolutionInitializer solutionInitializer = new FunctionInitializer(
                     p -> new double[]{rho, rho * u, 0.0, 0.0, rhoE});
             CellNeighborCalculator neighborsCalculator = new FaceBasedCellNeighbors();
-            CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);
+            CellGradientCalculator cellGradientCalculator = new GreenGaussCellGradient();
             SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, cellGradientCalculator, neighborsCalculator);
             ResidualCalculator convectiveCalculator = new ConvectiveResidual(reconstructor,
                     new RusanovRiemannSolver(govEqn), mesh);
@@ -128,7 +128,7 @@ public class SolverEulerEquationsVKTest {
         for (; iter < config.getMaxIterations(); iter++) {
             timeIntegrator.updateCellAverages();
             double[] totalResidual = timeIntegrator.currentTotalResidual(Norm.TWO_NORM);
-            if (iter % 200 == 0) System.out.println(iter + ": " + Arrays.toString(totalResidual));
+            if (iter % 100 == 0) System.out.println(iter + ": " + Arrays.toString(totalResidual));
             if (problem.convergence().hasConverged(totalResidual)) {
                 converged = true;
                 break;
@@ -136,7 +136,7 @@ public class SolverEulerEquationsVKTest {
         }
 
         assertTrue(converged);
-        assertEquals(1028, iter);
-        new VTKWriter(new File(config.getWorkingDirectory(), "output_airfoil_vk_test.vtu"), mesh, problem.govEqn()).write();
+        assertEquals(1024, iter);
+        new VTKWriter(new File(config.getWorkingDirectory(), "output_airfoil_vk_gd_test.vtu"), mesh, problem.govEqn()).write();
     }
 }
