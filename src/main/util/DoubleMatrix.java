@@ -253,6 +253,14 @@ public class DoubleMatrix {
         return result;
     }
 
+    public static void copy(double[][] from, double[][] to) {
+        int numRows = from.length;
+        int numCols = from[0].length;
+        for (int i = 0; i < numRows; i++) {
+            System.arraycopy(from[i], 0, to[i], 0, numCols);
+        }
+    }
+
     public static double[][] copyOf(double[][] matrix) {
         int numRows = matrix.length;
         int numCols = matrix[0].length;
