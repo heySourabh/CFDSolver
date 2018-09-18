@@ -18,6 +18,7 @@ public class Face {
     public Cell right;
 
     public final double[] U;
+    public final Vector[] gradient;
     public final double[] flux;
 
     public double maxAbsEigenvalue;
@@ -32,6 +33,7 @@ public class Face {
         this.right = right;
 
         this.U = new double[numVars];
+        this.gradient = new Vector[numVars];
         this.flux = new double[numVars];
     }
 
