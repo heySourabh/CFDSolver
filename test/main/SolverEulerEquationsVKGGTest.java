@@ -29,7 +29,7 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class SolverEulerEquationsVKGDTest {
+public class SolverEulerEquationsVKGGTest {
 
     private static ProblemDefinition testProblem;
 
@@ -128,7 +128,7 @@ public class SolverEulerEquationsVKGDTest {
         for (; iter < config.getMaxIterations(); iter++) {
             timeIntegrator.updateCellAverages();
             double[] totalResidual = timeIntegrator.currentTotalResidual(Norm.TWO_NORM);
-            if (iter % 100 == 0) System.out.println(iter + ": " + Arrays.toString(totalResidual));
+            if (iter % 50 == 0) System.out.println(iter + ": " + Arrays.toString(totalResidual));
             if (problem.convergence().hasConverged(totalResidual)) {
                 converged = true;
                 break;
