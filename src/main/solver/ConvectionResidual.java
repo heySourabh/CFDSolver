@@ -32,10 +32,10 @@ public class ConvectionResidual implements ResidualCalculator {
         mesh.boundaryStream().forEach(this::setFlux);
 
         // add / subtract (flux * face.area) to the cells residual
-        mesh.cellStream().forEach(this::updateCellResidual);
+        mesh.cellStream().forEach(this::updateResidual);
     }
 
-    private void updateCellResidual(Cell cell) {
+    private void updateResidual(Cell cell) {
         int numVars = cell.residual.length;
         double[] totalResidual = new double[numVars];
         for (Face face : cell.faces) {
