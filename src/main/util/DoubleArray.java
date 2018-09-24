@@ -41,9 +41,9 @@ public class DoubleArray {
         return result;
     }
 
-    public static void decrement(double[] array, double[] increment) {
+    public static void decrement(double[] array, double[] decrement) {
         for (int i = 0; i < array.length; i++) {
-            array[i] -= increment[i];
+            array[i] -= decrement[i];
         }
     }
 
