@@ -58,7 +58,7 @@ public class SolverEulerEquationsTest {
             private final double rhoE = 101325.0 / (1.4 - 1.0) / 1.0 + u * u / 2.0;
             private final SolutionInitializer solutionInitializer = new FunctionInitializer(
                     p -> new double[]{rho, rho * u, 0.0, 0.0, rhoE});
-            ResidualCalculator convectiveCalculator = new ConvectiveResidual(new PiecewiseConstantReconstructor(),
+            ResidualCalculator convectiveCalculator = new ConvectionResidual(new PiecewiseConstantReconstructor(),
                     new RusanovRiemannSolver(govEqn), mesh);
             private final TimeIntegrator timeIntegrator = new ExplicitEulerTimeIntegrator(mesh,
                     new SpaceDiscretization(mesh, List.of(convectiveCalculator)),

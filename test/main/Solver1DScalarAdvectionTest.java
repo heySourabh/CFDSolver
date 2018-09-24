@@ -85,7 +85,7 @@ public class Solver1DScalarAdvectionTest {
 
                 SolutionReconstructor reconstructor = new PiecewiseConstantReconstructor();
                 RiemannSolver riemannSolver = new RusanovRiemannSolver(govEqn);
-                residuals.add(new ConvectiveResidual(reconstructor, riemannSolver, mesh));
+                residuals.add(new ConvectionResidual(reconstructor, riemannSolver, mesh));
                 GlobalTimeStep timeStep = new GlobalTimeStep(mesh, govEqn);
                 return new ExplicitEulerTimeIntegrator(mesh, new SpaceDiscretization(mesh, residuals),
                         timeStep, govEqn.numVars());

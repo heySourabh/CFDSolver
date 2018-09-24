@@ -49,7 +49,7 @@ public class SolverEulerEquations1Test {
             private final double pr = 101325.0;
             private final SolutionInitializer solutionInitializer = new FunctionInitializer(
                     p -> govEqn.conservativeVars(new double[]{rho, u, v, w, pr}));
-            ResidualCalculator convectiveCalculator = new ConvectiveResidual(new PiecewiseConstantReconstructor(),
+            ResidualCalculator convectiveCalculator = new ConvectionResidual(new PiecewiseConstantReconstructor(),
                     new RusanovRiemannSolver(govEqn), mesh);
             private final TimeIntegrator timeIntegrator = new ExplicitEulerTimeIntegrator(mesh,
                     new SpaceDiscretization(mesh, List.of(convectiveCalculator)),

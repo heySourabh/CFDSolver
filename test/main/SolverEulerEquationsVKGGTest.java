@@ -64,7 +64,7 @@ public class SolverEulerEquationsVKGGTest {
             CellNeighborCalculator neighborsCalculator = new FaceBasedCellNeighbors();
             CellGradientCalculator cellGradientCalculator = new GreenGaussCellGradient();
             SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, cellGradientCalculator, neighborsCalculator);
-            ResidualCalculator convectiveCalculator = new ConvectiveResidual(reconstructor,
+            ResidualCalculator convectiveCalculator = new ConvectionResidual(reconstructor,
                     new RusanovRiemannSolver(govEqn), mesh);
             private final TimeIntegrator timeIntegrator = new ExplicitEulerTimeIntegrator(mesh,
                     new SpaceDiscretization(mesh, List.of(convectiveCalculator)),

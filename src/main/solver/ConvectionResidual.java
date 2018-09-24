@@ -9,12 +9,12 @@ import main.solver.reconstructor.SolutionReconstructor;
 
 import static main.util.DoubleArray.*;
 
-public class ConvectiveResidual implements ResidualCalculator {
+public class ConvectionResidual implements ResidualCalculator {
     private final SolutionReconstructor reconstructor;
     private final RiemannSolver riemannSolver;
     private final Mesh mesh;
 
-    public ConvectiveResidual(SolutionReconstructor reconstructor, RiemannSolver riemannSolver, Mesh mesh) {
+    public ConvectionResidual(SolutionReconstructor reconstructor, RiemannSolver riemannSolver, Mesh mesh) {
         this.reconstructor = reconstructor;
         this.riemannSolver = riemannSolver;
         this.mesh = mesh;
