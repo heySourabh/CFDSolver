@@ -1,10 +1,7 @@
 package main.physics.goveqn.factory;
 
 import main.geom.Vector;
-import main.physics.goveqn.Convection;
-import main.physics.goveqn.Diffusion;
-import main.physics.goveqn.GoverningEquations;
-import main.physics.goveqn.Source;
+import main.physics.goveqn.*;
 
 public class ScalarAdvection implements GoverningEquations {
     private final double ax, ay, az;
@@ -93,7 +90,7 @@ public class ScalarAdvection implements GoverningEquations {
         return convection;
     }
 
-    private final Diffusion diffusion = (conservativeVars, gradConservativeVars, unitNormal) -> new double[1];
+    private final Diffusion diffusion = new ZeroDiffusion();
 
     @Override
     public Diffusion diffusion() {
