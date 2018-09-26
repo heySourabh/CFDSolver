@@ -200,7 +200,7 @@ public class EulerEquations implements GoverningEquations {
         return convection;
     }
 
-    private final Diffusion diffusion = new ZeroDiffusion();
+    private final Diffusion diffusion = new ZeroDiffusion(numVars());
 
     @Override
     public Diffusion diffusion() {
