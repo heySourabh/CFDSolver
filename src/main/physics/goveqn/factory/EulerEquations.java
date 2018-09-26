@@ -207,8 +207,7 @@ public class EulerEquations implements GoverningEquations {
         return diffusion;
     }
 
-    private final Source source
-            = conservativeVars -> new double[conservativeVars.length];
+    private final Source source = new ZeroSource(numVars());
 
     @Override
     public Source source() {

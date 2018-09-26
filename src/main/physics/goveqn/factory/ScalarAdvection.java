@@ -97,7 +97,7 @@ public class ScalarAdvection implements GoverningEquations {
         return diffusion;
     }
 
-    private final Source source = conservativeVars -> new double[1];
+    private final Source source = new ZeroSource(numVars());
 
     @Override
     public Source source() {
