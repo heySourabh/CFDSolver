@@ -11,7 +11,7 @@ public class DiffusionResidual implements ResidualCalculator {
     private final Mesh mesh;
     private final GoverningEquations govEqn;
 
-    DiffusionResidual(Mesh mesh, GoverningEquations govEqn) {
+    public DiffusionResidual(Mesh mesh, GoverningEquations govEqn) {
         this.mesh = mesh;
         this.govEqn = govEqn;
     }
