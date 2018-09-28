@@ -31,13 +31,26 @@ public class LocalTimeStep implements TimeStep {
     }
 
     private void updateTimeStep(Cell cell, double courantNum) {
-        double summation = 0.0;
+        // Convection spectral radius
+        double spectralRadiusConvection = 0.0;
         for (Face face : cell.faces) {
-            summation += face.maxAbsEigenvalue * face.surface.area;
+            spectralRadiusConvection += face.maxAbsEigenvalue * face.surface.area;
         }
 
+        // Diffusion spectral radius
+        double spectralRadiusDiffusion = 0.0;
+        for (Face face : cell.faces) {
+            // Assuming that face U is calculated before time step calculation
+            double diffusivity = govEqn.diffusion().maxAbsDiffusivity(face.U);
+            double area = face.surface.area;
+
+            spectralRadiusDiffusion += diffusivity * area * area;
+        }
         double volume = cell.shape.volume;
-        cell.dt = (volume / summation) * courantNum;
+        spectralRadiusDiffusion /= volume;
+
+        double C = 4.0; // Constant multiplying diffusion spectral radius, 4 for central discretization
+        cell.dt = courantNum * (volume / (spectralRadiusConvection + C * spectralRadiusDiffusion));
     }
 
     private void updateEigenvalue(Face face) {
