@@ -98,7 +98,13 @@ public class LocalTimeStepTest {
                     "-4.000000  5.000000  0.0\n");
         }
 
-        return new Structured2DMesh(tempFile, convectiveGovEqn.numVars(), null, null, null, null);
+        Mesh mesh = new Structured2DMesh(tempFile, convectiveGovEqn.numVars(), null, null, null, null);
+
+        if (!tempFile.delete()) {
+            System.out.println("Unable to delete the temporary file: " + tempFile);
+        }
+
+        return mesh;
     }
 
     private class ConvectionGoverningEquations extends BaseGoverningEquations {
