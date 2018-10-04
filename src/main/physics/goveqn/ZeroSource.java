@@ -1,5 +1,7 @@
 package main.physics.goveqn;
 
+import main.geom.Vector;
+
 public class ZeroSource implements Source {
     private final double[] zeroVector;
 
@@ -8,7 +10,7 @@ public class ZeroSource implements Source {
     }
 
     @Override
-    public double[] sourceVector(double[] conservativeVars) {
+    public double[] sourceVector(double[] conservativeVars, Vector[] gradConservativeVars) {
         return zeroVector;
     }
 }

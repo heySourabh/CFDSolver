@@ -159,6 +159,10 @@ public class ScalarAdvectionTest {
 
         double phi = rnd.nextDouble() * rnd.nextInt(100) - 50;
 
-        assertArrayEquals(new double[]{0}, govEqn.source().sourceVector(new double[]{phi}), 1e-12);
+        assertArrayEquals(new double[]{0}, govEqn.source().sourceVector(new double[]{phi},
+                new Vector[]{
+                        new Vector(1, 1, 1)
+                }),
+                1e-12);
     }
 }

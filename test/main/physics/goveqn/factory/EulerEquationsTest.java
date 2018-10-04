@@ -225,7 +225,14 @@ public class EulerEquationsTest {
 
         double[] consVars = new double[eulerEquations.numVars()];
 
-        assertDoubleArrayEquals(new double[]{0, 0, 0, 0, 0}, eulerEquations.source().sourceVector(consVars));
+        assertDoubleArrayEquals(new double[]{0, 0, 0, 0, 0},
+                eulerEquations.source().sourceVector(consVars,
+                        new Vector[]{
+                                new Vector(1, 1, 1),
+                                new Vector(1, 5, 1),
+                                new Vector(-1, 3, 8),
+                                new Vector(-1, 4, 8)
+                        }));
     }
 
     private void assertDoubleArrayEquals(double[] expected, double[] actual) {
