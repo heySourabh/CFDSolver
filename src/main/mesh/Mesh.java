@@ -16,7 +16,7 @@ public interface Mesh {
     List<Cell> cells();
 
     default Stream<Cell> cellStream() {
-        return cells().stream();
+        return cells().parallelStream();
     }
 
     /**
@@ -25,7 +25,7 @@ public interface Mesh {
     List<Face> internalFaces();
 
     default Stream<Face> internalFaceStream() {
-        return internalFaces().stream();
+        return internalFaces().parallelStream();
     }
 
     /**
@@ -35,7 +35,7 @@ public interface Mesh {
     List<Node> nodes();
 
     default Stream<Node> nodeStream() {
-        return nodes().stream();
+        return nodes().parallelStream();
     }
 
     /**
@@ -44,7 +44,7 @@ public interface Mesh {
     List<Boundary> boundaries();
 
     default Stream<Boundary> boundaryStream() {
-        return boundaries().stream();
+        return boundaries().parallelStream();
     }
 
     default void setAllCellIndices() {
