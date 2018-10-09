@@ -5,7 +5,6 @@ import main.geom.Vector;
 import main.mesh.Cell;
 import main.mesh.Face;
 import main.mesh.Mesh;
-import main.util.DoubleArray;
 import main.util.DoubleMatrix;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.DiagonalMatrix;
@@ -67,14 +66,7 @@ public class LeastSquareFaceInterpolation {
 
     private RealMatrix invert(RealMatrix matrix) {
         SingularValueDecomposition svd = new SingularValueDecomposition(matrix);
-        double[] singularValues = svd.getSingularValues();
-        double maxS = singularValues[0];
-        double cutoffValue = maxS / 100.0;
-        double[] invSingularValues = DoubleArray.apply(singularValues, s -> s > cutoffValue ? 1.0 / s : 0.0);
-
-        RealMatrix invS = new DiagonalMatrix(invSingularValues);
-
-        return svd.getV().multiply(invS).multiply(svd.getUT());
+        return svd.getSolver().getInverse();
     }
 
 
@@ -93,7 +85,7 @@ public class LeastSquareFaceInterpolation {
                 .toArray(Cell[]::new);
     }
 
-    public void setupAllFaces() {
+    void setupAllFaces() {
         mesh.internalFaceStream().forEach(this::setFace);
         mesh.boundaryStream().flatMap(b -> b.faces.stream()).forEach(this::setFace);
     }

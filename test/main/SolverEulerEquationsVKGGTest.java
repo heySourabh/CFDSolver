@@ -136,7 +136,7 @@ public class SolverEulerEquationsVKGGTest {
         }
 
         assertTrue(converged);
-        assertEquals(1024, iter);
+        assertEquals(1037, iter);
         new VTKWriter(new File(config.getWorkingDirectory(), "output_airfoil_vk_gd_test.vtu"), mesh, problem.govEqn()).write();
     }
 }
