@@ -26,7 +26,7 @@ import java.util.List;
 public class SolverLidDrivenCavityTest {
 
     private final ProblemDefinition problem = new ProblemDefinition() {
-        private final double Re = 400;
+        private final double Re = 100;
         private final double L = 1.0;
         private final double rho = 1.0;
         private final double lidVelocity = 1.0;
@@ -159,8 +159,8 @@ public class SolverLidDrivenCavityTest {
                 break;
             }
         }
-        Assert.assertEquals(6554, iter);
 
         new VTKWriter(new File("test/test_data/lid_driven_cavity.vtu"), mesh, problem.govEqn()).write();
+        Assert.assertEquals(2813, iter);
     }
 }
