@@ -12,7 +12,7 @@ public class ArtificialCompressibilityEquations implements GoverningEquations {
         this.RHO = density;
         GRAVITY = gravity;
         this.NU = dynamicViscosity / RHO;
-        this.BETA = 3.0;
+        this.BETA = 1.0;
     }
 
     @Override

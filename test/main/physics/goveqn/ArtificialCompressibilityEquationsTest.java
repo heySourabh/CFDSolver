@@ -3,7 +3,8 @@ package main.physics.goveqn;
 import main.geom.Vector;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class ArtificialCompressibilityEquationsTest {
 
@@ -56,7 +57,9 @@ public class ArtificialCompressibilityEquationsTest {
         double v = 1.2;
         double w = -8.9;
 
-        double[] conservativeVars = {p / 3.0, u, v, w};
+        double beta = 1.0;
+
+        double[] conservativeVars = {p / beta, u, v, w};
 
         assertArrayEquals(new double[]{p, u, v, w}, govEqn.primitiveVars(conservativeVars), 1e-15);
     }
@@ -72,7 +75,9 @@ public class ArtificialCompressibilityEquationsTest {
         double v = 1.2;
         double w = -8.9;
 
-        double[] conservativeVars = {p / 3.0, u, v, w};
+        double beta = 1.0;
+
+        double[] conservativeVars = {p / beta, u, v, w};
 
         assertArrayEquals(conservativeVars, govEqn.conservativeVars(new double[]{p, u, v, w}), 1e-15);
     }
@@ -88,7 +93,9 @@ public class ArtificialCompressibilityEquationsTest {
         double v = 1.2;
         double w = -8.9;
 
-        double[] conservativeVars = {p / 3.0, u, v, w};
+        double beta = 1.0;
+
+        double[] conservativeVars = {p / beta, u, v, w};
 
         Vector dir = new Vector(-5, -2, 7).unit();
 
@@ -113,7 +120,7 @@ public class ArtificialCompressibilityEquationsTest {
         assertArrayEquals(expectedFlux, govEqn.convection().flux(conservativeVars, dir), 1e-15);
 
         double vel = u * dir.x + v * dir.y + w * dir.z;
-        double a = Math.sqrt(vel * vel + 3.0 / rho);
+        double a = Math.sqrt(vel * vel + beta / rho);
         assertArrayEquals(new double[]{vel - a, vel, vel, vel + a},
                 govEqn.convection().sortedEigenvalues(conservativeVars, dir), 1e-15);
 

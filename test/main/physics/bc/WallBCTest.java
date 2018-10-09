@@ -27,7 +27,7 @@ public class WallBCTest {
         double v = 45;
         double w = 87;
 
-        double beta = 3.0;
+        double beta = 1.0;
 
         DoubleArray.copy(new double[]{p / beta, u, v, w}, insideCell.U);
 
@@ -54,7 +54,7 @@ public class WallBCTest {
         double v = 45;
         double w = 20;
 
-        double beta = 3.0;
+        double beta = 1.0;
 
         DoubleArray.copy(new double[]{p / beta, u, v, w}, insideCell.U);
 
@@ -83,7 +83,7 @@ public class WallBCTest {
         double v = 45;
         double w = 20;
 
-        double beta = 3.0;
+        double beta = 1.0;
 
         DoubleArray.copy(new double[]{p / beta, u, v, w}, insideCell.U);
 
