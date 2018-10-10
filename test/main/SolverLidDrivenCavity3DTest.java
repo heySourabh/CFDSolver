@@ -39,6 +39,9 @@ public class SolverLidDrivenCavity3DTest {
         private final Mesh mesh = create3DMesh(15, 15, 15);
 
         private Mesh create3DMesh(int numXCells, int numYCells, int numZCells) {
+            int numXNodes = numXCells + 1;
+            int numYNodes = numYCells + 1;
+            int numZNodes = numZCells + 1;
             double minX = 0, minY = 0, minZ = 0;
             double maxX = minX + L;
             double maxY = minY + L;
@@ -49,15 +52,15 @@ public class SolverLidDrivenCavity3DTest {
                  PrintWriter writer = new PrintWriter(fileWriter)) {
                 writer.write("dimension = 3\n");
                 writer.write("mode = ASCII\n");
-                writer.printf("xi = %d\n", numXCells);
-                writer.printf("eta = %d\n", numYCells);
-                writer.printf("zeta = %d\n", numZCells);
-                for (int i = 0; i < numXCells; i++) {
-                    double x = minX + i / (numXCells - 1.0) * (maxX - minX);
-                    for (int j = 0; j < numYCells; j++) {
-                        double y = minY + j / (numYCells - 1.0) * (maxY - minY);
-                        for (int k = 0; k < numZCells; k++) {
-                            double z = minZ + k / (numZCells - 1.0) * (maxZ - minZ);
+                writer.printf("xi = %d\n", numXNodes);
+                writer.printf("eta = %d\n", numYNodes);
+                writer.printf("zeta = %d\n", numZNodes);
+                for (int i = 0; i < numXNodes; i++) {
+                    double x = minX + i / (numXNodes - 1.0) * (maxX - minX);
+                    for (int j = 0; j < numYNodes; j++) {
+                        double y = minY + j / (numYNodes - 1.0) * (maxY - minY);
+                        for (int k = 0; k < numZNodes; k++) {
+                            double z = minZ + k / (numZNodes - 1.0) * (maxZ - minZ);
                             writer.printf("%-20.15f %-20.15f %-20.15f\n", x, y, z);
                         }
                     }
@@ -169,6 +172,6 @@ public class SolverLidDrivenCavity3DTest {
         }
 
         new VTKWriter(new File("test/test_data/lid_driven_cavity3d.vtu"), mesh, problem.govEqn()).write();
-        Assert.assertEquals(1112, iter);
+        Assert.assertEquals(1220, iter);
     }
 }

@@ -39,6 +39,8 @@ public class SolverLidDrivenCavity2DTest {
         private final Mesh mesh = create2DMesh(20, 20);
 
         private Mesh create2DMesh(int numXCells, int numYCells) {
+            int numXNodes = numXCells + 1;
+            int numYNodes = numYCells + 1;
             double minX = 0, minY = 0;
             double maxX = minX + L;
             double maxY = minY + L;
@@ -48,12 +50,12 @@ public class SolverLidDrivenCavity2DTest {
                  PrintWriter writer = new PrintWriter(fileWriter)) {
                 writer.write("dimension = 2\n");
                 writer.write("mode = ASCII\n");
-                writer.printf("xi = %d\n", numXCells);
-                writer.printf("eta = %d\n", numYCells);
-                for (int i = 0; i < numXCells; i++) {
-                    double x = minX + i / (numXCells - 1.0) * (maxX - minX);
-                    for (int j = 0; j < numYCells; j++) {
-                        double y = minY + j / (numYCells - 1.0) * (maxY - minY);
+                writer.printf("xi = %d\n", numXNodes);
+                writer.printf("eta = %d\n", numYNodes);
+                for (int i = 0; i < numXNodes; i++) {
+                    double x = minX + i / (numXNodes - 1.0) * (maxX - minX);
+                    for (int j = 0; j < numYNodes; j++) {
+                        double y = minY + j / (numYNodes - 1.0) * (maxY - minY);
                         writer.printf("%-20.15f %-20.15f %-20.15f\n", x, y, 0.0);
                     }
                 }
@@ -161,6 +163,6 @@ public class SolverLidDrivenCavity2DTest {
         }
 
         new VTKWriter(new File("test/test_data/lid_driven_cavity2d.vtu"), mesh, problem.govEqn()).write();
-        Assert.assertEquals(2814, iter);
+        Assert.assertEquals(3020, iter);
     }
 }
