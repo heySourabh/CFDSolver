@@ -2,16 +2,16 @@ package main.solver;
 
 import main.geom.Point;
 import main.geom.Vector;
-import main.mesh.Cell;
-import main.mesh.Face;
-import main.mesh.Mesh;
+import main.mesh.*;
 import main.util.DoubleMatrix;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.DiagonalMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.SingularValueDecomposition;
 
-import java.util.Arrays;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static main.util.DoubleArray.divide;
 import static main.util.DoubleArray.sum;
@@ -20,9 +20,11 @@ public class LeastSquareFaceInterpolation {
     private final Cell[][] neighbours;
     private final double[][][] inverseMatrix;
     private final Mesh mesh;
+    private final Set<Node> boundaryIntersectionNodes;
 
     public LeastSquareFaceInterpolation(Mesh mesh) {
         this.mesh = mesh;
+        this.boundaryIntersectionNodes = calculateCornerNodes(mesh);
         int totalNumFaces = mesh.internalFaces().size();
         totalNumFaces += mesh.boundaryStream()
                 .mapToInt(b -> b.faces.size())
@@ -35,6 +37,41 @@ public class LeastSquareFaceInterpolation {
         mesh.boundaryStream()
                 .flatMap(b -> b.faces.stream())
                 .forEach(this::setup);
+    }
+
+    private Set<Node> calculateCornerNodes(Mesh mesh) {
+        // For each boundary create a Set of nodes (including the corner nodes)
+        List<Set<Node>> boundaryNodes = new ArrayList<>(mesh.boundaries().size());
+        for (Boundary boundary : mesh.boundaries()) {
+            Set<Node> bNodes = boundary.faces.stream()
+                    .flatMap(f -> Arrays.stream(f.nodes))
+                    .collect(Collectors.toSet());
+            boundaryNodes.add(bNodes);
+        }
+
+        // For each set of boundary nodes, create a new set by subtracting all the other boundary sets
+        // this will remove the corner nodes
+        List<Set<Node>> nonCornerBoundaryNodes = new ArrayList<>(mesh.boundaries().size());
+        for (Set<Node> nodesOnABoundary : boundaryNodes) {
+            Set<Node> copyOfBoundaryNodes = new HashSet<>(nodesOnABoundary);
+            for (Set<Node> nodesOnAnotherBoundary : boundaryNodes) {
+                if (nodesOnAnotherBoundary == nodesOnABoundary) continue;
+                copyOfBoundaryNodes.removeAll(nodesOnAnotherBoundary);
+            }
+            nonCornerBoundaryNodes.add(copyOfBoundaryNodes);
+        }
+
+        // Put together all the original sets
+        Set<Node> allBoundaryNodes = boundaryNodes.stream()
+                .flatMap(Collection::stream)
+                .collect(Collectors.toSet());
+
+        // Subtract sets not-containing-the-corner-nodes from the complete collection
+        for (Set<Node> bndNodes : nonCornerBoundaryNodes) {
+            allBoundaryNodes.removeAll(bndNodes);
+        }
+
+        return allBoundaryNodes;
     }
 
     private void setup(Face face) {
@@ -79,8 +116,11 @@ public class LeastSquareFaceInterpolation {
     }
 
     private Cell[] getNeighbours(Face face) {
-        return Arrays.stream(face.nodes)
-                .flatMap(n -> n.neighbors.stream())
+        // In case of a boundary having only one face (highly unlikely), at least left and right cell will be added.
+        return Stream.concat(Stream.of(face.left, face.right),
+                Arrays.stream(face.nodes)
+                        .filter(n -> !boundaryIntersectionNodes.contains(n))
+                        .flatMap(n -> n.neighbors.stream()))
                 .distinct()
                 .toArray(Cell[]::new);
     }
