@@ -115,7 +115,7 @@ public class LeastSquareFaceInterpolation {
         return divide(positiveWeights, sum(positiveWeights));
     }
 
-    private Cell[] getNeighbours(Face face) {
+    Cell[] getNeighbours(Face face) {
         // In case of a boundary having only one face (highly unlikely), at least left and right cell will be added.
         return Stream.concat(Stream.of(face.left, face.right),
                 Arrays.stream(face.nodes)
