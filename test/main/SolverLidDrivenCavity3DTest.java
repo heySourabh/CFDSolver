@@ -3,7 +3,7 @@ package main;
 import main.geom.Vector;
 import main.io.VTKWriter;
 import main.mesh.Mesh;
-import main.mesh.factory.Structured2DMesh;
+import main.mesh.factory.Structured3DMesh;
 import main.physics.bc.BoundaryCondition;
 import main.physics.bc.WallBC;
 import main.physics.goveqn.ArtificialCompressibilityEquations;
@@ -23,7 +23,7 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 
-public class SolverLidDrivenCavityTest {
+public class SolverLidDrivenCavity3DTest {
 
     private final ProblemDefinition problem = new ProblemDefinition() {
         private final double Re = 100;
@@ -36,25 +36,30 @@ public class SolverLidDrivenCavityTest {
         private final ArtificialCompressibilityEquations govEqn
                 = new ArtificialCompressibilityEquations(1.0, mu, gravity);
 
-        private final Mesh mesh = create2DMesh(20, 20);
+        private final Mesh mesh = create3DMesh(15, 15, 15);
 
-        private Mesh create2DMesh(int numXCells, int numYCells) {
-            double minX = 0, minY = 0;
+        private Mesh create3DMesh(int numXCells, int numYCells, int numZCells) {
+            double minX = 0, minY = 0, minZ = 0;
             double maxX = minX + L;
             double maxY = minY + L;
+            double maxZ = minY + L;
             File tempMeshFile = new File("test/test_data/lid_driven_cavity_mesh");
 
             try (FileWriter fileWriter = new FileWriter(tempMeshFile);
                  PrintWriter writer = new PrintWriter(fileWriter)) {
-                writer.write("dimension = 2\n");
+                writer.write("dimension = 3\n");
                 writer.write("mode = ASCII\n");
                 writer.printf("xi = %d\n", numXCells);
                 writer.printf("eta = %d\n", numYCells);
+                writer.printf("zeta = %d\n", numZCells);
                 for (int i = 0; i < numXCells; i++) {
                     double x = minX + i / (numXCells - 1.0) * (maxX - minX);
                     for (int j = 0; j < numYCells; j++) {
                         double y = minY + j / (numYCells - 1.0) * (maxY - minY);
-                        writer.printf("%-20.15f %-20.15f %-20.15f\n", x, y, 0.0);
+                        for (int k = 0; k < numZCells; k++) {
+                            double z = minZ + k / (numZCells - 1.0) * (maxZ - minZ);
+                            writer.printf("%-20.15f %-20.15f %-20.15f\n", x, y, z);
+                        }
                     }
                 }
             } catch (IOException e) {
@@ -65,7 +70,10 @@ public class SolverLidDrivenCavityTest {
             BoundaryCondition movingLid = new WallBC(govEqn, new Vector(lidVelocity, 0, 0));
             Mesh mesh = null;
             try {
-                mesh = new Structured2DMesh(tempMeshFile, govEqn.numVars(), stationaryWall, stationaryWall, stationaryWall, movingLid);
+                mesh = new Structured3DMesh(tempMeshFile, govEqn.numVars(),
+                        stationaryWall, stationaryWall,
+                        stationaryWall, movingLid,
+                        stationaryWall, stationaryWall);
                 if (!tempMeshFile.delete()) {
                     System.out.println("Unable to delete temporary file: " + tempMeshFile);
                 }
@@ -160,7 +168,7 @@ public class SolverLidDrivenCavityTest {
             }
         }
 
-        new VTKWriter(new File("test/test_data/lid_driven_cavity.vtu"), mesh, problem.govEqn()).write();
-        Assert.assertEquals(2813, iter);
+        new VTKWriter(new File("test/test_data/lid_driven_cavity3d.vtu"), mesh, problem.govEqn()).write();
+        Assert.assertEquals(1112, iter);
     }
 }
