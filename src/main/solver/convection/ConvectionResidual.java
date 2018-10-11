@@ -1,11 +1,13 @@
-package main.solver;
+package main.solver.convection;
 
 import main.mesh.Boundary;
 import main.mesh.Cell;
 import main.mesh.Face;
 import main.mesh.Mesh;
 import main.physics.bc.BoundaryCondition;
-import main.solver.reconstructor.SolutionReconstructor;
+import main.solver.ResidualCalculator;
+import main.solver.convection.riemann.RiemannSolver;
+import main.solver.convection.reconstructor.SolutionReconstructor;
 
 import static main.util.DoubleArray.*;
 

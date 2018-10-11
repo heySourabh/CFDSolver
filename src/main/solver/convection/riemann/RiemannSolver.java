@@ -1,4 +1,4 @@
-package main.solver;
+package main.solver.convection.riemann;
 
 import main.geom.Vector;
 

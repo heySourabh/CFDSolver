@@ -1,9 +1,10 @@
-package main.solver;
+package main.solver.diffusion;
 
 import main.mesh.Cell;
 import main.mesh.Face;
 import main.mesh.Mesh;
 import main.physics.goveqn.GoverningEquations;
+import main.solver.ResidualCalculator;
 
 import static main.util.DoubleArray.*;
 

@@ -9,6 +9,7 @@ import main.physics.bc.ExtrapolatedBC;
 import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.factory.ScalarDiffusion;
 import main.solver.*;
+import main.solver.diffusion.DiffusionResidual;
 import main.solver.problem.ProblemDefinition;
 import main.solver.time.ExplicitEulerTimeIntegrator;
 import main.solver.time.LocalTimeStep;

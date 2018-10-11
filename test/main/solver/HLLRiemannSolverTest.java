@@ -5,6 +5,7 @@ import main.physics.goveqn.Convection;
 import main.physics.goveqn.Diffusion;
 import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.Source;
+import main.solver.convection.riemann.HLLRiemannSolver;
 import main.util.TestHelper;
 import org.junit.Test;
 
