@@ -5,7 +5,7 @@ import main.physics.goveqn.*;
 
 public class EulerEquations implements GoverningEquations {
 
-    private final double GAMMA, R, CV;
+    public final double GAMMA, R, CV;
 
     public EulerEquations(double gamma, double R) {
         this.GAMMA = gamma;
