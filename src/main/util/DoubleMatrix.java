@@ -84,7 +84,7 @@ public class DoubleMatrix {
             for (int j = 0; j < numColsB; j++) {
                 double sum = 0;
                 for (int k = 0; k < numColsA; k++) {
-                    sum = Math.fma(A[i][k], B[k][j], sum);
+                    sum += A[i][k] * B[k][j];
                 }
                 result[i][j] = sum;
             }
@@ -112,7 +112,7 @@ public class DoubleMatrix {
         for (int i = 0; i < numRows; i++) {
             double sum = 0.0;
             for (int j = 0; j < numCols; j++) {
-                sum = Math.fma(matrix[i][j], vector[j], sum);
+                sum += matrix[i][j] * vector[j];
             }
             result[i] = sum;
         }
@@ -169,7 +169,7 @@ public class DoubleMatrix {
         for (int c = 0; c < numCols; c++) {
             int r = 0;
             double[][] mat = removeRowColumn(matrix, r, c);
-            det = Math.fma(matrix[r][c], determinant(mat) * signOf(r, c), det);
+            det += matrix[r][c] * determinant(mat) * signOf(r, c);
         }
 
         return det;
