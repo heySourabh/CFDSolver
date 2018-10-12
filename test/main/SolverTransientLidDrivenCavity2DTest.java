@@ -156,9 +156,9 @@ public class SolverTransientLidDrivenCavity2DTest {
         int numRealIter = 100;
 
         int[] expectedPseudoIterations = {
-                598, 396, 424, 348, 305, 271, 238, 210, 185, 164, 148, 134, 119, 110, 101, 93, 86, 81, 77, 72, 69,
-                65, 62, 59, 56, 53, 50, 47, 44, 41, 38, 35, 32, 30, 25, 27, 15, 26, 13, 14, 21, 11, 11, 10, 10, 9,
-                9, 8, 8, 7, 7, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1,
+                598, 507, 640, 386, 345, 290, 242, 211, 183, 164, 145, 129, 116, 106, 97, 88, 83, 77, 73, 68, 65,
+                61, 58, 55, 51, 49, 46, 43, 41, 37, 36, 32, 30, 28, 25, 23, 22, 16, 20, 11, 15, 10, 13, 8, 7, 7,
+                7, 6, 6, 6, 5, 5, 5, 4, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
         };
 
@@ -183,6 +183,10 @@ public class SolverTransientLidDrivenCavity2DTest {
             }
             actualPseudoIterations[real_time_iter] = pseudoIter;
             timeDiscretization.shiftSolution();
+            if (real_time_iter == 0) {
+                timeDiscretization = new ThreePointTimeDiscretization(mesh, problem.govEqn(), timeDiscretization.dt());
+                timeIntegrator.setTimeDiscretization(timeDiscretization);
+            }
         }
         new VTKWriter(new File(outputFolder,
                 String.format("sol_%05d.vtu", numRealIter)),
