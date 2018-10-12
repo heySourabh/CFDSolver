@@ -3,6 +3,7 @@ package main.solver;
 import main.geom.Point;
 import main.mesh.Cell;
 import main.mesh.Mesh;
+import main.physics.goveqn.GoverningEquations;
 import main.util.DoubleArray;
 
 import java.util.function.Function;
@@ -16,13 +17,13 @@ public class FunctionInitializer implements SolutionInitializer {
     }
 
     @Override
-    public void initialize(Mesh mesh) {
-        mesh.cellStream().forEach(this::initialize);
+    public void initialize(Mesh mesh, GoverningEquations govEqn) {
+        mesh.cellStream().forEach(cell -> initialize(cell, govEqn));
     }
 
-    private void initialize(Cell cell) {
-        double[] vars = f.apply(cell.shape.centroid);
-        DoubleArray.copy(vars, cell.U);
-        DoubleArray.copy(vars, cell.Wn);
+    private void initialize(Cell cell, GoverningEquations govEqn) {
+        double[] conservativeVars = f.apply(cell.shape.centroid);
+        DoubleArray.copy(conservativeVars, cell.U);
+        DoubleArray.copy(govEqn.realVars(conservativeVars), cell.Wn);
     }
 }

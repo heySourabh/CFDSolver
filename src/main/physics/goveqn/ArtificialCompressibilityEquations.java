@@ -41,6 +41,13 @@ public class ArtificialCompressibilityEquations implements GoverningEquations {
     }
 
     @Override
+    public String[] realVarNames() {
+        return new String[]{
+                "-", "u", "v", "w"
+        };
+    }
+
+    @Override
     public double[] primitiveVars(double[] conservativeVars) {
         double p_beta = conservativeVars[0];
         double u = conservativeVars[1];
@@ -65,6 +72,17 @@ public class ArtificialCompressibilityEquations implements GoverningEquations {
 
         return new double[]{
                 p_beta, u, v, w
+        };
+    }
+
+    @Override
+    public double[] realVars(double[] conservativeVars) {
+        // double p_beta = conservativeVars[0];
+        double u = conservativeVars[1];
+        double v = conservativeVars[2];
+        double w = conservativeVars[3];
+        return new double[]{
+                0, u, v, w
         };
     }
 

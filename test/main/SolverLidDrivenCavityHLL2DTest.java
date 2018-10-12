@@ -146,7 +146,7 @@ public class SolverLidDrivenCavityHLL2DTest {
     @Test
     public void solver() {
         Mesh mesh = problem.mesh();
-        problem.solutionInitializer().initialize(mesh);
+        problem.solutionInitializer().initialize(mesh, problem.govEqn());
 
         TimeIntegrator timeIntegrator = problem.timeIntegrator();
         timeIntegrator.setCourantNum(1.0);

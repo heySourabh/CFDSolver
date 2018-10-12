@@ -143,7 +143,7 @@ public class SolverTransientLidDrivenCavity2DTest {
     @Test
     public void solver() throws IOException {
         Mesh mesh = problem.mesh();
-        problem.solutionInitializer().initialize(mesh);
+        problem.solutionInitializer().initialize(mesh, problem.govEqn());
 
         TimeIntegrator timeIntegrator = problem.timeIntegrator();
         timeIntegrator.setCourantNum(1.0);
@@ -156,10 +156,10 @@ public class SolverTransientLidDrivenCavity2DTest {
         int numRealIter = 100;
 
         int[] expectedPseudoIterations = {
-                105, 93, 83, 76, 69, 65, 66, 67, 67, 67, 67, 66, 64, 62, 60, 56, 52, 54, 60, 62, 63, 62, 61, 58, 55,
-                51, 46, 40, 37, 36, 41, 47, 49, 49, 48, 46, 44, 41, 37, 32, 26, 25, 26, 37, 39, 40, 39, 38, 36, 33,
-                29, 24, 20, 16, 15, 14, 25, 29, 31, 31, 30, 28, 26, 23, 20, 16, 11, 8, 8, 7, 7, 11, 18, 22, 23, 23,
-                22, 21, 19, 17, 14, 11, 8, 6, 4, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+                598, 396, 424, 348, 305, 271, 238, 210, 185, 164, 148, 134, 119, 110, 101, 93, 86, 81, 77, 72, 69,
+                65, 62, 59, 56, 53, 50, 47, 44, 41, 38, 35, 32, 30, 25, 27, 15, 26, 13, 14, 21, 11, 11, 10, 10, 9,
+                9, 8, 8, 7, 7, 7, 6, 6, 5, 5, 5, 5, 4, 4, 4, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1,
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
         };
 
         int[] actualPseudoIterations = new int[numRealIter];

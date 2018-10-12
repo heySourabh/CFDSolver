@@ -139,7 +139,7 @@ public class Solver1DScalarAdvectionTest {
         ProblemDefinition problem = testProblem;
         Mesh mesh = problem.mesh();
 
-        problem.solutionInitializer().initialize(mesh);
+        problem.solutionInitializer().initialize(mesh, problem.govEqn());
         double[] initU = mesh.cellStream()
                 .mapToDouble(cell -> cell.U[0])
                 .toArray();

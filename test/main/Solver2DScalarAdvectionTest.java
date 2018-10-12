@@ -152,7 +152,7 @@ public class Solver2DScalarAdvectionTest {
         ProblemDefinition problem = testProblem;
         Mesh mesh = testProblem.mesh();
 
-        problem.solutionInitializer().initialize(mesh);
+        problem.solutionInitializer().initialize(mesh, problem.govEqn());
 
         double[][] initU = new double[xi - 1][eta - 1];
         double dx = (maxX - minX) / (xi - 1);

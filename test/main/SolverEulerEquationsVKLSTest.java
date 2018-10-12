@@ -122,7 +122,7 @@ public class SolverEulerEquationsVKLSTest {
     public void solver() {
         ProblemDefinition problem = testProblem;
         Mesh mesh = problem.mesh();
-        problem.solutionInitializer().initialize(mesh);
+        problem.solutionInitializer().initialize(mesh, problem.govEqn());
         TimeIntegrator timeIntegrator = problem.timeIntegrator();
         Config config = problem.config();
         boolean converged = false;

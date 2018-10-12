@@ -123,7 +123,7 @@ public class Solver1DScalarDiffusionTest {
     @Test
     public void solver() {
         Mesh mesh = problem.mesh();
-        problem.solutionInitializer().initialize(mesh);
+        problem.solutionInitializer().initialize(mesh, problem.govEqn());
 
         TimeIntegrator timeIntegrator = problem.timeIntegrator();
         timeIntegrator.setCourantNum(courantNumber);

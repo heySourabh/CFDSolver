@@ -104,7 +104,7 @@ public class SolverEulerEquations1Test {
         BoundaryCondition bc = new ExtrapolatedBC(govEqn);
         Mesh mesh = problem.mesh();
         mesh.boundaryStream().forEach(bnd -> bnd.setBC(bc));
-        problem.solutionInitializer().initialize(mesh);
+        problem.solutionInitializer().initialize(mesh, problem.govEqn());
         TimeIntegrator timeIntegrator = problem.timeIntegrator();
         Config config = problem.config();
 
