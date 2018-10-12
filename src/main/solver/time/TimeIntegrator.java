@@ -7,5 +7,7 @@ public interface TimeIntegrator {
 
     void setCourantNum(double courantNum);
 
+    void setTimeDiscretization(TimeDiscretization timeDiscretization);
+
     double[] currentTotalResidual(Norm norm);
 }

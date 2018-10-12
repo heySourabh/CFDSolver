@@ -30,7 +30,7 @@ public class LocalTimeStepTest {
     public void timeStepWithOnlyConvection() throws IOException {
         Mesh mesh = mesh();
         TimeStep timeStep = new LocalTimeStep(mesh, convectiveGovEqn);
-        timeStep.updateCellTimeSteps(courantNumber);
+        timeStep.updateCellTimeSteps(courantNumber, Double.POSITIVE_INFINITY);
 
         for (Cell cell : mesh.cells()) {
             double expected_dt = expectedTimeStepWithOnlyConvection(cell.shape.volume, cell.faces);
@@ -44,7 +44,7 @@ public class LocalTimeStepTest {
     public void timeStepWithOnlyDiffusion() throws IOException {
         Mesh mesh = mesh();
         TimeStep timeStep = new LocalTimeStep(mesh, diffusionGovEqn);
-        timeStep.updateCellTimeSteps(courantNumber);
+        timeStep.updateCellTimeSteps(courantNumber, Double.POSITIVE_INFINITY);
 
         for (Cell cell : mesh.cells()) {
             double expected_dt = expectedTimeStepWithOnlyDiffusion(cell.shape.volume, cell.faces);

@@ -14,9 +14,9 @@ public class GlobalTimeStep implements TimeStep {
     }
 
     @Override
-    public void updateCellTimeSteps(double courantNum) {
+    public void updateCellTimeSteps(double courantNum, double timeStepLimit) {
         // Calculate the local dt
-        localTimeStep.updateCellTimeSteps(courantNum);
+        localTimeStep.updateCellTimeSteps(courantNum, timeStepLimit);
 
         // Calculate minimum time step in the entire domain
         double minTimeStep = mesh.cellStream()

@@ -16,7 +16,7 @@ public class LocalTimeStep implements TimeStep {
     }
 
     @Override
-    public void updateCellTimeSteps(double courantNum) {
+    public void updateCellTimeSteps(double courantNum, double timeStepLimit) {
         // Go through all the internal faces and save maxAbsEigenvalue
         mesh.internalFaceStream()
                 .forEach(this::updateEigenvalue);
@@ -27,10 +27,10 @@ public class LocalTimeStep implements TimeStep {
 
         // Go through all the cells and save the time step scaled by Courant number
         mesh.cellStream()
-                .forEach(cell -> updateTimeStep(cell, courantNum));
+                .forEach(cell -> updateTimeStep(cell, courantNum, timeStepLimit));
     }
 
-    private void updateTimeStep(Cell cell, double courantNum) {
+    private void updateTimeStep(Cell cell, double courantNum, double timeStepLimit) {
         // Convection spectral radius
         double spectralRadiusConvection = 0.0;
         for (Face face : cell.faces) {
@@ -50,7 +50,9 @@ public class LocalTimeStep implements TimeStep {
         spectralRadiusDiffusion /= volume;
 
         double C = 4.0; // Constant multiplying diffusion spectral radius, 4 for central discretization
-        cell.dt = courantNum * (volume / (spectralRadiusConvection + C * spectralRadiusDiffusion));
+        double dt = courantNum * (volume / (spectralRadiusConvection + C * spectralRadiusDiffusion));
+
+        cell.dt = Math.min(dt, timeStepLimit);
     }
 
     private void updateEigenvalue(Face face) {
