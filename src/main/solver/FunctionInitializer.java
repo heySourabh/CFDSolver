@@ -23,5 +23,6 @@ public class FunctionInitializer implements SolutionInitializer {
     private void initialize(Cell cell) {
         double[] vars = f.apply(cell.shape.centroid);
         DoubleArray.copy(vars, cell.U);
+        DoubleArray.copy(vars, cell.Wn);
     }
 }
