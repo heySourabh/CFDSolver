@@ -15,18 +15,17 @@ public class ExplicitEulerTimeIntegrator implements TimeIntegrator {
     private final Mesh mesh;
     private final SpaceDiscretization spaceDiscretization;
     private final int numVars;
-    private final int numCells;
     private final double[][] U;
     private final TimeStep timeStep;
     private double courantNum = 1.0; // default
-    private TimeDiscretization timeDiscretization = null; // default
+    private TimeDiscretization realTimeDiscretization = null; // default
 
     public ExplicitEulerTimeIntegrator(Mesh mesh, SpaceDiscretization spaceDiscretization, TimeStep timeStep, int numVars) {
         this.mesh = mesh;
         this.spaceDiscretization = spaceDiscretization;
         this.timeStep = timeStep;
         this.numVars = numVars;
-        this.numCells = mesh.cells().size();
+        int numCells = mesh.cells().size();
         this.U = new double[numCells][numVars];
     }
 
@@ -37,19 +36,14 @@ public class ExplicitEulerTimeIntegrator implements TimeIntegrator {
 
     @Override
     public void setTimeDiscretization(TimeDiscretization timeDiscretization) {
-        this.timeDiscretization = timeDiscretization;
+        this.realTimeDiscretization = timeDiscretization;
     }
 
     @Override
     public void updateCellAverages() {
         saveCurrentAverages();
-        spaceDiscretization.setResiduals();
-        if (timeDiscretization != null)
-            timeDiscretization.updateCellResiduals();
-        double real_dt = timeDiscretization != null
-                ? timeDiscretization.dt()
-                : Double.POSITIVE_INFINITY;
-        timeStep.updateCellTimeSteps(courantNum, real_dt * 0.66);
+        setResidualForAllCells();
+        setTimeStepForAllCells();
         calculateNewAverages();
     }
 
@@ -61,6 +55,7 @@ public class ExplicitEulerTimeIntegrator implements TimeIntegrator {
                 .map(cell -> apply(cell.U, U[cell.index()], (e1, e2) -> (e1 - e2) / cell.dt))
                 .map(DoubleArray::abs);
 
+        int numCells = mesh.cells().size();
         double[] totalResidue;
         switch (norm) {
             case ONE_NORM:
@@ -102,6 +97,19 @@ public class ExplicitEulerTimeIntegrator implements TimeIntegrator {
 
     private void saveCurrentAverages() {
         mesh.cellStream().forEach(cell -> copy(cell.U, U[cell.index()]));
+    }
+
+    private void setResidualForAllCells() {
+        spaceDiscretization.setResiduals();
+        if (realTimeDiscretization != null)
+            realTimeDiscretization.updateCellResiduals();
+    }
+
+    private void setTimeStepForAllCells() {
+        double real_dt = realTimeDiscretization != null
+                ? realTimeDiscretization.dt()
+                : Double.POSITIVE_INFINITY;
+        timeStep.updateCellTimeSteps(courantNum, real_dt * 0.66);
     }
 
     private void calculateNewAverages() {
