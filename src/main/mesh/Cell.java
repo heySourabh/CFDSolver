@@ -1,6 +1,7 @@
 package main.mesh;
 
 import main.geom.VTKType;
+import main.geom.Vector;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +18,8 @@ public class Cell {
     public final Shape shape;
 
     public final double[] U;
+    public final Vector[] gradientU;
+
     public final double[] Wn;
     public final double[] Wnm1;
     public final double[] residual;
@@ -35,6 +38,8 @@ public class Cell {
         this.shape = shape;
 
         this.U = new double[numVars];
+        this.gradientU = new Vector[numVars];
+
         this.Wn = new double[numVars];
         this.Wnm1 = new double[numVars];
 
