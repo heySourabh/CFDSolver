@@ -155,7 +155,7 @@ public class LeastSquareFaceInterpolationTest {
         for (Face face : centralCellFaces) {
             assertArrayEquals(constU, face.U, 1e-12);
             for (int var = 0; var < numVars; var++) {
-                assertVectorEquals(new Vector(0, 0, 0), face.gradient[var], 1e-12);
+                assertVectorEquals(new Vector(0, 0, 0), face.gradientU[var], 1e-12);
             }
         }
     }
@@ -185,7 +185,7 @@ public class LeastSquareFaceInterpolationTest {
             assertArrayEquals(calculateValue(p0, U0, gradients, face.surface.centroid), face.U, 1e-12);
             for (int var = 0; var < numVars; var++) {
                 Vector expectedPlanarGradient = removeVectorComponent(gradients[var], planarNormal);
-                assertVectorEquals(expectedPlanarGradient, face.gradient[var], 1e-12);
+                assertVectorEquals(expectedPlanarGradient, face.gradientU[var], 1e-12);
             }
         }
     }
@@ -213,7 +213,7 @@ public class LeastSquareFaceInterpolationTest {
         for (Face face : centralCellFaces) {
             assertArrayEquals(calculateValue(p0, U0, gradients, face.surface.centroid), face.U, 1e-12);
             for (int var = 0; var < numVars; var++) {
-                assertVectorEquals(gradients[var], face.gradient[var], 1e-12);
+                assertVectorEquals(gradients[var], face.gradientU[var], 1e-12);
             }
         }
     }

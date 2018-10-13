@@ -150,6 +150,6 @@ public class LeastSquareFaceInterpolation {
         double[] solution = DoubleMatrix.multiply(inverseMatrix[index], U);
 
         face.U[var] = solution[0];
-        face.gradient[var] = new Vector(solution[1], solution[2], solution[3]);
+        face.gradientU[var] = new Vector(solution[1], solution[2], solution[3]);
     }
 }

@@ -35,7 +35,7 @@ public class DiffusionResidual implements ResidualCalculator {
     }
 
     private void setFlux(Face face) {
-        double[] flux = govEqn.diffusion().flux(face.U, face.gradient, face.surface.unitNormal);
+        double[] flux = govEqn.diffusion().flux(face.U, face.gradientU, face.surface.unitNormal);
         copy(flux, face.flux);
     }
 
