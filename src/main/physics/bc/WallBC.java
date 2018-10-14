@@ -38,12 +38,12 @@ public class WallBC implements BoundaryCondition {
     @Override
     public double[] convectiveFlux(Face face) {
         // u, v, w defined by the velocity of the wall, p defined by the inside cell
-        double p_rho = face.left.U[0];
+        double p_beta = face.left.U[0];
         double u = this.wallVelocity.x;
         double v = this.wallVelocity.y;
         double w = this.wallVelocity.z;
 
-        double[] conservativeVars = {p_rho, u, v, w};
+        double[] conservativeVars = {p_beta, u, v, w};
 
         return govEqn.convection().flux(conservativeVars, face.surface.unitNormal);
     }
