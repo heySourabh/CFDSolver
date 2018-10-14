@@ -39,7 +39,7 @@ public class SourceResidualTest {
         for (Cell cell : mesh.cells()) {
             double[] expectedSource = new double[govEqn.numVars()];
             for (int i = 0; i < expectedSource.length; i++) {
-                expectedSource[i] = test_source(cell.U, cell.gradientU)[i] * cell.shape.volume;
+                expectedSource[i] = -test_source(cell.U, cell.gradientU)[i] * cell.shape.volume;
             }
 
             Assert.assertArrayEquals(expectedSource, cell.residual, 1e-15);
