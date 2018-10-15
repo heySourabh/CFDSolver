@@ -55,8 +55,8 @@ public class LeastSquareCellGradient implements CellGradientCalculator {
 
         RealMatrix A = new Array2DRowRealMatrix(neighs.size(), 3);
         for (int i = 0; i < neighs.size(); i++) {
-            Vector r = distances[i].mult(weights[i]);
-            A.setRow(i, new double[]{r.x, r.y, r.z});
+            Vector rw = distances[i].mult(weights[i]);
+            A.setRow(i, new double[]{rw.x, rw.y, rw.z});
         }
 
         return invert(A).multiply(new DiagonalMatrix(weights))

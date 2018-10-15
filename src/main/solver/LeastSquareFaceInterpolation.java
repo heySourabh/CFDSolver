@@ -93,8 +93,8 @@ public class LeastSquareFaceInterpolation {
 
         RealMatrix A = new Array2DRowRealMatrix(neighs.length, 4);
         for (int i = 0; i < neighs.length; i++) {
-            Vector r = distances[i].mult(weights[i]);
-            A.setRow(i, new double[]{weights[i], r.x, r.y, r.z});
+            Vector rw = distances[i].mult(weights[i]);
+            A.setRow(i, new double[]{weights[i], rw.x, rw.y, rw.z});
         }
 
         return invert(A).multiply(new DiagonalMatrix(weights))
