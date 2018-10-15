@@ -6,7 +6,7 @@ import main.mesh.Mesh;
 import main.mesh.factory.Structured2DMesh;
 import main.physics.bc.BoundaryCondition;
 import main.physics.bc.WallBC;
-import main.physics.goveqn.ArtificialCompressibilityEquations;
+import main.physics.goveqn.factory.ArtificialCompressibilityEquations;
 import main.physics.goveqn.GoverningEquations;
 import main.solver.*;
 import main.solver.convection.ConvectionResidual;

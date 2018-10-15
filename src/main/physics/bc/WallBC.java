@@ -2,7 +2,7 @@ package main.physics.bc;
 
 import main.geom.Vector;
 import main.mesh.Face;
-import main.physics.goveqn.ArtificialCompressibilityEquations;
+import main.physics.goveqn.factory.ArtificialCompressibilityEquations;
 import main.util.DoubleArray;
 
 public class WallBC implements BoundaryCondition {

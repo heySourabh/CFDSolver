@@ -1,6 +1,7 @@
 package main.physics.goveqn;
 
 import main.geom.Vector;
+import main.physics.goveqn.factory.ArtificialCompressibilityEquations;
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
