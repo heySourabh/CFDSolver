@@ -117,7 +117,7 @@ public class ArtificialCompressibilityEquationsTest {
                 F[3] * dir.x + G[3] * dir.y + H[3] * dir.z
         };
 
-        assertArrayEquals(expectedFlux, govEqn.convection().flux(conservativeVars, dir), 1e-15);
+        assertArrayEquals(expectedFlux, govEqn.convection().flux(conservativeVars, dir), 1e-12);
 
         double vel = u * dir.x + v * dir.y + w * dir.z;
         double a = Math.sqrt(vel * vel + beta / rho);

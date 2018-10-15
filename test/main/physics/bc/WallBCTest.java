@@ -97,6 +97,6 @@ public class WallBCTest {
                 4654 / 2.6 * faceNormal.z
         };
 
-        assertArrayEquals(expectedFlux, bc.convectiveFlux(face), 1e-15);
+        assertArrayEquals(expectedFlux, bc.convectiveFlux(face), 1e-12);
     }
 }

@@ -303,7 +303,7 @@ public class ArtificialCompressibilityVOFEquationsTest {
         for (int var = 0; var < govEqn.numVars(); var++) {
             expectedFlux[var] = F[var] * n.x + G[var] * n.y + H[var] * n.z;
         }
-        assertArrayEquals(expectedFlux, govEqn.convection().flux(conservativeVars, n), 1e-15);
+        assertArrayEquals(expectedFlux, govEqn.convection().flux(conservativeVars, n), 1e-8);
 
         // eigenvalues
         double Vp = u * n.x + v * n.y + w * n.z;

@@ -119,39 +119,20 @@ public class EulerEquations implements GoverningEquations {
             double rhoE = conservativeVars[4];
             double rhoE_plus_p = rhoE + p;
 
-            double[] F = {
-                    rho * u,
-                    rho * u * u + p,
-                    rho * u * v,
-                    rho * u * w,
-                    rhoE_plus_p * u
-            };
-
-            double[] G = {
-                    rho * v,
-                    rho * u * v,
-                    rho * v * v + p,
-                    rho * v * w,
-                    rhoE_plus_p * v
-            };
-
-            double[] H = {
-                    rho * w,
-                    rho * u * w,
-                    rho * v * w,
-                    rho * w * w + p,
-                    rhoE_plus_p * w
-            };
-
             double nx = unitNormal.x;
             double ny = unitNormal.y;
             double nz = unitNormal.z;
-            double[] flux = new double[F.length];
-            for (int i = 0; i < F.length; i++) {
-                flux[i] = F[i] * nx + G[i] * ny + H[i] * nz;
-            }
 
-            return flux;
+            double Vp = u * nx + v * ny + w * nz;
+            double rhoVp = rho * Vp;
+
+            return new double[]{
+                    rhoVp,
+                    rhoVp * u + p * nx,
+                    rhoVp * v + p * ny,
+                    rhoVp * w + p * nz,
+                    rhoE_plus_p * Vp
+            };
         }
 
         @Override

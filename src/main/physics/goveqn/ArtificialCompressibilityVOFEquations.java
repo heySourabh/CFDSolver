@@ -126,39 +126,28 @@ public class ArtificialCompressibilityVOFEquations implements GoverningEquations
     private final Convection convection = new Convection() {
         @Override
         public double[] flux(double[] conservativeVars, Vector unitNormal) {
-
-            //double p_rho_beta = conservativeVars[0];
-            double rhou = conservativeVars[1];
-            double rhov = conservativeVars[2];
-            double rhow = conservativeVars[3];
-            double C = conservativeVars[4];
-
             double[] primitiveVars = primitiveVars(conservativeVars);
             double p = primitiveVars[0];
             double u = primitiveVars[1];
             double v = primitiveVars[2];
             double w = primitiveVars[3];
-
-            double rho_uu = rhou * u;
-            double rho_uv = rhou * v;
-            double rho_uw = rhou * w;
-            double rho_vv = rhov * v;
-            double rho_vw = rhov * w;
-            double rho_ww = rhow * w;
-            double Cu = C * u;
-            double Cv = C * v;
-            double Cw = C * w;
+            double C = primitiveVars[4];
 
             double nx = unitNormal.x;
             double ny = unitNormal.y;
             double nz = unitNormal.z;
 
+            double rho = rho(C);
+
+            double Vp = u * nx + v * ny + w * nz;
+            double rhoVp = rho * Vp;
+
             return new double[]{
-                    u * nx + v * ny + w * nz,
-                    (rho_uu + p) * nx + rho_uv * ny + rho_uw * nz,
-                    rho_uv * nx + (rho_vv + p) * ny + rho_vw * nz,
-                    rho_uw * nx + rho_vw * ny + (rho_ww + p) * nz,
-                    Cu * nx + Cv * ny + Cw * nz
+                    Vp,
+                    u * rhoVp + p * nx,
+                    v * rhoVp + p * ny,
+                    w * rhoVp + p * nz,
+                    C * Vp
             };
         }
 

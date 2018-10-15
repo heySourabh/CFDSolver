@@ -96,22 +96,18 @@ public class ArtificialCompressibilityEquations implements GoverningEquations {
             double w = primitiveVars[3];
 
             double p_rho = p / RHO;
-            double uSqr = u * u;
-            double vSqr = v * v;
-            double wSqr = w * w;
-            double uv = u * v;
-            double uw = u * w;
-            double vw = v * w;
 
             double nx = unitNormal.x;
             double ny = unitNormal.y;
             double nz = unitNormal.z;
 
+            double Vp = u * nx + v * ny + w * nz;
+
             return new double[]{
-                    u * nx + v * ny + w * nz,
-                    (uSqr + p_rho) * nx + uv * ny + uw * nz,
-                    uv * nx + (vSqr + p_rho) * ny + vw * nz,
-                    uw * nx + vw * ny + (wSqr + p_rho) * nz
+                    Vp,
+                    u * Vp + p_rho * nx,
+                    v * Vp + p_rho * ny,
+                    w * Vp + p_rho * nz
             };
         }
 
