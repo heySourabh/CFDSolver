@@ -79,6 +79,6 @@ public class WallVOFBCTest {
             expectedFlux[var] = F[var] * n.x + G[var] * n.y + H[var] * n.z;
         }
 
-        assertArrayEquals(expectedFlux, bc.convectiveFlux(face), 1e-15);
+        assertArrayEquals(expectedFlux, bc.convectiveFlux(face), 1e-12);
     }
 }
