@@ -32,6 +32,7 @@ public class TwoPointTimeDiscretization implements TimeDiscretization {
     }
 
     private void shiftSolution(Cell cell) {
+        DoubleArray.copy(cell.Wn, cell.Wnm1);
         DoubleArray.copy(govEqn.realVars(cell.U), cell.Wn);
     }
 
