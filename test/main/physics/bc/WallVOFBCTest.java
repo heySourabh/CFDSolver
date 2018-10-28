@@ -15,8 +15,9 @@ public class WallVOFBCTest {
 
     @Test
     public void setGhostCellValues() {
+        double beta = 500;
         ArtificialCompressibilityVOFEquations govEqn = new ArtificialCompressibilityVOFEquations(
-                100, 200, 1e-5, 5e-4, new Vector(1, 2, 3));
+                100, 200, 1e-5, 5e-4, new Vector(1, 2, 3), beta);
 
         Vector wallVelocity = new Vector(1, -4, 5);
         double[] insidePrimitiveVars = {
@@ -39,8 +40,9 @@ public class WallVOFBCTest {
 
     @Test
     public void convectiveFlux() {
+        double beta = 500;
         ArtificialCompressibilityVOFEquations govEqn = new ArtificialCompressibilityVOFEquations(
-                100, 200, 1e-5, 5e-4, new Vector(1, 2, 3));
+                100, 200, 1e-5, 5e-4, new Vector(1, 2, 3), beta);
 
         Vector wallVelocity = new Vector(1, -4, 5);
         double pi = 1254;
