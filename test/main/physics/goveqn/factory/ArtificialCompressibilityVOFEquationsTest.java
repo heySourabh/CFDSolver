@@ -1,16 +1,38 @@
-package main.physics.goveqn;
+package main.physics.goveqn.factory;
 
 import main.geom.Vector;
-import main.physics.goveqn.factory.ArtificialCompressibilityVOFEquations;
 import org.junit.Test;
 
 import java.util.Arrays;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 public class ArtificialCompressibilityVOFEquationsTest {
+
+    private final double BETA = 1.2;
+
+    @Test
+    public void beta() {
+        double p = 100;
+        double u = 50;
+        double v = -98;
+        double w = 1;
+        double C = 0.8;
+
+        double rho1 = 450;
+        double rho2 = 100;
+
+        double mu1 = 1e-3;
+        double mu2 = 2.5e-3;
+
+        Vector gravity = new Vector(-1, -5, 3.0);
+
+        ArtificialCompressibilityVOFEquations govEqn
+                = new ArtificialCompressibilityVOFEquations(rho1, mu1, rho2, mu2, gravity, BETA);
+
+        assertEquals(BETA, govEqn.beta(), 1e-15);
+    }
 
     @Test
     public void rho() {
@@ -19,7 +41,7 @@ public class ArtificialCompressibilityVOFEquationsTest {
         double rho2 = 200;
 
         ArtificialCompressibilityVOFEquations govEqn = new ArtificialCompressibilityVOFEquations(
-                rho1, 0, rho2, 0, new Vector(0, 0, 0));
+                rho1, 0, rho2, 0, new Vector(0, 0, 0), BETA);
 
         double C = 1.0;
         assertEquals(100, govEqn.rho(C), 1e-15);
@@ -45,7 +67,7 @@ public class ArtificialCompressibilityVOFEquationsTest {
         rho2 = 100;
 
         govEqn = new ArtificialCompressibilityVOFEquations(
-                rho1, 0, rho2, 0, new Vector(0, 0, 0));
+                rho1, 0, rho2, 0, new Vector(0, 0, 0), BETA);
 
         C = 1.0;
         assertEquals(200, govEqn.rho(C), 1e-15);
@@ -73,7 +95,7 @@ public class ArtificialCompressibilityVOFEquationsTest {
         double mu2 = 2e-2;
 
         ArtificialCompressibilityVOFEquations govEqn = new ArtificialCompressibilityVOFEquations(
-                0, mu1, 0, mu2, new Vector(0, 0, 0));
+                0, mu1, 0, mu2, new Vector(0, 0, 0), BETA);
 
         double C = 1.0;
         assertEquals(mu1, govEqn.mu(C), 1e-15);
@@ -99,7 +121,7 @@ public class ArtificialCompressibilityVOFEquationsTest {
         mu2 = 1e-2;
 
         govEqn = new ArtificialCompressibilityVOFEquations(
-                0, mu1, 0, mu2, new Vector(0, 0, 0));
+                0, mu1, 0, mu2, new Vector(0, 0, 0), BETA);
 
         C = 1.0;
         assertEquals(mu1, govEqn.mu(C), 1e-15);
@@ -123,7 +145,7 @@ public class ArtificialCompressibilityVOFEquationsTest {
     @Test
     public void description() {
         ArtificialCompressibilityVOFEquations govEqn = new ArtificialCompressibilityVOFEquations(
-                0, 0, 0, 0, null);
+                0, 0, 0, 0, null, BETA);
         assertEquals("Artificial compressibility equations " +
                         "for simulating flows with two fluids having different density and viscosity.",
                 govEqn.description());
@@ -132,14 +154,14 @@ public class ArtificialCompressibilityVOFEquationsTest {
     @Test
     public void numVars() {
         ArtificialCompressibilityVOFEquations govEqn = new ArtificialCompressibilityVOFEquations(
-                0, 0, 0, 0, null);
+                0, 0, 0, 0, null, BETA);
         assertEquals(5, govEqn.numVars());
     }
 
     @Test
     public void conservativeVarNames() {
         ArtificialCompressibilityVOFEquations govEqn = new ArtificialCompressibilityVOFEquations(
-                0, 0, 0, 0, null);
+                0, 0, 0, 0, null, BETA);
         assertArrayEquals(new String[]{
                 "p/(rho beta)", "rho u", "rho v", "rho w", "C"
         }, govEqn.conservativeVarNames());
@@ -148,7 +170,7 @@ public class ArtificialCompressibilityVOFEquationsTest {
     @Test
     public void primitiveVarNames() {
         ArtificialCompressibilityVOFEquations govEqn = new ArtificialCompressibilityVOFEquations(
-                0, 0, 0, 0, null);
+                0, 0, 0, 0, null, BETA);
         assertArrayEquals(new String[]{
                 "p", "u", "v", "w", "C"
         }, govEqn.primitiveVarNames());
@@ -157,7 +179,7 @@ public class ArtificialCompressibilityVOFEquationsTest {
     @Test
     public void realVarNames() {
         ArtificialCompressibilityVOFEquations govEqn = new ArtificialCompressibilityVOFEquations(
-                0, 0, 0, 0, null);
+                0, 0, 0, 0, null, BETA);
         assertArrayEquals(new String[]{
                 "-", "rho u", "rho v", "rho w", "C"
         }, govEqn.realVarNames());
@@ -177,18 +199,16 @@ public class ArtificialCompressibilityVOFEquationsTest {
         double mu1 = 1e-3;
         double mu2 = 2.5e-3;
 
-        double beta = 1.0;
-
         Vector gravity = new Vector(-1, -5, 3.0);
 
         ArtificialCompressibilityVOFEquations govEqn
-                = new ArtificialCompressibilityVOFEquations(rho1, mu1, rho2, mu2, gravity);
+                = new ArtificialCompressibilityVOFEquations(rho1, mu1, rho2, mu2, gravity, BETA);
 
         double rho = govEqn.rho(C);
         double mu = govEqn.mu(C);
 
         double[] conservativeVars = {
-                p / beta / rho, rho * u, rho * v, rho * w, C
+                p / BETA / rho, rho * u, rho * v, rho * w, C
         };
 
         assertArrayEquals(new double[]{p, u, v, w, C}, govEqn.primitiveVars(conservativeVars), 1e-15);
@@ -208,18 +228,16 @@ public class ArtificialCompressibilityVOFEquationsTest {
         double mu1 = 1e-3;
         double mu2 = 2.5e-3;
 
-        double beta = 1.0;
-
         Vector gravity = new Vector(-1, -5, 3.0);
 
         ArtificialCompressibilityVOFEquations govEqn
-                = new ArtificialCompressibilityVOFEquations(rho1, mu1, rho2, mu2, gravity);
+                = new ArtificialCompressibilityVOFEquations(rho1, mu1, rho2, mu2, gravity, BETA);
 
         double rho = govEqn.rho(C);
         double mu = govEqn.mu(C);
 
         double[] expectedConservativeVars = {
-                p / beta / rho, rho * u, rho * v, rho * w, C
+                p / BETA / rho, rho * u, rho * v, rho * w, C
         };
 
         assertArrayEquals(expectedConservativeVars, govEqn.conservativeVars(new double[]{p, u, v, w, C}), 1e-15);
@@ -239,18 +257,16 @@ public class ArtificialCompressibilityVOFEquationsTest {
         double mu1 = 1e-3;
         double mu2 = 2.5e-3;
 
-        double beta = 1.0;
-
         Vector gravity = new Vector(-1, -5, 3.0);
 
         ArtificialCompressibilityVOFEquations govEqn
-                = new ArtificialCompressibilityVOFEquations(rho1, mu1, rho2, mu2, gravity);
+                = new ArtificialCompressibilityVOFEquations(rho1, mu1, rho2, mu2, gravity, BETA);
 
         double rho = govEqn.rho(C);
         double mu = govEqn.mu(C);
 
         double[] conservativeVars = {
-                p / beta / rho, rho * u, rho * v, rho * w, C
+                p / BETA / rho, rho * u, rho * v, rho * w, C
         };
 
         double[] expectedRealVars = {
@@ -274,12 +290,12 @@ public class ArtificialCompressibilityVOFEquationsTest {
         double mu1 = 1e-3;
         double mu2 = 2.5e-3;
 
-        double beta = 1.0;
+        double beta = BETA;
 
         Vector gravity = new Vector(-1, -5, 3.0);
 
         ArtificialCompressibilityVOFEquations govEqn
-                = new ArtificialCompressibilityVOFEquations(rho1, mu1, rho2, mu2, gravity);
+                = new ArtificialCompressibilityVOFEquations(rho1, mu1, rho2, mu2, gravity, BETA);
 
         double rho = govEqn.rho(C);
         double mu = govEqn.mu(C);
@@ -322,6 +338,37 @@ public class ArtificialCompressibilityVOFEquationsTest {
     }
 
     @Test
+    public void F() {
+        double p = 100;
+        double u = 50;
+        double v = -98;
+        double w = 1;
+        double C = 0.8;
+
+        double rho1 = 450;
+        double rho2 = 100;
+
+        double mu1 = 1e-3;
+        double mu2 = 2.5e-3;
+
+        Vector gravity = new Vector(-1, -5, 3.0);
+
+        ArtificialCompressibilityVOFEquations govEqn
+                = new ArtificialCompressibilityVOFEquations(rho1, mu1, rho2, mu2, gravity, BETA);
+
+        double rho = govEqn.rho(C);
+        double mu = govEqn.mu(C);
+
+        double[] conservativeVars = {
+                p / BETA / rho, rho * u, rho * v, rho * w, C
+        };
+
+        double[] expectedF = govEqn.convection().flux(conservativeVars, new Vector(1, 0, 0));
+
+        assertArrayEquals(expectedF, govEqn.F(conservativeVars), 1e-15);
+    }
+
+    @Test
     public void diffusion() {
         double p = 100;
         double u = 50;
@@ -335,18 +382,16 @@ public class ArtificialCompressibilityVOFEquationsTest {
         double mu1 = 1e-3;
         double mu2 = 2.5e-3;
 
-        double beta = 1.0;
-
         Vector gravity = new Vector(-1, -5, 3.0);
 
         ArtificialCompressibilityVOFEquations govEqn
-                = new ArtificialCompressibilityVOFEquations(rho1, mu1, rho2, mu2, gravity);
+                = new ArtificialCompressibilityVOFEquations(rho1, mu1, rho2, mu2, gravity, BETA);
 
         double rho = govEqn.rho(C);
         double mu = govEqn.mu(C);
 
         double[] conservativeVars = {
-                p / beta / rho, rho * u, rho * v, rho * w, C
+                p / BETA / rho, rho * u, rho * v, rho * w, C
         };
 
         Vector n = new Vector(1, -5, 7).unit();
@@ -451,18 +496,16 @@ public class ArtificialCompressibilityVOFEquationsTest {
         double mu1 = 1e-3;
         double mu2 = 2.5e-3;
 
-        double beta = 1.0;
-
         Vector gravity = new Vector(-1, -5, 3.0);
 
         ArtificialCompressibilityVOFEquations govEqn
-                = new ArtificialCompressibilityVOFEquations(rho1, mu1, rho2, mu2, gravity);
+                = new ArtificialCompressibilityVOFEquations(rho1, mu1, rho2, mu2, gravity, BETA);
 
         double rho = govEqn.rho(C);
         double mu = govEqn.mu(C);
 
         double[] conservativeVars = {
-                p / beta / rho, rho * u, rho * v, rho * w, C
+                p / BETA / rho, rho * u, rho * v, rho * w, C
         };
 
         Vector n = new Vector(1, -5, 7).unit();

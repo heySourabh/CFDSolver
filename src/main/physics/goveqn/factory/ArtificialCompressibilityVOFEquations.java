@@ -18,7 +18,7 @@ public class ArtificialCompressibilityVOFEquations implements GoverningEquations
 
     public ArtificialCompressibilityVOFEquations(double density1, double dynamicViscosity1,
                                                  double density2, double dynamicViscosity2,
-                                                 Vector gravity) {
+                                                 Vector gravity, double beta) {
         this.RHO1 = density1;
         this.RHO2 = density2;
         this.RHO1_MINUS_RHO2 = this.RHO1 - this.RHO2;
@@ -26,7 +26,15 @@ public class ArtificialCompressibilityVOFEquations implements GoverningEquations
         this.MU2 = dynamicViscosity2;
         this.MU1_MINUS_M2 = this.MU1 - this.MU2;
         GRAVITY = gravity;
-        this.BETA = 1.0;
+        this.BETA = beta;
+    }
+
+    public double beta() {
+        return BETA;
+    }
+
+    public double rho1_minus_rho2() {
+        return RHO1_MINUS_RHO2;
     }
 
     public double rho(double C) {
@@ -105,13 +113,13 @@ public class ArtificialCompressibilityVOFEquations implements GoverningEquations
 
         double rho = rho(C);
 
-        double p_beta_rho = p / BETA / rho;
+        double p_rho_beta = p / rho / BETA;
         double rhou = rho * u;
         double rhov = rho * v;
         double rhow = rho * w;
 
         return new double[]{
-                p_beta_rho, rhou, rhov, rhow, C
+                p_rho_beta, rhou, rhov, rhow, C
         };
     }
 
@@ -195,6 +203,21 @@ public class ArtificialCompressibilityVOFEquations implements GoverningEquations
             return Math.abs(Vp) + a;
         }
     };
+
+    public double[] F(double[] conservativeVars) {
+        double[] primitiveVars = primitiveVars(conservativeVars);
+        double p = primitiveVars[0];
+        double u = primitiveVars[1];
+        double v = primitiveVars[2];
+        double w = primitiveVars[3];
+        double C = primitiveVars[4];
+
+        double rhou = conservativeVars[1];
+
+        return new double[]{
+                u, rhou * u + p, rhou * v, rhou * w, u * C
+        };
+    }
 
     @Override
     public Convection convection() {
