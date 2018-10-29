@@ -1,17 +1,21 @@
 package main.solver;
 
 import main.geom.Point;
+import main.geom.VTKType;
 import main.geom.Vector;
+import main.geom.factory.Polygon;
 import main.mesh.*;
 import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.factory.EulerEquations;
+import main.physics.goveqn.factory.ScalarDiffusion;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
-import static org.junit.Assert.*;
+import static java.lang.Math.*;
+import static org.junit.Assert.assertArrayEquals;
 
 public class FunctionInitializerTest {
 
@@ -63,6 +67,69 @@ public class FunctionInitializerTest {
         for (Cell cell : cells) {
             assertArrayEquals(conservativeVars, cell.U, 1e-12);
         }
+    }
+
+    @Test
+    public void initialize_quad_with_varying_function() {
+        Function<Point, double[]> f = p -> new double[]{sin(p.x) + cos(p.y) + 2.0};
+        GoverningEquations govEqn = new ScalarDiffusion(0.145);
+        int numVars = govEqn.numVars();
+        Node n1 = new Node(0, 0, 0, numVars);
+        Node n2 = new Node(PI, 0, 0, numVars);
+        Node n3 = new Node(PI, PI, 0, numVars);
+        Node n4 = new Node(0, PI, 0, numVars);
+        Shape shape = new Shape(PI * PI, null);
+        Cell cell = new Cell(new Node[]{n1, n2, n3, n4}, VTKType.VTK_QUAD, shape, numVars);
+        Mesh mesh = createMesh(cell);
+
+        SolutionInitializer initializer = new FunctionInitializer(f);
+        initializer.initialize(mesh, govEqn);
+
+        double[] expectedValue = {2.6372747421591165}; // Calculated using simple code for square
+        assertArrayEquals(expectedValue, cell.U, 1e-12);
+    }
+
+    @Test
+    public void initialize_tri_with_varying_function() {
+        Function<Point, double[]> f = p -> new double[]{sin(p.x) + cos(p.y) + 2.0};
+        GoverningEquations govEqn = new ScalarDiffusion(0.145);
+        int numVars = govEqn.numVars();
+        Node n1 = new Node(0, 0, 0, numVars);
+        Node n2 = new Node(PI, 0, 0, numVars);
+        Node n3 = new Node(PI, PI, 0, numVars);
+        Shape shape = new Shape(PI * PI / 2, null);
+        Cell cell = new Cell(new Node[]{n1, n2, n3}, VTKType.VTK_TRIANGLE, shape, numVars);
+        Mesh mesh = createMesh(cell);
+
+        SolutionInitializer initializer = new FunctionInitializer(f);
+        initializer.initialize(mesh, govEqn);
+
+        double[] expectedValue = {3.0421834976763016}; // Calculated using simple code for triangle, 5 levels
+        assertArrayEquals(expectedValue, cell.U, 1e-15);
+    }
+
+    @Test
+    public void initialize_geometry_with_varying_function() {
+        Function<Point, double[]> f = p -> new double[]{sin(p.x) + cos(p.y) + 2.0};
+        GoverningEquations govEqn = new ScalarDiffusion(0.145);
+        int numVars = govEqn.numVars();
+        Node n1 = new Node(0, 0, 0, numVars);
+        Node n2 = new Node(PI, 0, 0, numVars);
+        Node n3 = new Node(PI, PI, 0, numVars);
+        Node n4 = new Node(0, PI, 0, numVars);
+        Node n5 = new Node(0, PI / 2, 0, numVars);
+        Point centroid = new Polygon(new Point[]{
+                n1.location(), n2.location(), n3.location(),
+                n4.location(), n5.location()}).centroid();
+        Shape shape = new Shape(PI * PI, centroid);
+        Cell cell = new Cell(new Node[]{n1, n2, n3, n4, n5}, VTKType.VTK_POLYGON, shape, numVars);
+        Mesh mesh = createMesh(cell);
+
+        SolutionInitializer initializer = new FunctionInitializer(f);
+        initializer.initialize(mesh, govEqn);
+
+        double[] expectedValue = f.apply(centroid);
+        assertArrayEquals(expectedValue, cell.U, 1e-12);
     }
 
     private Mesh createMesh(Cell... cellArray) {
