@@ -186,8 +186,7 @@ public class Solver2DScalarAdvectionTest {
                 expectedSolU[index] = actualSolution(initU[i - 1][j], initU[i][j - 1], initU[i][j], dt, dx, dy);
             }
         }
-        assertArrayEquals(expectedSolU, calculatedSolU, 1e-15);
-
+        assertArrayEquals(expectedSolU, calculatedSolU, 1e-12);
         // After 1 more step
         // copy to initU
         for (int i = 0; i < xi - 1; i++) {
@@ -206,7 +205,7 @@ public class Solver2DScalarAdvectionTest {
                 expectedSolU[index] = actualSolution(initU[i - 1][j], initU[i][j - 1], initU[i][j], dt, dx, dy);
             }
         }
-        assertArrayEquals(expectedSolU, calculatedSolU, 1e-15);
+        assertArrayEquals(expectedSolU, calculatedSolU, 1e-12);
 
         // After 3 more iterations
 
@@ -232,7 +231,7 @@ public class Solver2DScalarAdvectionTest {
                 }
             }
         }
-        assertArrayEquals(expectedSolU, calculatedSolU, 1e-15);
+        assertArrayEquals(expectedSolU, calculatedSolU, 1e-12);
     }
 
     private double actualSolution(double left, double bottom, double center, double dt, double dx, double dy) {
