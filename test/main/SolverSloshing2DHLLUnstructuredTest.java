@@ -1,13 +1,16 @@
 package main;
 
+import main.geom.Point;
 import main.geom.Vector;
 import main.io.VTKWriter;
+import main.mesh.Boundary;
+import main.mesh.Face;
 import main.mesh.Mesh;
-import main.mesh.factory.Structured2DMesh;
+import main.mesh.factory.Unstructured2DMesh;
 import main.physics.bc.BoundaryCondition;
-import main.physics.bc.WallVOFBC;
-import main.physics.goveqn.factory.ArtificialCompressibilityVOFEquations;
+import main.physics.bc.InviscidWallVOFBC;
 import main.physics.goveqn.GoverningEquations;
+import main.physics.goveqn.factory.ArtificialCompressibilityVOFEquations;
 import main.solver.*;
 import main.solver.convection.ConvectionResidual;
 import main.solver.convection.reconstructor.VKLimiterReconstructor;
@@ -23,59 +26,40 @@ import org.junit.Test;
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
 
-public class SolverSloshing2DTest {
+public class SolverSloshing2DHLLUnstructuredTest {
+    private final double beta = 8;
 
     private final ProblemDefinition problem = new ProblemDefinition() {
-        private final double L = 0.1;
         private final double rho1 = 1000.0;
         private final double rho2 = 1.125;
         private final double mu = 0.0;
         private final Vector gravity = new Vector(0, -9.81, 0);
 
         private final ArtificialCompressibilityVOFEquations govEqn
-                = new ArtificialCompressibilityVOFEquations(rho1, mu, rho2, mu, gravity);
+                = new ArtificialCompressibilityVOFEquations(rho1, mu, rho2, mu, gravity, beta);
 
-        private final Mesh mesh = create2DMesh(20, 20);
+        Mesh mesh = readUnstructuredMesh();
 
-        private Mesh create2DMesh(int numXCells, int numYCells) {
-            int numXNodes = numXCells + 1;
-            int numYNodes = numYCells + 1;
-            double minX = 0, minY = 0;
-            double maxX = minX + L;
-            double maxY = minY + L;
-            File tempMeshFile = new File("test/test_data/lid_driven_cavity_mesh");
-
-            try (FileWriter fileWriter = new FileWriter(tempMeshFile);
-                 PrintWriter writer = new PrintWriter(fileWriter)) {
-                writer.write("dimension = 2\n");
-                writer.write("mode = ASCII\n");
-                writer.printf("xi = %d\n", numXNodes);
-                writer.printf("eta = %d\n", numYNodes);
-                for (int i = 0; i < numXNodes; i++) {
-                    double x = minX + i / (numXNodes - 1.0) * (maxX - minX);
-                    for (int j = 0; j < numYNodes; j++) {
-                        double y = minY + j / (numYNodes - 1.0) * (maxY - minY);
-                        writer.printf("%-20.15f %-20.15f %-20.15f\n", x, y, 0.0);
-                    }
-                }
-            } catch (IOException e) {
-                System.out.println("Unable to create mesh.");
-            }
-
-            BoundaryCondition stationaryWall = new WallVOFBC(govEqn, new Vector(0, 0, 0));
+        private Mesh readUnstructuredMesh() {
+            BoundaryCondition inviscidWall = new InviscidWallVOFBC(govEqn);
             Mesh mesh = null;
+            File meshFile = new File("test/test_data/mesh_square_0.1x0.1.cfdu");
             try {
-                mesh = new Structured2DMesh(tempMeshFile, govEqn.numVars(), stationaryWall, stationaryWall, stationaryWall, stationaryWall);
-                if (!tempMeshFile.delete()) {
-                    System.out.println("Unable to delete temporary file: " + tempMeshFile);
-                }
+                mesh = new Unstructured2DMesh(meshFile, govEqn.numVars(),
+                        Map.of("Left", inviscidWall,
+                                "Right", inviscidWall,
+                                "Top", inviscidWall,
+                                "Bottom", inviscidWall));
             } catch (FileNotFoundException e) {
-                System.out.println("Mesh file is not found.");
+                System.out.println("Unable to read mesh from file: " + meshFile);
             }
+
             return mesh;
         }
 
@@ -96,7 +80,7 @@ public class SolverSloshing2DTest {
         private final TimeStep timeStep = new LocalTimeStep(mesh, govEqn);
 
         private final TimeIntegrator timeIntegrator =
-                new ExplicitEulerTimeIntegrator(mesh, spaceDiscretization, timeStep, govEqn.numVars());
+                new ExplicitSSPRK2TimeIntegrator(mesh, spaceDiscretization, timeStep, govEqn.numVars());
 
         private final Convergence convergence = new Convergence(DoubleArray.newFilledArray(govEqn.numVars(), 1e-3));
 
@@ -144,6 +128,10 @@ public class SolverSloshing2DTest {
         }
     };
 
+    public static void main(String[] args) throws IOException {
+        new SolverSloshing2DHLLUnstructuredTest().solver();
+    }
+
     @Test
     public void solver() throws IOException {
         Mesh mesh = problem.mesh();
@@ -157,17 +145,15 @@ public class SolverSloshing2DTest {
         Convergence convergence = problem.convergence();
 
         int maxPseudoIter = config.getMaxIterations();
-        int numRealIter = 50;
+        int numRealIter = 5;
 
         int[] expectedPseudoIterations = {
-                701, 659, 479, 417, 365, 338, 326, 292, 266, 282, 274, 279, 281, 278, 270, 253, 235, 251, 312,
-                331, 348, 337, 324, 340, 364, 382, 398, 415, 425, 415, 397, 377, 350, 318, 287, 235, 165, 193,
-                284, 255, 277, 281, 323, 358, 386, 409, 424, 428, 431, 426
+                1489, 633, 585, 585, 584
         };
 
         int[] actualPseudoIterations = new int[numRealIter];
 
-        File outputFolder = new File("test/test_data/sloshing/");
+        File outputFolder = new File("test/test_data/sloshing_hll_unstructured/");
         if (!outputFolder.mkdirs() && !outputFolder.exists())
             throw new IOException("Unable to create required folders for writing output.");
         double time = 0;
@@ -175,6 +161,8 @@ public class SolverSloshing2DTest {
             new VTKWriter(new File(outputFolder,
                     String.format("sol_%05d.vtu", real_time_iter)),
                     mesh, problem.govEqn()).write();
+            saveBoundaryC(mesh, new File(outputFolder, String.format("C_%05d.dat", real_time_iter))
+                    , time, "Left");
             System.out.println("Time: " + time);
             int pseudoIter = 0;
             for (; pseudoIter < maxPseudoIter; pseudoIter++) {
@@ -197,7 +185,41 @@ public class SolverSloshing2DTest {
         new VTKWriter(new File(outputFolder,
                 String.format("sol_%05d.vtu", numRealIter)),
                 mesh, problem.govEqn()).write();
+        saveBoundaryC(mesh, new File(outputFolder, String.format("C_%05d.dat", numRealIter)), time, "Left");
+
+        System.out.println(Arrays.toString(actualPseudoIterations));
+        System.out.println("beta = " + beta);
+        System.out.println("mesh: " + mesh.cells().size() + " cells");
+        try (FileWriter numItersWriter = new FileWriter(new File(outputFolder, "01_num_iters.dat"))) {
+            numItersWriter.write(Arrays.stream(actualPseudoIterations)
+                    .mapToObj(iter -> "" + iter)
+                    .collect(Collectors.joining(", ")));
+        }
 
         Assert.assertArrayEquals(expectedPseudoIterations, actualPseudoIterations);
+    }
+
+    private void saveBoundaryC(Mesh mesh, File file, double time, String boundaryName) {
+        Boundary boundary = getBoundary(mesh, boundaryName);
+
+        try (PrintWriter writer = new PrintWriter(file)) {
+            writer.printf("time = %f\n", time);
+            for (Face face : boundary.faces) {
+                Point centroid = face.surface.centroid;
+                double x = centroid.x;
+                double y = centroid.y;
+                double z = centroid.z;
+                double C = face.left.U[4];
+                writer.printf("%f %f %f %f\n", x, y, z, C);
+            }
+        } catch (IOException e) {
+            System.out.println("Unable to write boundary data.");
+        }
+    }
+
+    private Boundary getBoundary(Mesh mesh, String boundaryName) {
+        return mesh.boundaryStream()
+                .filter(b -> b.name.equals(boundaryName))
+                .findFirst().orElseThrow();
     }
 }
