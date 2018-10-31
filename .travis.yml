@@ -9,9 +9,8 @@ before_install:
 
 matrix:
   include:
-# Java 10 "Oracle JDK"
-    - env: JDK='Oracle JDK 10'
-      install: . ./install-jdk.sh -F 10 -L BCL
+      - env: JDK='OpenJDK 10'
+        install: . ./install-jdk.sh -F 10 -L GPL
 
 script:
   - echo PATH = ${PATH}
