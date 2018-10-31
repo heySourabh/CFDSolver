@@ -167,8 +167,11 @@ public class SolverLidDrivenCavity3DTest {
         for (; iter < maxIter; iter++) {
             timeIntegrator.updateCellAverages();
             double[] residual = timeIntegrator.currentTotalResidual(config.getConvergenceNorm());
-            System.out.println(iter + ": " + Arrays.toString(residual));
+            if (iter % 100 == 0) {
+                System.out.println(iter + ": " + Arrays.toString(residual));
+            }
             if (convergence.hasConverged(residual)) {
+                System.out.println(iter + ": " + Arrays.toString(residual));
                 System.out.println("Converged.");
                 break;
             }

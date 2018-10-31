@@ -67,7 +67,6 @@ public class SolverSloshing2DHLLUnstructuredTest {
                 p -> new double[]{0, 0, 0, 0,
                         p.y <= (0.05 + 0.005 * cos(2 * PI * p.x / 0.2)) ? 1.0 : 0});
 
-
         CellNeighborCalculator cellNeighborCalculator = new FaceBasedCellNeighbors();
         CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, cellNeighborCalculator);
         private final ConvectionResidual convectionResidual = new ConvectionResidual(
@@ -168,8 +167,11 @@ public class SolverSloshing2DHLLUnstructuredTest {
             for (; pseudoIter < maxPseudoIter; pseudoIter++) {
                 timeIntegrator.updateCellAverages();
                 double[] residual = timeIntegrator.currentTotalResidual(config.getConvergenceNorm());
-                System.out.println(pseudoIter + ": " + Arrays.toString(residual));
+                if (pseudoIter % 100 == 0) {
+                    System.out.println(pseudoIter + ": " + Arrays.toString(residual));
+                }
                 if (convergence.hasConverged(residual)) {
+                    System.out.println(pseudoIter + ": " + Arrays.toString(residual));
                     System.out.println("Converged.");
                     break;
                 }

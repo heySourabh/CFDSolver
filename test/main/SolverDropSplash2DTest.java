@@ -199,8 +199,11 @@ public class SolverDropSplash2DTest {
             for (; pseudoIter < maxPseudoIter; pseudoIter++) {
                 timeIntegrator.updateCellAverages();
                 double[] residual = timeIntegrator.currentTotalResidual(config.getConvergenceNorm());
-                System.out.println(pseudoIter + ": " + Arrays.toString(residual));
+                if (pseudoIter % 100 == 0) {
+                    System.out.println(pseudoIter + ": " + Arrays.toString(residual));
+                }
                 if (convergence.hasConverged(residual)) {
+                    System.out.println(pseudoIter + ": " + Arrays.toString(residual));
                     System.out.println("Converged.");
                     break;
                 }

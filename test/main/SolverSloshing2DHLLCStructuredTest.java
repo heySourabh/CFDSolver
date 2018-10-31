@@ -196,15 +196,19 @@ public class SolverSloshing2DHLLCStructuredTest {
                     , time, "xi min");
             System.out.println("Time: " + time);
             int pseudoIter = 0;
+            double[] residual = null;
             for (; pseudoIter < maxPseudoIter; pseudoIter++) {
                 timeIntegrator.updateCellAverages();
-                double[] residual = timeIntegrator.currentTotalResidual(config.getConvergenceNorm());
-                System.out.println(pseudoIter + ": " + Arrays.toString(residual));
+                residual = timeIntegrator.currentTotalResidual(config.getConvergenceNorm());
+                if (pseudoIter % 100 == 0) {
+                    System.out.println(pseudoIter + ": " + Arrays.toString(residual));
+                }
                 if (convergence.hasConverged(residual)) {
                     System.out.println("Converged.");
                     break;
                 }
             }
+            System.out.println(pseudoIter + ": " + Arrays.toString(residual));
             actualPseudoIterations[real_time_iter] = pseudoIter;
             timeDiscretization.shiftSolution();
             if (real_time_iter == 0) {
