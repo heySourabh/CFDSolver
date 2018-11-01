@@ -55,9 +55,11 @@ public class GreenGaussCellGradientTest {
                 new Vector(2, 0, 0).mult(1.0 / dx)
         };
 
-        CellGradientCalculator gradientCalculator = new GreenGaussCellGradient();
+        Mesh mesh = createMesh(cell);
+        CellGradientCalculator gradientCalculator = new GreenGaussCellGradient(mesh);
+        gradientCalculator.setupAllCells();
 
-        Vector[] actualGradients = gradientCalculator.forCell(cell);
+        Vector[] actualGradients = cell.gradientU;
 
         assertEquals(numVars, actualGradients.length);
         assertVectorEquals(expectedGradients[0], actualGradients[0], 1e-12);
@@ -106,7 +108,8 @@ public class GreenGaussCellGradientTest {
                 new Vector((-8 + 9) / dx, 0, 0)
         };
 
-        Vector[] actualGradients = new GreenGaussCellGradient().forCell(cell);
+        new GreenGaussCellGradient(mesh).setupAllCells();
+        Vector[] actualGradients = cell.gradientU;
 
         assertEquals(numVars, actualGradients.length);
         assertVectorEquals(expectedGradients[0], actualGradients[0], 1e-12);
@@ -156,7 +159,8 @@ public class GreenGaussCellGradientTest {
                 new Vector(0, (-8 + 9) / dy, 0)
         };
 
-        Vector[] actualGradients = new GreenGaussCellGradient().forCell(cell);
+        new GreenGaussCellGradient(mesh).setupAllCells();
+        Vector[] actualGradients = cell.gradientU;
 
         assertEquals(numVars, actualGradients.length);
         assertVectorEquals(expectedGradients[0], actualGradients[0], 1e-12);
@@ -206,7 +210,8 @@ public class GreenGaussCellGradientTest {
                 new Vector(0, 0, (-8 + 9) / dz)
         };
 
-        Vector[] actualGradients = new GreenGaussCellGradient().forCell(cell);
+        new GreenGaussCellGradient(mesh).setupAllCells();
+        Vector[] actualGradients = cell.gradientU;
 
         assertEquals(numVars, actualGradients.length);
         assertVectorEquals(expectedGradients[0], actualGradients[0], 1e-12);
@@ -271,7 +276,8 @@ public class GreenGaussCellGradientTest {
                 new Vector((-8 + 9) / dx * wx, (-8 + 9) / dy * wy, (-8 + 9) / dz * wz)
         };
 
-        Vector[] actualGradients = new GreenGaussCellGradient().forCell(cell);
+        new GreenGaussCellGradient(mesh).setupAllCells();
+        Vector[] actualGradients = cell.gradientU;
 
         assertEquals(numVars, actualGradients.length);
         assertVectorEquals(expectedGradients[0], actualGradients[0], 1e-12);
@@ -325,7 +331,8 @@ public class GreenGaussCellGradientTest {
                 new Vector((4.0 - 4.0) / dx, (6 + 6) / dy, 0)
         };
 
-        Vector[] actualGradients = new GreenGaussCellGradient().forCell(cell);
+        new GreenGaussCellGradient(createMesh(cell)).setupAllCells();
+        Vector[] actualGradients = cell.gradientU;
 
         assertEquals(numVars, actualGradients.length);
         assertVectorEquals(expectedGradients[0], actualGradients[0], 1e-12);
@@ -382,7 +389,8 @@ public class GreenGaussCellGradientTest {
             DoubleArray.copy(faceU, face.U);
         }
 
-        Vector[] actualGradients = new GreenGaussCellGradient().forCell(cell);
+        new GreenGaussCellGradient(createMesh(cell)).setupAllCells();
+        Vector[] actualGradients = cell.gradientU;
 
         assertEquals(numVars, actualGradients.length);
         assertVectorEquals(expectedGradients[0], actualGradients[0], 1e-12);
@@ -444,7 +452,8 @@ public class GreenGaussCellGradientTest {
             DoubleArray.copy(faceU, face.U);
         }
 
-        Vector[] actualGradients = new GreenGaussCellGradient().forCell(cell);
+        new GreenGaussCellGradient(mesh).setupAllCells();
+        Vector[] actualGradients = cell.gradientU;
 
         assertEquals(numVars, actualGradients.length);
         assertVectorEquals(expectedGradients[0], actualGradients[0], 1e-12);
@@ -501,7 +510,8 @@ public class GreenGaussCellGradientTest {
             DoubleArray.copy(faceU, face.U);
         }
 
-        Vector[] actualGradients = new GreenGaussCellGradient().forCell(cell);
+        new GreenGaussCellGradient(createMesh(cell)).setupAllCells();
+        Vector[] actualGradients = cell.gradientU;
 
         assertEquals(numVars, actualGradients.length);
         assertVectorEquals(expectedGradients[0], actualGradients[0], 1e-12);
@@ -558,7 +568,8 @@ public class GreenGaussCellGradientTest {
             DoubleArray.copy(faceU, face.U);
         }
 
-        Vector[] actualGradients = new GreenGaussCellGradient().forCell(cell);
+        new GreenGaussCellGradient(createMesh(cell)).setupAllCells();
+        Vector[] actualGradients = cell.gradientU;
 
         assertEquals(numVars, actualGradients.length);
         assertVectorEquals(expectedGradients[0], actualGradients[0], 1e-12);
@@ -621,7 +632,8 @@ public class GreenGaussCellGradientTest {
             expectedGradients[var] = expectedGradients[var].sub(normalGradientComponents[var]);
         }
 
-        Vector[] actualGradients = new GreenGaussCellGradient().forCell(cell);
+        new GreenGaussCellGradient(createMesh(cell)).setupAllCells();
+        Vector[] actualGradients = cell.gradientU;
 
         assertEquals(numVars, actualGradients.length);
         assertVectorEquals(expectedGradients[0], actualGradients[0], 1e-12);
@@ -701,7 +713,8 @@ public class GreenGaussCellGradientTest {
             DoubleArray.copy(faceU, face.U);
         }
 
-        Vector[] actualGradients = new GreenGaussCellGradient().forCell(cell);
+        new GreenGaussCellGradient(createMesh(cell)).setupAllCells();
+        Vector[] actualGradients = cell.gradientU;
 
         assertEquals(numVars, actualGradients.length);
         assertVectorEquals(expectedGradients[0], actualGradients[0], 1e-12);
@@ -765,7 +778,8 @@ public class GreenGaussCellGradientTest {
             DoubleArray.copy(faceU, face.U);
         }
 
-        Vector[] actualGradients = new GreenGaussCellGradient().forCell(cell);
+        new GreenGaussCellGradient(createMesh(cell)).setupAllCells();
+        Vector[] actualGradients = cell.gradientU;
 
         assertEquals(numVars, actualGradients.length);
         assertVectorEquals(expectedGradients[0], actualGradients[0], 1e-12);
@@ -873,11 +887,38 @@ public class GreenGaussCellGradientTest {
             DoubleArray.copy(U, face.U);
         }
 
-        Vector[] actualGradients = new GreenGaussCellGradient().forCell(cell);
+        new GreenGaussCellGradient(mesh).setupAllCells();
+        Vector[] actualGradients = cell.gradientU;
 
         assertEquals(numVars, actualGradients.length);
         for (int i = 0; i < numVars; i++) {
             assertVectorEquals(expectedGradients[i], actualGradients[i], 1e-12);
         }
+    }
+
+    private Mesh createMesh(Cell... cellArray) {
+        return new Mesh() {
+            private List<Cell> cells = List.of(cellArray);
+
+            @Override
+            public List<Cell> cells() {
+                return cells;
+            }
+
+            @Override
+            public List<Face> internalFaces() {
+                return null;
+            }
+
+            @Override
+            public List<Node> nodes() {
+                return null;
+            }
+
+            @Override
+            public List<Boundary> boundaries() {
+                return null;
+            }
+        };
     }
 }

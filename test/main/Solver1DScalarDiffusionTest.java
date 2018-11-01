@@ -66,8 +66,9 @@ public class Solver1DScalarDiffusionTest {
     private TimeIntegrator timeIntegrator = createTimeIntegrator();
 
     private TimeIntegrator createTimeIntegrator() {
+        CellGradientCalculator cellGradientCalculator = new ZeroCellGradient(mesh);
         return new ExplicitEulerTimeIntegrator(mesh,
-                new SpaceDiscretization(mesh, List.of(new DiffusionResidual(mesh, govEqn))),
+                new SpaceDiscretization(mesh, cellGradientCalculator, List.of(new DiffusionResidual(mesh, govEqn))),
                 new LocalTimeStep(mesh, govEqn), govEqn.numVars());
     }
 

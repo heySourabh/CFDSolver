@@ -12,9 +12,11 @@ public class SpaceDiscretization {
     private final Mesh mesh;
     private final List<ResidualCalculator> residuals;
     private final LeastSquareFaceInterpolation faceInterpolation;
+    private final CellGradientCalculator cellGradientCalculator;
 
-    public SpaceDiscretization(Mesh mesh, List<ResidualCalculator> residuals) {
+    public SpaceDiscretization(Mesh mesh, CellGradientCalculator cellGradientCalculator, List<ResidualCalculator> residuals) {
         this.mesh = mesh;
+        this.cellGradientCalculator = cellGradientCalculator;
         this.residuals = residuals;
         this.faceInterpolation = new LeastSquareFaceInterpolation(mesh);
     }
@@ -22,6 +24,7 @@ public class SpaceDiscretization {
     public void setResiduals() {
         setGhostCellValues();
         faceInterpolation.setupAllFaces();
+        cellGradientCalculator.setupAllCells();
 
         mesh.cellStream().forEach(cell -> Arrays.fill(cell.residual, 0.0));
         residuals.forEach(ResidualCalculator::updateCellResiduals);

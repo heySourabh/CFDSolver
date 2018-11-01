@@ -6,8 +6,8 @@ import main.mesh.Mesh;
 import main.mesh.factory.Structured2DMesh;
 import main.physics.bc.BoundaryCondition;
 import main.physics.bc.WallBC;
-import main.physics.goveqn.factory.ArtificialCompressibilityEquations;
 import main.physics.goveqn.GoverningEquations;
+import main.physics.goveqn.factory.ArtificialCompressibilityEquations;
 import main.solver.*;
 import main.solver.convection.ConvectionResidual;
 import main.solver.convection.reconstructor.VKLimiterReconstructor;
@@ -82,12 +82,13 @@ public class SolverTransientLidDrivenCavity2DTest {
 
 
         CellNeighborCalculator cellNeighborCalculator = new FaceBasedCellNeighbors();
-        CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, cellNeighborCalculator);
         private final ConvectionResidual convectionResidual = new ConvectionResidual(
-                new VKLimiterReconstructor(mesh, cellGradientCalculator, cellNeighborCalculator),
+                new VKLimiterReconstructor(mesh, cellNeighborCalculator),
                 new RusanovRiemannSolver(govEqn), mesh);
         private final DiffusionResidual diffusionResidual = new DiffusionResidual(mesh, govEqn);
+        CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, cellNeighborCalculator);
         private final SpaceDiscretization spaceDiscretization = new SpaceDiscretization(mesh,
+                cellGradientCalculator,
                 List.of(convectionResidual, diffusionResidual));
         private final TimeStep timeStep = new LocalTimeStep(mesh, govEqn);
 

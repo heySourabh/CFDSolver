@@ -98,13 +98,14 @@ public class SolverSloshing2DHLLStructuredTest {
 
 
         CellNeighborCalculator cellNeighborCalculator = new FaceBasedCellNeighbors();
-        CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, cellNeighborCalculator);
         private final ConvectionResidual convectionResidual = new ConvectionResidual(
-                new VKLimiterReconstructor(mesh, cellGradientCalculator, cellNeighborCalculator),
+                new VKLimiterReconstructor(mesh, cellNeighborCalculator),
                 new HLLRiemannSolver(govEqn), mesh);
         private final DiffusionResidual diffusionResidual = new DiffusionResidual(mesh, govEqn);
         private final SourceResidual sourceResidual = new SourceResidual(mesh, govEqn);
+        CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, cellNeighborCalculator);
         private final SpaceDiscretization spaceDiscretization = new SpaceDiscretization(mesh,
+                cellGradientCalculator,
                 List.of(convectionResidual, diffusionResidual, sourceResidual));
         private final TimeStep timeStep = new LocalTimeStep(mesh, govEqn);
 

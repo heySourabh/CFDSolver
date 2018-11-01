@@ -3,7 +3,6 @@ package main.solver;
 import main.geom.Vector;
 import main.mesh.Cell;
 import main.mesh.Mesh;
-import main.util.DoubleArray;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.DiagonalMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
@@ -20,6 +19,7 @@ public class LeastSquareCellGradient implements CellGradientCalculator {
 
     private final Cell[][] neighbors;
     private final double[][][] inverseMatrix;
+    private final Mesh mesh;
 
     /**
      * This gradient calculator can be used for 3D.
@@ -34,6 +34,7 @@ public class LeastSquareCellGradient implements CellGradientCalculator {
         int numCells = mesh.cells().size();
         this.neighbors = new Cell[numCells][];
         this.inverseMatrix = new double[numCells][][];
+        this.mesh = mesh;
 
         mesh.cellStream().forEach(cell -> setup(cell, neighCalc));
     }
@@ -77,14 +78,15 @@ public class LeastSquareCellGradient implements CellGradientCalculator {
     }
 
     @Override
-    public Vector[] forCell(Cell cell) {
-        int numVars = cell.U.length;
-        Vector[] gradients = new Vector[numVars];
-        for (int var = 0; var < numVars; var++) {
-            gradients[var] = forVar(cell, var);
-        }
+    public void setupAllCells() {
+        mesh.cellStream().forEach(this::setCell);
+    }
 
-        return gradients;
+    private void setCell(Cell cell) {
+        int numVars = cell.U.length;
+        for (int var = 0; var < numVars; var++) {
+            cell.gradientU[var] = forVar(cell, var);
+        }
     }
 
     private Vector forVar(Cell cell, int var) {

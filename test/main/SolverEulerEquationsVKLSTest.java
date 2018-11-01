@@ -10,10 +10,10 @@ import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.factory.EulerEquations;
 import main.solver.*;
 import main.solver.convection.ConvectionResidual;
-import main.solver.convection.riemann.RusanovRiemannSolver;
-import main.solver.problem.ProblemDefinition;
 import main.solver.convection.reconstructor.SolutionReconstructor;
 import main.solver.convection.reconstructor.VKLimiterReconstructor;
+import main.solver.convection.riemann.RusanovRiemannSolver;
+import main.solver.problem.ProblemDefinition;
 import main.solver.time.ExplicitEulerTimeIntegrator;
 import main.solver.time.LocalTimeStep;
 import main.solver.time.TimeIntegrator;
@@ -64,12 +64,12 @@ public class SolverEulerEquationsVKLSTest {
             private final SolutionInitializer solutionInitializer = new FunctionInitializer(
                     p -> new double[]{rho, rho * u, 0.0, 0.0, rhoE});
             CellNeighborCalculator neighborsCalculator = new FaceBasedCellNeighbors();
-            CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);
-            SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, cellGradientCalculator, neighborsCalculator);
+            SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, neighborsCalculator);
             ResidualCalculator convectiveCalculator = new ConvectionResidual(reconstructor,
                     new RusanovRiemannSolver(govEqn), mesh);
+            CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);
             private final TimeIntegrator timeIntegrator = new ExplicitEulerTimeIntegrator(mesh,
-                    new SpaceDiscretization(mesh, List.of(convectiveCalculator)),
+                    new SpaceDiscretization(mesh, cellGradientCalculator, List.of(convectiveCalculator)),
                     new LocalTimeStep(mesh, govEqn), govEqn.numVars());
             private final Convergence convergence = new Convergence(DoubleArray.newFilledArray(govEqn.numVars(), 1e-3));
             private final Config config = new Config();

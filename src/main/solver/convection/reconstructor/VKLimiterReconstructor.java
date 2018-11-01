@@ -4,7 +4,6 @@ import main.geom.Point;
 import main.geom.Vector;
 import main.mesh.Cell;
 import main.mesh.Mesh;
-import main.solver.CellGradientCalculator;
 import main.solver.CellNeighborCalculator;
 
 import java.util.Arrays;
@@ -13,14 +12,12 @@ import static main.util.DoubleArray.add;
 
 public class VKLimiterReconstructor implements SolutionReconstructor {
     private final Mesh mesh;
-    private final CellGradientCalculator gradientCalculator;
     private final CellNeighborCalculator neighCalc;
     private final Cell[][] neighbors;
 
-    public VKLimiterReconstructor(Mesh mesh, CellGradientCalculator gradientCalculator, CellNeighborCalculator neighCalc) {
+    public VKLimiterReconstructor(Mesh mesh, CellNeighborCalculator neighCalc) {
         int numCells = mesh.cells().size();
         this.mesh = mesh;
-        this.gradientCalculator = gradientCalculator;
         this.neighCalc = neighCalc;
         this.neighbors = new Cell[numCells][];
 
@@ -41,7 +38,7 @@ public class VKLimiterReconstructor implements SolutionReconstructor {
     }
 
     private void reconstructCell(Cell cell) {
-        Vector[] gradients = gradientCalculator.forCell(cell);
+        Vector[] gradients = cell.gradientU;
         for (int var = 0; var < cell.U.length; var++) {
             reconstructVar(cell, gradients, var);
         }

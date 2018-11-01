@@ -8,9 +8,9 @@ import main.mesh.Mesh;
 import main.mesh.factory.Unstructured2DMesh;
 import main.physics.goveqn.factory.EulerEquations;
 import main.solver.CellGradientCalculator;
+import main.solver.CellNeighborCalculator;
 import main.solver.FaceBasedCellNeighbors;
 import main.solver.LeastSquareCellGradient;
-import main.solver.CellNeighborCalculator;
 import main.util.DoubleArray;
 import org.junit.Test;
 
@@ -38,7 +38,8 @@ public class VKLimiterReconstructorTest {
 
         CellNeighborCalculator neighborsCalculator = new FaceBasedCellNeighbors();
         CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);
-        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, cellGradientCalculator, neighborsCalculator);
+        cellGradientCalculator.setupAllCells();
+        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, neighborsCalculator);
         reconstructor.reconstruct();
 
         Point p1 = new Line(mesh.nodes().get(2).location(), mesh.nodes().get(4).location())
@@ -92,7 +93,8 @@ public class VKLimiterReconstructorTest {
 
         CellNeighborCalculator neighborsCalculator = new FaceBasedCellNeighbors();
         CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);
-        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, cellGradientCalculator, neighborsCalculator);
+        cellGradientCalculator.setupAllCells();
+        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, neighborsCalculator);
         reconstructor.reconstruct();
 
         Point p1 = new Line(mesh.nodes().get(2).location(), mesh.nodes().get(4).location())
@@ -148,7 +150,8 @@ public class VKLimiterReconstructorTest {
 
         CellNeighborCalculator neighborsCalculator = new FaceBasedCellNeighbors();
         CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);
-        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, cellGradientCalculator, neighborsCalculator);
+        cellGradientCalculator.setupAllCells();
+        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, neighborsCalculator);
         reconstructor.reconstruct();
 
         Point p1 = new Line(mesh.nodes().get(2).location(), mesh.nodes().get(4).location())
@@ -204,7 +207,8 @@ public class VKLimiterReconstructorTest {
 
         CellNeighborCalculator neighborsCalculator = new FaceBasedCellNeighbors();
         CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);
-        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, cellGradientCalculator, neighborsCalculator);
+        cellGradientCalculator.setupAllCells();
+        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, neighborsCalculator);
         reconstructor.reconstruct();
 
         Point p1 = new Line(mesh.nodes().get(2).location(), mesh.nodes().get(4).location())
