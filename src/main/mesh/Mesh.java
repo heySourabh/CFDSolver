@@ -99,7 +99,7 @@ public interface Mesh {
     }
 
     static private Point mirrorPoint(Face face, Point point) {
-        Vector faceNormal = face.surface.unitNormal;
+        Vector faceNormal = face.surface.unitNormal();
         Point faceCentroid = face.surface.centroid;
 
         Vector nodeVector = new Vector(faceCentroid, point);

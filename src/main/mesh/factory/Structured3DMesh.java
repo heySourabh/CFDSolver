@@ -105,7 +105,7 @@ public class Structured3DMesh implements Mesh {
                         innerCell.nodes[0], innerCell.nodes[1], innerCell.nodes[2], innerCell.nodes[3],
                         innerCell.nodes[4], innerCell.nodes[5], innerCell.nodes[6], innerCell.nodes[7]
                 );
-                surface.unitNormal = surface.unitNormal.mult(faceOrientation == FaceOrientation.CLOCKWISE ? -1 : 1);
+                surface.setUnitNormal(surface.unitNormal().mult(faceOrientation == FaceOrientation.CLOCKWISE ? -1 : 1));
 
                 Face face = new Face(new Node[]{na, nb, nc, nd}, VTKType.VTK_QUAD, surface, innerCell, null, numVars);
                 face.right = Mesh.ghostCell(innerCell, face);
@@ -136,7 +136,7 @@ public class Structured3DMesh implements Mesh {
                         innerCell.nodes[0], innerCell.nodes[1], innerCell.nodes[2], innerCell.nodes[3],
                         innerCell.nodes[4], innerCell.nodes[5], innerCell.nodes[6], innerCell.nodes[7]
                 );
-                surface.unitNormal = surface.unitNormal.mult(faceOrientation == FaceOrientation.CLOCKWISE ? -1 : 1);
+                surface.setUnitNormal(surface.unitNormal().mult(faceOrientation == FaceOrientation.CLOCKWISE ? -1 : 1));
 
                 Face face = new Face(new Node[]{na, nb, nc, nd}, VTKType.VTK_QUAD, surface, innerCell, null, numVars);
                 face.right = Mesh.ghostCell(innerCell, face);
@@ -167,7 +167,7 @@ public class Structured3DMesh implements Mesh {
                         innerCell.nodes[0], innerCell.nodes[1], innerCell.nodes[2], innerCell.nodes[3],
                         innerCell.nodes[4], innerCell.nodes[5], innerCell.nodes[6], innerCell.nodes[7]
                 );
-                surface.unitNormal = surface.unitNormal.mult(faceOrientation == FaceOrientation.CLOCKWISE ? -1 : 1);
+                surface.setUnitNormal(surface.unitNormal().mult(faceOrientation == FaceOrientation.CLOCKWISE ? -1 : 1));
 
                 Face face = new Face(new Node[]{na, nb, nc, nd}, VTKType.VTK_QUAD, surface, innerCell, null, numVars);
                 face.right = Mesh.ghostCell(innerCell, face);
@@ -198,7 +198,7 @@ public class Structured3DMesh implements Mesh {
                         innerCell.nodes[0], innerCell.nodes[1], innerCell.nodes[2], innerCell.nodes[3],
                         innerCell.nodes[4], innerCell.nodes[5], innerCell.nodes[6], innerCell.nodes[7]
                 );
-                surface.unitNormal = surface.unitNormal.mult(faceOrientation == FaceOrientation.CLOCKWISE ? -1 : 1);
+                surface.setUnitNormal(surface.unitNormal().mult(faceOrientation == FaceOrientation.CLOCKWISE ? -1 : 1));
 
                 Face face = new Face(new Node[]{na, nb, nc, nd}, VTKType.VTK_QUAD, surface, innerCell, null, numVars);
                 face.right = Mesh.ghostCell(innerCell, face);
@@ -229,7 +229,7 @@ public class Structured3DMesh implements Mesh {
                         innerCell.nodes[0], innerCell.nodes[1], innerCell.nodes[2], innerCell.nodes[3],
                         innerCell.nodes[4], innerCell.nodes[5], innerCell.nodes[6], innerCell.nodes[7]
                 );
-                surface.unitNormal = surface.unitNormal.mult(faceOrientation == FaceOrientation.CLOCKWISE ? -1 : 1);
+                surface.setUnitNormal(surface.unitNormal().mult(faceOrientation == FaceOrientation.CLOCKWISE ? -1 : 1));
 
                 Face face = new Face(new Node[]{na, nb, nc, nd}, VTKType.VTK_QUAD, surface, innerCell, null, numVars);
                 face.right = Mesh.ghostCell(innerCell, face);
@@ -260,7 +260,7 @@ public class Structured3DMesh implements Mesh {
                         innerCell.nodes[0], innerCell.nodes[1], innerCell.nodes[2], innerCell.nodes[3],
                         innerCell.nodes[4], innerCell.nodes[5], innerCell.nodes[6], innerCell.nodes[7]
                 );
-                surface.unitNormal = surface.unitNormal.mult(faceOrientation == FaceOrientation.CLOCKWISE ? -1 : 1);
+                surface.setUnitNormal(surface.unitNormal().mult(faceOrientation == FaceOrientation.CLOCKWISE ? -1 : 1));
 
                 Face face = new Face(new Node[]{na, nb, nc, nd}, VTKType.VTK_QUAD, surface, innerCell, null, numVars);
                 face.right = Mesh.ghostCell(innerCell, face);
@@ -414,7 +414,7 @@ public class Structured3DMesh implements Mesh {
 
         Quad quad = new Quad(p0, p1, p2, p3);
         Surface surface = new Surface(quad.area(), quad.centroid(), quad.unitNormal());
-        surface.unitNormal = surface.unitNormal.mult(faceOrientation == FaceOrientation.COUNTER_CLOCKWISE ? 1 : -1);
+        surface.setUnitNormal(surface.unitNormal().mult(faceOrientation == FaceOrientation.COUNTER_CLOCKWISE ? 1 : -1));
 
         return new Face(new Node[]{n0, n1, n2, n3}, quad.vtkType(), surface, left, null, left.U.length);
     }

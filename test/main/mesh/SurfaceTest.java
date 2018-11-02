@@ -22,4 +22,110 @@ public class SurfaceTest {
                 "unitNormal=" + normal +
                 "}", surface.toString());
     }
+
+    @Test
+    public void testCalculationOfUnitTangents() {
+        Vector unitNormal = new Vector(1, 0, 0).unit();
+        Surface surface = new Surface(2.0, null, unitNormal);
+        Vector[] tangents = new Vector[]{
+                surface.unitTangent1(),
+                surface.unitTangent2()
+        };
+
+        assertEquals(1, tangents[0].mag(), 1e-15);
+        assertEquals(1, tangents[1].mag(), 1e-15);
+        assertEquals(0, tangents[0].dot(tangents[1]), 1e-15);
+        assertEquals(0, unitNormal.dot(tangents[0]), 1e-15);
+        assertEquals(0, unitNormal.dot(tangents[1]), 1e-15);
+
+        // Another test
+        unitNormal = new Vector(0, 1, 0).unit();
+
+        surface = new Surface(2.0, null, unitNormal);
+        tangents = new Vector[]{
+                surface.unitTangent1(),
+                surface.unitTangent2()
+        };
+
+        assertEquals(1, tangents[0].mag(), 1e-15);
+        assertEquals(1, tangents[1].mag(), 1e-15);
+        assertEquals(0, tangents[0].dot(tangents[1]), 1e-15);
+        assertEquals(0, unitNormal.dot(tangents[0]), 1e-15);
+        assertEquals(0, unitNormal.dot(tangents[1]), 1e-15);
+
+        // Another test
+        unitNormal = new Vector(0, 0, 1).unit();
+
+        surface = new Surface(2.0, null, unitNormal);
+        tangents = new Vector[]{
+                surface.unitTangent1(),
+                surface.unitTangent2()
+        };
+
+        assertEquals(1, tangents[0].mag(), 1e-15);
+        assertEquals(1, tangents[1].mag(), 1e-15);
+        assertEquals(0, tangents[0].dot(tangents[1]), 1e-15);
+        assertEquals(0, unitNormal.dot(tangents[0]), 1e-15);
+        assertEquals(0, unitNormal.dot(tangents[1]), 1e-15);
+
+        // Another test
+        unitNormal = new Vector(0, 1, 1).unit();
+
+        surface = new Surface(2.0, null, unitNormal);
+        tangents = new Vector[]{
+                surface.unitTangent1(),
+                surface.unitTangent2()
+        };
+
+        assertEquals(1, tangents[0].mag(), 1e-15);
+        assertEquals(1, tangents[1].mag(), 1e-15);
+        assertEquals(0, tangents[0].dot(tangents[1]), 1e-15);
+        assertEquals(0, unitNormal.dot(tangents[0]), 1e-15);
+        assertEquals(0, unitNormal.dot(tangents[1]), 1e-15);
+
+        // Another test
+        unitNormal = new Vector(1, 1, 1).unit();
+
+        surface = new Surface(2.0, null, unitNormal);
+        tangents = new Vector[]{
+                surface.unitTangent1(),
+                surface.unitTangent2()
+        };
+
+        assertEquals(1, tangents[0].mag(), 1e-15);
+        assertEquals(1, tangents[1].mag(), 1e-15);
+        assertEquals(0, tangents[0].dot(tangents[1]), 1e-15);
+        assertEquals(0, unitNormal.dot(tangents[0]), 1e-15);
+        assertEquals(0, unitNormal.dot(tangents[1]), 1e-15);
+
+        // Another test
+        unitNormal = new Vector(1, 2, 1).unit();
+
+        surface = new Surface(2.0, null, unitNormal);
+        tangents = new Vector[]{
+                surface.unitTangent1(),
+                surface.unitTangent2()
+        };
+
+        assertEquals(1, tangents[0].mag(), 1e-15);
+        assertEquals(1, tangents[1].mag(), 1e-15);
+        assertEquals(0, tangents[0].dot(tangents[1]), 1e-15);
+        assertEquals(0, unitNormal.dot(tangents[0]), 1e-15);
+        assertEquals(0, unitNormal.dot(tangents[1]), 1e-15);
+
+        // Another test
+        unitNormal = new Vector(2, 3, -7).unit();
+
+        surface = new Surface(2.0, null, unitNormal);
+        tangents = new Vector[]{
+                surface.unitTangent1(),
+                surface.unitTangent2()
+        };
+
+        assertEquals(1, tangents[0].mag(), 1e-15);
+        assertEquals(1, tangents[1].mag(), 1e-15);
+        assertEquals(0, tangents[0].dot(tangents[1]), 1e-15);
+        assertEquals(0, unitNormal.dot(tangents[0]), 1e-15);
+        assertEquals(0, unitNormal.dot(tangents[1]), 1e-15);
+    }
 }

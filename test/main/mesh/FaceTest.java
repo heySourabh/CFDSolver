@@ -76,8 +76,8 @@ public class FaceTest {
         assertSame(f2.right, f1.left);
 
         Vector avgNormal = normal1.sub(normal2).mult(0.5).unit();
-        TestHelper.assertVectorEquals(avgNormal, f1.surface.unitNormal, 1e-15);
-        TestHelper.assertVectorEquals(f1.surface.unitNormal, f2.surface.unitNormal.mult(-1), 1e-15);
+        TestHelper.assertVectorEquals(avgNormal, f1.surface.unitNormal(), 1e-15);
+        TestHelper.assertVectorEquals(f1.surface.unitNormal(), f2.surface.unitNormal().mult(-1), 1e-15);
     }
 
     @Test

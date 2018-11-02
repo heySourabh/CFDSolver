@@ -94,8 +94,8 @@ public class GreenGaussCellGradientTest {
         assertEquals(fl.nodes[0].x, -0.75, 1e-15);
         assertEquals(fr.nodes[0].x, 0.5, 1e-15);
 
-        assertVectorEquals(new Vector(1, 0, 0), fl.surface.unitNormal, 1e-12);
-        assertVectorEquals(new Vector(1, 0, 0), fr.surface.unitNormal, 1e-12);
+        assertVectorEquals(new Vector(1, 0, 0), fl.surface.unitNormal(), 1e-12);
+        assertVectorEquals(new Vector(1, 0, 0), fr.surface.unitNormal(), 1e-12);
 
         DoubleArray.copy(new double[]{3.0, 6.0, -9.0}, fl.U);
         DoubleArray.copy(new double[]{-4.0, 8.0, -8.0}, fr.U);
@@ -145,8 +145,8 @@ public class GreenGaussCellGradientTest {
         assertEquals(fl.nodes[0].y, -0.75, 1e-15);
         assertEquals(fr.nodes[0].y, 0.5, 1e-15);
 
-        assertVectorEquals(new Vector(0, 1, 0), fl.surface.unitNormal, 1e-12);
-        assertVectorEquals(new Vector(0, 1, 0), fr.surface.unitNormal, 1e-12);
+        assertVectorEquals(new Vector(0, 1, 0), fl.surface.unitNormal(), 1e-12);
+        assertVectorEquals(new Vector(0, 1, 0), fr.surface.unitNormal(), 1e-12);
 
         DoubleArray.copy(new double[]{3.0, 6.0, -9.0}, fl.U);
         DoubleArray.copy(new double[]{-4.0, 8.0, -8.0}, fr.U);
@@ -196,8 +196,8 @@ public class GreenGaussCellGradientTest {
         assertEquals(fl.nodes[0].z, -0.75, 1e-15);
         assertEquals(fr.nodes[0].z, 0.5, 1e-15);
 
-        assertVectorEquals(new Vector(0, 0, 1), fl.surface.unitNormal, 1e-12);
-        assertVectorEquals(new Vector(0, 0, 1), fr.surface.unitNormal, 1e-12);
+        assertVectorEquals(new Vector(0, 0, 1), fl.surface.unitNormal(), 1e-12);
+        assertVectorEquals(new Vector(0, 0, 1), fr.surface.unitNormal(), 1e-12);
 
         DoubleArray.copy(new double[]{3.0, 6.0, -9.0}, fl.U);
         DoubleArray.copy(new double[]{-4.0, 8.0, -8.0}, fr.U);
@@ -255,8 +255,8 @@ public class GreenGaussCellGradientTest {
         Vector v2 = new Vector(new Point(-4, 1, 1), new Point(-3, -1, 4));
         Vector v3 = new Vector(new Point(-3, -1, 4), new Point(-2, -3, 7));
 
-        assertVectorEquals(v1.add(v2).unit(), fl.surface.unitNormal, 1e-12);
-        assertVectorEquals(v2.add(v3).unit(), fr.surface.unitNormal, 1e-12);
+        assertVectorEquals(v1.add(v2).unit(), fl.surface.unitNormal(), 1e-12);
+        assertVectorEquals(v2.add(v3).unit(), fr.surface.unitNormal(), 1e-12);
 
         DoubleArray.copy(new double[]{3.0, 6.0, -9.0}, fl.U);
         DoubleArray.copy(new double[]{-4.0, 8.0, -8.0}, fr.U);

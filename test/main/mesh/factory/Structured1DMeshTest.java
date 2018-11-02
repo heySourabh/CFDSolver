@@ -149,7 +149,7 @@ public class Structured1DMeshTest {
         assertEquals(0, expected.centroid.distance(actual.centroid), 1e-15);
 
         // Have same unit normal
-        assertEquals(0, expected.unitNormal.sub(actual.unitNormal).mag(), 1e-15);
+        assertEquals(0, expected.unitNormal().sub(actual.unitNormal()).mag(), 1e-15);
     }
 
     private static void assertShapeEquals(Shape expected, Shape actual) {

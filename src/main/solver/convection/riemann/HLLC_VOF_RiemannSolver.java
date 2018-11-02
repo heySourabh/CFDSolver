@@ -87,7 +87,7 @@ public class HLLC_VOF_RiemannSolver implements RiemannSolver {
         return rotateBackF(flux, unitNormal, unitTangent1, unitTangent2);
     }
 
-    Vector[] calculateUnitTangents(Vector unitNormal) {
+    private Vector[] calculateUnitTangents(Vector unitNormal) {
         Vector aVector;
         if (Math.abs(unitNormal.x) < 0.6) {
             aVector = new Vector(1, 0, 0);

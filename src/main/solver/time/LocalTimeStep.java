@@ -57,8 +57,8 @@ public class LocalTimeStep implements TimeStep {
 
     private void updateEigenvalue(Face face) {
         face.maxAbsEigenvalue = Math.max(
-                govEqn.convection().maxAbsEigenvalues(face.left.U, face.surface.unitNormal),
-                govEqn.convection().maxAbsEigenvalues(face.right.U, face.surface.unitNormal)
+                govEqn.convection().maxAbsEigenvalues(face.left.U, face.surface.unitNormal()),
+                govEqn.convection().maxAbsEigenvalues(face.right.U, face.surface.unitNormal())
         );
     }
 }

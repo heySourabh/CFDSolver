@@ -22,6 +22,6 @@ public class ExtrapolatedBC implements BoundaryCondition {
     @Override
     public double[] convectiveFlux(Face face) {
         double[] innerVars = face.left.U;
-        return govEqn.convection().flux(innerVars, face.surface.unitNormal);
+        return govEqn.convection().flux(innerVars, face.surface.unitNormal());
     }
 }

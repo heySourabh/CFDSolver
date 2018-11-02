@@ -49,6 +49,6 @@ public class WallVOFBC implements BoundaryCondition {
 
         double[] conservativeVars = {p_rho_beta, rho * u, rho * v, rho * w, C};
 
-        return govEqn.convection().flux(conservativeVars, face.surface.unitNormal);
+        return govEqn.convection().flux(conservativeVars, face.surface.unitNormal());
     }
 }

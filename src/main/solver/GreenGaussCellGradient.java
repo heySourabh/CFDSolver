@@ -28,7 +28,7 @@ public class GreenGaussCellGradient implements CellGradientCalculator {
 
         for (Face face : cell.faces) {
             double area = face.surface.area;
-            Vector unitNormal = face.surface.unitNormal.mult(face.left == cell ? 1 : -1);
+            Vector unitNormal = face.surface.unitNormal().mult(face.left == cell ? 1 : -1);
             Vector projectedArea = unitNormal.mult(area);
             for (int var = 0; var < numVars; var++) {
                 gradients[var] = gradients[var].add(projectedArea.mult(face.U[var]));

@@ -64,11 +64,11 @@ public class Face {
             otherFace.right = thisFace.left;
 
             // Average of the normal from the other face (subtract since it is pointing in opposite direction)
-            Vector avgNormal = thisFace.surface.unitNormal
-                    .sub(otherFace.surface.unitNormal)
+            Vector avgNormal = thisFace.surface.unitNormal()
+                    .sub(otherFace.surface.unitNormal())
                     .unit();
-            thisFace.surface.unitNormal = avgNormal;
-            otherFace.surface.unitNormal = avgNormal.mult(-1);
+            thisFace.surface.setUnitNormal(avgNormal);
+            otherFace.surface.setUnitNormal(avgNormal.mult(-1));
         }
 
         return same;

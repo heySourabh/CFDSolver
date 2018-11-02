@@ -387,8 +387,8 @@ public class Unstructured2DMeshTest {
         Surface s2 = f2.surface;
         if (Math.abs(s1.area - s2.area) > 1e-8) return false;
         if (s1.centroid.distance(s2.centroid) > 1e-8) return false;
-        return s1.unitNormal
-                .sub(s2.unitNormal.mult(direction))
+        return s1.unitNormal()
+                .sub(s2.unitNormal().mult(direction))
                 .mag() < 1e-8;
     }
 

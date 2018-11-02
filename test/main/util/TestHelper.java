@@ -184,8 +184,8 @@ public class TestHelper {
         if (expected.centroid.distance(actual.centroid) > tolerance) return 0;
 
         // compare normals and directions
-        if (expected.unitNormal.sub(actual.unitNormal).mag() < tolerance) return 1;
-        if (expected.unitNormal.add(actual.unitNormal).mag() < tolerance) return -1;
+        if (expected.unitNormal().sub(actual.unitNormal()).mag() < tolerance) return 1;
+        if (expected.unitNormal().add(actual.unitNormal()).mag() < tolerance) return -1;
 
         return 0;
     }

@@ -25,8 +25,8 @@ public class InviscidWallVOFBC implements BoundaryCondition {
         double C = insidePrimVars[4];
 
         Vector insideVelocity = new Vector(u, v, w);
-        Vector normalVelocity = face.surface.unitNormal
-                .mult(insideVelocity.dot(face.surface.unitNormal));
+        Vector normalVelocity = face.surface.unitNormal()
+                .mult(insideVelocity.dot(face.surface.unitNormal()));
         Vector tangentVelocity = insideVelocity.sub(normalVelocity);
         Vector mirroredVelocity = normalVelocity
                 .mult(-1)
@@ -41,7 +41,7 @@ public class InviscidWallVOFBC implements BoundaryCondition {
 
     @Override
     public double[] convectiveFlux(Face face) {
-        Vector n = face.surface.unitNormal;
+        Vector n = face.surface.unitNormal();
         double[] insidePrimVars = govEqn.primitiveVars(face.left.U);
         double p = insidePrimVars[0];
         return new double[]{

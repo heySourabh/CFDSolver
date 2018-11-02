@@ -4,8 +4,6 @@ import main.geom.Vector;
 import main.mesh.Face;
 import main.physics.goveqn.factory.EulerEquations;
 
-import java.util.function.Function;
-
 import static main.util.DoubleArray.copy;
 
 public class InletBC implements BoundaryCondition {
@@ -21,12 +19,12 @@ public class InletBC implements BoundaryCondition {
     @Override
     public void setGhostCellValues(Face face) {
         InletProperties prop = unsteadyInletProperties;
-        Vector velocity = face.surface.unitNormal
+        Vector velocity = face.surface.unitNormal()
                 .mult(-prop.normalVelocityMagnitude); // negative since the normal is pointing out
         double[] primVars = new double[]{
                 prop.density, velocity.x, velocity.y, velocity.z, prop.pressure
         };
-        double mach = govEqn.mach(primVars, face.surface.unitNormal);
+        double mach = govEqn.mach(primVars, face.surface.unitNormal());
         if (mach > -1 && mach < 1) {
             double[] insidePrimVars = govEqn.primitiveVars(face.left.U);
             double insidePressure = insidePrimVars[4];
@@ -40,12 +38,12 @@ public class InletBC implements BoundaryCondition {
     @Override
     public double[] convectiveFlux(Face face) {
         InletProperties prop = unsteadyInletProperties;
-        Vector velocity = face.surface.unitNormal
+        Vector velocity = face.surface.unitNormal()
                 .mult(-prop.normalVelocityMagnitude); // negative since the normal is pointing out
         double[] primVars = new double[]{
                 prop.density, velocity.x, velocity.y, velocity.z, prop.pressure
         };
-        double mach = govEqn.mach(primVars, face.surface.unitNormal);
+        double mach = govEqn.mach(primVars, face.surface.unitNormal());
         if (mach > -1 && mach < 1) {
             double[] insidePrimVars = govEqn.primitiveVars(face.left.U);
             double insidePressure = insidePrimVars[4];
@@ -53,7 +51,7 @@ public class InletBC implements BoundaryCondition {
         }
         double[] consVars = govEqn.conservativeVars(primVars);
 
-        return govEqn.convection().flux(consVars, face.surface.unitNormal);
+        return govEqn.convection().flux(consVars, face.surface.unitNormal());
     }
 
     public static class InletProperties {

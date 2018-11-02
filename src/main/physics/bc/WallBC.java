@@ -45,6 +45,6 @@ public class WallBC implements BoundaryCondition {
 
         double[] conservativeVars = {p_beta, u, v, w};
 
-        return govEqn.convection().flux(conservativeVars, face.surface.unitNormal);
+        return govEqn.convection().flux(conservativeVars, face.surface.unitNormal());
     }
 }
