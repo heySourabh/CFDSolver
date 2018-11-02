@@ -1,6 +1,7 @@
 package main.solver.convection.riemann;
 
 import main.geom.Vector;
+import main.mesh.Surface;
 import main.physics.goveqn.factory.ArtificialCompressibilityVOFEquations;
 
 public class HLLC_VOF_RiemannSolver implements RiemannSolver {
@@ -14,7 +15,8 @@ public class HLLC_VOF_RiemannSolver implements RiemannSolver {
     }
 
     @Override
-    public double[] flux(double[] UL, double[] UR, Vector unitNormal) {
+    public double[] flux(double[] UL, double[] UR, Surface surface) {
+        Vector unitNormal = surface.unitNormal();
         double[] eigenvaluesL = govEqn.convection().sortedEigenvalues(UL, unitNormal);
         double[] eigenvaluesR = govEqn.convection().sortedEigenvalues(UR, unitNormal);
 
@@ -23,9 +25,8 @@ public class HLLC_VOF_RiemannSolver implements RiemannSolver {
         double SL = Math.min(eigenvaluesL[0], eigenvaluesR[0]);
         double SR = Math.max(eigenvaluesL[4], eigenvaluesR[4]);
 
-        Vector[] tangents = calculateUnitTangents(unitNormal);
-        Vector unitTangent1 = tangents[0];
-        Vector unitTangent2 = tangents[1];
+        Vector unitTangent1 = surface.unitTangent1();
+        Vector unitTangent2 = surface.unitTangent2();
 
         UL = rotateU(UL, unitNormal, unitTangent1, unitTangent2);
         UR = rotateU(UR, unitNormal, unitTangent1, unitTangent2);
@@ -86,25 +87,6 @@ public class HLLC_VOF_RiemannSolver implements RiemannSolver {
 
         return rotateBackF(flux, unitNormal, unitTangent1, unitTangent2);
     }
-
-    private Vector[] calculateUnitTangents(Vector unitNormal) {
-        Vector aVector;
-        if (Math.abs(unitNormal.x) < 0.6) {
-            aVector = new Vector(1, 0, 0);
-        } else if (Math.abs(unitNormal.y) < 0.6) {
-            aVector = new Vector(0, 1, 0);
-        } else {
-            aVector = new Vector(0, 0, 1);
-        }
-
-        Vector projection = unitNormal.mult(unitNormal.dot(aVector));
-        Vector unitTangent1 = aVector.sub(projection).unit();
-
-        Vector unitTangent2 = unitNormal.cross(unitTangent1).unit();
-
-        return new Vector[]{unitTangent1, unitTangent2};
-    }
-
 
     private double[] rotateU(double[] U, Vector unitNormal, Vector unitTangent1, Vector unitTangent2) {
         double nx = unitNormal.x;

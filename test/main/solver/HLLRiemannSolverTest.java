@@ -1,6 +1,7 @@
 package main.solver;
 
 import main.geom.Vector;
+import main.mesh.Surface;
 import main.physics.goveqn.Convection;
 import main.physics.goveqn.Diffusion;
 import main.physics.goveqn.GoverningEquations;
@@ -26,10 +27,11 @@ public class HLLRiemannSolverTest {
         double[] UL = {42.5, 78.2, 98.1};
         double[] UR = {75, 7.21, 8.3};
         Vector unitNormal = new Vector(21, 87, 3).unit();
+        Surface surface = new Surface(2.5, null, unitNormal);
 
         double[] expectedFlux = resultantFlux(UL, unitNormal);
 
-        assertArrayEquals(expectedFlux, new HLLRiemannSolver(govEqn).flux(UL, UR, unitNormal), 1e-15);
+        assertArrayEquals(expectedFlux, new HLLRiemannSolver(govEqn).flux(UL, UR, surface), 1e-15);
     }
 
     @Test
@@ -42,10 +44,11 @@ public class HLLRiemannSolverTest {
         double[] UL = {42.5, 78.2, 98.1};
         double[] UR = {75, 7.21, 8.3};
         Vector unitNormal = new Vector(21, 87, 3).unit();
+        Surface surface = new Surface(2.5, null, unitNormal);
 
         double[] expectedFlux = resultantFlux(UR, unitNormal);
 
-        assertArrayEquals(expectedFlux, new HLLRiemannSolver(govEqn).flux(UL, UR, unitNormal), 1e-15);
+        assertArrayEquals(expectedFlux, new HLLRiemannSolver(govEqn).flux(UL, UR, surface), 1e-15);
     }
 
     @Test
@@ -58,10 +61,11 @@ public class HLLRiemannSolverTest {
         double[] UL = {42.5, 78.2, 98.1};
         double[] UR = {75, 7.21, 8.3};
         Vector unitNormal = new Vector(21, 87, 3).unit();
+        Surface surface = new Surface(2.5, null, unitNormal);
 
         double[] expectedFlux = hll_approximation(UL, UR, resultantFlux(UL, unitNormal), resultantFlux(UR, unitNormal), -3, 1);
 
-        assertArrayEquals(expectedFlux, new HLLRiemannSolver(govEqn).flux(UL, UR, unitNormal), 1e-15);
+        assertArrayEquals(expectedFlux, new HLLRiemannSolver(govEqn).flux(UL, UR, surface), 1e-15);
     }
 
     @Test
@@ -74,8 +78,9 @@ public class HLLRiemannSolverTest {
         double[] UL = {42.5, 78.2, 98.1};
         double[] UR = {75, 7.21, 8.3};
         Vector unitNormal = new Vector(21, 87, 3).unit();
+        Surface surface = new Surface(2.5, null, unitNormal);
 
-        TestHelper.assertThrows(IllegalStateException.class, () -> new HLLRiemannSolver(govEqn).flux(UL, UR, unitNormal));
+        TestHelper.assertThrows(IllegalStateException.class, () -> new HLLRiemannSolver(govEqn).flux(UL, UR, surface));
     }
 
     private GoverningEquations testGoverningEquation(double[] evs) {

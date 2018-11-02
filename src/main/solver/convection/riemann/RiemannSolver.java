@@ -1,7 +1,7 @@
 package main.solver.convection.riemann;
 
-import main.geom.Vector;
+import main.mesh.Surface;
 
 public interface RiemannSolver {
-    double[] flux(double[] UL, double[] UR, Vector unitNormal);
+    double[] flux(double[] UL, double[] UR, Surface surface);
 }

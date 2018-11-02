@@ -1,6 +1,7 @@
 package main.solver.convection.riemann;
 
 import main.geom.Vector;
+import main.mesh.Surface;
 import main.physics.goveqn.Convection;
 import main.physics.goveqn.GoverningEquations;
 
@@ -12,7 +13,8 @@ public class RusanovRiemannSolver implements RiemannSolver {
     }
 
     @Override
-    public double[] flux(double[] UL, double[] UR, Vector unitNormal) {
+    public double[] flux(double[] UL, double[] UR, Surface surface) {
+        Vector unitNormal = surface.unitNormal();
         Convection convection = govEqn.convection();
         double[] FL = convection.flux(UL, unitNormal);
         double[] FR = convection.flux(UR, unitNormal);

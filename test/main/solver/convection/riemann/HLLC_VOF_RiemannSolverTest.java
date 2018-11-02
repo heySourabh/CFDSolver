@@ -1,11 +1,11 @@
 package main.solver.convection.riemann;
 
 import main.geom.Vector;
+import main.mesh.Surface;
 import main.physics.goveqn.factory.ArtificialCompressibilityVOFEquations;
 import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
 
 public class HLLC_VOF_RiemannSolverTest {
 
@@ -33,10 +33,11 @@ public class HLLC_VOF_RiemannSolverTest {
                 12, 18, 320, 0, 0.5
         };
         Vector faceNormal = new Vector(1, 1, 0).unit();
+        Surface surface = new Surface(25, null, faceNormal);
 
         // Calculated using the 2D structured solver code (except the 4th component)
         assertArrayEquals(new double[]{2648.4343430802633, 1.6849201174788963E7, 1.6845083545975972E7, 0, 8.760912368072734},
-                solver.flux(UL, UR, faceNormal), 1e-15);
+                solver.flux(UL, UR, surface), 1e-15);
 
 
         // UL, UR interchanged
@@ -49,6 +50,6 @@ public class HLLC_VOF_RiemannSolverTest {
 
         // Calculated using the 2D structured solver code (except the 4th component)
         assertArrayEquals(new double[]{-2749.8546588637614, 1.6833997209372137E7, 1.683813175542595E7, 0.0, -8.796906497477327},
-                solver.flux(UL, UR, faceNormal), 1e-15);
+                solver.flux(UL, UR, surface), 1e-15);
     }
 }
