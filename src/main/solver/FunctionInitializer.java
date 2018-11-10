@@ -3,6 +3,7 @@ package main.solver;
 import main.geom.Point;
 import main.geom.VTKType;
 import main.geom.Vector;
+import main.geom.factory.Quad;
 import main.mesh.Cell;
 import main.mesh.Mesh;
 import main.physics.goveqn.GoverningEquations;
@@ -99,14 +100,16 @@ public class FunctionInitializer implements SolutionInitializer {
                 Point pc = grid[i + 1][j + 1];
                 Point pd = grid[i][j + 1];
 
-                Point centroid = quadCentroid(pa, pb, pc, pd);
+                Quad quad = new Quad(pa, pb, pc, pd);
+
+                Point centroid = quad.centroid();
 
                 double[] U = f.apply(centroid);
 
-                increment(sumFdA, multiply(U, quadArea(pa, pb, pc, pd)));
+                increment(sumFdA, multiply(U, quad.area()));
             }
         }
-        return divide(sumFdA, quadArea(p00, p10, p11, p01));
+        return divide(sumFdA, new Quad(p00, p10, p11, p01).area());
     }
 
     private Point[][] grid(Point p00, Point p10, Point p11, Point p01, int numDivs) {
@@ -131,45 +134,6 @@ public class FunctionInitializer implements SolutionInitializer {
         }
 
         return grid;
-    }
-
-    private Point quadCentroid(Point pa, Point pb, Point pc, Point pd) {
-        Vector vab = new Vector(pa, pb);
-        Vector vbc = new Vector(pb, pc);
-        Vector vac = new Vector(pa, pc);
-        Vector vcd = new Vector(pc, pd);
-
-        Vector area1 = vab.cross(vbc);
-        Vector area2 = vac.cross(vcd);
-
-        // divided by 3 later
-        double cx1 = (pa.x + pb.x + pc.x);
-        double cy1 = (pa.y + pb.y + pc.y);
-        double cz1 = (pa.z + pb.z + pc.z);
-
-        double cx2 = (pa.x + pc.x + pd.x);
-        double cy2 = (pa.y + pc.y + pd.y);
-        double cz2 = (pa.z + pc.z + pd.z);
-
-        double area = area1.add(area2).mag();
-
-        return new Point(
-                area1.mult(cx1).add(area2.mult(cx2)).mag() / 3.0 / area,
-                area1.mult(cy1).add(area2.mult(cy2)).mag() / 3.0 / area,
-                area1.mult(cz1).add(area2.mult(cz2)).mag() / 3.0 / area);
-    }
-
-    private double quadArea(Point pa, Point pb, Point pc, Point pd) {
-        Vector vab = new Vector(pa, pb);
-        Vector vbc = new Vector(pb, pc);
-        Vector vac = new Vector(pa, pc);
-        Vector vcd = new Vector(pc, pd);
-
-        Vector area1 = vab.cross(vbc);
-        Vector area2 = vac.cross(vcd);
-
-        return area1.add(area2)
-                .mag() * 0.5;
     }
 
     private Vector xi0(Point p00, Point p01, double eta) {
