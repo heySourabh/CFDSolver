@@ -1,11 +1,11 @@
 package main.physics.goveqn.factory;
 
 import main.geom.Vector;
-import main.mesh.Surface;
 import main.physics.goveqn.Convection;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class VOFAdvectionEquationsTest {
 
