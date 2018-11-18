@@ -6,25 +6,25 @@ import main.physics.goveqn.*;
 public class VOFAdvectionEquations implements GoverningEquations {
     @Override
     public String description() {
-        return "Equations for advection of volume fraction in a varying non-divergent velocity field.";
+        return "Equations for advection of volume fraction in a varying non-divergent velocity field with interface compression.";
     }
 
     @Override
     public int numVars() {
-        return 4;
+        return 5;
     }
 
     @Override
     public String[] conservativeVarNames() {
         return new String[]{
-                "u", "v", "w", "C"
+                "u", "v", "w", "C", "alpha"
         };
     }
 
     @Override
     public String[] primitiveVarNames() {
         return new String[]{
-                "u", "v", "w", "C"
+                "u", "v", "w", "C", "alpha"
         };
     }
 
@@ -34,9 +34,10 @@ public class VOFAdvectionEquations implements GoverningEquations {
         double v = conservativeVars[1];
         double w = conservativeVars[2];
         double C = conservativeVars[3];
+        double alpha = conservativeVars[4];
 
         return new double[]{
-                u, v, w, C
+                u, v, w, C, alpha
         };
     }
 
@@ -46,9 +47,10 @@ public class VOFAdvectionEquations implements GoverningEquations {
         double v = primitiveVars[1];
         double w = primitiveVars[2];
         double C = primitiveVars[3];
+        double alpha = primitiveVars[4];
 
         return new double[]{
-                u, v, w, C
+                u, v, w, C, alpha
         };
     }
 
@@ -70,7 +72,8 @@ public class VOFAdvectionEquations implements GoverningEquations {
                     0,
                     0,
                     0,
-                    C * vel
+                    C * vel,
+                    0
             };
         }
 
@@ -79,7 +82,6 @@ public class VOFAdvectionEquations implements GoverningEquations {
             double u = conservativeVars[0];
             double v = conservativeVars[1];
             double w = conservativeVars[2];
-            //double C = conservativeVars[3];
 
             double nx = unitNormal.x;
             double ny = unitNormal.y;
@@ -88,7 +90,7 @@ public class VOFAdvectionEquations implements GoverningEquations {
             double vel = u * nx + v * ny + w * nz;
 
             return new double[]{
-                    0, 0, 0, vel
+                    0, 0, 0, 0, vel
             };
         }
 
@@ -97,7 +99,6 @@ public class VOFAdvectionEquations implements GoverningEquations {
             double u = conservativeVars[0];
             double v = conservativeVars[1];
             double w = conservativeVars[2];
-            //double C = conservativeVars[3];
 
             double nx = unitNormal.x;
             double ny = unitNormal.y;
