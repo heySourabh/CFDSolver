@@ -17,48 +17,48 @@ public class VOFAdvectionEquations implements GoverningEquations {
     @Override
     public String[] conservativeVarNames() {
         return new String[]{
-                "C", "u", "v", "w"
+                "u", "v", "w", "C"
         };
     }
 
     @Override
     public String[] primitiveVarNames() {
         return new String[]{
-                "C", "u", "v", "w"
+                "u", "v", "w", "C"
         };
     }
 
     @Override
     public double[] primitiveVars(double[] conservativeVars) {
-        double C = conservativeVars[0];
-        double u = conservativeVars[1];
-        double v = conservativeVars[2];
-        double w = conservativeVars[3];
+        double u = conservativeVars[0];
+        double v = conservativeVars[1];
+        double w = conservativeVars[2];
+        double C = conservativeVars[3];
 
         return new double[]{
-                C, u, v, w
+                u, v, w, C
         };
     }
 
     @Override
     public double[] conservativeVars(double[] primitiveVars) {
-        double C = primitiveVars[0];
-        double u = primitiveVars[1];
-        double v = primitiveVars[2];
-        double w = primitiveVars[3];
+        double u = primitiveVars[0];
+        double v = primitiveVars[1];
+        double w = primitiveVars[2];
+        double C = primitiveVars[3];
 
         return new double[]{
-                C, u, v, w
+                u, v, w, C
         };
     }
 
     final private Convection convection = new Convection() {
         @Override
         public double[] flux(double[] conservativeVars, Vector unitNormal) {
-            double C = conservativeVars[0];
-            double u = conservativeVars[1];
-            double v = conservativeVars[2];
-            double w = conservativeVars[3];
+            double u = conservativeVars[0];
+            double v = conservativeVars[1];
+            double w = conservativeVars[2];
+            double C = conservativeVars[3];
 
             double nx = unitNormal.x;
             double ny = unitNormal.y;
@@ -67,19 +67,19 @@ public class VOFAdvectionEquations implements GoverningEquations {
             double vel = u * nx + v * ny + w * nz;
 
             return new double[]{
-                    C * vel,
                     0,
                     0,
-                    0
+                    0,
+                    C * vel
             };
         }
 
         @Override
         public double[] sortedEigenvalues(double[] conservativeVars, Vector unitNormal) {
-            // double C = conservativeVars[0];
-            double u = conservativeVars[1];
-            double v = conservativeVars[2];
-            double w = conservativeVars[3];
+            double u = conservativeVars[0];
+            double v = conservativeVars[1];
+            double w = conservativeVars[2];
+            //double C = conservativeVars[3];
 
             double nx = unitNormal.x;
             double ny = unitNormal.y;
@@ -94,10 +94,10 @@ public class VOFAdvectionEquations implements GoverningEquations {
 
         @Override
         public double maxAbsEigenvalues(double[] conservativeVars, Vector unitNormal) {
-            // double C = conservativeVars[0];
-            double u = conservativeVars[1];
-            double v = conservativeVars[2];
-            double w = conservativeVars[3];
+            double u = conservativeVars[0];
+            double v = conservativeVars[1];
+            double w = conservativeVars[2];
+            //double C = conservativeVars[3];
 
             double nx = unitNormal.x;
             double ny = unitNormal.y;

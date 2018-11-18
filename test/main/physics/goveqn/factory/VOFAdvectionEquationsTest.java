@@ -22,13 +22,13 @@ public class VOFAdvectionEquationsTest {
 
     @Test
     public void conservativeVarNames() {
-        assertArrayEquals(new String[]{"C", "u", "v", "w"},
+        assertArrayEquals(new String[]{"u", "v", "w", "C"},
                 new VOFAdvectionEquations().conservativeVarNames());
     }
 
     @Test
     public void primitiveVarNames() {
-        assertArrayEquals(new String[]{"C", "u", "v", "w"},
+        assertArrayEquals(new String[]{"u", "v", "w", "C"},
                 new VOFAdvectionEquations().primitiveVarNames());
     }
 
@@ -72,13 +72,13 @@ public class VOFAdvectionEquationsTest {
 
     @Test
     public void convection() {
-        double C = 0.1;
         double u = -89;
         double v = 78.7;
         double w = -9;
+        double C = 0.1;
 
         double[] conservativeVars = {
-                C, u, v, w
+                u, v, w, C
         };
 
         Vector velocity = new Vector(u, v, w);
@@ -91,7 +91,7 @@ public class VOFAdvectionEquationsTest {
         double maxAbsEigenvalue = Math.abs(velocity.dot(normal));
 
         double[] flux = {
-                C * velocity.dot(normal), 0, 0, 0
+                0, 0, 0, C * velocity.dot(normal)
         };
 
         Convection convection = new VOFAdvectionEquations().convection();
