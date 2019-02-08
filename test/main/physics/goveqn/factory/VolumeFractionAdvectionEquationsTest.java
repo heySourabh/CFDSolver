@@ -74,7 +74,41 @@ public class VolumeFractionAdvectionEquationsTest {
     }
 
     @Test
-    public void convection() {
+    public void convection_with_positive_Vn() {
+        double C = 0.2;
+        double u = 78;
+        double v = 9.6;
+        double w = -3.67;
+        double[] conservativeVars = {C, u, v, w};
+        Vector unitNormal = new Vector(4, 6, -1).unit();
+
+        Vector V = new Vector(u, v, w);
+        double Vn = V.dot(unitNormal);
+        double[] expectedFlux = {
+                C * Vn, 0, 0, 0
+        };
+
+        double[] expectedEigenvalues = {
+                Math.min(0, Vn), 0, 0, Math.max(0, Vn)
+        };
+
+        double expectedMaxAbsEigenvalue = Math.abs(Vn);
+
+        Convection convection = new VolumeFractionAdvectionEquations().convection();
+
+        assertArrayEquals(expectedFlux,
+                convection.flux(conservativeVars, unitNormal),
+                1e-15);
+        assertArrayEquals(expectedEigenvalues,
+                convection.sortedEigenvalues(conservativeVars, unitNormal),
+                1e-15);
+        assertEquals(expectedMaxAbsEigenvalue,
+                convection.maxAbsEigenvalues(conservativeVars, unitNormal),
+                1e-15);
+    }
+
+    @Test
+    public void convection_with_negative_Vn() {
         double C = 0.2;
         double u = -78;
         double v = 9.6;
