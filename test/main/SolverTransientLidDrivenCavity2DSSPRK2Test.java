@@ -6,8 +6,8 @@ import main.mesh.Mesh;
 import main.mesh.factory.Structured2DMesh;
 import main.physics.bc.BoundaryCondition;
 import main.physics.bc.WallBC;
-import main.physics.goveqn.factory.ArtificialCompressibilityEquations;
 import main.physics.goveqn.GoverningEquations;
+import main.physics.goveqn.factory.ArtificialCompressibilityEquations;
 import main.solver.*;
 import main.solver.convection.ConvectionResidual;
 import main.solver.convection.reconstructor.VKLimiterReconstructor;
@@ -169,9 +169,8 @@ public class SolverTransientLidDrivenCavity2DSSPRK2Test {
         if (!outputFolder.mkdirs() && !outputFolder.exists())
             throw new IOException("Unable to create required folders for writing output.");
         for (int real_time_iter = 0; real_time_iter < numRealIter; real_time_iter++) {
-            new VTKWriter(new File(outputFolder,
-                    String.format("sol_%05d.vtu", real_time_iter)),
-                    mesh, problem.govEqn()).write();
+            new VTKWriter(mesh, problem.govEqn()).write(new File(outputFolder,
+                    String.format("sol_%05d.vtu", real_time_iter)));
             int pseudoIter = 0;
             for (; pseudoIter < maxPseudoIter; pseudoIter++) {
                 timeIntegrator.updateCellAverages();
@@ -192,9 +191,8 @@ public class SolverTransientLidDrivenCavity2DSSPRK2Test {
                 timeIntegrator.setTimeDiscretization(timeDiscretization);
             }
         }
-        new VTKWriter(new File(outputFolder,
-                String.format("sol_%05d.vtu", numRealIter)),
-                mesh, problem.govEqn()).write();
+        new VTKWriter(mesh, problem.govEqn()).write(new File(outputFolder,
+                String.format("sol_%05d.vtu", numRealIter)));
 
         Assert.assertArrayEquals(expectedPseudoIterations, actualPseudoIterations);
     }

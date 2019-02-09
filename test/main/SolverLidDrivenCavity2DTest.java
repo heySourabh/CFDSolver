@@ -169,7 +169,8 @@ public class SolverLidDrivenCavity2DTest {
             }
         }
 
-        new VTKWriter(new File("test/test_data/lid_driven_cavity2d.vtu"), mesh, problem.govEqn()).write();
+        new VTKWriter(mesh, problem.govEqn())
+                .write(new File("test/test_data/lid_driven_cavity2d.vtu"));
         Assert.assertEquals(3020, iter);
     }
 }

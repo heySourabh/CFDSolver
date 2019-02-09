@@ -138,7 +138,7 @@ public class Solver1DScalarDiffusionTest {
             double actualSol = ci.U[0];
             assertEquals(expectedSol, actualSol, 1e-15);
         }
-        new VTKWriter(new File("test/test_data/scalar1D_diffusion.vtu"), mesh, problem.govEqn()).write();
+        new VTKWriter(mesh, problem.govEqn()).write(new File("test/test_data/scalar1D_diffusion.vtu"));
     }
 
     private double expectedValueOfCell(Cell cim1, Cell ci, Cell cip1) {
