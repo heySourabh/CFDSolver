@@ -147,12 +147,18 @@ public class VolumeFractionAdvectionEquationsTest {
         double u = -78;
         double v = 9.6;
         double w = -3.67;
+        Vector V = new Vector(u, v, w);
         double[] conservativeVars = {C, u, v, w};
-        Vector[] gradConservativeVars = {null, null, null, null};
+        Vector[] gradConservativeVars = {new Vector(-5, -4, -6), null, null, null};
         Vector unitNormal = new Vector(4, 6, -1).unit();
 
-        double[] expectedFlux = {0, 0, 0, 0};
-        double expectedMaxAbsDiffusivity = 0.0;
+        Vector unitGradC = gradConservativeVars[0].unit();
+        Vector unitV = V.unit();
+        double CAlpha = 0.5 * Math.sqrt(Math.abs(unitGradC.dot(unitV)));
+        double scalar = -CAlpha * V.mag() * C * (1 - C);
+        Vector f0 = unitGradC.mult(scalar);
+        double[] expectedFlux = {f0.dot(unitNormal), 0, 0, 0};
+        double expectedMaxAbsDiffusivity = 0.25;
 
         Diffusion diffusion = new VolumeFractionAdvectionEquations().diffusion();
 

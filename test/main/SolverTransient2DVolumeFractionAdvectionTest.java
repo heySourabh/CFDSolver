@@ -13,6 +13,7 @@ import main.solver.convection.reconstructor.SolutionReconstructor;
 import main.solver.convection.reconstructor.VKLimiterReconstructor;
 import main.solver.convection.riemann.HLLRiemannSolver;
 import main.solver.convection.riemann.RiemannSolver;
+import main.solver.diffusion.DiffusionResidual;
 import main.solver.problem.ProblemDefinition;
 import main.solver.time.*;
 import main.util.DoubleArray;
@@ -78,7 +79,8 @@ public class SolverTransient2DVolumeFractionAdvectionTest {
                 = new VKLimiterReconstructor(mesh, cellNeighborCalculator);
         private final RiemannSolver riemannSolver = new HLLRiemannSolver(govEqn);
         List<ResidualCalculator> residuals = List.of(
-                new ConvectionResidual(reconstructor, riemannSolver, mesh));
+                new ConvectionResidual(reconstructor, riemannSolver, mesh),
+                new DiffusionResidual(mesh, govEqn));
         private final SpaceDiscretization spaceDiscretization = new SpaceDiscretization(
                 mesh, cellGradientCalculator, residuals);
         TimeStep timeStep = new LocalTimeStep(mesh, govEqn);
@@ -105,11 +107,9 @@ public class SolverTransient2DVolumeFractionAdvectionTest {
 
         @Override
         public SolutionInitializer solutionInitializer() {
-            double radius = 0.5;
-            return new FunctionInitializer(p ->
-            {
-                double dist = p.toVector().mag();
-                return new double[]{dist < radius ? 1 : 0, 1, 1, 0};
+            return new FunctionInitializer(p -> {
+                double C = (p.x > -0.5 && p.x < 0.5 && p.y > -0.5 && p.y < 0.5) ? 1 : 0;
+                return new double[]{C, 1, 0.5, 0};
             });
         }
 
@@ -146,7 +146,7 @@ public class SolverTransient2DVolumeFractionAdvectionTest {
         timeIntegrator.setCourantNum(1.0);
 
         double real_dt = 0.01;
-        int numRealTimeSteps = 50;
+        int numRealTimeSteps = 10;
         TimeDiscretization timeDiscretization = new TwoPointTimeDiscretization(
                 mesh, govEqn, real_dt);
         timeIntegrator.setTimeDiscretization(timeDiscretization);
