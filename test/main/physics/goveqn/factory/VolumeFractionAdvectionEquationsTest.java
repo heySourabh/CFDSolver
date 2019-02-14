@@ -19,34 +19,34 @@ public class VolumeFractionAdvectionEquationsTest {
 
     @Test
     public void numVars() {
-        assertEquals(4, new VolumeFractionAdvectionEquations().numVars());
+        assertEquals(7, new VolumeFractionAdvectionEquations().numVars());
     }
 
     @Test
     public void conservativeVarNames() {
-        assertArrayEquals(new String[]{"C", "u", "v", "w"},
+        assertArrayEquals(new String[]{"C", "u", "v", "w", "ur", "vr", "wr"},
                 new VolumeFractionAdvectionEquations().conservativeVarNames()
         );
     }
 
     @Test
     public void primitiveVarNames() {
-        assertArrayEquals(new String[]{"C", "u", "v", "w"},
+        assertArrayEquals(new String[]{"C", "u", "v", "w", "ur", "vr", "wr"},
                 new VolumeFractionAdvectionEquations().primitiveVarNames()
         );
     }
 
     @Test
     public void realVarNames() {
-        assertArrayEquals(new String[]{"C", "u", "v", "w"},
+        assertArrayEquals(new String[]{"C", "u", "v", "w", "ur", "vr", "wr"},
                 new VolumeFractionAdvectionEquations().realVarNames()
         );
     }
 
     @Test
     public void primitiveVars() {
-        double[] conservativeVars = {0.5, -4, 6, -2};
-        double[] expectedPrimitiveVars = {0.5, -4, 6, -2};
+        double[] conservativeVars = {0.5, -4, 6, -2, 9, -4, -4};
+        double[] expectedPrimitiveVars = {0.5, -4, 6, -2, 9, -4, -4};
 
         assertArrayEquals(expectedPrimitiveVars,
                 new VolumeFractionAdvectionEquations().primitiveVars(conservativeVars),
@@ -55,8 +55,8 @@ public class VolumeFractionAdvectionEquationsTest {
 
     @Test
     public void conservativeVars() {
-        double[] primitiveVars = {0.7, 8, -200, 1};
-        double[] expectedConservativeVars = {0.7, 8, -200, 1};
+        double[] primitiveVars = {0.7, 8, -200, 1, 9, -4, -4};
+        double[] expectedConservativeVars = {0.7, 8, -200, 1, 9, -4, -4};
 
         assertArrayEquals(expectedConservativeVars,
                 new VolumeFractionAdvectionEquations().conservativeVars(primitiveVars),
@@ -65,8 +65,8 @@ public class VolumeFractionAdvectionEquationsTest {
 
     @Test
     public void realVars() {
-        double[] conservativeVars = {0.1, 34, 6, -35};
-        double[] expectedRealVars = {0.1, 34, 6, -35};
+        double[] conservativeVars = {0.1, 34, 6, -35, 9, -4, -4};
+        double[] expectedRealVars = {0.1, 34, 6, -35, 9, -4, -4};
 
         assertArrayEquals(expectedRealVars,
                 new VolumeFractionAdvectionEquations().realVars(conservativeVars),
@@ -79,17 +79,21 @@ public class VolumeFractionAdvectionEquationsTest {
         double u = 78;
         double v = 9.6;
         double w = -3.67;
-        double[] conservativeVars = {C, u, v, w};
+        double ur = 2;
+        double vr = 4;
+        double wr = 5;
+        double[] conservativeVars = {C, u, v, w, ur, vr, wr};
         Vector unitNormal = new Vector(4, 6, -1).unit();
 
         Vector V = new Vector(u, v, w);
-        double Vn = V.dot(unitNormal);
+        Vector Vr = new Vector(ur, vr, wr);
+        double Vn = V.add(Vr).dot(unitNormal);
         double[] expectedFlux = {
-                C * Vn, 0, 0, 0
+                C * Vn, 0, 0, 0, 0, 0, 0
         };
 
         double[] expectedEigenvalues = {
-                Math.min(0, Vn), 0, 0, Math.max(0, Vn)
+                0, 0, 0, 0, 0, 0, Vn
         };
 
         double expectedMaxAbsEigenvalue = Math.abs(Vn);
@@ -113,17 +117,21 @@ public class VolumeFractionAdvectionEquationsTest {
         double u = -78;
         double v = 9.6;
         double w = -3.67;
-        double[] conservativeVars = {C, u, v, w};
+        double ur = 2;
+        double vr = 4;
+        double wr = 5;
+        double[] conservativeVars = {C, u, v, w, ur, vr, wr};
         Vector unitNormal = new Vector(4, 6, -1).unit();
 
         Vector V = new Vector(u, v, w);
-        double Vn = V.dot(unitNormal);
+        Vector Vr = new Vector(ur, vr, wr);
+        double Vn = V.add(Vr).dot(unitNormal);
         double[] expectedFlux = {
-                C * Vn, 0, 0, 0
+                C * Vn, 0, 0, 0, 0, 0, 0
         };
 
         double[] expectedEigenvalues = {
-                Math.min(0, Vn), 0, 0, Math.max(0, Vn)
+                Vn, 0, 0, 0, 0, 0, 0
         };
 
         double expectedMaxAbsEigenvalue = Math.abs(Vn);
@@ -147,18 +155,12 @@ public class VolumeFractionAdvectionEquationsTest {
         double u = -78;
         double v = 9.6;
         double w = -3.67;
-        Vector V = new Vector(u, v, w);
         double[] conservativeVars = {C, u, v, w};
-        Vector[] gradConservativeVars = {new Vector(-5, -4, -6), null, null, null};
+        Vector[] gradConservativeVars = {null, null, null, null};
         Vector unitNormal = new Vector(4, 6, -1).unit();
 
-        Vector unitGradC = gradConservativeVars[0].unit();
-        Vector unitV = V.unit();
-        double CAlpha = 0.5 * Math.sqrt(Math.abs(unitGradC.dot(unitV)));
-        double scalar = -CAlpha * V.mag() * C * (1 - C);
-        Vector f0 = unitGradC.mult(scalar);
-        double[] expectedFlux = {f0.dot(unitNormal), 0, 0, 0};
-        double expectedMaxAbsDiffusivity = 0.25;
+        double[] expectedFlux = {0, 0, 0, 0, 0, 0, 0};
+        double expectedMaxAbsDiffusivity = 0.0;
 
         Diffusion diffusion = new VolumeFractionAdvectionEquations().diffusion();
 
@@ -179,7 +181,7 @@ public class VolumeFractionAdvectionEquationsTest {
         double[] conservativeVars = {C, u, v, w};
         Vector[] gradConservativeVars = {null, null, null, null};
 
-        double[] expectedSource = {0, 0, 0, 0};
+        double[] expectedSource = {0, 0, 0, 0, 0, 0, 0};
 
         Source source = new VolumeFractionAdvectionEquations().source();
         assertArrayEquals(expectedSource,
