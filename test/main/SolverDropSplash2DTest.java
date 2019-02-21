@@ -192,9 +192,8 @@ public class SolverDropSplash2DTest {
             throw new IOException("Unable to create required folders for writing output.");
         double time = 0;
         for (int real_time_iter = 0; real_time_iter < numRealIter; real_time_iter++) {
-            new VTKWriter(new File(outputFolder,
-                    String.format("sol_%05d.vtu", real_time_iter)),
-                    mesh, problem.govEqn()).write();
+            new VTKWriter(mesh, problem.govEqn()).write(new File(outputFolder,
+                    String.format("sol_%05d.vtu", real_time_iter)));
             System.out.println("Time: " + time);
             int pseudoIter = 0;
             for (; pseudoIter < maxPseudoIter; pseudoIter++) {
@@ -217,9 +216,8 @@ public class SolverDropSplash2DTest {
             }
             time += timeDiscretization.dt();
         }
-        new VTKWriter(new File(outputFolder,
-                String.format("sol_%05d.vtu", numRealIter)),
-                mesh, problem.govEqn()).write();
+        new VTKWriter(mesh, problem.govEqn()).write(new File(outputFolder,
+                String.format("sol_%05d.vtu", numRealIter)));
 
         System.out.println(Arrays.toString(actualPseudoIterations));
         System.out.println("beta = " + beta);

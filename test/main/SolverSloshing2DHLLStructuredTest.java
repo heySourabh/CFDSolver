@@ -188,11 +188,10 @@ public class SolverSloshing2DHLLStructuredTest {
         File outputFolder = new File("test/test_data/sloshing_hll_structured/");
         if (!outputFolder.mkdirs() && !outputFolder.exists())
             throw new IOException("Unable to create required folders for writing output.");
+        VTKWriter vtkWriter = new VTKWriter(mesh, problem.govEqn());
         double time = 0;
         for (int real_time_iter = 0; real_time_iter < numRealIter; real_time_iter++) {
-            new VTKWriter(new File(outputFolder,
-                    String.format("sol_%05d.vtu", real_time_iter)),
-                    mesh, problem.govEqn()).write();
+            vtkWriter.write(new File(outputFolder, String.format("sol_%05d.vtu", real_time_iter)));
             saveBoundaryC(mesh, new File(outputFolder, String.format("C_%05d.dat", real_time_iter))
                     , time, "xi min");
             System.out.println("Time: " + time);
@@ -217,9 +216,7 @@ public class SolverSloshing2DHLLStructuredTest {
             }
             time += timeDiscretization.dt();
         }
-        new VTKWriter(new File(outputFolder,
-                String.format("sol_%05d.vtu", numRealIter)),
-                mesh, problem.govEqn()).write();
+        vtkWriter.write(new File(outputFolder, String.format("sol_%05d.vtu", numRealIter)));
         saveBoundaryC(mesh, new File(outputFolder, String.format("C_%05d.dat", numRealIter)), time, "xi min");
 
         System.out.println(Arrays.toString(actualPseudoIterations));

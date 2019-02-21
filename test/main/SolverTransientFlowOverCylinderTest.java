@@ -14,7 +14,6 @@ import main.solver.*;
 import main.solver.convection.ConvectionResidual;
 import main.solver.convection.reconstructor.VKLimiterReconstructor;
 import main.solver.convection.riemann.HLLRiemannSolver;
-import main.solver.convection.riemann.RusanovRiemannSolver;
 import main.solver.diffusion.DiffusionResidual;
 import main.solver.problem.ProblemDefinition;
 import main.solver.time.*;
@@ -158,12 +157,11 @@ public class SolverTransientFlowOverCylinderTest {
         File outputFolder = new File("test/test_data/transient_flow_over_cylinder/");
         if (!outputFolder.mkdirs() && !outputFolder.exists())
             throw new IOException("Unable to create required folders for writing output.");
+        VTKWriter vtkWriter = new VTKWriter(mesh, problem.govEqn());
         double time = 0.0;
         for (int real_time_iter = 0; real_time_iter < numRealIter; real_time_iter++) {
             System.out.println("time = " + time);
-            new VTKWriter(new File(outputFolder,
-                    String.format("sol_%05d.vtu", real_time_iter)),
-                    mesh, problem.govEqn()).write();
+            vtkWriter.write(new File(outputFolder, String.format("sol_%05d.vtu", real_time_iter)));
             int pseudoIter = 0;
             for (; pseudoIter < maxPseudoIter; pseudoIter++) {
                 timeIntegrator.updateCellAverages();
@@ -185,9 +183,7 @@ public class SolverTransientFlowOverCylinderTest {
             }
             time += timeDiscretization.dt();
         }
-        new VTKWriter(new File(outputFolder,
-                String.format("sol_%05d.vtu", numRealIter)),
-                mesh, problem.govEqn()).write();
+        vtkWriter.write(new File(outputFolder, String.format("sol_%05d.vtu", numRealIter)));
 
         System.out.println(Arrays.toString(actualPseudoIterations));
 

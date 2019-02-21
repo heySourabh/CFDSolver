@@ -10,9 +10,9 @@ import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.factory.EulerEquations;
 import main.solver.*;
 import main.solver.convection.ConvectionResidual;
+import main.solver.convection.reconstructor.PiecewiseConstantReconstructor;
 import main.solver.convection.riemann.RusanovRiemannSolver;
 import main.solver.problem.ProblemDefinition;
-import main.solver.convection.reconstructor.PiecewiseConstantReconstructor;
 import main.solver.time.ExplicitEulerTimeIntegrator;
 import main.solver.time.LocalTimeStep;
 import main.solver.time.TimeIntegrator;
@@ -133,6 +133,7 @@ public class SolverEulerEquationsTest {
 
         assertTrue(converged);
         assertEquals(1211, iter);
-        new VTKWriter(new File(config.getWorkingDirectory(), "output_airfoil_pw_test.vtu"), mesh, problem.govEqn()).write();
+        new VTKWriter(mesh, problem.govEqn())
+                .write(new File(config.getWorkingDirectory(), "output_airfoil_pw_test.vtu"));
     }
 }

@@ -6,14 +6,14 @@ import main.mesh.Mesh;
 import main.mesh.factory.Structured3DMesh;
 import main.physics.bc.BoundaryCondition;
 import main.physics.bc.WallBC;
-import main.physics.goveqn.factory.ArtificialCompressibilityEquations;
 import main.physics.goveqn.GoverningEquations;
+import main.physics.goveqn.factory.ArtificialCompressibilityEquations;
 import main.solver.*;
 import main.solver.convection.ConvectionResidual;
+import main.solver.convection.reconstructor.VKLimiterReconstructor;
 import main.solver.convection.riemann.HLLRiemannSolver;
 import main.solver.diffusion.DiffusionResidual;
 import main.solver.problem.ProblemDefinition;
-import main.solver.convection.reconstructor.VKLimiterReconstructor;
 import main.solver.time.ExplicitEulerTimeIntegrator;
 import main.solver.time.LocalTimeStep;
 import main.solver.time.TimeIntegrator;
@@ -178,7 +178,8 @@ public class SolverLidDrivenCavityHLL3DTest {
             }
         }
 
-        new VTKWriter(new File("test/test_data/lid_driven_cavityHLL3d.vtu"), mesh, problem.govEqn()).write();
+        new VTKWriter(mesh, problem.govEqn())
+                .write(new File("test/test_data/lid_driven_cavityHLL3d.vtu"));
         Assert.assertEquals(1221, iter);
     }
 }

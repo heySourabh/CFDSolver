@@ -11,14 +11,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class VTKWriter {
-    private final File file;
     private final Mesh mesh;
     private final Point[] points;
     private final GoverningEquations govEqn;
     private final Cell[] cells;
 
-    public VTKWriter(File file, Mesh mesh, GoverningEquations govEqn) {
-        this.file = file;
+    public VTKWriter(Mesh mesh, GoverningEquations govEqn) {
         this.mesh = mesh;
 
         points = new Point[mesh.nodes().size()];
@@ -44,7 +42,7 @@ public class VTKWriter {
         }
     }
 
-    public void write() {
+    public void write(File file) {
 
         double[][] primVarsCache = new double[cells.length][];
         for (int iCell = 0; iCell < cells.length; iCell++) {
