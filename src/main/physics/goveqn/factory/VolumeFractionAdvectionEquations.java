@@ -19,21 +19,21 @@ public class VolumeFractionAdvectionEquations implements GoverningEquations {
     @Override
     public String[] conservativeVarNames() {
         return new String[]{
-                "C", "u", "v", "w", "ur", "vr", "wr"
+                "C", "u", "v", "w", "inx", "iny", "inz"
         };
     }
 
     @Override
     public String[] primitiveVarNames() {
         return new String[]{
-                "C", "u", "v", "w", "ur", "vr", "wr"
+                "C", "u", "v", "w", "inx", "iny", "inz"
         };
     }
 
     @Override
     public String[] realVarNames() {
         return new String[]{
-                "C", "u", "v", "w", "ur", "vr", "wr"
+                "C", "u", "v", "w", "inx", "iny", "inz"
         };
     }
 
@@ -96,18 +96,31 @@ public class VolumeFractionAdvectionEquations implements GoverningEquations {
         }
 
         private double Vn(double[] conservativeVars, Vector unitNormal) {
-            double nx = unitNormal.x;
-            double ny = unitNormal.y;
-            double nz = unitNormal.z;
+            double fnx = unitNormal.x;
+            double fny = unitNormal.y;
+            double fnz = unitNormal.z;
 
+            double C = conservativeVars[0];
             double u = conservativeVars[1];
             double v = conservativeVars[2];
             double w = conservativeVars[3];
-            double ur = conservativeVars[4];
-            double vr = conservativeVars[5];
-            double wr = conservativeVars[6];
 
-            return (u + ur) * nx + (v + vr) * ny + (w + wr) * nz;
+            Vector V = new Vector(u, v, w);
+
+            double inx = conservativeVars[4];
+            double iny = conservativeVars[5];
+            double inz = conservativeVars[6];
+
+            Vector unitGradC = new Vector(inx, iny, inz);
+
+            double power = 0.5;
+            double Lambda = Math.pow(Math.abs(unitGradC.dot(unitNormal)), power);
+            double zeta = 1.2;
+            double scalar = Lambda * zeta * Math.abs(V.dot(unitNormal));
+
+            Vector Vr = unitGradC.mult(scalar * (1 - C));
+
+            return (u + Vr.x) * fnx + (v + Vr.y) * fny + (w + Vr.z) * fnz;
         }
     };
 

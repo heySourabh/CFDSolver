@@ -3,6 +3,7 @@ package main.physics.goveqn.factory;
 import main.geom.Vector;
 import main.physics.goveqn.Convection;
 import main.physics.goveqn.Diffusion;
+import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.Source;
 import org.junit.Test;
 
@@ -24,29 +25,30 @@ public class VolumeFractionAdvectionEquationsTest {
 
     @Test
     public void conservativeVarNames() {
-        assertArrayEquals(new String[]{"C", "u", "v", "w", "ur", "vr", "wr"},
+        assertArrayEquals(new String[]{"C", "u", "v", "w", "inx", "iny", "inz"},
                 new VolumeFractionAdvectionEquations().conservativeVarNames()
         );
     }
 
     @Test
     public void primitiveVarNames() {
-        assertArrayEquals(new String[]{"C", "u", "v", "w", "ur", "vr", "wr"},
+        assertArrayEquals(new String[]{"C", "u", "v", "w", "inx", "iny", "inz"},
                 new VolumeFractionAdvectionEquations().primitiveVarNames()
         );
     }
 
     @Test
     public void realVarNames() {
-        assertArrayEquals(new String[]{"C", "u", "v", "w", "ur", "vr", "wr"},
+        assertArrayEquals(new String[]{"C", "u", "v", "w", "inx", "iny", "inz"},
                 new VolumeFractionAdvectionEquations().realVarNames()
         );
     }
 
     @Test
     public void primitiveVars() {
-        double[] conservativeVars = {0.5, -4, 6, -2, 9, -4, -4};
-        double[] expectedPrimitiveVars = {0.5, -4, 6, -2, 9, -4, -4};
+        Vector in = new Vector(9, -4, -4).unit();
+        double[] conservativeVars = {0.5, -4, 6, -2, in.x, in.y, in.z};
+        double[] expectedPrimitiveVars = {0.5, -4, 6, -2, in.x, in.y, in.z};
 
         assertArrayEquals(expectedPrimitiveVars,
                 new VolumeFractionAdvectionEquations().primitiveVars(conservativeVars),
@@ -55,8 +57,9 @@ public class VolumeFractionAdvectionEquationsTest {
 
     @Test
     public void conservativeVars() {
-        double[] primitiveVars = {0.7, 8, -200, 1, 9, -4, -4};
-        double[] expectedConservativeVars = {0.7, 8, -200, 1, 9, -4, -4};
+        Vector in = new Vector(9, -4, -4).unit();
+        double[] primitiveVars = {0.7, 8, -200, 1, in.x, in.y, in.z};
+        double[] expectedConservativeVars = {0.7, 8, -200, 1, in.x, in.y, in.z};
 
         assertArrayEquals(expectedConservativeVars,
                 new VolumeFractionAdvectionEquations().conservativeVars(primitiveVars),
@@ -65,8 +68,9 @@ public class VolumeFractionAdvectionEquationsTest {
 
     @Test
     public void realVars() {
-        double[] conservativeVars = {0.1, 34, 6, -35, 9, -4, -4};
-        double[] expectedRealVars = {0.1, 34, 6, -35, 9, -4, -4};
+        Vector in = new Vector(9, -4, -4).unit();
+        double[] conservativeVars = {0.1, 34, 6, -35, in.x, in.y, in.z};
+        double[] expectedRealVars = {0.1, 34, 6, -35, in.x, in.y, in.z};
 
         assertArrayEquals(expectedRealVars,
                 new VolumeFractionAdvectionEquations().realVars(conservativeVars),
@@ -79,14 +83,16 @@ public class VolumeFractionAdvectionEquationsTest {
         double u = 78;
         double v = 9.6;
         double w = -3.67;
-        double ur = 2;
-        double vr = 4;
-        double wr = 5;
-        double[] conservativeVars = {C, u, v, w, ur, vr, wr};
+        Vector in = new Vector(9, -4, -4).unit();
+        double[] conservativeVars = {C, u, v, w, in.x, in.y, in.z};
         Vector unitNormal = new Vector(4, 6, -1).unit();
 
+        double p = 0.5;
+        double zeta = 1.2;
+
         Vector V = new Vector(u, v, w);
-        Vector Vr = new Vector(ur, vr, wr);
+        double lambda = Math.pow(Math.abs(in.dot(unitNormal)), p);
+        Vector Vr = in.mult(lambda * zeta * Math.abs(V.dot(unitNormal)) * (1 - C));
         double Vn = V.add(Vr).dot(unitNormal);
         double[] expectedFlux = {
                 C * Vn, 0, 0, 0, 0, 0, 0
@@ -117,14 +123,16 @@ public class VolumeFractionAdvectionEquationsTest {
         double u = -78;
         double v = 9.6;
         double w = -3.67;
-        double ur = 2;
-        double vr = 4;
-        double wr = 5;
-        double[] conservativeVars = {C, u, v, w, ur, vr, wr};
+        Vector in = new Vector(9, -4, -4).unit();
+        double[] conservativeVars = {C, u, v, w, in.x, in.y, in.z};
         Vector unitNormal = new Vector(4, 6, -1).unit();
 
+        double p = 0.5;
+        double zeta = 1.2;
+
         Vector V = new Vector(u, v, w);
-        Vector Vr = new Vector(ur, vr, wr);
+        double lambda = Math.pow(Math.abs(in.dot(unitNormal)), p);
+        Vector Vr = in.mult(lambda * zeta * Math.abs(V.dot(unitNormal)) * (1 - C));
         double Vn = V.add(Vr).dot(unitNormal);
         double[] expectedFlux = {
                 C * Vn, 0, 0, 0, 0, 0, 0
