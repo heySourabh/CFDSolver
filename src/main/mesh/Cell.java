@@ -39,6 +39,9 @@ public class Cell {
 
         this.U = new double[numVars];
         this.gradientU = new Vector[numVars];
+        for (int var = 0; var < numVars; var++) {
+            this.gradientU[var] = new Vector(0, 0, 0);
+        }
 
         this.Wn = new double[numVars];
         this.Wnm1 = new double[numVars];
