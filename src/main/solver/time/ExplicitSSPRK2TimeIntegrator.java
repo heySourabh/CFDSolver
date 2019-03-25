@@ -17,7 +17,7 @@ public class ExplicitSSPRK2TimeIntegrator implements TimeIntegrator {
     private final int numVars;
     private final double[][] U;
     private final TimeStep timeStep;
-    private double courantNum = 2.0; // default
+    private double courantNum = 1.0; // default
     private TimeDiscretization realTimeDiscretization = null; // default
 
     public ExplicitSSPRK2TimeIntegrator(Mesh mesh, SpaceDiscretization spaceDiscretization, TimeStep timeStep, int numVars) {
