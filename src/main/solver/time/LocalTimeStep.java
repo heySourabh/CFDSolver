@@ -25,7 +25,8 @@ public class LocalTimeStep implements TimeStep {
         mesh.boundaryStream().flatMap(b -> b.faces.stream())
                 .forEach(this::updateEigenvalue);
 
-        // Go through all the cells and save the time step scaled by Courant number
+        // Go through all the cells, calculate spectral radius due to convection and diffusion
+        // and save the time step scaled by Courant number
         mesh.cellStream()
                 .forEach(cell -> updateTimeStep(cell, courantNum, timeStepLimit));
     }
