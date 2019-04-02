@@ -130,6 +130,30 @@ public class ArtificialCompressibilityEquationsTest {
     }
 
     @Test
+    public void F() {
+        double rho = 45;
+        double mu = 55;
+        Vector gravity = new Vector(-654, 54, 13);
+
+        double p = 90;
+        double u = 65;
+        double v = -90.67;
+        double w = -45.456;
+
+        double beta = 1;
+
+        double[] U = {p / beta, u, v, w};
+        double[] expectedF = {
+                u, u * u + p / rho, u * v, u * w
+        };
+
+        ArtificialCompressibilityEquations govEqn = new ArtificialCompressibilityEquations(rho, mu, gravity);
+        double[] actualF = govEqn.F(U);
+
+        assertArrayEquals(expectedF, actualF, 1e-15);
+    }
+
+    @Test
     public void diffusion() {
         double rho = 5.0;
         double mu = 1e-5;
@@ -195,7 +219,6 @@ public class ArtificialCompressibilityEquationsTest {
     public void source() {
         double rho = 5.0;
         double mu = 1e-5;
-        double nu = mu / rho;
         Vector gravity = new Vector(1, -8, 7);
         GoverningEquations govEqn = new ArtificialCompressibilityEquations(rho, mu, gravity);
         double p = 120;

@@ -160,6 +160,22 @@ public class ArtificialCompressibilityEquations implements GoverningEquations {
         }
     };
 
+    public double[] F(double[] conservativeVars) {
+        double p_beta = conservativeVars[0];
+        double u = conservativeVars[1];
+        double v = conservativeVars[2];
+        double w = conservativeVars[3];
+
+        double p = p_beta * BETA;
+
+        return new double[]{
+                u,
+                u * u + p / RHO,
+                u * v,
+                u * w
+        };
+    }
+
     @Override
     public Convection convection() {
         return convection;
