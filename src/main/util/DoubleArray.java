@@ -192,6 +192,17 @@ public class DoubleArray {
         return rDoubles;
     }
 
+    public static double[] random(int length, Random generator, double min, double max) {
+        double[] values = new double[length];
+
+        double range = max - min;
+        for (int i = 0; i < length; i++) {
+            values[i] = min + generator.nextDouble() * range;
+        }
+
+        return values;
+    }
+
     public static double[] newFilledArray(int length, double value) {
         double[] array = new double[length];
 

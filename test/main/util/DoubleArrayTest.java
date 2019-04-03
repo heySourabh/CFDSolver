@@ -2,6 +2,9 @@ package main.util;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.Random;
+
 import static main.util.TestHelper.assertThrows;
 import static org.junit.Assert.*;
 
@@ -85,6 +88,33 @@ public class DoubleArrayTest {
         double[] array = {-2, 6, 7, -9};
         double expectedResult = -2 + 6 + 7 - 9;
         assertEquals(expectedResult, DoubleArray.sum(array), 1e-15);
+    }
+
+    @Test
+    public void random_tests() {
+        int seed = 123;
+        Random generator = new Random(seed);
+        double[] random_array = {
+                generator.nextDouble(),
+                generator.nextDouble(),
+                generator.nextDouble()
+        };
+
+        assertArrayEquals(random_array, DoubleArray.random(random_array.length, new Random(seed)), 1e-15);
+
+        double min = -2000;
+        double max = 120.5;
+
+        generator = new Random(seed);
+        random_array = new double[]{
+                min + generator.nextDouble() * (max - min),
+                min + generator.nextDouble() * (max - min),
+                min + generator.nextDouble() * (max - min),
+                min + generator.nextDouble() * (max - min)
+        };
+        assertArrayEquals(random_array,
+                DoubleArray.random(random_array.length, new Random(seed), min, max),
+                1e-15);
     }
 
     @Test
