@@ -3,13 +3,13 @@ package main.solver.convection.riemann;
 import main.geom.Vector;
 import main.mesh.Surface;
 import main.physics.goveqn.factory.ArtificialCompressibilityEquations;
-import main.util.DoubleArray;
 import org.junit.Test;
 
-import java.util.Arrays;
+import java.util.Random;
 
 import static main.util.DoubleArray.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertTrue;
 
 public class HLLC_AC_RiemannSolverTest {
 
@@ -51,6 +51,28 @@ public class HLLC_AC_RiemannSolverTest {
 
         expectedFlux = H(U, rho, beta);
         assertArrayEquals(expectedFlux, actualFlux, 1e-15);
+    }
+
+    @Test
+    public void flux_conservation_with_reversed_normal() {
+        double rho = 45.5;
+        double mu = 12.78;
+        Vector gravity = new Vector(-56, 78, 9);
+
+        HLLC_AC_RiemannSolver solver = new HLLC_AC_RiemannSolver(new ArtificialCompressibilityEquations(rho, mu, gravity));
+
+        double[] UL = random(4, new Random(78), -100, 100);
+        double[] UR = random(4, new Random(-89), -100, 100);
+
+        Vector normal = new Vector(3, 6, -12).unit();
+        Surface surface1 = new Surface(1.2, null, normal);
+        double[] flux1 = solver.flux(UL, UR, surface1);
+
+        Vector flippedNormal = normal.mult(-1);
+        Surface surface2 = new Surface(1.2, null, flippedNormal);
+        double[] flux2 = solver.flux(UR, UL, surface2);
+
+        assertArrayEquals(flux1, multiply(flux2, -1), 1e-15);
     }
 
     @Test
