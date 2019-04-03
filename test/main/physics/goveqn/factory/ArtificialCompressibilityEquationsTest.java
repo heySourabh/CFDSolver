@@ -154,6 +154,29 @@ public class ArtificialCompressibilityEquationsTest {
     }
 
     @Test
+    public void minMaxEigenvalues() {
+        double rho = 45;
+        double mu = 55;
+        Vector gravity = new Vector(-654, 54, 13);
+
+        double p = 90;
+        double u = 65;
+        double v = -90.67;
+        double w = -45.456;
+
+        double beta = 1;
+
+        double[] U = {p / beta, u, v, w};
+
+        double evMin = u - Math.sqrt(u * u + beta / rho);
+        double evMax = u + Math.sqrt(u * u + beta / rho);
+
+        ArtificialCompressibilityEquations govEqn = new ArtificialCompressibilityEquations(rho, mu, gravity);
+
+        assertArrayEquals(new double[]{evMin, evMax}, govEqn.min_max_eigenvalues(U), 1e-15);
+    }
+
+    @Test
     public void diffusion() {
         double rho = 5.0;
         double mu = 1e-5;

@@ -176,6 +176,19 @@ public class ArtificialCompressibilityEquations implements GoverningEquations {
         };
     }
 
+    public double[] min_max_eigenvalues(double[] conservativeVars) {
+//        double p_beta = conservativeVars[0];
+        double u = conservativeVars[1];
+//        double v = conservativeVars[2];
+//        double w = conservativeVars[3];
+
+        double a = Math.sqrt(u * u + BETA / RHO);
+
+        return new double[]{
+                u - a, u + a
+        };
+    }
+
     @Override
     public Convection convection() {
         return convection;
