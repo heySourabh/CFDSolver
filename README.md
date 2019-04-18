@@ -10,4 +10,4 @@ This is a code for solving partial differential equations of the form resembling
 Have a look at the [Wiki Page](https://github.com/heySourabh/CFDSolver/wiki) for further details.
 
 #### Developer:
-Sourabh Bhat (mail.sourabhbhat@gmail.com, heySourabh@gmail.com)
+Sourabh Bhat (heySourabh@gmail.com)
