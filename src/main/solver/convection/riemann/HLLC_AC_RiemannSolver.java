@@ -1,6 +1,7 @@
 package main.solver.convection.riemann;
 
 import main.geom.Vector;
+import main.mesh.Face;
 import main.mesh.Surface;
 import main.physics.goveqn.factory.ArtificialCompressibilityEquations;
 
@@ -17,7 +18,8 @@ public class HLLC_AC_RiemannSolver implements RiemannSolver {
     }
 
     @Override
-    public double[] flux(double[] UL, double[] UR, Surface surface) {
+    public double[] flux(double[] UL, double[] UR, Face face) {
+        Surface surface = face.surface;
         Vector n = surface.unitNormal();
         Vector t1 = surface.unitTangent1();
         Vector t2 = surface.unitTangent2();

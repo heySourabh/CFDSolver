@@ -1,6 +1,8 @@
 package main.solver.convection.riemann;
 
 import main.geom.Vector;
+import main.mesh.Cell;
+import main.mesh.Face;
 import main.mesh.Surface;
 import main.physics.goveqn.factory.ArtificialCompressibilityVOFEquations;
 import org.junit.Test;
@@ -34,10 +36,12 @@ public class HLLC_VOF_RiemannSolverTest {
         };
         Vector faceNormal = new Vector(1, 1, 0).unit();
         Surface surface = new Surface(25, null, faceNormal);
+        Cell leftCell = new Cell(null, null, null, UL.length);
+        Face face = new Face(null, null, surface, leftCell, null, UL.length);
 
         // Calculated using the 2D structured solver code (except the 4th component)
         assertArrayEquals(new double[]{2648.4343430802633, 1.6849201174788963E7, 1.6845083545975972E7, 0, 8.760912368072734},
-                solver.flux(UL, UR, surface), 1e-15);
+                solver.flux(UL, UR, face), 1e-15);
 
 
         // UL, UR interchanged
@@ -48,8 +52,11 @@ public class HLLC_VOF_RiemannSolverTest {
                 120, 198, 10, 0, 0.4
         };
 
+        leftCell = new Cell(null, null, null, UL.length);
+        face = new Face(null, null, surface, leftCell, null, UL.length);
+
         // Calculated using the 2D structured solver code (except the 4th component)
         assertArrayEquals(new double[]{-2749.8546588637614, 1.6833997209372137E7, 1.683813175542595E7, 0.0, -8.796906497477327},
-                solver.flux(UL, UR, surface), 1e-15);
+                solver.flux(UL, UR, face), 1e-15);
     }
 }

@@ -1,6 +1,8 @@
-package main.solver;
+package main.solver.convection.riemann;
 
 import main.geom.Vector;
+import main.mesh.Cell;
+import main.mesh.Face;
 import main.mesh.Surface;
 import main.physics.goveqn.Convection;
 import main.physics.goveqn.Diffusion;
@@ -30,8 +32,10 @@ public class HLLRiemannSolverTest {
         Surface surface = new Surface(2.5, null, unitNormal);
 
         double[] expectedFlux = resultantFlux(UL, unitNormal);
+        Cell leftCell = new Cell(null, null, null, UL.length);
+        Face face = new Face(null, null, surface, leftCell, null, UL.length);
 
-        assertArrayEquals(expectedFlux, new HLLRiemannSolver(govEqn).flux(UL, UR, surface), 1e-15);
+        assertArrayEquals(expectedFlux, new HLLRiemannSolver(govEqn).flux(UL, UR, face), 1e-15);
     }
 
     @Test
@@ -47,8 +51,10 @@ public class HLLRiemannSolverTest {
         Surface surface = new Surface(2.5, null, unitNormal);
 
         double[] expectedFlux = resultantFlux(UR, unitNormal);
+        Cell leftCell = new Cell(null, null, null, UL.length);
+        Face face = new Face(null, null, surface, leftCell, null, UL.length);
 
-        assertArrayEquals(expectedFlux, new HLLRiemannSolver(govEqn).flux(UL, UR, surface), 1e-15);
+        assertArrayEquals(expectedFlux, new HLLRiemannSolver(govEqn).flux(UL, UR, face), 1e-15);
     }
 
     @Test
@@ -65,7 +71,10 @@ public class HLLRiemannSolverTest {
 
         double[] expectedFlux = hll_approximation(UL, UR, resultantFlux(UL, unitNormal), resultantFlux(UR, unitNormal), -3, 1);
 
-        assertArrayEquals(expectedFlux, new HLLRiemannSolver(govEqn).flux(UL, UR, surface), 1e-15);
+        Cell leftCell = new Cell(null, null, null, UL.length);
+        Face face = new Face(null, null, surface, leftCell, null, UL.length);
+
+        assertArrayEquals(expectedFlux, new HLLRiemannSolver(govEqn).flux(UL, UR, face), 1e-15);
     }
 
     @Test
@@ -80,7 +89,10 @@ public class HLLRiemannSolverTest {
         Vector unitNormal = new Vector(21, 87, 3).unit();
         Surface surface = new Surface(2.5, null, unitNormal);
 
-        TestHelper.assertThrows(IllegalStateException.class, () -> new HLLRiemannSolver(govEqn).flux(UL, UR, surface));
+        Cell leftCell = new Cell(null, null, null, UL.length);
+        Face face = new Face(null, null, surface, leftCell, null, UL.length);
+
+        TestHelper.assertThrows(IllegalStateException.class, () -> new HLLRiemannSolver(govEqn).flux(UL, UR, face));
     }
 
     private GoverningEquations testGoverningEquation(double[] evs) {

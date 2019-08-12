@@ -1,6 +1,8 @@
 package main.solver.convection.riemann;
 
 import main.geom.Vector;
+import main.mesh.Cell;
+import main.mesh.Face;
 import main.mesh.Surface;
 import main.physics.goveqn.factory.ArtificialCompressibilityEquations;
 import org.junit.Test;
@@ -31,7 +33,9 @@ public class HLLC_AC_RiemannSolverTest {
         // x-split
         Vector unitNormal = new Vector(1, 0, 0).unit();
         Surface surface = new Surface(2.5, null, unitNormal);
-        double[] actualFlux = solver.flux(UL, UR, surface);
+        Cell leftCell = new Cell(null, null, null, UL.length);
+        Face face = new Face(null, null, surface, leftCell, null, UL.length);
+        double[] actualFlux = solver.flux(UL, UR, face);
 
         double[] expectedFlux = F(U, rho, beta);
         assertArrayEquals(expectedFlux, actualFlux, 1e-15);
@@ -39,7 +43,9 @@ public class HLLC_AC_RiemannSolverTest {
         // y-split
         unitNormal = new Vector(0, 1, 0).unit();
         surface = new Surface(2.5, null, unitNormal);
-        actualFlux = solver.flux(UL, UR, surface);
+        leftCell = new Cell(null, null, null, UL.length);
+        face = new Face(null, null, surface, leftCell, null, UL.length);
+        actualFlux = solver.flux(UL, UR, face);
 
         expectedFlux = G(U, rho, beta);
         assertArrayEquals(expectedFlux, actualFlux, 1e-15);
@@ -47,7 +53,9 @@ public class HLLC_AC_RiemannSolverTest {
         // z-split
         unitNormal = new Vector(0, 0, 1).unit();
         surface = new Surface(2.5, null, unitNormal);
-        actualFlux = solver.flux(UL, UR, surface);
+        leftCell = new Cell(null, null, null, UL.length);
+        face = new Face(null, null, surface, leftCell, null, UL.length);
+        actualFlux = solver.flux(UL, UR, face);
 
         expectedFlux = H(U, rho, beta);
         assertArrayEquals(expectedFlux, actualFlux, 1e-15);
@@ -66,11 +74,15 @@ public class HLLC_AC_RiemannSolverTest {
 
         Vector normal = new Vector(3, 6, -12).unit();
         Surface surface1 = new Surface(1.2, null, normal);
-        double[] flux1 = solver.flux(UL, UR, surface1);
+        Cell leftCell = new Cell(null, null, null, UL.length);
+        Face face = new Face(null, null, surface1, leftCell, null, UL.length);
+        double[] flux1 = solver.flux(UL, UR, face);
 
         Vector flippedNormal = normal.mult(-1);
         Surface surface2 = new Surface(1.2, null, flippedNormal);
-        double[] flux2 = solver.flux(UR, UL, surface2);
+        leftCell = new Cell(null, null, null, UL.length);
+        face = new Face(null, null, surface2, leftCell, null, UL.length);
+        double[] flux2 = solver.flux(UR, UL, face);
 
         assertArrayEquals(flux1, multiply(flux2, -1), 1e-15);
     }
@@ -114,7 +126,9 @@ public class HLLC_AC_RiemannSolverTest {
 
         Vector unitNormal = new Vector(1, 0, 0).unit();
         Surface surface = new Surface(2.5, null, unitNormal);
-        double[] actualFlux = solver.flux(UL, UR, surface);
+        Cell leftCell = new Cell(null, null, null, UL.length);
+        Face face = new Face(null, null, surface, leftCell, null, UL.length);
+        double[] actualFlux = solver.flux(UL, UR, face);
 
         double[] FL = F(UL, rho, beta);
         double[] FR = F(UR, rho, beta);
@@ -167,7 +181,9 @@ public class HLLC_AC_RiemannSolverTest {
 
         Vector unitNormal = new Vector(1, 0, 0).unit();
         Surface surface = new Surface(2.5, null, unitNormal);
-        double[] actualFlux = solver.flux(UL, UR, surface);
+        Cell leftCell = new Cell(null, null, null, UL.length);
+        Face face = new Face(null, null, surface, leftCell, null, UL.length);
+        double[] actualFlux = solver.flux(UL, UR, face);
 
         double[] FL = F(UL, rho, beta);
         double[] FR = F(UR, rho, beta);

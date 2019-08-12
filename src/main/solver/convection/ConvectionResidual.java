@@ -66,7 +66,7 @@ public class ConvectionResidual implements ResidualCalculator {
     private void setFlux(Face face) {
         double[] UL = reconstructor.conservativeVars(face.left, face.surface.centroid);
         double[] UR = reconstructor.conservativeVars(face.right, face.surface.centroid);
-        double[] flux = riemannSolver.flux(UL, UR, face.surface);
+        double[] flux = riemannSolver.flux(UL, UR, face);
         copy(flux, face.flux);
     }
 }

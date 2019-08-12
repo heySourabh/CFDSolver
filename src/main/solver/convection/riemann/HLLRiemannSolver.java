@@ -1,6 +1,7 @@
 package main.solver.convection.riemann;
 
 import main.geom.Vector;
+import main.mesh.Face;
 import main.mesh.Surface;
 import main.physics.goveqn.Convection;
 import main.physics.goveqn.GoverningEquations;
@@ -19,7 +20,8 @@ public class HLLRiemannSolver implements RiemannSolver {
     }
 
     @Override
-    public double[] flux(double[] UL, double[] UR, Surface surface) {
+    public double[] flux(double[] UL, double[] UR, Face face) {
+        Surface surface = face.surface;
         Vector unitNormal = surface.unitNormal();
         double[] leftSideEigenvalues = convection.sortedEigenvalues(UL, unitNormal);
         double[] rightSideEigenvalues = convection.sortedEigenvalues(UR, unitNormal);
