@@ -1,13 +1,29 @@
 package main.geom;
 
+import main.util.TestHelper;
 import org.junit.Test;
 
 import java.util.Random;
 
 import static main.util.TestHelper.assertThrows;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 public class VectorTest {
+
+    @Test
+    public void testZeroVector() {
+        TestHelper.assertVectorEquals(new Vector(0, 0, 0), Vector.ZERO, 1e-15);
+    }
+
+    @Test
+    public void testThatTwoZeroVectorsAreSame() {
+        assertSame(getZeroVector(), Vector.ZERO);
+    }
+
+    private Vector getZeroVector() {
+        return Vector.ZERO;
+    }
 
     @Test
     public void toPoint() {
