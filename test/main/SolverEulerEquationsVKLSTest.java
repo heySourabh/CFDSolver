@@ -64,7 +64,7 @@ public class SolverEulerEquationsVKLSTest {
             private final SolutionInitializer solutionInitializer = new FunctionInitializer(
                     p -> new double[]{rho, rho * u, 0.0, 0.0, rhoE});
             CellNeighborCalculator neighborsCalculator = new FaceBasedCellNeighbors();
-            SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, neighborsCalculator);
+            SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, govEqn, neighborsCalculator);
             ResidualCalculator convectiveCalculator = new ConvectionResidual(reconstructor,
                     new RusanovRiemannSolver(govEqn), mesh);
             CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);

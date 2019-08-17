@@ -30,103 +30,105 @@ import java.util.Map;
 
 public class SolverTransientFlowOverCylinderTest {
 
-    private final ProblemDefinition problem = new ProblemDefinition() {
-        private final double Re = 120;
-        private final double D = 1.0;
-        private final double rho = 1.0;
-        private final double inletVelocity = 1.0;
-        private final double mu = rho * inletVelocity * D / Re;
-        private final Vector gravity = new Vector(0, 0, 0);
+    private ProblemDefinition getProblemDef() {
+        return new ProblemDefinition() {
+            private final double Re = 120;
+            private final double D = 1.0;
+            private final double rho = 1.0;
+            private final double inletVelocity = 1.0;
+            private final double mu = rho * inletVelocity * D / Re;
+            private final Vector gravity = new Vector(0, 0, 0);
 
-        private final ArtificialCompressibilityEquations govEqn
-                = new ArtificialCompressibilityEquations(1.0, mu, gravity);
+            private final ArtificialCompressibilityEquations govEqn
+                    = new ArtificialCompressibilityEquations(1.0, mu, gravity);
 
-        private final Mesh mesh = readUnstructuredMesh();
+            private final Mesh mesh = readUnstructuredMesh();
 
-        private Mesh readUnstructuredMesh() {
-            BoundaryCondition cylinderWall = new WallBC(govEqn, new Vector(0, 0, 0));
-            BoundaryCondition velocityInlet = new VelocityInletBC(govEqn, new Vector(1, 0, 0));
-            BoundaryCondition pressureOutlet = new PressureOutletBC(govEqn, 101325.0);
+            private Mesh readUnstructuredMesh() {
+                BoundaryCondition cylinderWall = new WallBC(govEqn, new Vector(0, 0, 0));
+                BoundaryCondition velocityInlet = new VelocityInletBC(govEqn, new Vector(1, 0, 0));
+                BoundaryCondition pressureOutlet = new PressureOutletBC(govEqn, 101325.0);
 
-            Mesh mesh = null;
-            File meshFile = new File("test/test_data/transient_flow_over_cylinder/mesh.cfdu");
-            try {
-                mesh = new Unstructured2DMesh(meshFile, govEqn.numVars(),
-                        Map.of("cylinder", cylinderWall,
-                                "velocity inlet", velocityInlet,
-                                "pressure outlet", pressureOutlet));
-            } catch (FileNotFoundException e) {
-                System.out.println("Unable to read mesh from file: " + meshFile);
+                Mesh mesh = null;
+                File meshFile = new File("test/test_data/transient_flow_over_cylinder/mesh.cfdu");
+                try {
+                    mesh = new Unstructured2DMesh(meshFile, govEqn.numVars(),
+                            Map.of("cylinder", cylinderWall,
+                                    "velocity inlet", velocityInlet,
+                                    "pressure outlet", pressureOutlet));
+                } catch (FileNotFoundException e) {
+                    System.out.println("Unable to read mesh from file: " + meshFile);
+                }
+
+                return mesh;
             }
 
-            return mesh;
-        }
-
-        private final SolutionInitializer solutionInitializer = new FunctionInitializer(
-                p -> p.x > 0.5 && p.y > -5.0 && p.y < 5.0
-                        ? new double[]{101325.0, 1, 0.2, 0.0}
-                        : new double[]{101325.0, 1, 0.0, 0.0});
+            private final SolutionInitializer solutionInitializer = new FunctionInitializer(
+                    p -> p.x > 0.5 && p.y > -5.0 && p.y < 5.0
+                            ? new double[]{101325.0, 1, 0.2, 0.0}
+                            : new double[]{101325.0, 1, 0.0, 0.0});
 
 
-        CellNeighborCalculator cellNeighborCalculator = new FaceBasedCellNeighbors();
-        private final ConvectionResidual convectionResidual = new ConvectionResidual(
-                new VKLimiterReconstructor(mesh, cellNeighborCalculator),
-                new HLLRiemannSolver(govEqn), mesh);
-        private final DiffusionResidual diffusionResidual = new DiffusionResidual(mesh, govEqn);
-        CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, cellNeighborCalculator);
-        private final SpaceDiscretization spaceDiscretization = new SpaceDiscretization(mesh,
-                cellGradientCalculator,
-                List.of(convectionResidual, diffusionResidual));
-        private final TimeStep timeStep = new LocalTimeStep(mesh, govEqn);
+            CellNeighborCalculator cellNeighborCalculator = new FaceBasedCellNeighbors();
+            private final ConvectionResidual convectionResidual = new ConvectionResidual(
+                    new VKLimiterReconstructor(mesh, govEqn, cellNeighborCalculator),
+                    new HLLRiemannSolver(govEqn), mesh);
+            private final DiffusionResidual diffusionResidual = new DiffusionResidual(mesh, govEqn);
+            CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, cellNeighborCalculator);
+            private final SpaceDiscretization spaceDiscretization = new SpaceDiscretization(mesh,
+                    cellGradientCalculator,
+                    List.of(convectionResidual, diffusionResidual));
+            private final TimeStep timeStep = new LocalTimeStep(mesh, govEqn);
 
-        private final TimeIntegrator timeIntegrator =
-                new ExplicitEulerTimeIntegrator(mesh, spaceDiscretization, timeStep, govEqn.numVars());
+            private final TimeIntegrator timeIntegrator =
+                    new ExplicitEulerTimeIntegrator(mesh, spaceDiscretization, timeStep, govEqn.numVars());
 
-        private final Convergence convergence = new Convergence(DoubleArray.newFilledArray(govEqn.numVars(), 1e-3));
+            private final Convergence convergence = new Convergence(DoubleArray.newFilledArray(govEqn.numVars(), 1e-3));
 
-        private final Config config = createConfig();
+            private final Config config = createConfig();
 
-        private Config createConfig() {
-            Config config = new Config();
-            config.setMaxIterations(10000);
-            return config;
-        }
+            private Config createConfig() {
+                Config config = new Config();
+                config.setMaxIterations(10000);
+                return config;
+            }
 
-        @Override
-        public String description() {
-            return "Transient flow over a cylinder.";
-        }
+            @Override
+            public String description() {
+                return "Transient flow over a cylinder.";
+            }
 
-        @Override
-        public GoverningEquations govEqn() {
-            return govEqn;
-        }
+            @Override
+            public GoverningEquations govEqn() {
+                return govEqn;
+            }
 
-        @Override
-        public Mesh mesh() {
-            return mesh;
-        }
+            @Override
+            public Mesh mesh() {
+                return mesh;
+            }
 
-        @Override
-        public SolutionInitializer solutionInitializer() {
-            return solutionInitializer;
-        }
+            @Override
+            public SolutionInitializer solutionInitializer() {
+                return solutionInitializer;
+            }
 
-        @Override
-        public TimeIntegrator timeIntegrator() {
-            return timeIntegrator;
-        }
+            @Override
+            public TimeIntegrator timeIntegrator() {
+                return timeIntegrator;
+            }
 
-        @Override
-        public Convergence convergence() {
-            return convergence;
-        }
+            @Override
+            public Convergence convergence() {
+                return convergence;
+            }
 
-        @Override
-        public Config config() {
-            return config;
-        }
-    };
+            @Override
+            public Config config() {
+                return config;
+            }
+        };
+    }
 
     public static void main(String[] args) throws IOException {
         new SolverTransientFlowOverCylinderTest().solver();
@@ -134,6 +136,7 @@ public class SolverTransientFlowOverCylinderTest {
 
     @Test
     public void solver() throws IOException {
+        ProblemDefinition problem = getProblemDef();
         Mesh mesh = problem.mesh();
         problem.solutionInitializer().initialize(mesh, problem.govEqn());
 

@@ -52,6 +52,21 @@ public class VolumeFractionAdvectionEquations implements GoverningEquations {
         return copyOf(conservativeVars);
     }
 
+    private final Limits[] physicalLimits = new Limits[]{
+            new Limits(0, 1),
+            Limits.INFINITE,
+            Limits.INFINITE,
+            Limits.INFINITE,
+            new Limits(-1, 1),
+            new Limits(-1, 1),
+            new Limits(-1, 1)
+    };
+
+    @Override
+    public Limits[] physicalLimits() {
+        return physicalLimits;
+    }
+
     private final Convection convection = new Convection() {
         @Override
         public double[] flux(double[] conservativeVars, Vector unitNormal) {

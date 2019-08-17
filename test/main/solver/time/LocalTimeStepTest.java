@@ -5,10 +5,7 @@ import main.mesh.Cell;
 import main.mesh.Face;
 import main.mesh.Mesh;
 import main.mesh.factory.Structured2DMesh;
-import main.physics.goveqn.Convection;
-import main.physics.goveqn.Diffusion;
-import main.physics.goveqn.GoverningEquations;
-import main.physics.goveqn.Source;
+import main.physics.goveqn.*;
 import org.junit.Test;
 
 import java.io.File;
@@ -179,6 +176,11 @@ public class LocalTimeStepTest {
         @Override
         public double[] conservativeVars(double[] primitiveVars) {
             return null;
+        }
+
+        @Override
+        public Limits[] physicalLimits() {
+            return new Limits[0];
         }
 
         @Override

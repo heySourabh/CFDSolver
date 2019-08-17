@@ -103,7 +103,7 @@ public class SolverDropSplash2DTest {
 
         CellNeighborCalculator cellNeighborCalculator = new FaceBasedCellNeighbors();
         private final ConvectionResidual convectionResidual = new ConvectionResidual(
-                new VKLimiterReconstructor(mesh, cellNeighborCalculator),
+                new VKLimiterReconstructor(mesh, govEqn, cellNeighborCalculator),
                 new HLLC_VOF_RiemannSolver(govEqn), mesh);
         private final DiffusionResidual diffusionResidual = new DiffusionResidual(mesh, govEqn);
         private final SourceResidual sourceResidual = new SourceResidual(mesh, govEqn);

@@ -1,10 +1,7 @@
 package main.physics.goveqn.factory;
 
 import main.geom.Vector;
-import main.physics.goveqn.Convection;
-import main.physics.goveqn.Diffusion;
-import main.physics.goveqn.GoverningEquations;
-import main.physics.goveqn.Source;
+import main.physics.goveqn.*;
 
 public class ArtificialCompressibilityEquations implements GoverningEquations {
     private final double BETA;
@@ -88,6 +85,18 @@ public class ArtificialCompressibilityEquations implements GoverningEquations {
         return new double[]{
                 0, u, v, w
         };
+    }
+
+    private final Limits[] physicalLimits = new Limits[]{
+            Limits.INFINITE,
+            Limits.INFINITE,
+            Limits.INFINITE,
+            Limits.INFINITE
+    };
+
+    @Override
+    public Limits[] physicalLimits() {
+        return physicalLimits;
     }
 
     private final Convection convection = new Convection() {

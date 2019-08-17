@@ -5,7 +5,7 @@ import main.physics.goveqn.*;
 
 public class EulerEquations implements GoverningEquations {
 
-    public final double GAMMA, R, CV;
+    private final double GAMMA, R, CV;
 
     public EulerEquations(double gamma, double R) {
         this.GAMMA = gamma;
@@ -104,6 +104,19 @@ public class EulerEquations implements GoverningEquations {
         return new double[]{
                 rho, rhou, rhov, rhow, rhoE
         };
+    }
+
+    private final Limits[] physicalLimits = new Limits[]{
+            new Limits(1e-12, Double.POSITIVE_INFINITY),
+            Limits.INFINITE,
+            Limits.INFINITE,
+            Limits.INFINITE,
+            new Limits(1e-12, Double.POSITIVE_INFINITY)
+    };
+
+    @Override
+    public Limits[] physicalLimits() {
+        return physicalLimits;
     }
 
     private final Convection convection = new Convection() {

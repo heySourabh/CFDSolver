@@ -83,7 +83,7 @@ public class SolverTransientLidDrivenCavity2DSSPRK2Test {
 
         CellNeighborCalculator cellNeighborCalculator = new FaceBasedCellNeighbors();
         private final ConvectionResidual convectionResidual = new ConvectionResidual(
-                new VKLimiterReconstructor(mesh, cellNeighborCalculator),
+                new VKLimiterReconstructor(mesh, govEqn, cellNeighborCalculator),
                 new RusanovRiemannSolver(govEqn), mesh);
         private final DiffusionResidual diffusionResidual = new DiffusionResidual(mesh, govEqn);
         CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, cellNeighborCalculator);

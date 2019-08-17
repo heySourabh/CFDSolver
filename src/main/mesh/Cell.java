@@ -22,6 +22,7 @@ public class Cell {
 
     public final double[] Wn;
     public final double[] Wnm1;
+    public final double[] Wnm2;
     public final double[] residual;
     public final double[][] reconstructCoeffs;
 
@@ -45,6 +46,7 @@ public class Cell {
 
         this.Wn = new double[numVars];
         this.Wnm1 = new double[numVars];
+        this.Wnm2 = new double[numVars];
 
         this.residual = new double[numVars];
         this.reconstructCoeffs = new double[numVars][]; // The reconstructor can decide the length

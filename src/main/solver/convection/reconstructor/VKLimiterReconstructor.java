@@ -4,7 +4,10 @@ import main.geom.Point;
 import main.geom.Vector;
 import main.mesh.Cell;
 import main.mesh.Mesh;
+import main.physics.goveqn.GoverningEquations;
+import main.physics.goveqn.Limits;
 import main.solver.CellNeighborCalculator;
+import main.util.Util;
 
 import java.util.Arrays;
 
@@ -14,8 +17,10 @@ public class VKLimiterReconstructor implements SolutionReconstructor {
     private final Mesh mesh;
     private final CellNeighborCalculator neighCalc;
     private final Cell[][] neighbors;
+    private final GoverningEquations govEqn;
 
-    public VKLimiterReconstructor(Mesh mesh, CellNeighborCalculator neighCalc) {
+    public VKLimiterReconstructor(Mesh mesh, GoverningEquations govEqn, CellNeighborCalculator neighCalc) {
+        this.govEqn = govEqn;
         int numCells = mesh.cells().size();
         this.mesh = mesh;
         this.neighCalc = neighCalc;
@@ -45,16 +50,20 @@ public class VKLimiterReconstructor implements SolutionReconstructor {
     }
 
     private void reconstructVar(Cell cell, Vector[] gradients, int var) {
+        Limits physicalLimits = govEqn.physicalLimits()[var];
+
         double uMax = Arrays.stream(neighbors[cell.index()])
                 .mapToDouble(neighCell -> neighCell.U[var])
                 .max().orElse(Double.POSITIVE_INFINITY);
         uMax = Math.max(uMax, cell.U[var]);
+        uMax = Util.clip(uMax, physicalLimits.min, physicalLimits.max);
         double duMax = uMax - cell.U[var];
 
         double uMin = Arrays.stream(neighbors[cell.index()])
                 .mapToDouble(neighCell -> neighCell.U[var])
                 .min().orElse(Double.NEGATIVE_INFINITY);
         uMin = Math.min(uMin, cell.U[var]);
+        uMin = Util.clip(uMin, physicalLimits.min, physicalLimits.max);
         double duMin = uMin - cell.U[var];
 
         Vector gradient_unlimited = gradients[var];

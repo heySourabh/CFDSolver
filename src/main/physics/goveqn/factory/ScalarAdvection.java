@@ -50,6 +50,15 @@ public class ScalarAdvection implements GoverningEquations {
         };
     }
 
+    private final Limits[] physicalLimits = new Limits[]{
+            Limits.INFINITE
+    };
+
+    @Override
+    public Limits[] physicalLimits() {
+        return physicalLimits;
+    }
+
     private final Convection convection = new Convection() {
         @Override
         public double[] flux(double[] conservativeVars, Vector unitNormal) {

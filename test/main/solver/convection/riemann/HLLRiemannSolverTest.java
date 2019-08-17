@@ -4,11 +4,7 @@ import main.geom.Vector;
 import main.mesh.Cell;
 import main.mesh.Face;
 import main.mesh.Surface;
-import main.physics.goveqn.Convection;
-import main.physics.goveqn.Diffusion;
-import main.physics.goveqn.GoverningEquations;
-import main.physics.goveqn.Source;
-import main.solver.convection.riemann.HLLRiemannSolver;
+import main.physics.goveqn.*;
 import main.util.TestHelper;
 import org.junit.Test;
 
@@ -125,6 +121,11 @@ public class HLLRiemannSolverTest {
             @Override
             public double[] conservativeVars(double[] primitiveVars) {
                 return new double[0];
+            }
+
+            @Override
+            public Limits[] physicalLimits() {
+                return new Limits[0];
             }
 
             Convection convection = new Convection() {

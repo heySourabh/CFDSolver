@@ -86,7 +86,7 @@ public class SolverLidDrivenCavityHLL2DTest {
 
         CellNeighborCalculator cellNeighborCalculator = new FaceBasedCellNeighbors();
         private final ConvectionResidual convectionResidual = new ConvectionResidual(
-                new VKLimiterReconstructor(mesh, cellNeighborCalculator),
+                new VKLimiterReconstructor(mesh, govEqn, cellNeighborCalculator),
                 new HLLRiemannSolver(govEqn), mesh);
         private final DiffusionResidual diffusionResidual = new DiffusionResidual(mesh, govEqn);
         CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, cellNeighborCalculator);

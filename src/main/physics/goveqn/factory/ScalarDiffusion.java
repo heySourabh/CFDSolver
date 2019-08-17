@@ -49,6 +49,15 @@ public class ScalarDiffusion implements GoverningEquations {
         };
     }
 
+    private final Limits[] physicalLimits = new Limits[]{
+            Limits.INFINITE
+    };
+
+    @Override
+    public Limits[] physicalLimits() {
+        return physicalLimits;
+    }
+
     private final Convection convection = new ZeroConvection(numVars());
 
     @Override

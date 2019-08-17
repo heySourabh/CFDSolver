@@ -8,7 +8,6 @@ import main.physics.bc.BoundaryCondition;
 import main.physics.bc.ExtrapolatedBC;
 import main.physics.goveqn.*;
 import main.solver.*;
-import main.solver.convection.ConvectionResidual;
 import main.solver.source.SourceResidual;
 import main.util.DoubleArray;
 import org.junit.Test;
@@ -16,11 +15,11 @@ import org.junit.Test;
 import java.io.File;
 import java.io.FileWriter;
 import java.nio.file.Files;
-import java.util.Arrays;
 import java.util.List;
 
 import static main.util.DoubleArray.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class ExplicitSSPRK3TimeIntegratorTest {
 
@@ -127,6 +126,14 @@ public class ExplicitSSPRK3TimeIntegratorTest {
             @Override
             public double[] conservativeVars(double[] primitiveVars) {
                 return DoubleArray.copyOf(primitiveVars);
+            }
+
+            @Override
+            public Limits[] physicalLimits() {
+                return new Limits[]{
+                        Limits.INFINITE,
+                        Limits.INFINITE
+                };
             }
 
             @Override

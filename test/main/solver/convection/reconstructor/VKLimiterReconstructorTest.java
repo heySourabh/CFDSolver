@@ -21,8 +21,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.stream.IntStream;
 
-import static main.util.DoubleArray.copy;
-import static main.util.DoubleArray.newFilledArray;
+import static main.util.DoubleArray.*;
 import static org.junit.Assert.assertArrayEquals;
 
 public class VKLimiterReconstructorTest {
@@ -39,7 +38,7 @@ public class VKLimiterReconstructorTest {
         CellNeighborCalculator neighborsCalculator = new FaceBasedCellNeighbors();
         CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);
         cellGradientCalculator.setupAllCells();
-        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, neighborsCalculator);
+        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, govEqn, neighborsCalculator);
         reconstructor.reconstruct();
 
         Point p1 = new Line(mesh.nodes().get(2).location(), mesh.nodes().get(4).location())
@@ -70,22 +69,26 @@ public class VKLimiterReconstructorTest {
         Vector[] gradientsNotLimited = gradientsNotLimited();
         mesh.cellStream().forEach(c -> copy(linearReconstruct(gradientsNotLimited, cell_i.shape.centroid, c.shape.centroid), c.U));
 
-        double[] negInf = newFilledArray(numVars, Double.NEGATIVE_INFINITY);
-        double[] posInf = newFilledArray(numVars, Double.POSITIVE_INFINITY);
+        double[] minPhysical = Arrays.stream(govEqn.physicalLimits())
+                .mapToDouble(l -> l.min)
+                .toArray();
+        double[] maxPhysical = Arrays.stream(govEqn.physicalLimits())
+                .mapToDouble(l -> l.max)
+                .toArray();
 
         Cell[] neighs = {mesh.cells().get(0), mesh.cells().get(2), mesh.cells().get(5)};
-        double[] minU = DoubleArray.min(Arrays.stream(neighs)
+        double[] minU = max(minPhysical, min(Arrays.stream(neighs)
                 .map(cell -> cell.U)
-                .reduce(posInf, DoubleArray::min), cell_i.U);
+                .reduce(maxPhysical, DoubleArray::min), cell_i.U));
 
-        double[] maxU = DoubleArray.max(Arrays.stream(neighs)
+        double[] maxU = min(maxPhysical, max(Arrays.stream(neighs)
                 .map(cell -> cell.U)
-                .reduce(negInf, DoubleArray::max), cell_i.U);
+                .reduce(minPhysical, DoubleArray::max), cell_i.U));
 
         double[] Phi = Arrays.stream(cell_i.nodes)
                 .map(n -> linearReconstruct(gradientsNotLimited, cell_i.shape.centroid, n.location()))
                 .map(Uj -> Phi(minU, maxU, cell_i.U, Uj))
-                .reduce(posInf, DoubleArray::min);
+                .reduce(maxPhysical, DoubleArray::min);
 
         Vector[] gradientsLimited = IntStream.range(0, numVars)
                 .mapToObj(var -> gradientsNotLimited[var].mult(Phi[var]))
@@ -94,7 +97,7 @@ public class VKLimiterReconstructorTest {
         CellNeighborCalculator neighborsCalculator = new FaceBasedCellNeighbors();
         CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);
         cellGradientCalculator.setupAllCells();
-        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, neighborsCalculator);
+        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, govEqn, neighborsCalculator);
         reconstructor.reconstruct();
 
         Point p1 = new Line(mesh.nodes().get(2).location(), mesh.nodes().get(4).location())
@@ -127,22 +130,26 @@ public class VKLimiterReconstructorTest {
         Vector[] gradientsNotLimited = gradientsNotLimited();
         mesh.cellStream().forEach(c -> copy(linearReconstruct(gradientsNotLimited, cell_i.shape.centroid, c.shape.centroid), c.U));
 
-        double[] negInf = newFilledArray(numVars, Double.NEGATIVE_INFINITY);
-        double[] posInf = newFilledArray(numVars, Double.POSITIVE_INFINITY);
+        double[] minPhysical = Arrays.stream(govEqn.physicalLimits())
+                .mapToDouble(l -> l.min)
+                .toArray();
+        double[] maxPhysical = Arrays.stream(govEqn.physicalLimits())
+                .mapToDouble(l -> l.max)
+                .toArray();
 
         Cell[] neighs = {mesh.cells().get(0), mesh.cells().get(2), mesh.cells().get(5)};
-        double[] minU = DoubleArray.min(Arrays.stream(neighs)
+        double[] minU = max(minPhysical, min(Arrays.stream(neighs)
                 .map(cell -> cell.U)
-                .reduce(posInf, DoubleArray::min), cell_i.U);
+                .reduce(maxPhysical, DoubleArray::min), cell_i.U));
 
-        double[] maxU = DoubleArray.max(Arrays.stream(neighs)
+        double[] maxU = min(maxPhysical, max(Arrays.stream(neighs)
                 .map(cell -> cell.U)
-                .reduce(negInf, DoubleArray::max), cell_i.U);
+                .reduce(minPhysical, DoubleArray::max), cell_i.U));
 
         double[] Phi = Arrays.stream(cell_i.nodes)
                 .map(n -> linearReconstruct(gradientsNotLimited, cell_i.shape.centroid, n.location()))
                 .map(Uj -> Phi(minU, maxU, cell_i.U, Uj))
-                .reduce(posInf, DoubleArray::min);
+                .reduce(maxPhysical, DoubleArray::min);
 
         Vector[] gradientsLimited = IntStream.range(0, numVars)
                 .mapToObj(var -> gradientsNotLimited[var].mult(Phi[var]))
@@ -151,7 +158,7 @@ public class VKLimiterReconstructorTest {
         CellNeighborCalculator neighborsCalculator = new FaceBasedCellNeighbors();
         CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);
         cellGradientCalculator.setupAllCells();
-        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, neighborsCalculator);
+        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, govEqn, neighborsCalculator);
         reconstructor.reconstruct();
 
         Point p1 = new Line(mesh.nodes().get(2).location(), mesh.nodes().get(4).location())
@@ -184,22 +191,26 @@ public class VKLimiterReconstructorTest {
         Vector[] gradientsNotLimited = gradientsNotLimited();
         mesh.cellStream().forEach(c -> copy(linearReconstruct(gradientsNotLimited, cell_i.shape.centroid, c.shape.centroid), c.U));
 
-        double[] negInf = newFilledArray(numVars, Double.NEGATIVE_INFINITY);
-        double[] posInf = newFilledArray(numVars, Double.POSITIVE_INFINITY);
+        double[] minPhysical = Arrays.stream(govEqn.physicalLimits())
+                .mapToDouble(l -> l.min)
+                .toArray();
+        double[] maxPhysical = Arrays.stream(govEqn.physicalLimits())
+                .mapToDouble(l -> l.max)
+                .toArray();
 
         Cell[] neighs = {mesh.cells().get(0), mesh.cells().get(2), mesh.cells().get(5)};
-        double[] minU = DoubleArray.min(Arrays.stream(neighs)
+        double[] minU = max(minPhysical, min(Arrays.stream(neighs)
                 .map(cell -> cell.U)
-                .reduce(posInf, DoubleArray::min), cell_i.U);
+                .reduce(maxPhysical, DoubleArray::min), cell_i.U));
 
-        double[] maxU = DoubleArray.max(Arrays.stream(neighs)
+        double[] maxU = min(maxPhysical, max(Arrays.stream(neighs)
                 .map(cell -> cell.U)
-                .reduce(negInf, DoubleArray::max), cell_i.U);
+                .reduce(minPhysical, DoubleArray::max), cell_i.U));
 
         double[] Phi = Arrays.stream(cell_i.nodes)
                 .map(n -> linearReconstruct(gradientsNotLimited, cell_i.shape.centroid, n.location()))
                 .map(Uj -> Phi(minU, maxU, cell_i.U, Uj))
-                .reduce(posInf, DoubleArray::min);
+                .reduce(maxPhysical, DoubleArray::min);
 
         Vector[] gradientsLimited = IntStream.range(0, numVars)
                 .mapToObj(var -> gradientsNotLimited[var].mult(Phi[var]))
@@ -208,7 +219,7 @@ public class VKLimiterReconstructorTest {
         CellNeighborCalculator neighborsCalculator = new FaceBasedCellNeighbors();
         CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, neighborsCalculator);
         cellGradientCalculator.setupAllCells();
-        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, neighborsCalculator);
+        SolutionReconstructor reconstructor = new VKLimiterReconstructor(mesh, govEqn, neighborsCalculator);
         reconstructor.reconstruct();
 
         Point p1 = new Line(mesh.nodes().get(2).location(), mesh.nodes().get(4).location())

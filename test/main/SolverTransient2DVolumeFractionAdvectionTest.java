@@ -86,7 +86,7 @@ public class SolverTransient2DVolumeFractionAdvectionTest {
             private CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(
                     mesh, cellNeighborCalculator);
             private final SolutionReconstructor reconstructor
-                    = new VKLimiterReconstructor(mesh, cellNeighborCalculator);
+                    = new VKLimiterReconstructor(mesh, govEqn, cellNeighborCalculator);
             private final RiemannSolver riemannSolver = new HLLRiemannSolver(govEqn);
             List<ResidualCalculator> residuals = List.of(
                     new ConvectionResidual(reconstructor, riemannSolver, mesh),

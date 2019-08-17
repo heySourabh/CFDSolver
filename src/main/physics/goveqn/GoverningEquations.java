@@ -23,6 +23,8 @@ public interface GoverningEquations {
         return copyOf(conservativeVars);
     }
 
+    Limits[] physicalLimits();
+
     Convection convection();
 
     Diffusion diffusion();

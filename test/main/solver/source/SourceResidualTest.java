@@ -5,10 +5,7 @@ import main.geom.Vector;
 import main.mesh.Cell;
 import main.mesh.Mesh;
 import main.mesh.factory.Structured2DMesh;
-import main.physics.goveqn.Convection;
-import main.physics.goveqn.Diffusion;
-import main.physics.goveqn.GoverningEquations;
-import main.physics.goveqn.Source;
+import main.physics.goveqn.*;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -115,6 +112,11 @@ public class SourceResidualTest {
             @Override
             public double[] conservativeVars(double[] primitiveVars) {
                 return new double[0];
+            }
+
+            @Override
+            public Limits[] physicalLimits() {
+                return new Limits[0];
             }
 
             @Override
