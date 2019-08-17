@@ -4,12 +4,11 @@ import main.geom.Point;
 import main.geom.Vector;
 import main.mesh.Cell;
 import main.mesh.Mesh;
+import main.mesh.Node;
 import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.Limits;
 import main.solver.CellNeighborCalculator;
 import main.util.Util;
-
-import java.util.Arrays;
 
 import static main.util.DoubleArray.add;
 
@@ -52,25 +51,28 @@ public class VKLimiterReconstructor implements SolutionReconstructor {
     private void reconstructVar(Cell cell, Vector[] gradients, int var) {
         Limits physicalLimits = govEqn.physicalLimits()[var];
 
-        double uMax = Arrays.stream(neighbors[cell.index()])
-                .mapToDouble(neighCell -> neighCell.U[var])
-                .max().orElse(Double.POSITIVE_INFINITY);
-        uMax = Math.max(uMax, cell.U[var]);
+        Cell[] cellNeighbors = neighbors[cell.index()];
+        double ui = cell.U[var];
+        double uMax = ui;
+        double uMin = ui;
+        for (Cell neighbor : cellNeighbors) {
+            double value = neighbor.U[var];
+            if (value > uMax) uMax = value;
+            if (value < uMin) uMin = value;
+        }
         uMax = Util.clip(uMax, physicalLimits.min, physicalLimits.max);
-        double duMax = uMax - cell.U[var];
+        double duMax = uMax - ui;
 
-        double uMin = Arrays.stream(neighbors[cell.index()])
-                .mapToDouble(neighCell -> neighCell.U[var])
-                .min().orElse(Double.NEGATIVE_INFINITY);
-        uMin = Math.min(uMin, cell.U[var]);
         uMin = Util.clip(uMin, physicalLimits.min, physicalLimits.max);
-        double duMin = uMin - cell.U[var];
+        double duMin = uMin - ui;
 
         Vector gradient_unlimited = gradients[var];
-        double phi_i = Arrays.stream(cell.nodes)
-                .mapToDouble(node -> reconstructValueAt(cell, var, gradient_unlimited, node.location()))
-                .map(uj -> Phi(duMin, duMax, cell.U[var], uj))
-                .min().orElse(1.0);
+        double phi_i = Double.POSITIVE_INFINITY;
+        for (Node node : cell.nodes) {
+            double nodeValue = reconstructValueAt(cell, var, gradient_unlimited, node.location());
+            double nodePhi = Phi(duMin, duMax, ui, nodeValue);
+            if (nodePhi < phi_i) phi_i = nodePhi;
+        }
 
         Vector gradient_limited = gradient_unlimited.mult(phi_i);
         cell.reconstructCoeffs[var][0] = gradient_limited.x;
