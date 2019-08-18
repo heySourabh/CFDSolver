@@ -128,7 +128,8 @@ public class ExplicitSSPRK2TimeIntegrator implements TimeIntegrator {
 
     private void calculateNewAveragesStage0(Cell cell) {
         double dt_vol = cell.dt / cell.shape.volume;
-        for (int var = 0; var < cell.U.length; var++) {
+        int numVars = cell.U.length;
+        for (int var = 0; var < numVars; var++) {
             cell.U[var] = cell.U[var] - cell.residual[var] * dt_vol;
         }
     }
@@ -136,7 +137,6 @@ public class ExplicitSSPRK2TimeIntegrator implements TimeIntegrator {
     private void calculateNewAveragesStage1(Cell cell) {
         double dt_vol = cell.dt / cell.shape.volume;
         int numVars = cell.U.length;
-
         for (int var = 0; var < numVars; var++) {
             cell.U[var] = 0.5 * (this.U[cell.index()][var] + cell.U[var] - dt_vol * cell.residual[var]);
         }

@@ -136,8 +136,10 @@ public class ExplicitSSPRK3TimeIntegrator implements TimeIntegrator {
 
     private void calculateNewAveragesStage0(Cell cell) {
         double dt_vol = cell.dt / cell.shape.volume;
-        double[] U = subtract(cell.U, multiply(cell.residual, dt_vol));
-        copy(U, cell.U);
+        int numVars = cell.U.length;
+        for (int var = 0; var < numVars; var++) {
+            cell.U[var] = cell.U[var] - cell.residual[var] * dt_vol;
+        }
     }
 
     private static final double THREE_FOURTH = 3.0 / 4.0;
@@ -146,14 +148,10 @@ public class ExplicitSSPRK3TimeIntegrator implements TimeIntegrator {
     private void calculateNewAveragesStage1(Cell cell) {
         double dt_vol = cell.dt / cell.shape.volume;
         int numVars = cell.U.length;
-
-        double[] U = new double[numVars];
         for (int var = 0; var < numVars; var++) {
-            U[var] = THREE_FOURTH * this.U[cell.index()][var]
+            cell.U[var] = THREE_FOURTH * this.U[cell.index()][var]
                     + ONE_FOURTH * (cell.U[var] - dt_vol * cell.residual[var]);
         }
-
-        copy(U, cell.U);
     }
 
     private static final double ONE_THIRD = 1.0 / 3.0;
@@ -163,12 +161,9 @@ public class ExplicitSSPRK3TimeIntegrator implements TimeIntegrator {
         double dt_vol = cell.dt / cell.shape.volume;
         int numVars = cell.U.length;
 
-        double[] U = new double[numVars];
         for (int var = 0; var < numVars; var++) {
-            U[var] = ONE_THIRD * this.U[cell.index()][var]
+            cell.U[var] = ONE_THIRD * this.U[cell.index()][var]
                     + TWO_THIRD * (cell.U[var] - dt_vol * cell.residual[var]);
         }
-
-        copy(U, cell.U);
     }
 }
