@@ -3,11 +3,13 @@ package main.solver;
 import main.geom.Point;
 import main.geom.VTKType;
 import main.geom.Vector;
+import main.geom.factory.Hexahedron;
 import main.geom.factory.Polygon;
 import main.mesh.*;
 import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.factory.EulerEquations;
 import main.physics.goveqn.factory.ScalarDiffusion;
+import main.util.DoubleArray;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -106,6 +108,62 @@ public class FunctionInitializerTest {
 
         double[] expectedValue = {3.0421834976763016}; // Calculated using simple code for triangle, 5 levels
         assertArrayEquals(expectedValue, cell.U, 1e-15);
+    }
+
+    @Test
+    public void initialize_hexahedron_cell_with_varying_function() {
+        Function<Point, double[]> f = p -> new double[]{sin(p.x) + cos(p.y) * cos(p.z) + sin(p.z) * cos(p.z) + 2.0};
+        GoverningEquations govEqn = new ScalarDiffusion(0.145);
+        int numVars = govEqn.numVars();
+
+        double xMin = -1.0, xMax = 1.0;
+        double yMin = 2.0, yMax = 2.5;
+        double zMin = -4.0, zMax = 8.0;
+
+        Node n0 = new Node(xMin, yMin, zMin, numVars);
+        Node n1 = new Node(xMax, yMin, zMin, numVars);
+        Node n2 = new Node(xMax, yMax, zMin, numVars);
+        Node n3 = new Node(xMin, yMax, zMin, numVars);
+        Node n4 = new Node(xMin, yMin, zMax, numVars);
+        Node n5 = new Node(xMax, yMin, zMax, numVars);
+        Node n6 = new Node(xMax, yMax, zMax, numVars);
+        Node n7 = new Node(xMin, yMax, zMax, numVars);
+
+        Hexahedron hexahedron = new Hexahedron(
+                n0.location(), n1.location(), n2.location(), n3.location(),
+                n4.location(), n5.location(), n6.location(), n7.location());
+        Shape shape = new Shape(hexahedron.volume(), hexahedron.centroid());
+
+        Cell cell = new Cell(new Node[]{n0, n1, n2, n3, n4, n5, n6, n7},
+                VTKType.VTK_HEXAHEDRON, shape, numVars);
+        Mesh mesh = createMesh(cell);
+
+        SolutionInitializer initializer = new FunctionInitializer(f);
+        initializer.initialize(mesh, govEqn);
+
+        int numDivs = 4;
+        double dx = (xMax - xMin) / numDivs;
+        double dy = (yMax - yMin) / numDivs;
+        double dz = (zMax - zMin) / numDivs;
+
+        Point[] evalPoints = new Point[numDivs * numDivs * numDivs];
+        for (int i = 0; i < numDivs; i++) {
+            double x = xMin + dx / 2.0 + i * dx;
+            for (int j = 0; j < numDivs; j++) {
+                double y = yMin + dy / 2.0 + j * dy;
+                for (int k = 0; k < numDivs; k++) {
+                    double z = zMin + dz / 2.0 + k * dz;
+                    evalPoints[i * numDivs * numDivs + j * numDivs + k] = new Point(x, y, z);
+                }
+            }
+        }
+
+        double[] expectedValue = DoubleArray.multiply(Arrays.stream(evalPoints)
+                .map(f)
+                .reduce(DoubleArray.zeros(1), DoubleArray::add), 1.0 / evalPoints.length);
+
+        assertArrayEquals(expectedValue, mesh.cells().get(0).U, 1e-15);
+        assertArrayEquals(expectedValue, mesh.cells().get(0).Wn, 1e-15);
     }
 
     @Test
