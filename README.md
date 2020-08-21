@@ -11,3 +11,13 @@ Have a look at the [Wiki Page](https://github.com/heySourabh/CFDSolver/wiki) for
 
 #### Developer:
 Sourabh Bhat (heySourabh@gmail.com)
+
+### Some results:
+#### Non-axisymmetric bubble rise problem:
+![Non-axisymmetric bubble rise](docs/results/non-axisymmetric_bubble_rise.png)   
+
+#### Dam break problem:
+![Dam break](docs/results/dam_dreak.png)   
+
+#### Drop splash problem:
+![Drop splash](docs/results/drop_splash.png)   
