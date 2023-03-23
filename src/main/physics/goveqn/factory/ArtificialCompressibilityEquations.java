@@ -1,5 +1,6 @@
 package main.physics.goveqn.factory;
 
+import main.geom.Point;
 import main.geom.Vector;
 import main.physics.goveqn.*;
 
@@ -261,7 +262,7 @@ public class ArtificialCompressibilityEquations implements GoverningEquations {
 
     private final Source source = new Source() {
         @Override
-        public double[] sourceVector(double[] conservativeVars, Vector[] gradConservativeVars) {
+        public double[] sourceVector(Point at, double[] conservativeVars, Vector[] gradConservativeVars) {
             return new double[]{
                     0,
                     GRAVITY.x,

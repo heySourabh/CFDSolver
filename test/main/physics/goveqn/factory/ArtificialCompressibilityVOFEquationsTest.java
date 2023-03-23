@@ -508,8 +508,6 @@ public class ArtificialCompressibilityVOFEquationsTest {
                 p / BETA / rho, rho * u, rho * v, rho * w, C
         };
 
-        Vector n = new Vector(1, -5, 7).unit();
-
         Vector[] gradientU = {
                 new Vector(8, 9, 6),
                 new Vector(81, -9, 2.6),
@@ -521,6 +519,6 @@ public class ArtificialCompressibilityVOFEquationsTest {
         double[] expectedSource = {
                 0, rho * gravity.x, rho * gravity.y, rho * gravity.z, 0
         };
-        assertArrayEquals(expectedSource, govEqn.source().sourceVector(conservativeVars, gradientU), 1e-15);
+        assertArrayEquals(expectedSource, govEqn.source().sourceVector(null, conservativeVars, gradientU), 1e-15);
     }
 }

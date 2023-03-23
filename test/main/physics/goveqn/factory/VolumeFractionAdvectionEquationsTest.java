@@ -3,7 +3,6 @@ package main.physics.goveqn.factory;
 import main.geom.Vector;
 import main.physics.goveqn.Convection;
 import main.physics.goveqn.Diffusion;
-import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.Source;
 import org.junit.Test;
 
@@ -193,7 +192,7 @@ public class VolumeFractionAdvectionEquationsTest {
 
         Source source = new VolumeFractionAdvectionEquations().source();
         assertArrayEquals(expectedSource,
-                source.sourceVector(conservativeVars, gradConservativeVars),
+                source.sourceVector(null, conservativeVars, gradConservativeVars),
                 1e-15);
     }
 }

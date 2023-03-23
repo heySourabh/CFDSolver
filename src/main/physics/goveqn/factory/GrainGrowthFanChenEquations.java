@@ -1,5 +1,6 @@
 package main.physics.goveqn.factory;
 
+import main.geom.Point;
 import main.geom.Vector;
 import main.physics.goveqn.*;
 
@@ -115,7 +116,7 @@ public class GrainGrowthFanChenEquations implements GoverningEquations {
 
     private final Source source = new Source() {
         @Override
-        public double[] sourceVector(double[] conservativeVars, Vector[] gradConservativeVars) {
+        public double[] sourceVector(Point at, double[] conservativeVars, Vector[] gradConservativeVars) {
             double[] sourceFlux = new double[numVars()];
 
             double sum_eta_i_sqr = 0.0;

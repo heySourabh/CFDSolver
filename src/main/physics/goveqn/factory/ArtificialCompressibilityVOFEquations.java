@@ -1,5 +1,6 @@
 package main.physics.goveqn.factory;
 
+import main.geom.Point;
 import main.geom.Vector;
 import main.physics.goveqn.*;
 
@@ -312,7 +313,7 @@ public class ArtificialCompressibilityVOFEquations implements GoverningEquations
 
     private final Source source = new Source() {
         @Override
-        public double[] sourceVector(double[] conservativeVars, Vector[] gradConservativeVars) {
+        public double[] sourceVector(Point at, double[] conservativeVars, Vector[] gradConservativeVars) {
             double C = conservativeVars[4];
             double rho = rho(C);
             return new double[]{

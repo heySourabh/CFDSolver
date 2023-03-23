@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 public class ScalarAdvectionTest {
 
-    private static int rndSeed = new Random().nextInt();
+    private static final int rndSeed = new Random().nextInt();
 
     static {
         System.out.println("Scalar Advection test (Random seed) : " + rndSeed);
@@ -159,7 +159,7 @@ public class ScalarAdvectionTest {
 
         double phi = rnd.nextDouble() * rnd.nextInt(100) - 50;
 
-        assertArrayEquals(new double[]{0}, govEqn.source().sourceVector(new double[]{phi},
+        assertArrayEquals(new double[]{0}, govEqn.source().sourceVector(null, new double[]{phi},
                 new Vector[]{
                         new Vector(1, 1, 1)
                 }),

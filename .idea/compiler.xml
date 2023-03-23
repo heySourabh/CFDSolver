@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="CFDSolver" target="10" />
+      <module name="CFDSolver" target="18" />
     </bytecodeTargetLevel>
   </component>
 </project>

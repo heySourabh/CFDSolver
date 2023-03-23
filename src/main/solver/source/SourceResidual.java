@@ -24,7 +24,7 @@ public class SourceResidual implements ResidualCalculator {
     }
 
     private void updateResidual(Cell cell) {
-        double[] residual = multiply(govEqn.source().sourceVector(cell.U, cell.gradientU), cell.shape.volume);
+        double[] residual = multiply(govEqn.source().sourceVector(cell.shape.centroid, cell.U, cell.gradientU), cell.shape.volume);
         decrement(cell.residual, residual);
     }
 }

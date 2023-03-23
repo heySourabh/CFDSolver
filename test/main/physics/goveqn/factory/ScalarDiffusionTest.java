@@ -92,7 +92,7 @@ public class ScalarDiffusionTest {
     public void source() {
         Source source = new ScalarDiffusion(8.2).source();
 
-        assertArrayEquals(new double[]{0.0}, source.sourceVector(new double[]{1.8},
+        assertArrayEquals(new double[]{0.0}, source.sourceVector(null, new double[]{1.8},
                 new Vector[]{
                         new Vector(1, 1, 1)
                 }), 1e-15);

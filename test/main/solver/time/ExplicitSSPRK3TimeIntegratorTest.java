@@ -163,7 +163,7 @@ public class ExplicitSSPRK3TimeIntegratorTest {
 
             @Override
             public Source source() {
-                return (conservativeVars, gradConservativeVars) -> sourceTerms(conservativeVars);
+                return (at, conservativeVars, gradConservativeVars) -> sourceTerms(conservativeVars);
             }
         };
     }

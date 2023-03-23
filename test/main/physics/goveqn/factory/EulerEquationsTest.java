@@ -115,7 +115,7 @@ public class EulerEquationsTest {
                 rho, rho * u, rho * v, rho * w, rho * (cv * T + velocity.magSqr() / 2.0)
         };
 
-        double expectedPrimVars[] = {rho, u, v, w, p};
+        double[] expectedPrimVars = {rho, u, v, w, p};
         double[] actualPrimitiveVars = eulerEquations.primitiveVars(conservativeVars);
 
         assertDoubleArrayEquals(expectedPrimVars, actualPrimitiveVars);
@@ -137,7 +137,7 @@ public class EulerEquationsTest {
         double cv = R / (gamma - 1);
         double T = p / R / rho;
         Vector velocity = new Vector(u, v, w);
-        double primitiveVars[] = {rho, u, v, w, p};
+        double[] primitiveVars = {rho, u, v, w, p};
         double[] expectedConservativeVars = new double[]{
                 rho, rho * u, rho * v, rho * w, rho * (cv * T + velocity.magSqr() / 2.0)
         };
@@ -226,7 +226,7 @@ public class EulerEquationsTest {
         double[] consVars = new double[eulerEquations.numVars()];
 
         assertDoubleArrayEquals(new double[]{0, 0, 0, 0, 0},
-                eulerEquations.source().sourceVector(consVars,
+                eulerEquations.source().sourceVector(null, consVars,
                         new Vector[]{
                                 new Vector(1, 1, 1),
                                 new Vector(1, 5, 1),

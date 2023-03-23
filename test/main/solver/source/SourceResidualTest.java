@@ -129,7 +129,7 @@ public class SourceResidualTest {
                 return null;
             }
 
-            Source source = (conservativeVars, gradConservativeVars) -> test_source(conservativeVars, gradConservativeVars);
+            Source source = (at, conservativeVars, gradConservativeVars) -> test_source(conservativeVars, gradConservativeVars);
 
             @Override
             public Source source() {

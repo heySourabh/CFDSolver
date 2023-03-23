@@ -258,6 +258,6 @@ public class ArtificialCompressibilityEquationsTest {
         };
 
         assertArrayEquals(new double[]{0, gravity.x, gravity.y, gravity.z},
-                govEqn.source().sourceVector(conservativeVars, gradConservativeVars), 1e-15);
+                govEqn.source().sourceVector(null, conservativeVars, gradConservativeVars), 1e-15);
     }
 }

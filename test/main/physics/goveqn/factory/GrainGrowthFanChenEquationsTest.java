@@ -155,7 +155,7 @@ public class GrainGrowthFanChenEquationsTest {
         };
 
         assertArrayEquals(sourceTerm(U, alpha, beta, gamma, L),
-                govEqn.source().sourceVector(U, null), 1e-12);
+                govEqn.source().sourceVector(null, U, null), 1e-12);
     }
 
     private double[] sourceTerm(double[] eta, double alpha, double beta, double gamma, double[] L) {
