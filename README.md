@@ -1,7 +1,7 @@
 # CFDSolver
 ### Computational Fluid Dynamics Solver
 
-[![Build Status](https://travis-ci.com/heySourabh/CFDSolver.svg?branch=master)](https://travis-ci.com/heySourabh/CFDSolver)
+![Build Status](https://github.com/heySourabh/CFDSolver/actions/workflows/maven.yml/badge.svg)
 
 This is a code for solving partial differential equations of the form resembling Navier-Stokes equations.
 
