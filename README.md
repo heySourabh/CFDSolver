@@ -15,6 +15,9 @@ Sourabh Bhat (heySourabh@gmail.com)
 
 --------------
 ### Some results:
+#### Supersonic flow at Mach 2 over diamond-shaped airfoil, with mesh adaptation (using [MMG](https://github.com/MmgTools/mmg)) 
+![Supersonic flow over diamond airfoil](docs/results/mesh_adaptation_diamond_airfoil.png)
+
 #### Non-axisymmetric bubble rise problem:
 ![Non-axisymmetric bubble rise](docs/results/non-axisymmetric_bubble_rise.png)   
 
