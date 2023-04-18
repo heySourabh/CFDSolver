@@ -19,8 +19,17 @@ Sourabh Bhat (heySourabh@gmail.com)
 ![Supersonic flow over diamond airfoil](docs/results/mesh_adaptation_diamond_airfoil.png)
 
 --------------
+#### Grain-Growth in Metal Solidification (Fan-Chen Model):
+![Grain-Growth](docs/results/grain-growth.gif)
+
+--------------
 #### Non-axisymmetric bubble rise problem:
 ![Non-axisymmetric bubble rise](docs/results/non-axisymmetric_bubble_rise.png)   
+![Non-axisymmetric bubble animation](docs/results/merging_bubbles.gif)
+
+--------------
+#### Sloshing:
+![Sloshing](docs/results/sloshing.gif)
 
 --------------
 #### Dam break problem:
@@ -28,4 +37,12 @@ Sourabh Bhat (heySourabh@gmail.com)
 
 --------------
 #### Drop splash problem:
-![Drop splash](docs/results/drop_splash.png)   
+![Drop splash](docs/results/drop_splash.png)
+
+--------------
+#### Karman Vortex Shedding:
+![Vortex shedding](docs/results/karman-vortex.gif)
+
+--------------
+#### Rayleigh-Taylor Instability:
+![Rayleigh-Taylor Instability](docs/results/RT.gif)
