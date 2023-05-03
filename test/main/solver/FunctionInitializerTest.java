@@ -25,7 +25,7 @@ public class FunctionInitializerTest {
     public void initialize_with_constant_function() {
         double[] conservativeVars = {4, 5, 8, 6, 7};
         Function<Point, double[]> f = p -> conservativeVars;
-        GoverningEquations govEqn = new EulerEquations(1.4, 287);
+        GoverningEquations govEqn = new EulerEquations(1.4);
         int numVars = govEqn.numVars();
         Node[] nodes = {
                 new Node(-2.83, -5.92, -3.01, numVars),
@@ -192,7 +192,7 @@ public class FunctionInitializerTest {
 
     private Mesh createMesh(Cell... cellArray) {
         return new Mesh() {
-            private List<Cell> cells = List.of(cellArray);
+            private final List<Cell> cells = List.of(cellArray);
 
             @Override
             public List<Cell> cells() {

@@ -4,7 +4,7 @@ import main.io.VTKWriter;
 import main.mesh.Mesh;
 import main.mesh.factory.Unstructured2DMesh;
 import main.physics.bc.ExtrapolatedBC;
-import main.physics.bc.InletBC;
+import main.physics.bc.NormalInletBC;
 import main.physics.bc.InviscidWallBC;
 import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.factory.EulerEquations;
@@ -36,8 +36,7 @@ public class SolverEulerEquationsTest {
     @BeforeClass
     public static void setupTestProblem() {
         testProblem = new ProblemDefinition() {
-            private final String description = "Euler Equations - Diamond Airfoil.";
-            private final EulerEquations govEqn = new EulerEquations(1.4, 287);
+            private final EulerEquations govEqn = new EulerEquations(1.4);
             private Mesh mesh;
 
             {
@@ -48,7 +47,7 @@ public class SolverEulerEquationsTest {
                             "Top-Bottom", new ExtrapolatedBC(govEqn),
                             "Right", new ExtrapolatedBC(govEqn),
                             "Airfoil", new InviscidWallBC(govEqn),
-                            "Inlet", new InletBC(govEqn, new InletBC.InletProperties(700.0, 1.0, 101325.0))
+                            "Inlet", new NormalInletBC(govEqn, new NormalInletBC.InletProperties(700.0, 1.0, 101325.0))
                     ));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -60,9 +59,9 @@ public class SolverEulerEquationsTest {
             private final double rhoE = 101325.0 / (1.4 - 1.0) / 1.0 + u * u / 2.0;
             private final SolutionInitializer solutionInitializer = new FunctionInitializer(
                     p -> new double[]{rho, rho * u, 0.0, 0.0, rhoE});
-            ResidualCalculator convectiveCalculator = new ConvectionResidual(new PiecewiseConstantReconstructor(),
+            final ResidualCalculator convectiveCalculator = new ConvectionResidual(new PiecewiseConstantReconstructor(),
                     new RusanovRiemannSolver(govEqn), mesh);
-            CellGradientCalculator cellGradientCalculator = new ZeroCellGradient(mesh);
+            final CellGradientCalculator cellGradientCalculator = new ZeroCellGradient(mesh);
             private final TimeIntegrator timeIntegrator = new ExplicitEulerTimeIntegrator(mesh,
                     new SpaceDiscretization(mesh, cellGradientCalculator, List.of(convectiveCalculator)),
                     new LocalTimeStep(mesh, govEqn), govEqn.numVars());
@@ -71,7 +70,7 @@ public class SolverEulerEquationsTest {
 
             @Override
             public String description() {
-                return description;
+                return "Euler Equations - Diamond Airfoil.";
             }
 
             @Override

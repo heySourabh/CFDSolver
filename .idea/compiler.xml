@@ -9,8 +9,5 @@
         <module name="CFDSolver" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="CFDSolver" target="18" />
-    </bytecodeTargetLevel>
   </component>
 </project>

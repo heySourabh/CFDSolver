@@ -15,7 +15,7 @@ import static main.util.DoubleArray.random;
 import static org.junit.Assert.assertArrayEquals;
 
 public class ExtrapolatedBCTest {
-    private static GoverningEquations govEqn = new EulerEquations(1.4, 287);
+    private static final GoverningEquations govEqn = new EulerEquations(1.4);
 
     @Test
     public void setGhostCellValues() {

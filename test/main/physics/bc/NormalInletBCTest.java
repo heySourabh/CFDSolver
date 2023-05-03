@@ -4,27 +4,25 @@ import main.geom.Vector;
 import main.mesh.Cell;
 import main.mesh.Face;
 import main.mesh.Surface;
-import main.physics.bc.InletBC.InletProperties;
+import main.physics.bc.NormalInletBC.InletProperties;
 import main.physics.goveqn.factory.EulerEquations;
 import org.junit.Test;
-
-import java.util.function.Function;
 
 import static main.util.DoubleArray.copy;
 import static org.junit.Assert.assertArrayEquals;
 
-public class InletBCTest {
+public class NormalInletBCTest {
 
     @Test
     public void setGhostCellValues_subsonic1() {
-        double gamma = 1.4, R = 287;
-        EulerEquations govEqn = new EulerEquations(gamma, R);
+        double gamma = 1.4;
+        EulerEquations govEqn = new EulerEquations(gamma);
         double rho = 1;
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 0.1;
         InletProperties inletProps = new InletProperties(vel, rho, p);
-        InletBC inletBC = new InletBC(govEqn, inletProps);
+        NormalInletBC inletBC = new NormalInletBC(govEqn, inletProps);
 
         Cell left = new Cell(null, null, null, govEqn.numVars());
         left.setIndex(0);
@@ -44,14 +42,14 @@ public class InletBCTest {
 
     @Test
     public void setGhostCellValues_supersonic1() {
-        double gamma = 1.4, R = 287;
-        EulerEquations govEqn = new EulerEquations(gamma, R);
+        double gamma = 1.4;
+        EulerEquations govEqn = new EulerEquations(gamma);
         double rho = 1;
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 1.5;
         InletProperties inletProps = new InletProperties(vel, rho, p);
-        InletBC inletBC = new InletBC(govEqn, inletProps);
+        NormalInletBC inletBC = new NormalInletBC(govEqn, inletProps);
 
         Cell left = new Cell(null, null, null, govEqn.numVars());
         left.setIndex(0);
@@ -71,14 +69,14 @@ public class InletBCTest {
 
     @Test
     public void setGhostCellValues_subsonic2() {
-        double gamma = 1.4, R = 287;
-        EulerEquations govEqn = new EulerEquations(gamma, R);
+        double gamma = 1.4;
+        EulerEquations govEqn = new EulerEquations(gamma);
         double rho = 1;
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 0.1;
         InletProperties inletProps = new InletProperties(vel, rho, p);
-        InletBC inletBC = new InletBC(govEqn, inletProps);
+        NormalInletBC inletBC = new NormalInletBC(govEqn, inletProps);
 
         Cell left = new Cell(null, null, null, govEqn.numVars());
         left.setIndex(0);
@@ -98,14 +96,14 @@ public class InletBCTest {
 
     @Test
     public void setGhostCellValues_supersonic2() {
-        double gamma = 1.4, R = 287;
-        EulerEquations govEqn = new EulerEquations(gamma, R);
+        double gamma = 1.4;
+        EulerEquations govEqn = new EulerEquations(gamma);
         double rho = 1;
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 1.5;
         InletProperties inletProps = new InletProperties(vel, rho, p);
-        InletBC inletBC = new InletBC(govEqn, inletProps);
+        NormalInletBC inletBC = new NormalInletBC(govEqn, inletProps);
 
         Cell left = new Cell(null, null, null, govEqn.numVars());
         left.setIndex(0);
@@ -125,14 +123,14 @@ public class InletBCTest {
 
     @Test
     public void setGhostCellValues_subsonic3() {
-        double gamma = 1.4, R = 287;
-        EulerEquations govEqn = new EulerEquations(gamma, R);
+        double gamma = 1.4;
+        EulerEquations govEqn = new EulerEquations(gamma);
         double rho = 1;
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 0.1;
         InletProperties inletProps = new InletProperties(vel, rho, p);
-        InletBC inletBC = new InletBC(govEqn, inletProps);
+        NormalInletBC inletBC = new NormalInletBC(govEqn, inletProps);
 
         Cell left = new Cell(null, null, null, govEqn.numVars());
         left.setIndex(0);
@@ -152,14 +150,14 @@ public class InletBCTest {
 
     @Test
     public void setGhostCellValues_supersonic3() {
-        double gamma = 1.4, R = 287;
-        EulerEquations govEqn = new EulerEquations(gamma, R);
+        double gamma = 1.4;
+        EulerEquations govEqn = new EulerEquations(gamma);
         double rho = 1;
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 1.5;
         InletProperties inletProps = new InletProperties(vel, rho, p);
-        InletBC inletBC = new InletBC(govEqn, inletProps);
+        NormalInletBC inletBC = new NormalInletBC(govEqn, inletProps);
 
         Cell left = new Cell(null, null, null, govEqn.numVars());
         left.setIndex(0);
@@ -179,14 +177,14 @@ public class InletBCTest {
 
     @Test
     public void convectiveFlux_subsonic1() {
-        double gamma = 1.4, R = 287;
-        EulerEquations govEqn = new EulerEquations(gamma, R);
+        double gamma = 1.4;
+        EulerEquations govEqn = new EulerEquations(gamma);
         double rho = 1;
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 0.1;
         InletProperties inletProps = new InletProperties(vel, rho, p);
-        InletBC inletBC = new InletBC(govEqn, inletProps);
+        NormalInletBC inletBC = new NormalInletBC(govEqn, inletProps);
 
         Cell left = new Cell(null, null, null, govEqn.numVars());
         left.setIndex(0);
@@ -207,14 +205,14 @@ public class InletBCTest {
 
     @Test
     public void convectiveFlux_supersonic1() {
-        double gamma = 1.4, R = 287;
-        EulerEquations govEqn = new EulerEquations(gamma, R);
+        double gamma = 1.4;
+        EulerEquations govEqn = new EulerEquations(gamma);
         double rho = 1;
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 1.5;
         InletProperties inletProps = new InletProperties(vel, rho, p);
-        InletBC inletBC = new InletBC(govEqn, inletProps);
+        NormalInletBC inletBC = new NormalInletBC(govEqn, inletProps);
 
         Cell left = new Cell(null, null, null, govEqn.numVars());
         left.setIndex(0);
@@ -235,14 +233,14 @@ public class InletBCTest {
 
     @Test
     public void convectiveFlux_subsonic2() {
-        double gamma = 1.4, R = 287;
-        EulerEquations govEqn = new EulerEquations(gamma, R);
+        double gamma = 1.4;
+        EulerEquations govEqn = new EulerEquations(gamma);
         double rho = 1;
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 0.1;
         InletProperties inletProps = new InletProperties(vel, rho, p);
-        InletBC inletBC = new InletBC(govEqn, inletProps);
+        NormalInletBC inletBC = new NormalInletBC(govEqn, inletProps);
 
         Cell left = new Cell(null, null, null, govEqn.numVars());
         left.setIndex(0);
@@ -263,14 +261,14 @@ public class InletBCTest {
 
     @Test
     public void convectiveFlux_supersonic2() {
-        double gamma = 1.4, R = 287;
-        EulerEquations govEqn = new EulerEquations(gamma, R);
+        double gamma = 1.4;
+        EulerEquations govEqn = new EulerEquations(gamma);
         double rho = 1;
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 1.5;
         InletProperties inletProps = new InletProperties(vel, rho, p);
-        InletBC inletBC = new InletBC(govEqn, inletProps);
+        NormalInletBC inletBC = new NormalInletBC(govEqn, inletProps);
 
         Cell left = new Cell(null, null, null, govEqn.numVars());
         left.setIndex(0);
@@ -291,14 +289,14 @@ public class InletBCTest {
 
     @Test
     public void convectiveFlux_subsonic3() {
-        double gamma = 1.4, R = 287;
-        EulerEquations govEqn = new EulerEquations(gamma, R);
+        double gamma = 1.4;
+        EulerEquations govEqn = new EulerEquations(gamma);
         double rho = 1;
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 0.1;
         InletProperties inletProps = new InletProperties(vel, rho, p);
-        InletBC inletBC = new InletBC(govEqn, inletProps);
+        NormalInletBC inletBC = new NormalInletBC(govEqn, inletProps);
 
         Cell left = new Cell(null, null, null, govEqn.numVars());
         left.setIndex(0);
@@ -319,14 +317,14 @@ public class InletBCTest {
 
     @Test
     public void convectiveFlux_supersonic3() {
-        double gamma = 1.4, R = 287;
-        EulerEquations govEqn = new EulerEquations(gamma, R);
+        double gamma = 1.4;
+        EulerEquations govEqn = new EulerEquations(gamma);
         double rho = 1;
         double p = 101325;
         double a = Math.sqrt(gamma * p / rho);
         double vel = a * 1.5;
         InletProperties inletProps = new InletProperties(vel, rho, p);
-        InletBC inletBC = new InletBC(govEqn, inletProps);
+        NormalInletBC inletBC = new NormalInletBC(govEqn, inletProps);
 
         Cell left = new Cell(null, null, null, govEqn.numVars());
         left.setIndex(0);

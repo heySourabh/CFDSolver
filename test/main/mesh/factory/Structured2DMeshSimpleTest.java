@@ -23,18 +23,19 @@ public class Structured2DMeshSimpleTest {
     public void mesh_with_single_quad_cell() throws IOException {
         File tempFile = new File("test/test_data/mesh.cfds");
         try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write("" +
-                    "dimension = 2\n" +
-                    "mode = ASCII\n" +
-                    "xi = 2\n" +
-                    "eta = 2\n" +
-                    "0.000000000000000    0.000000000000000    0.000000000000000   \n" +
-                    "0.000000000000000    1.000000000000000    0.000000000000000   \n" +
-                    "1.000000000000000    0.000000000000000    0.000000000000000   \n" +
-                    "1.000000000000000    1.000000000000000    0.000000000000000   \n");
+            writer.write("""
+                    dimension = 2
+                    mode = ASCII
+                    xi = 2
+                    eta = 2
+                    0.000000000000000    0.000000000000000    0.000000000000000  \s
+                    0.000000000000000    1.000000000000000    0.000000000000000  \s
+                    1.000000000000000    0.000000000000000    0.000000000000000  \s
+                    1.000000000000000    1.000000000000000    0.000000000000000  \s
+                    """);
         }
 
-        GoverningEquations govEqn = new EulerEquations(1.4, 287);
+        GoverningEquations govEqn = new EulerEquations(1.4);
         int numVars = govEqn.numVars();
         BoundaryCondition bc = new ExtrapolatedBC(govEqn);
         Structured2DMesh mesh = new Structured2DMesh(tempFile, numVars, bc, bc, bc, bc);
@@ -117,18 +118,19 @@ public class Structured2DMeshSimpleTest {
     public void mesh_with_single_quad_cell_x_reversed() throws IOException {
         File tempFile = new File("test/test_data/mesh.cfds");
         try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write("" +
-                    "dimension = 2\n" +
-                    "mode = ASCII\n" +
-                    "xi = 2\n" +
-                    "eta = 2\n" +
-                    "1.000000000000000    0.000000000000000    0.000000000000000   \n" +
-                    "1.000000000000000    1.000000000000000    0.000000000000000   \n" +
-                    "0.000000000000000    0.000000000000000    0.000000000000000   \n" +
-                    "0.000000000000000    1.000000000000000    0.000000000000000   \n");
+            writer.write("""
+                    dimension = 2
+                    mode = ASCII
+                    xi = 2
+                    eta = 2
+                    1.000000000000000    0.000000000000000    0.000000000000000  \s
+                    1.000000000000000    1.000000000000000    0.000000000000000  \s
+                    0.000000000000000    0.000000000000000    0.000000000000000  \s
+                    0.000000000000000    1.000000000000000    0.000000000000000  \s
+                    """);
         }
 
-        GoverningEquations govEqn = new EulerEquations(1.4, 287);
+        GoverningEquations govEqn = new EulerEquations(1.4);
         int numVars = govEqn.numVars();
         BoundaryCondition bc = new ExtrapolatedBC(govEqn);
         Structured2DMesh mesh = new Structured2DMesh(tempFile, numVars, bc, bc, bc, bc);
@@ -211,20 +213,21 @@ public class Structured2DMeshSimpleTest {
     public void mesh_with_two_cells_in_x_direction() throws IOException {
         File tempFile = new File("test/test_data/mesh.cfds");
         try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write("" +
-                    "dimension = 2\n" +
-                    "mode = ASCII\n" +
-                    "xi = 3\n" +
-                    "eta = 2\n" +
-                    "-1.0       -0.5       0.0       \n" +
-                    "-1.0       0.5        0.0       \n" +
-                    "0.0        -0.5       0.0       \n" +
-                    "0.0        0.5        0.0       \n" +
-                    "1.0        -0.5       0.0       \n" +
-                    "1.0        0.5        0.0       \n");
+            writer.write("""
+                    dimension = 2
+                    mode = ASCII
+                    xi = 3
+                    eta = 2
+                    -1.0       -0.5       0.0      \s
+                    -1.0       0.5        0.0      \s
+                    0.0        -0.5       0.0      \s
+                    0.0        0.5        0.0      \s
+                    1.0        -0.5       0.0      \s
+                    1.0        0.5        0.0      \s
+                    """);
         }
 
-        GoverningEquations govEqn = new EulerEquations(1.4, 287);
+        GoverningEquations govEqn = new EulerEquations(1.4);
         int numVars = govEqn.numVars();
         BoundaryCondition bc = new ExtrapolatedBC(govEqn);
         Structured2DMesh mesh = new Structured2DMesh(tempFile, numVars, bc, bc, bc, bc);
@@ -356,20 +359,21 @@ public class Structured2DMeshSimpleTest {
     public void mesh_with_two_cells_in_x_direction_with_reversed_x_coordinate() throws IOException {
         File tempFile = new File("test/test_data/mesh.cfds");
         try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write("" +
-                    "dimension = 2\n" +
-                    "mode = ASCII\n" +
-                    "xi = 3\n" +
-                    "eta = 2\n" +
-                    "1.0        -0.5       0.0       \n" +
-                    "1.0        0.5        0.0       \n" +
-                    "0.0        -0.5       0.0       \n" +
-                    "0.0        0.5        0.0       \n" +
-                    "-1.0       -0.5       0.0       \n" +
-                    "-1.0       0.5        0.0       \n");
+            writer.write("""
+                    dimension = 2
+                    mode = ASCII
+                    xi = 3
+                    eta = 2
+                    1.0        -0.5       0.0      \s
+                    1.0        0.5        0.0      \s
+                    0.0        -0.5       0.0      \s
+                    0.0        0.5        0.0      \s
+                    -1.0       -0.5       0.0      \s
+                    -1.0       0.5        0.0      \s
+                    """);
         }
 
-        GoverningEquations govEqn = new EulerEquations(1.4, 287);
+        GoverningEquations govEqn = new EulerEquations(1.4);
         int numVars = govEqn.numVars();
         BoundaryCondition bc = new ExtrapolatedBC(govEqn);
         Structured2DMesh mesh = new Structured2DMesh(tempFile, numVars, bc, bc, bc, bc);
@@ -501,20 +505,21 @@ public class Structured2DMeshSimpleTest {
     public void mesh_with_two_cells_in_x_direction_with_reversed_y_coordinate() throws IOException {
         File tempFile = new File("test/test_data/mesh.cfds");
         try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write("" +
-                    "dimension = 2\n" +
-                    "mode = ASCII\n" +
-                    "xi = 3\n" +
-                    "eta = 2\n" +
-                    "-1.0       0.5       0.0       \n" +
-                    "-1.0       -0.5      0.0       \n" +
-                    "0.0        0.5       0.0       \n" +
-                    "0.0        -0.5      0.0       \n" +
-                    "1.0        0.5       0.0       \n" +
-                    "1.0        -0.5      0.0       \n");
+            writer.write("""
+                    dimension = 2
+                    mode = ASCII
+                    xi = 3
+                    eta = 2
+                    -1.0       0.5       0.0      \s
+                    -1.0       -0.5      0.0      \s
+                    0.0        0.5       0.0      \s
+                    0.0        -0.5      0.0      \s
+                    1.0        0.5       0.0      \s
+                    1.0        -0.5      0.0      \s
+                    """);
         }
 
-        GoverningEquations govEqn = new EulerEquations(1.4, 287);
+        GoverningEquations govEqn = new EulerEquations(1.4);
         int numVars = govEqn.numVars();
         BoundaryCondition bc = new ExtrapolatedBC(govEqn);
         Structured2DMesh mesh = new Structured2DMesh(tempFile, numVars, bc, bc, bc, bc);
@@ -646,20 +651,21 @@ public class Structured2DMeshSimpleTest {
     public void mesh_with_two_cells_in_x_direction_with_reversed_x_and_y_coordinate() throws IOException {
         File tempFile = new File("test/test_data/mesh.cfds");
         try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write("" +
-                    "dimension = 2\n" +
-                    "mode = ASCII\n" +
-                    "xi = 3\n" +
-                    "eta = 2\n" +
-                    "1.0        0.5        0.0       \n" +
-                    "1.0        -0.5       0.0       \n" +
-                    "0.0        0.5        0.0       \n" +
-                    "0.0        -0.5       0.0       \n" +
-                    "-1.0       0.5        0.0       \n" +
-                    "-1.0       -0.5       0.0       \n");
+            writer.write("""
+                    dimension = 2
+                    mode = ASCII
+                    xi = 3
+                    eta = 2
+                    1.0        0.5        0.0      \s
+                    1.0        -0.5       0.0      \s
+                    0.0        0.5        0.0      \s
+                    0.0        -0.5       0.0      \s
+                    -1.0       0.5        0.0      \s
+                    -1.0       -0.5       0.0      \s
+                    """);
         }
 
-        GoverningEquations govEqn = new EulerEquations(1.4, 287);
+        GoverningEquations govEqn = new EulerEquations(1.4);
         int numVars = govEqn.numVars();
         BoundaryCondition bc = new ExtrapolatedBC(govEqn);
         Structured2DMesh mesh = new Structured2DMesh(tempFile, numVars, bc, bc, bc, bc);
@@ -791,23 +797,24 @@ public class Structured2DMeshSimpleTest {
     public void mesh_with_two_cells_each_in_x_and_y_direction() throws IOException {
         File tempFile = new File("test/test_data/mesh.cfds");
         try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write("" +
-                    "dimension = 2\n" +
-                    "mode = ASCII\n" +
-                    "xi = 3\n" +
-                    "eta = 3\n" +
-                    "2.00       1.00       0.00\n" +
-                    "2.00       2.00       0.00\n" +
-                    "2.00       3.00       0.00\n" +
-                    "3.50       1.00       0.00\n" +
-                    "3.50       2.00       0.00\n" +
-                    "3.50       3.00       0.00\n" +
-                    "5.00       1.00       0.00\n" +
-                    "5.00       2.00       0.00\n" +
-                    "5.00       3.00       0.00\n");
+            writer.write("""
+                    dimension = 2
+                    mode = ASCII
+                    xi = 3
+                    eta = 3
+                    2.00       1.00       0.00
+                    2.00       2.00       0.00
+                    2.00       3.00       0.00
+                    3.50       1.00       0.00
+                    3.50       2.00       0.00
+                    3.50       3.00       0.00
+                    5.00       1.00       0.00
+                    5.00       2.00       0.00
+                    5.00       3.00       0.00
+                    """);
         }
 
-        GoverningEquations govEqn = new EulerEquations(1.4, 287);
+        GoverningEquations govEqn = new EulerEquations(1.4);
         int numVars = govEqn.numVars();
         BoundaryCondition bc = new ExtrapolatedBC(govEqn);
         Structured2DMesh mesh = new Structured2DMesh(tempFile, numVars, bc, bc, bc, bc);
@@ -972,23 +979,24 @@ public class Structured2DMeshSimpleTest {
     public void mesh_with_two_cells_each_in_x_and_z_direction() throws IOException {
         File tempFile = new File("test/test_data/mesh.cfds");
         try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write("" +
-                    "dimension = 2\n" +
-                    "mode = ASCII\n" +
-                    "xi = 3\n" +
-                    "eta = 3\n" +
-                    "2.00       0.00       1.00\n" +
-                    "2.00       0.00       2.00\n" +
-                    "2.00       0.00       3.00\n" +
-                    "3.50       0.00       1.00\n" +
-                    "3.50       0.00       2.00\n" +
-                    "3.50       0.00       3.00\n" +
-                    "5.00       0.00       1.00\n" +
-                    "5.00       0.00       2.00\n" +
-                    "5.00       0.00       3.00\n");
+            writer.write("""
+                    dimension = 2
+                    mode = ASCII
+                    xi = 3
+                    eta = 3
+                    2.00       0.00       1.00
+                    2.00       0.00       2.00
+                    2.00       0.00       3.00
+                    3.50       0.00       1.00
+                    3.50       0.00       2.00
+                    3.50       0.00       3.00
+                    5.00       0.00       1.00
+                    5.00       0.00       2.00
+                    5.00       0.00       3.00
+                    """);
         }
 
-        GoverningEquations govEqn = new EulerEquations(1.4, 287);
+        GoverningEquations govEqn = new EulerEquations(1.4);
         int numVars = govEqn.numVars();
         BoundaryCondition bc = new ExtrapolatedBC(govEqn);
         Structured2DMesh mesh = new Structured2DMesh(tempFile, numVars, bc, bc, bc, bc);
@@ -1154,23 +1162,24 @@ public class Structured2DMeshSimpleTest {
         // Geometry created and calculated using Solidworks software for testing
         File tempFile = new File("test/test_data/mesh.cfds");
         try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write("" +
-                    "dimension = 2\n" +
-                    "mode = ASCII\n" +
-                    "xi = 3\n" +
-                    "eta = 3\n" +
-                    "-32.0        -11.0        20.0\n" +
-                    "-36.5        -1.0         20.0\n" +
-                    "-40.0        30.0         20.0\n" +
-                    "-10.0        -6.0         20.0\n" +
-                    "-12.0        10.0         20.0\n" +
-                    "-12.0        40.0         20.0\n" +
-                    "19.0         -8.0         20.0\n" +
-                    "12.0         15.5         20.0\n" +
-                    "11.5         34.0         20.0\n");
+            writer.write("""
+                    dimension = 2
+                    mode = ASCII
+                    xi = 3
+                    eta = 3
+                    -32.0        -11.0        20.0
+                    -36.5        -1.0         20.0
+                    -40.0        30.0         20.0
+                    -10.0        -6.0         20.0
+                    -12.0        10.0         20.0
+                    -12.0        40.0         20.0
+                    19.0         -8.0         20.0
+                    12.0         15.5         20.0
+                    11.5         34.0         20.0
+                    """);
         }
 
-        GoverningEquations govEqn = new EulerEquations(1.4, 287);
+        GoverningEquations govEqn = new EulerEquations(1.4);
         int numVars = govEqn.numVars();
         BoundaryCondition bc = new ExtrapolatedBC(govEqn);
         Structured2DMesh mesh = new Structured2DMesh(tempFile, numVars, bc, bc, bc, bc);
@@ -1335,23 +1344,24 @@ public class Structured2DMeshSimpleTest {
     public void mesh_with_nonuniform_2_by_2_cells_x_z() throws IOException {
         File tempFile = new File("test/test_data/mesh.cfds");
         try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write("" +
-                    "dimension = 2\n" +
-                    "mode = ASCII\n" +
-                    "xi = 3\n" +
-                    "eta = 3\n" +
-                    "-32.0        20.0        -11.0\n" +
-                    "-36.5        20.0        -1.0 \n" +
-                    "-40.0        20.0        30.0 \n" +
-                    "-10.0        20.0        -6.0 \n" +
-                    "-12.0        20.0        10.0 \n" +
-                    "-12.0        20.0        40.0 \n" +
-                    "19.0         20.0        -8.0 \n" +
-                    "12.0         20.0        15.5 \n" +
-                    "11.5         20.0        34.0 \n");
+            writer.write("""
+                    dimension = 2
+                    mode = ASCII
+                    xi = 3
+                    eta = 3
+                    -32.0        20.0        -11.0
+                    -36.5        20.0        -1.0\s
+                    -40.0        20.0        30.0\s
+                    -10.0        20.0        -6.0\s
+                    -12.0        20.0        10.0\s
+                    -12.0        20.0        40.0\s
+                    19.0         20.0        -8.0\s
+                    12.0         20.0        15.5\s
+                    11.5         20.0        34.0\s
+                    """);
         }
 
-        GoverningEquations govEqn = new EulerEquations(1.4, 287);
+        GoverningEquations govEqn = new EulerEquations(1.4);
         int numVars = govEqn.numVars();
         BoundaryCondition bc = new ExtrapolatedBC(govEqn);
         Structured2DMesh mesh = new Structured2DMesh(tempFile, numVars, bc, bc, bc, bc);

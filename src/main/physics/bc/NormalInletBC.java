@@ -6,12 +6,12 @@ import main.physics.goveqn.factory.EulerEquations;
 
 import static main.util.DoubleArray.copy;
 
-public class InletBC implements BoundaryCondition {
+public class NormalInletBC implements BoundaryCondition {
 
     private final EulerEquations govEqn;
     private final InletProperties unsteadyInletProperties;
 
-    public InletBC(EulerEquations govEqn, InletProperties unsteadyInletProperties) {
+    public NormalInletBC(EulerEquations govEqn, InletProperties unsteadyInletProperties) {
         this.govEqn = govEqn;
         this.unsteadyInletProperties = unsteadyInletProperties;
     }

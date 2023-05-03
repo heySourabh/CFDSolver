@@ -10,12 +10,14 @@ import java.util.Arrays;
 
 public class HLLRiemannSolver implements RiemannSolver {
     private final int numVars;
+    private final GoverningEquations govEqn;
     private final int numVars_m1;
     private final Convection convection;
 
     public HLLRiemannSolver(GoverningEquations govEqn) {
         this.convection = govEqn.convection();
         this.numVars = govEqn.numVars();
+        this.govEqn = govEqn;
         this.numVars_m1 = numVars - 1;
     }
 
@@ -47,7 +49,9 @@ public class HLLRiemannSolver implements RiemannSolver {
         } else {
             throw new IllegalStateException("The wave speeds are not valid: \n" +
                     "UL = " + Arrays.toString(UL) + ",\n" +
-                    "UR = " + Arrays.toString(UR));
+                    "UR = " + Arrays.toString(UR) + "\n" +
+                    "VL = " + Arrays.toString(govEqn.primitiveVars(UL)) + ",\n" +
+                    "VR = " + Arrays.toString(govEqn.primitiveVars(UR)));
         }
     }
 }

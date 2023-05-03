@@ -22,8 +22,7 @@ public class EulerEquationsTest {
     public void mach() {
         Random rnd = new Random(rndSeedEulerEquationsTest);
         double gamma = 1 + rnd.nextDouble();
-        double R = 8314.0 / (10 + rnd.nextDouble() + rnd.nextInt(89));
-        EulerEquations eulerEquations = new EulerEquations(gamma, R);
+        EulerEquations eulerEquations = new EulerEquations(gamma);
 
         Vector velocity = new Vector(23, 83, 93);
         Vector dir = new Vector(1, 0, 0);
@@ -57,8 +56,7 @@ public class EulerEquationsTest {
     public void description() {
         Random rnd = new Random(rndSeedEulerEquationsTest);
         double gamma = 1 + rnd.nextDouble();
-        double R = 8314.0 / (10 + rnd.nextDouble() + rnd.nextInt(89));
-        EulerEquations eulerEquations = new EulerEquations(gamma, R);
+        EulerEquations eulerEquations = new EulerEquations(gamma);
 
         assertEquals("Euler Equations (Inviscid fluid flow governing equations)", eulerEquations.description());
     }
@@ -67,8 +65,7 @@ public class EulerEquationsTest {
     public void numVars() {
         Random rnd = new Random(rndSeedEulerEquationsTest);
         double gamma = 1 + rnd.nextDouble();
-        double R = 8314.0 / (10 + rnd.nextDouble() + rnd.nextInt(89));
-        EulerEquations eulerEquations = new EulerEquations(gamma, R);
+        EulerEquations eulerEquations = new EulerEquations(gamma);
 
         assertEquals(5, eulerEquations.numVars());
     }
@@ -77,8 +74,7 @@ public class EulerEquationsTest {
     public void conservativeVarNames() {
         Random rnd = new Random(rndSeedEulerEquationsTest);
         double gamma = 1 + rnd.nextDouble();
-        double R = 8314.0 / (10 + rnd.nextDouble() + rnd.nextInt(89));
-        EulerEquations eulerEquations = new EulerEquations(gamma, R);
+        EulerEquations eulerEquations = new EulerEquations(gamma);
 
         assertArrayEquals(new String[]{"rho", "rho u", "rho v", "rho w", "rho E"},
                 eulerEquations.conservativeVarNames());
@@ -88,8 +84,7 @@ public class EulerEquationsTest {
     public void primitiveVarNames() {
         Random rnd = new Random(rndSeedEulerEquationsTest);
         double gamma = 1 + rnd.nextDouble();
-        double R = 8314.0 / (10 + rnd.nextDouble() + rnd.nextInt(89));
-        EulerEquations eulerEquations = new EulerEquations(gamma, R);
+        EulerEquations eulerEquations = new EulerEquations(gamma);
 
         assertArrayEquals(new String[]{"rho", "u", "v", "w", "p"},
                 eulerEquations.primitiveVarNames());
@@ -99,8 +94,7 @@ public class EulerEquationsTest {
     public void primitiveVars() {
         Random rnd = new Random(rndSeedEulerEquationsTest);
         double gamma = 1 + rnd.nextDouble();
-        double R = 8314.0 / (10 + rnd.nextDouble() + rnd.nextInt(89));
-        EulerEquations eulerEquations = new EulerEquations(gamma, R);
+        EulerEquations eulerEquations = new EulerEquations(gamma);
 
         double rho = rnd.nextDouble() * 5;
         double u = rnd.nextDouble() * 50 * (rnd.nextBoolean() ? 1 : -1);
@@ -108,6 +102,7 @@ public class EulerEquationsTest {
         double w = rnd.nextDouble() * 50 * (rnd.nextBoolean() ? 1 : -1);
         double p = rnd.nextDouble() * 1013250;
 
+        double R = 8314.0 / (10 + rnd.nextDouble() + rnd.nextInt(89));
         double cv = R / (gamma - 1);
         double T = p / R / rho;
         Vector velocity = new Vector(u, v, w);
@@ -125,8 +120,7 @@ public class EulerEquationsTest {
     public void conservativeVars() {
         Random rnd = new Random(rndSeedEulerEquationsTest);
         double gamma = 1 + rnd.nextDouble();
-        double R = 8314.0 / (10 + rnd.nextDouble() + rnd.nextInt(89));
-        EulerEquations eulerEquations = new EulerEquations(gamma, R);
+        EulerEquations eulerEquations = new EulerEquations(gamma);
 
         double rho = rnd.nextDouble() * 5;
         double u = rnd.nextDouble() * 50 * (rnd.nextBoolean() ? 1 : -1);
@@ -134,6 +128,7 @@ public class EulerEquationsTest {
         double w = rnd.nextDouble() * 50 * (rnd.nextBoolean() ? 1 : -1);
         double p = rnd.nextDouble() * 1013250;
 
+        double R = 8314.0 / (10 + rnd.nextDouble() + rnd.nextInt(89));
         double cv = R / (gamma - 1);
         double T = p / R / rho;
         Vector velocity = new Vector(u, v, w);
@@ -151,8 +146,7 @@ public class EulerEquationsTest {
     public void convection() {
         Random rnd = new Random(rndSeedEulerEquationsTest);
         double gamma = 1 + rnd.nextDouble();
-        double R = 8314.0 / (10 + rnd.nextDouble() + rnd.nextInt(89));
-        EulerEquations eulerEquations = new EulerEquations(gamma, R);
+        EulerEquations eulerEquations = new EulerEquations(gamma);
 
         double rho = rnd.nextDouble() * 5;
         double u = rnd.nextDouble() * 50 * (rnd.nextBoolean() ? 1 : -1);
@@ -160,6 +154,7 @@ public class EulerEquationsTest {
         double w = rnd.nextDouble() * 50 * (rnd.nextBoolean() ? 1 : -1);
         double p = rnd.nextDouble() * 1013250;
 
+        double R = 8314.0 / (10 + rnd.nextDouble() + rnd.nextInt(89));
         double cv = R / (gamma - 1);
         double T = p / R / rho;
         Vector velocity = new Vector(u, v, w);
@@ -206,8 +201,7 @@ public class EulerEquationsTest {
     public void diffusion() {
         Random rnd = new Random(rndSeedEulerEquationsTest);
         double gamma = 1 + rnd.nextDouble();
-        double R = 8314.0 / (10 + rnd.nextDouble() + rnd.nextInt(89));
-        EulerEquations eulerEquations = new EulerEquations(gamma, R);
+        EulerEquations eulerEquations = new EulerEquations(gamma);
 
         double[] consVars = new double[eulerEquations.numVars()];
         Vector[] gradConsVars = new Vector[eulerEquations.numVars()];
@@ -220,8 +214,7 @@ public class EulerEquationsTest {
     public void source() {
         Random rnd = new Random(rndSeedEulerEquationsTest);
         double gamma = 1 + rnd.nextDouble();
-        double R = 8314.0 / (10 + rnd.nextDouble() + rnd.nextInt(89));
-        EulerEquations eulerEquations = new EulerEquations(gamma, R);
+        EulerEquations eulerEquations = new EulerEquations(gamma);
 
         double[] consVars = new double[eulerEquations.numVars()];
 

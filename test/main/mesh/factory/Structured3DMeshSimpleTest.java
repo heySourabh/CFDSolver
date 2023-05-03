@@ -23,27 +23,28 @@ public class Structured3DMeshSimpleTest {
     public void mesh_with_two_cartesian_cell_in_y_direction() throws IOException {
         File tempFile = new File("test/test_data/mesh.cfds");
         try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write("" +
-                    "dimension = 3\n" +
-                    "mode = ASCII\n" +
-                    "xi = 2\n" +
-                    "eta = 3\n" +
-                    "zeta = 2\n" +
-                    "-0.5      -0.5      0.0   \n" +
-                    "-0.5      -0.5      3.5   \n" +
-                    "-0.5      1.0       0.0   \n" +
-                    "-0.5      1.0       3.5   \n" +
-                    "-0.5      2.5       0.0   \n" +
-                    "-0.5      2.5       3.5   \n" +
-                    "2.0       -0.5      0.0   \n" +
-                    "2.0       -0.5      3.5   \n" +
-                    "2.0       1.0       0.0   \n" +
-                    "2.0       1.0       3.5   \n" +
-                    "2.0       2.5       0.0   \n" +
-                    "2.0       2.5       3.5   \n");
+            writer.write("""
+                    dimension = 3
+                    mode = ASCII
+                    xi = 2
+                    eta = 3
+                    zeta = 2
+                    -0.5      -0.5      0.0  \s
+                    -0.5      -0.5      3.5  \s
+                    -0.5      1.0       0.0  \s
+                    -0.5      1.0       3.5  \s
+                    -0.5      2.5       0.0  \s
+                    -0.5      2.5       3.5  \s
+                    2.0       -0.5      0.0  \s
+                    2.0       -0.5      3.5  \s
+                    2.0       1.0       0.0  \s
+                    2.0       1.0       3.5  \s
+                    2.0       2.5       0.0  \s
+                    2.0       2.5       3.5  \s
+                    """);
         }
 
-        GoverningEquations govEqn = new EulerEquations(1.4, 287);
+        GoverningEquations govEqn = new EulerEquations(1.4);
         int numVars = govEqn.numVars();
         BoundaryCondition bc = new ExtrapolatedBC(govEqn);
         Structured3DMesh mesh = new Structured3DMesh(tempFile, numVars, bc, bc, bc, bc, bc, bc);
@@ -247,27 +248,28 @@ public class Structured3DMeshSimpleTest {
     public void mesh_with_two_cartesian_cell_in_y_direction_with_xi_reversed() throws IOException {
         File tempFile = new File("test/test_data/mesh.cfds");
         try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write("" +
-                    "dimension = 3\n" +
-                    "mode = ASCII\n" +
-                    "xi = 2\n" +
-                    "eta = 3\n" +
-                    "zeta = 2\n" +
-                    "2.0       -0.5       0.0   \n" +
-                    "2.0       -0.5       3.5   \n" +
-                    "2.0       1.0        0.0   \n" +
-                    "2.0       1.0        3.5   \n" +
-                    "2.0       2.5        0.0   \n" +
-                    "2.0       2.5        3.5   \n" +
-                    "-0.5      -0.5       0.0   \n" +
-                    "-0.5      -0.5       3.5   \n" +
-                    "-0.5      1.0        0.0   \n" +
-                    "-0.5      1.0        3.5   \n" +
-                    "-0.5      2.5        0.0   \n" +
-                    "-0.5      2.5        3.5   \n");
+            writer.write("""
+                    dimension = 3
+                    mode = ASCII
+                    xi = 2
+                    eta = 3
+                    zeta = 2
+                    2.0       -0.5       0.0  \s
+                    2.0       -0.5       3.5  \s
+                    2.0       1.0        0.0  \s
+                    2.0       1.0        3.5  \s
+                    2.0       2.5        0.0  \s
+                    2.0       2.5        3.5  \s
+                    -0.5      -0.5       0.0  \s
+                    -0.5      -0.5       3.5  \s
+                    -0.5      1.0        0.0  \s
+                    -0.5      1.0        3.5  \s
+                    -0.5      2.5        0.0  \s
+                    -0.5      2.5        3.5  \s
+                    """);
         }
 
-        GoverningEquations govEqn = new EulerEquations(1.4, 287);
+        GoverningEquations govEqn = new EulerEquations(1.4);
         int numVars = govEqn.numVars();
         BoundaryCondition bc = new ExtrapolatedBC(govEqn);
         Structured3DMesh mesh = new Structured3DMesh(tempFile, numVars, bc, bc, bc, bc, bc, bc);

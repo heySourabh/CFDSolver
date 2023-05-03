@@ -30,8 +30,7 @@ public class SolverEulerEquations1Test {
     @BeforeClass
     public static void setupTestProblem() {
         testProblem = new ProblemDefinition() {
-            private final String description = "Single Cell Euler Equations.";
-            private final EulerEquations govEqn = new EulerEquations(1.4, 287);
+            private final EulerEquations govEqn = new EulerEquations(1.4);
             private Mesh mesh;
 
             {
@@ -51,9 +50,9 @@ public class SolverEulerEquations1Test {
             private final double pr = 101325.0;
             private final SolutionInitializer solutionInitializer = new FunctionInitializer(
                     p -> govEqn.conservativeVars(new double[]{rho, u, v, w, pr}));
-            ResidualCalculator convectiveCalculator = new ConvectionResidual(new PiecewiseConstantReconstructor(),
+            final ResidualCalculator convectiveCalculator = new ConvectionResidual(new PiecewiseConstantReconstructor(),
                     new RusanovRiemannSolver(govEqn), mesh);
-            CellGradientCalculator cellGradientCalculator = new ZeroCellGradient(mesh);
+            final CellGradientCalculator cellGradientCalculator = new ZeroCellGradient(mesh);
             private final TimeIntegrator timeIntegrator = new ExplicitEulerTimeIntegrator(mesh,
                     new SpaceDiscretization(mesh, cellGradientCalculator, List.of(convectiveCalculator)),
                     new GlobalTimeStep(mesh, govEqn), govEqn.numVars());
@@ -62,7 +61,7 @@ public class SolverEulerEquations1Test {
 
             @Override
             public String description() {
-                return description;
+                return "Single Cell Euler Equations.";
             }
 
             @Override

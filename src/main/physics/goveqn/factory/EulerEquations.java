@@ -5,20 +5,10 @@ import main.physics.goveqn.*;
 
 public class EulerEquations implements GoverningEquations {
 
-    public final double GAMMA, R, CV;
+    public final double GAMMA;
 
-    public EulerEquations(double gamma, double R) {
+    public EulerEquations(double gamma) {
         this.GAMMA = gamma;
-        this.R = R;
-        this.CV = R / (gamma - 1.0);
-    }
-
-    private double eos_p(double rho, double T) {
-        return rho * R * T;
-    }
-
-    private double eos_T(double rho, double p) {
-        return p / rho / R;
     }
 
     public double mach(double[] primitiveVars, Vector unitDirection) {
@@ -74,8 +64,7 @@ public class EulerEquations implements GoverningEquations {
         double kineticE = 0.5 * (u * u + v * v + w * w);
         double internalE = E - kineticE;
 
-        double T = internalE / CV;
-        double p = eos_p(rho, T);
+        double p = internalE * rho * (GAMMA - 1);
 
         return new double[]{
                 rho, u, v, w, p
@@ -94,8 +83,7 @@ public class EulerEquations implements GoverningEquations {
         double rhov = rho * v;
         double rhow = rho * w;
 
-        double T = eos_T(rho, p);
-        double internalE = CV * T;
+        double internalE = p / rho / (GAMMA - 1);
         double kineticE = 0.5 * (u * u + v * v + w * w);
         double E = internalE + kineticE;
 

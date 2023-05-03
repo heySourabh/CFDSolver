@@ -28,7 +28,7 @@ public class VKLimiterReconstructorTest {
 
     @Test
     public void reconstruct_evaluation0() throws FileNotFoundException {
-        EulerEquations govEqn = new EulerEquations(1.4, 287);
+        EulerEquations govEqn = new EulerEquations(1.4);
         Mesh mesh = new Unstructured2DMesh(
                 new File("test/test_data/mesh_unstructured_2d.cfdu"), govEqn.numVars(), Map.of());
 
@@ -60,7 +60,7 @@ public class VKLimiterReconstructorTest {
 
     @Test
     public void reconstruct_evaluation_smooth_xy() throws FileNotFoundException {
-        EulerEquations govEqn = new EulerEquations(1.4, 287);
+        EulerEquations govEqn = new EulerEquations(1.4);
         Mesh mesh = new Unstructured2DMesh(
                 new File("test/test_data/mesh_unstructured_2d.cfdu"), govEqn.numVars(), Map.of());
 
@@ -121,7 +121,7 @@ public class VKLimiterReconstructorTest {
 
     @Test
     public void reconstruct_evaluation_smooth_yz() throws FileNotFoundException {
-        EulerEquations govEqn = new EulerEquations(1.4, 287);
+        EulerEquations govEqn = new EulerEquations(1.4);
         Mesh mesh = new Unstructured2DMesh(
                 new File("test/test_data/mesh_unstructured_2d_yz.cfdu"), govEqn.numVars(), Map.of());
 
@@ -182,7 +182,7 @@ public class VKLimiterReconstructorTest {
 
     @Test
     public void reconstruct_evaluation_smooth_xz() throws FileNotFoundException {
-        EulerEquations govEqn = new EulerEquations(1.4, 287);
+        EulerEquations govEqn = new EulerEquations(1.4);
         Mesh mesh = new Unstructured2DMesh(
                 new File("test/test_data/mesh_unstructured_2d_xz.cfdu"), govEqn.numVars(), Map.of());
 

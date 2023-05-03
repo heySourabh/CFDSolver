@@ -7,7 +7,6 @@ import main.mesh.Surface;
 import main.physics.goveqn.factory.EulerEquations;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Random;
 
 import static main.util.DoubleArray.copy;
@@ -18,7 +17,7 @@ public class InviscidWallBCTest {
 
     @Test
     public void setGhostCellValues() {
-        EulerEquations govEqn = new EulerEquations(1.4, 287.0);
+        EulerEquations govEqn = new EulerEquations(1.4);
         InviscidWallBC inviscidWallBC = new InviscidWallBC(govEqn);
         Vector normal = new Vector(1, 1, 1).unit();
         Surface surface = new Surface(1.0, null, normal);
@@ -46,7 +45,7 @@ public class InviscidWallBCTest {
 
     @Test
     public void setGhostCellValues1() {
-        EulerEquations govEqn = new EulerEquations(1.4, 287.0);
+        EulerEquations govEqn = new EulerEquations(1.4);
         InviscidWallBC inviscidWallBC = new InviscidWallBC(govEqn);
         Vector normal = new Vector(1, 0, 0).unit();
         Surface surface = new Surface(1.0, null, normal);
@@ -66,7 +65,7 @@ public class InviscidWallBCTest {
 
     @Test
     public void setGhostCellValues2() {
-        EulerEquations govEqn = new EulerEquations(1.4, 287.0);
+        EulerEquations govEqn = new EulerEquations(1.4);
         InviscidWallBC inviscidWallBC = new InviscidWallBC(govEqn);
         Vector normal = new Vector(0, 1, 0).unit();
         Surface surface = new Surface(1.0, null, normal);
@@ -86,7 +85,7 @@ public class InviscidWallBCTest {
 
     @Test
     public void setGhostCellValues3() {
-        EulerEquations govEqn = new EulerEquations(1.4, 287.0);
+        EulerEquations govEqn = new EulerEquations(1.4);
         InviscidWallBC inviscidWallBC = new InviscidWallBC(govEqn);
         Vector normal = new Vector(0, 0, -1).unit();
         Surface surface = new Surface(1.0, null, normal);
@@ -106,7 +105,7 @@ public class InviscidWallBCTest {
 
     @Test
     public void convectiveFlux() {
-        EulerEquations govEqn = new EulerEquations(1.4, 287.0);
+        EulerEquations govEqn = new EulerEquations(1.4);
         InviscidWallBC inviscidWallBC = new InviscidWallBC(govEqn);
         Random rnd = new Random();
         Vector normal = new Vector(rnd.nextDouble(), rnd.nextDouble(), rnd.nextDouble()).unit();
@@ -136,7 +135,7 @@ public class InviscidWallBCTest {
 
     @Test
     public void convectiveFlux1() {
-        EulerEquations govEqn = new EulerEquations(1.4, 287.0);
+        EulerEquations govEqn = new EulerEquations(1.4);
         InviscidWallBC inviscidWallBC = new InviscidWallBC(govEqn);
         Random rnd = new Random();
         Vector normal = new Vector(1, 0, 0).unit();
@@ -166,7 +165,7 @@ public class InviscidWallBCTest {
 
     @Test
     public void convectiveFlux2() {
-        EulerEquations govEqn = new EulerEquations(1.4, 287.0);
+        EulerEquations govEqn = new EulerEquations(1.4);
         InviscidWallBC inviscidWallBC = new InviscidWallBC(govEqn);
         Random rnd = new Random();
         Vector normal = new Vector(0, 1, 0).unit();
@@ -196,7 +195,7 @@ public class InviscidWallBCTest {
 
     @Test
     public void convectiveFlux3() {
-        EulerEquations govEqn = new EulerEquations(1.4, 287.0);
+        EulerEquations govEqn = new EulerEquations(1.4);
         InviscidWallBC inviscidWallBC = new InviscidWallBC(govEqn);
         Random rnd = new Random();
         Vector normal = new Vector(0, 0, 1).unit();
