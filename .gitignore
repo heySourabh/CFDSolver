@@ -1,3 +1,6 @@
 src/wip/*
 test/wip/*
 scripts/*
+*.class
+*.vtu
+*.dat
