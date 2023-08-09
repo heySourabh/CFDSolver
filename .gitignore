@@ -4,3 +4,5 @@ scripts/*
 *.class
 *.vtu
 *.dat
+target/*
+libs/*
