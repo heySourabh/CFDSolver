@@ -53,23 +53,13 @@ public class Unstructured2DMesh implements Mesh {
             if (vtkType.dim != 2) {
                 throw new IllegalArgumentException("The elements are not 2D.");
             }
-            Geometry cellGeom;
-            switch (vtkType) {
-                case VTK_TRIANGLE:
-                    cellGeom = new Triangle(cellPoints[0], cellPoints[1], cellPoints[2]);
-                    break;
-                case VTK_QUAD:
-                    cellGeom = new Quad(cellPoints[0], cellPoints[1], cellPoints[2], cellPoints[3]);
-                    break;
-                case VTK_POLYGON:
-                    cellGeom = new Polygon(cellPoints);
-                    break;
-                case VTK_TRIANGLE_STRIP:
-                    cellGeom = new TriangleStrip(cellPoints);
-                    break;
-                default:
-                    throw new UnsupportedOperationException("Cell: The geometry type " + vtkType + " is not supported.");
-            }
+            Geometry cellGeom = switch (vtkType) {
+                case VTK_TRIANGLE -> new Triangle(cellPoints[0], cellPoints[1], cellPoints[2]);
+                case VTK_QUAD -> new Quad(cellPoints[0], cellPoints[1], cellPoints[2], cellPoints[3]);
+                case VTK_POLYGON -> new Polygon(cellPoints);
+                default ->
+                        throw new UnsupportedOperationException("Cell: The geometry type " + vtkType + " is not supported.");
+            };
             Shape cellShape = new Shape(cellGeom.area() * 1.0, cellGeom.centroid());
             Cell cell = new Cell(cellNodes, vtkType, cellShape, numVars);
             cellList.add(cell);
