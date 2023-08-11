@@ -32,8 +32,13 @@ public class DataFileReader implements AutoCloseable {
     private String nextLine() {
         String nextLine = fileScanner.nextLine().trim();
 
-        if (commentStr != null)
-            nextLine = nextLine.split(commentStr)[0].trim();
+        if (commentStr != null) {
+            if (nextLine.equals(commentStr)) {
+                nextLine = "";
+            } else {
+                nextLine = nextLine.split(commentStr)[0].trim();
+            }
+        }
 
         // Since blank lines are ignored
         if (nextLine.length() == 0)
