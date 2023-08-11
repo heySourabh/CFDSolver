@@ -37,4 +37,23 @@ public enum VTKType {
                 .filter(e -> e.ID == id)
                 .findAny().orElseThrow(() -> new NoSuchElementException("No VTKType for id: " + id));
     }
+
+    /**
+     * Get number of points for the VTKType if defined.
+     * @return Number of points or Zero (0) for VTK_POLY_VERTEX, VTK_POLY_LINE, VTK_POLYGON, VTK_TRIANGLE_STRIP.
+     */
+    public int numPoints() {
+        return switch (this) {
+            case VTK_POLY_VERTEX, VTK_POLY_LINE, VTK_POLYGON, VTK_TRIANGLE_STRIP -> 0;
+            case VTK_VERTEX -> 1;
+            case VTK_LINE -> 2;
+            case VTK_TRIANGLE, VTK_QUADRATIC_EDGE -> 3;
+            case VTK_PIXEL, VTK_QUAD, VTK_TETRA -> 4;
+            case VTK_PYRAMID -> 5;
+            case VTK_WEDGE, VTK_QUADRATIC_TRIANGLE -> 6;
+            case VTK_VOXEL, VTK_HEXAHEDRON, VTK_QUADRATIC_QUAD -> 8;
+            case VTK_QUADRATIC_TETRA -> 10;
+            case VTK_QUADRATIC_HEXAHEDRON -> 20;
+        };
+    }
 }
