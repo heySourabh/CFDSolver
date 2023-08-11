@@ -81,4 +81,13 @@ public class DataFileReader implements AutoCloseable {
 
         return intArray;
     }
+
+    public double[] readDoubleArray() {
+        String[] tokens = nextLine().split("\\s+");
+        double[] doubleArray = new double[tokens.length];
+        for (int i = 0; i < doubleArray.length; i++) {
+            doubleArray[i] = Double.parseDouble(tokens[i]);
+        }
+        return doubleArray;
+    }
 }

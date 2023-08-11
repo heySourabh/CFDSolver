@@ -26,6 +26,7 @@ public class DataFileReaderTest {
                     str1 = Just a plain line
                     987 34 76
                     45 72 25 98 41 23 14 57 92 12    % int array
+                    45.5 72.8 25.1 98 41 23 14 57 92 12 % double array
                     line=empty""";
             writer.write(textWithComments);
         }
@@ -37,6 +38,8 @@ public class DataFileReaderTest {
             assertEquals("Just a plain line", fileReader.readParameter("str1"));
             assertEquals(0, new Point(987, 34, 76).distance(fileReader.readXYZ()), 1e-15);
             assertArrayEquals(new int[]{45, 72, 25, 98, 41, 23, 14, 57, 92, 12}, fileReader.readIntArray());
+            assertArrayEquals(new double[]{45.5, 72.8, 25.1, 98, 41, 23, 14, 57, 92, 12},
+                    fileReader.readDoubleArray(), 1e-15);
 
             assertThrows(IllegalArgumentException.class, () -> fileReader.readParameter("Dummy")); // line=empty
         }
