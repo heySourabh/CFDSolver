@@ -12,8 +12,8 @@ public class Boundary {
     private BoundaryCondition bc;
 
     public Boundary(String name, List<Face> faces, BoundaryCondition bc) {
-        this.name = Objects.requireNonNull(name);
-        this.faces = Objects.requireNonNull(faces);
+        this.name = Objects.requireNonNull(name, "Boundary 'name' cannot be null.");
+        this.faces = Objects.requireNonNull(faces, "Boundary 'faces' cannot be null.");
         this.bc = bc;
     }
 
@@ -22,6 +22,6 @@ public class Boundary {
     }
 
     public Optional<BoundaryCondition> bc() {
-        return Optional.of(bc);
+        return Optional.ofNullable(bc);
     }
 }
