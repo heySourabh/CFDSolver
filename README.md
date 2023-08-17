@@ -15,6 +15,12 @@ Sourabh Bhat (heySourabh@gmail.com)
 
 --------------
 ### Some results:
+
+#### Fighter aircraft flying at supersonic speed (Mach 2). Solved using three-dimensional unstructured generated using [gmsh](https://gmsh.info/).
+![Mach 2 - F16](docs/results/Mach2_F16.png)
+
+--------------
+
 #### Supersonic flow at Mach 2 over diamond-shaped airfoil, with mesh adaptation (using [MMG](https://github.com/MmgTools/mmg)) 
 ![Supersonic flow over diamond airfoil](docs/results/mesh_adaptation_diamond_airfoil.png)
 
