@@ -16,7 +16,9 @@ Sourabh Bhat (heySourabh@gmail.com)
 --------------
 ### Some results:
 
-#### Fighter aircraft flying at supersonic speed (Mach 2). Solved using three-dimensional unstructured mesh generated using [gmsh](https://gmsh.info/).
+#### Fighter aircraft flying at supersonic speed (Mach 2). Solved using three-dimensional unstructured mesh generated using [gmsh](https://gmsh.info/). 
+Converged to 10<sup>-3</sup> residual in `1 min, 35 sec` with second-order spatial accuracy 
+(with ~80,000 tetrahedral cells) on Dell Precision 5570 laptop.
 ![Mach 2 - F16](docs/results/Mach2_F16.png)
 
 --------------
