@@ -18,9 +18,9 @@ public class OptionsTest {
         Options options = new Options(args);
 
         NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> options.get("not-arg"));
-        assertEquals("Cannot find argument named: --not-arg", exception.getMessage());
+        assertEquals("Cannot find value for argument named: --not-arg", exception.getMessage());
         exception = assertThrows(NoSuchElementException.class, () -> options.get("incomplete"));
-        assertEquals("Cannot find argument named: --incomplete", exception.getMessage());
+        assertEquals("Cannot find value for argument named: --incomplete", exception.getMessage());
     }
 
     @Test

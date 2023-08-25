@@ -23,7 +23,7 @@ public class Options {
                 .limit(2)
                 .toList();
         if (option.size() != 2) {
-            throw new NoSuchElementException("Cannot find argument named: " + argName);
+            throw new NoSuchElementException("Cannot find value for argument named: " + argName);
         }
 
         return option.get(1);
