@@ -31,6 +31,13 @@ Converged to 10<sup>-3</sup> residual in `1 min, 35 sec` with second-order spati
 ![Grain-Growth](docs/results/grain-growth.gif)
 
 --------------
+### Dam break with an obstacle:
+Test case reference: https://doi.org/10.1016/j.jcp.2004.12.007
+Geometry reference: https://www.spheric-sph.org/tests/test-02
+
+![Animatino of dam break with an obstacle](docs/results/dam_break_with_obstacle.gif)
+
+--------------
 #### Non-axisymmetric bubble rise problem:
 ![Non-axisymmetric bubble rise](docs/results/non-axisymmetric_bubble_rise.png)   
 ![Non-axisymmetric bubble animation](docs/results/merging_bubbles.gif)
