@@ -2,11 +2,11 @@ package main.util;
 
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Random;
 
 import static main.util.TestHelper.assertThrows;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class DoubleArrayTest {
 
@@ -125,5 +125,17 @@ public class DoubleArrayTest {
         double dotProduct = 1. * 5 + 2 * 5 + (-5) * 5 + 6 * (-5);
 
         assertEquals(dotProduct, DoubleArray.dot(v1, v2), 1e-15);
+    }
+
+    @Test
+    public void test_sqr() {
+        double[] v = {5, 10, 1, 3, 2, 1.2};
+        assertArrayEquals(new double[]{25, 100, 1, 9, 4, 1.44}, DoubleArray.sqr(v), 1e-15);
+    }
+
+    @Test
+    public void test_sqrt() {
+        double[] v = {25, 100, 9, 4};
+        assertArrayEquals(new double[]{5, 10, 3, 2}, DoubleArray.sqrt(v), 1e-15);
     }
 }

@@ -99,6 +99,8 @@ public class DoubleArray {
         return apply(array, e -> e * e);
     }
 
+    public static double[] sqrt(double[] array) {return apply(array, Math::sqrt);}
+
     public static double[] apply(double[] a1, double[] a2, DoubleBinaryOperator function) {
         double[] result = new double[a1.length];
 
