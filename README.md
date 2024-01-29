@@ -16,8 +16,9 @@ If you would like to use the code, you can follow these steps:
 4. Open the project in IntelliJ IDEA (all necessary dependencies will be automatically downloaded during the first run using maven)
 5. Right-click and Run the test problems named `test/main/Solver**.java`
 6. Duplicate the Solver in `test/main/` & modify the code as needed for your application.
+7. To add *new physics*, have a look at `src/main/physics/goveqn/GoverningEquations.java`.
 
-If some step is missing, or something does not work, please [contact me](https://spbhat.in/#contact).
+If some step is missing, or for collaboration, please [contact me](https://spbhat.in/#contact).
 
 Have a look at the [Wiki Page](https://github.com/heySourabh/CFDSolver/wiki) for further details.
 
