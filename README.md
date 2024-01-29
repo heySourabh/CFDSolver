@@ -8,6 +8,17 @@ This is a code for solving partial differential equations of the form resembling
 Most of the details of the numerical calculations in this solver are presented in our paper:  
 [Computers & Fluids, Volume 244, 15 August 2022, 105570](https://doi.org/10.1016/j.compfluid.2022.105570)
 
+If you would like to use the code, you can follow these steps:
+1. Clone the GitHub repository to your local computer: <br>
+   `git clone --depth=1 https://github.com/heySourabh/CFDSolver.git`
+2. Download OpenJDK20 (or latest JDK) for your operating system ([From Oracle](https://www.oracle.com/java/technologies/downloads/) or [any other vendors](https://foojay.io/today/fantastic-jvms-and-where-to-find-them/)).
+3. (Optional but helpful) Install [IntelliJ IDEA](https://www.jetbrains.com/idea/download/): The "Community Edition" is free and open-source.
+4. Open the project in IntelliJ IDEA (all necessary dependencies will be automatically downloaded during the first run using maven)
+5. Right-click and Run the test problems named `test/main/Solver**.java`
+6. Duplicate the Solver in `test/main/` & modify the code as needed for your application.
+
+If some step is missing, or something does not work, please [contact me](https://spbhat.in/#contact).
+
 Have a look at the [Wiki Page](https://github.com/heySourabh/CFDSolver/wiki) for further details.
 
 #### Developer:
