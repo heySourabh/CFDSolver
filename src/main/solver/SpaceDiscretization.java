@@ -36,7 +36,7 @@ public class SpaceDiscretization {
 
     private void setGhostCellValues(Boundary boundary) {
         BoundaryCondition bc = boundary.bc().orElseThrow(
-                () -> new IllegalArgumentException("Boundary condition is not defined."));
+                () -> new IllegalArgumentException("Boundary condition is not defined for \"" + boundary.name + "\"."));
         boundary.faces.forEach(bc::setGhostCellValues);
     }
 }
