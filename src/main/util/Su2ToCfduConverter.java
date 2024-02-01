@@ -11,17 +11,8 @@ import java.io.PrintWriter;
 import static java.util.Arrays.copyOfRange;
 
 public class Su2ToCfduConverter {
-
-    private final File s2uFile;
-    private final File cfduFile;
-
-    public Su2ToCfduConverter(File s2uFile, File cfduFile) {
-        this.s2uFile = s2uFile;
-        this.cfduFile = cfduFile;
-    }
-
-    public void convert() throws FileNotFoundException {
-        try (DataFileReader su2Reader = new DataFileReader(this.s2uFile, "%");
+    public static void convert(File s2uFile, File cfduFile) throws FileNotFoundException {
+        try (DataFileReader su2Reader = new DataFileReader(s2uFile, "%");
              PrintWriter cfduWriter = new PrintWriter(cfduFile)) {
             int numDimensions = su2Reader.readIntParameter("NDIME");
 
@@ -87,7 +78,7 @@ public class Su2ToCfduConverter {
         }
     }
 
-    private Point createPoint(double[] pointData, int dimension) {
+    private static Point createPoint(double[] pointData, int dimension) {
         return switch (dimension) {
             case 2 -> new Point(pointData[0], pointData[1], 0.0);
             case 3 -> new Point(pointData[0], pointData[1], pointData[2]);

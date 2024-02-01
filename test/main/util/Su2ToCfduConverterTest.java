@@ -14,8 +14,7 @@ public class Su2ToCfduConverterTest {
     public void convert2DMeshFile() throws IOException {
         File inputFile = new File("test/test_data/su2_to_cfdu/square.su2");
         File outputFile = new File("test/test_data/su2_to_cfdu/square.cfdu");
-        Su2ToCfduConverter converter = new Su2ToCfduConverter(inputFile, outputFile);
-        converter.convert();
+        Su2ToCfduConverter.convert(inputFile, outputFile);
 
         String expectedOutput = """
                 dimension = 2
@@ -64,8 +63,7 @@ public class Su2ToCfduConverterTest {
     public void convert3DMeshFile() throws IOException {
         File inputFile = new File("test/test_data/su2_to_cfdu/cube.su2");
         File outputFile = new File("test/test_data/su2_to_cfdu/cube.cfdu");
-        Su2ToCfduConverter converter = new Su2ToCfduConverter(inputFile, outputFile);
-        converter.convert();
+        Su2ToCfduConverter.convert(inputFile, outputFile);
 
         String expectedOutput = """
                 dimension = 3
