@@ -36,4 +36,10 @@ public class StopWatch {
             return Duration.ofMillis(System.currentTimeMillis() - this.startMillis);
         }
     }
+
+    public static Duration timeIt(Runnable process) {
+        StopWatch stopWatch = StopWatch.start();
+        process.run();
+        return stopWatch.stop();
+    }
 }

@@ -11,43 +11,43 @@ public class StopWatchTest {
     @Test
     public void test_stopwatch() {
         StopWatch stopWatch = StopWatch.start();
-        LockSupport.parkNanos(Duration.ofMillis(100).toNanos());
+        simulateRunningProcessForMillis(100);
         assertEquals(stopWatch.stop().toMillis() - 100, 0, 5);
     }
 
     @Test
     public void test_pause() {
         StopWatch stopWatch = StopWatch.start();
-        LockSupport.parkNanos(Duration.ofMillis(100).toNanos());
+        simulateRunningProcessForMillis(100);
         stopWatch.pauseWatch();
-        LockSupport.parkNanos(Duration.ofMillis(50).toNanos()); // does not matter as the watch is paused
+        simulateRunningProcessForMillis(50); // does not matter as the watch is paused
         assertEquals(stopWatch.stop().toMillis() - 100, 0, 5);
     }
 
     @Test
     public void test_pause_continue() {
         StopWatch stopWatch = StopWatch.start();
-        LockSupport.parkNanos(Duration.ofMillis(100).toNanos()); // run
+        simulateRunningProcessForMillis(100); // run
         stopWatch.pauseWatch();
-        LockSupport.parkNanos(Duration.ofMillis(50).toNanos()); // pause for this much time
+        simulateRunningProcessForMillis(50); // pause for this much time
         stopWatch.continueWatch();
-        LockSupport.parkNanos(Duration.ofMillis(25).toNanos()); // again run for this much time
+        simulateRunningProcessForMillis(25); // again run for this much time
         assertEquals(stopWatch.stop().toMillis() - (100 + 25), 0, 5);
     }
 
     @Test
     public void test_pause_continue_pause() {
         StopWatch stopWatch = StopWatch.start();
-        LockSupport.parkNanos(Duration.ofMillis(100).toNanos()); // run
+        simulateRunningProcessForMillis(100); // run
 
         stopWatch.pauseWatch();
-        LockSupport.parkNanos(Duration.ofMillis(50).toNanos()); // pause for this much time
+        simulateRunningProcessForMillis(50); // pause for this much time
 
         stopWatch.continueWatch();
-        LockSupport.parkNanos(Duration.ofMillis(25).toNanos()); // again run for this much time
+        simulateRunningProcessForMillis(25); // again run for this much time
 
         stopWatch.pauseWatch();
-        LockSupport.parkNanos(Duration.ofMillis(75).toNanos()); // pause
+        simulateRunningProcessForMillis(75); // pause
 
         assertEquals(stopWatch.stop().toMillis() - (100 + 25), 0, 5);
     }
@@ -55,20 +55,30 @@ public class StopWatchTest {
     @Test
     public void test_pause_continue_pause_continue() {
         StopWatch stopWatch = StopWatch.start();
-        LockSupport.parkNanos(Duration.ofMillis(100).toNanos()); // run
+        simulateRunningProcessForMillis(100); // run
 
         stopWatch.pauseWatch();
-        LockSupport.parkNanos(Duration.ofMillis(50).toNanos()); // pause for this much time
+        simulateRunningProcessForMillis(50); // pause for this much time
 
         stopWatch.continueWatch();
-        LockSupport.parkNanos(Duration.ofMillis(25).toNanos()); // again run for this much time
+        simulateRunningProcessForMillis(25); // again run for this much time
 
         stopWatch.pauseWatch();
-        LockSupport.parkNanos(Duration.ofMillis(75).toNanos()); // pause
+        simulateRunningProcessForMillis(75); // pause
 
         stopWatch.continueWatch();
-        LockSupport.parkNanos(Duration.ofMillis(111).toNanos()); // again run for this much time
+        simulateRunningProcessForMillis(111); // again run for this much time
 
         assertEquals(stopWatch.stop().toMillis() - (100 + 25 + 111), 0, 5);
+    }
+
+    @Test
+    public void test_process_duration() {
+        Runnable process = () -> simulateRunningProcessForMillis(124);
+        assertEquals(StopWatch.timeIt(process).toMillis() - 124, 0, 5);
+    }
+
+    private static void simulateRunningProcessForMillis(long millis) {
+        LockSupport.parkNanos(Duration.ofMillis(millis).toNanos());
     }
 }
