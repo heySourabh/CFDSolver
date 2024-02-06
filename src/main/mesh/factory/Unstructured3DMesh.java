@@ -84,7 +84,8 @@ public class Unstructured3DMesh implements Mesh {
                         faceNodes[ni] = nodes.get(connectivity[ni + 1]);
                     }
                     Face bndFace = search(faceNodes, allBoundaryFaces)
-                            .orElseThrow(() -> new IllegalStateException("Couldn't locate boundary face in mesh."));
+                            .orElseThrow(() -> new IllegalStateException("Couldn't locate boundary face in mesh.\n" +
+                                    "The error occurred while reading '" + bndName + "' boundary."));
                     bndFace.right = Mesh.ghostCell(bndFace.left, bndFace);
                     bndFaces.add(bndFace);
                 }
