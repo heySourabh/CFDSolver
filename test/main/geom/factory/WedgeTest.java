@@ -2,11 +2,11 @@ package main.geom.factory;
 
 import main.geom.Point;
 import main.geom.VTKType;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static main.util.TestHelper.assertThrows;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class WedgeTest {
 

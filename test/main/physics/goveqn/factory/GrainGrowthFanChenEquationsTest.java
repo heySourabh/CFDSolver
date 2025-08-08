@@ -2,13 +2,13 @@ package main.physics.goveqn.factory;
 
 import main.geom.Vector;
 import main.physics.goveqn.Limits;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GrainGrowthFanChenEquationsTest {
 
@@ -164,11 +164,11 @@ public class GrainGrowthFanChenEquationsTest {
             var ii = i;
             sourceTerm[i] = -L[i] * (
                     -alpha * eta[i] + beta * eta[i] * eta[i] * eta[i]
-                            + 2 * gamma * eta[i]
-                            * IntStream.range(0, eta.length)
-                            .filter(j -> j != ii)
-                            .mapToDouble(j -> eta[j] * eta[j])
-                            .sum()
+                    + 2 * gamma * eta[i]
+                      * IntStream.range(0, eta.length)
+                              .filter(j -> j != ii)
+                              .mapToDouble(j -> eta[j] * eta[j])
+                              .sum()
             );
         }
 

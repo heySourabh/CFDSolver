@@ -1,9 +1,9 @@
 package main.physics.goveqn;
 
 import main.physics.goveqn.factory.EulerEquations;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class GoverningEquationsTest {
 

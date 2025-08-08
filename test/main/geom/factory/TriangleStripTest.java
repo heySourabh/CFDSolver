@@ -3,11 +3,11 @@ package main.geom.factory;
 import main.geom.Point;
 import main.geom.VTKType;
 import main.geom.Vector;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static main.util.TestHelper.assertThrows;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class TriangleStripTest {
 
@@ -80,7 +80,7 @@ public class TriangleStripTest {
         TriangleStrip triangleStrip = new TriangleStrip(p0, p1, p2, p3, p4, p5, p6, p7);
 
         double expectedArea = 17264.83069806 + 12704.17372792 + 15948.16832033
-                + 3720.07768497 + 4293.54432305 + 1585.17454141;
+                              + 3720.07768497 + 4293.54432305 + 1585.17454141;
 
         assertEquals(0, (expectedArea - triangleStrip.area()) / expectedArea, 1e-8);
     }

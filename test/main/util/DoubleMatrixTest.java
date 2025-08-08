@@ -1,11 +1,11 @@
 package main.util;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static main.util.TestHelper.assertMatrixEquals;
 import static main.util.TestHelper.assertThrows;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DoubleMatrixTest {
     @Test
@@ -654,13 +654,13 @@ public class DoubleMatrixTest {
         };
 
         String expectedString = "" +
-                "--------------------------------------------------------------------------------\n" +
-                "3.0000000000        0.2671609403        1.8455592375E-03    0.7076840591        \n" +
-                "0.3460893456        0.4736962459        0.2535484676        0.7542072165        \n" +
-                "0.3254509941        -0.1786813454       0.6412805513        0.1365200309        \n" +
-                "1.0000000000E-20    0.4571633778        0.7153420151        0.4714589759        \n" +
-                "0.7430609571        -1.0000000000E+120  0.4460640471        0.0000000000        \n" +
-                "--------------------------------------------------------------------------------";
+                                "--------------------------------------------------------------------------------\n" +
+                                "3.0000000000        0.2671609403        1.8455592375E-03    0.7076840591        \n" +
+                                "0.3460893456        0.4736962459        0.2535484676        0.7542072165        \n" +
+                                "0.3254509941        -0.1786813454       0.6412805513        0.1365200309        \n" +
+                                "1.0000000000E-20    0.4571633778        0.7153420151        0.4714589759        \n" +
+                                "0.7430609571        -1.0000000000E+120  0.4460640471        0.0000000000        \n" +
+                                "--------------------------------------------------------------------------------";
 
         assertEquals(expectedString, DoubleMatrix.stringify(A));
     }

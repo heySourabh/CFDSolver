@@ -14,14 +14,14 @@ import main.solver.problem.ProblemDefinition;
 import main.solver.time.ExplicitEulerTimeIntegrator;
 import main.solver.time.LocalTimeStep;
 import main.solver.time.TimeIntegrator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Solver2DScalarDiffusionTest {
 
@@ -40,46 +40,46 @@ public class Solver2DScalarDiffusionTest {
             File meshFile = new File("test/test_data/tempMeshFile.cfds");
             try (FileWriter writer = new FileWriter(meshFile)) {
                 writer.write("" +
-                        "dimension = 2\n" +
-                        "mode      = ASCII\n" +
-                        "xi        = 6\n" +
-                        "eta       = 6\n" +
-                        "-2.0  3.0   0.0\n" +
-                        "-2.0  4.0   0.0\n" +
-                        "-2.0  5.0   0.0\n" +
-                        "-2.0  6.0   0.0\n" +
-                        "-2.0  7.0   0.0\n" +
-                        "-2.0  8.0   0.0\n" +
-                        "-0.4  3.0   0.3\n" +
-                        "-0.4  4.0   0.3\n" +
-                        "-0.4  5.0   0.3\n" +
-                        "-0.4  6.0   0.3\n" +
-                        "-0.4  7.0   0.3\n" +
-                        "-0.4  8.0   0.3\n" +
-                        "1.2   3.0   0.6\n" +
-                        "1.2   4.0   0.6\n" +
-                        "1.2   5.0   0.6\n" +
-                        "1.2   6.0   0.6\n" +
-                        "1.2   7.0   0.6\n" +
-                        "1.2   8.0   0.6\n" +
-                        "2.8   3.0   0.9\n" +
-                        "2.8   4.0   0.9\n" +
-                        "2.8   5.0   0.9\n" +
-                        "2.8   6.0   0.9\n" +
-                        "2.8   7.0   0.9\n" +
-                        "2.8   8.0   0.9\n" +
-                        "4.4   3.0   1.2\n" +
-                        "4.4   4.0   1.2\n" +
-                        "4.4   5.0   1.2\n" +
-                        "4.4   6.0   1.2\n" +
-                        "4.4   7.0   1.2\n" +
-                        "4.4   8.0   1.2\n" +
-                        "6.0   3.0   1.5\n" +
-                        "6.0   4.0   1.5\n" +
-                        "6.0   5.0   1.5\n" +
-                        "6.0   6.0   1.5\n" +
-                        "6.0   7.0   1.5\n" +
-                        "6.0   8.0   1.5\n");
+                             "dimension = 2\n" +
+                             "mode      = ASCII\n" +
+                             "xi        = 6\n" +
+                             "eta       = 6\n" +
+                             "-2.0  3.0   0.0\n" +
+                             "-2.0  4.0   0.0\n" +
+                             "-2.0  5.0   0.0\n" +
+                             "-2.0  6.0   0.0\n" +
+                             "-2.0  7.0   0.0\n" +
+                             "-2.0  8.0   0.0\n" +
+                             "-0.4  3.0   0.3\n" +
+                             "-0.4  4.0   0.3\n" +
+                             "-0.4  5.0   0.3\n" +
+                             "-0.4  6.0   0.3\n" +
+                             "-0.4  7.0   0.3\n" +
+                             "-0.4  8.0   0.3\n" +
+                             "1.2   3.0   0.6\n" +
+                             "1.2   4.0   0.6\n" +
+                             "1.2   5.0   0.6\n" +
+                             "1.2   6.0   0.6\n" +
+                             "1.2   7.0   0.6\n" +
+                             "1.2   8.0   0.6\n" +
+                             "2.8   3.0   0.9\n" +
+                             "2.8   4.0   0.9\n" +
+                             "2.8   5.0   0.9\n" +
+                             "2.8   6.0   0.9\n" +
+                             "2.8   7.0   0.9\n" +
+                             "2.8   8.0   0.9\n" +
+                             "4.4   3.0   1.2\n" +
+                             "4.4   4.0   1.2\n" +
+                             "4.4   5.0   1.2\n" +
+                             "4.4   6.0   1.2\n" +
+                             "4.4   7.0   1.2\n" +
+                             "4.4   8.0   1.2\n" +
+                             "6.0   3.0   1.5\n" +
+                             "6.0   4.0   1.5\n" +
+                             "6.0   5.0   1.5\n" +
+                             "6.0   6.0   1.5\n" +
+                             "6.0   7.0   1.5\n" +
+                             "6.0   8.0   1.5\n");
             }
 
             mesh = new Structured2DMesh(meshFile, govEqn.numVars(),

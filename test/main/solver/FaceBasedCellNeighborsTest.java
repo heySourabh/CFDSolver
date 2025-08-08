@@ -3,14 +3,15 @@ package main.solver;
 import main.mesh.Cell;
 import main.mesh.Mesh;
 import main.mesh.factory.Unstructured2DMesh;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FaceBasedCellNeighborsTest {
 

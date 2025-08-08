@@ -1,14 +1,14 @@
 package main.physics.goveqn.factory;
 
 import main.geom.Vector;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EulerEquationsTest {
 

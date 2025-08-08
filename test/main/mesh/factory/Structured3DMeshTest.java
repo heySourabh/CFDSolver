@@ -6,8 +6,8 @@ import main.geom.Vector;
 import main.geom.factory.Hexahedron;
 import main.mesh.*;
 import main.physics.bc.BoundaryCondition;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,12 +18,12 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static main.util.TestHelper.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Structured3DMeshTest {
 
-    private static BoundaryCondition dummyBC = new BoundaryCondition() {
+    private static final BoundaryCondition dummyBC = new BoundaryCondition() {
         @Override
         public void setGhostCellValues(Face face) {
             throw new UnsupportedOperationException("Not implemented");
@@ -35,13 +35,13 @@ public class Structured3DMeshTest {
         }
     };
 
-    private static int numVars = 3;
+    private static final int numVars = 3;
     private static List<Node> expectedNodes;
     private static List<Cell> expectedCells;
     private static List<Face> expectedInternalFaces;
     private static List<Boundary> expectedBoundaries;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup() {
         int numXCells = 4;
         int numYCells = 3;
@@ -136,17 +136,17 @@ public class Structured3DMeshTest {
                     int zL = cellArray[0][0].length - 1;
                     // skip 12 mesh edges
                     if ((i == 0 && j == 0) ||
-                            (i == 0 && j == yL) ||
-                            (i == xL && j == 0) ||
-                            (i == xL && j == yL) ||
-                            (i == 0 && k == 0) ||
-                            (i == 0 && k == zL) ||
-                            (i == xL && k == 0) ||
-                            (i == xL && k == zL) ||
-                            (j == 0 && k == 0) ||
-                            (j == 0 && k == zL) ||
-                            (j == yL && k == 0) ||
-                            (j == yL && k == zL)) {
+                        (i == 0 && j == yL) ||
+                        (i == xL && j == 0) ||
+                        (i == xL && j == yL) ||
+                        (i == 0 && k == 0) ||
+                        (i == 0 && k == zL) ||
+                        (i == xL && k == 0) ||
+                        (i == xL && k == zL) ||
+                        (j == 0 && k == 0) ||
+                        (j == 0 && k == zL) ||
+                        (j == yL && k == 0) ||
+                        (j == yL && k == zL)) {
                         continue;
                     }
 
@@ -375,7 +375,7 @@ public class Structured3DMeshTest {
                 .allMatch(i -> cells.get(i).index() == i));
 
         List<Face> allFaceList = Stream.concat(actualMesh.internalFaceStream(),
-                actualMesh.boundaryStream().flatMap(b -> b.faces.stream())).collect(Collectors.toList());
+                actualMesh.boundaryStream().flatMap(b -> b.faces.stream())).toList();
         assertTrue(IntStream.range(0, allFaceList.size())
                 .allMatch(i -> allFaceList.get(i).index() == i));
     }

@@ -1,9 +1,9 @@
 package main.mesh;
 
 import main.geom.Point;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ShapeTest {
 
@@ -14,8 +14,8 @@ public class ShapeTest {
         Shape shape = new Shape(volume, centroid);
 
         assertEquals("Shape{" +
-                "volume=" + volume + ", " +
-                "centroid=" + centroid +
-                "}", shape.toString());
+                     "volume=" + volume + ", " +
+                     "centroid=" + centroid +
+                     "}", shape.toString());
     }
 }

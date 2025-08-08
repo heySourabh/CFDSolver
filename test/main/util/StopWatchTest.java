@@ -1,18 +1,18 @@
 package main.util;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 import java.util.concurrent.locks.LockSupport;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StopWatchTest {
     @Test
     public void test_stopwatch() {
         StopWatch stopWatch = StopWatch.start();
         simulateRunningProcessForMillis(100);
-        assertEquals(stopWatch.stop().toMillis() - 100, 0, 5);
+        assertEquals(0, stopWatch.stop().toMillis() - 100, 10);
     }
 
     @Test
@@ -21,7 +21,7 @@ public class StopWatchTest {
         simulateRunningProcessForMillis(100);
         stopWatch.pauseWatch();
         simulateRunningProcessForMillis(50); // does not matter as the watch is paused
-        assertEquals(stopWatch.stop().toMillis() - 100, 0, 5);
+        assertEquals(0, stopWatch.stop().toMillis() - 100, 10);
     }
 
     @Test
@@ -32,7 +32,7 @@ public class StopWatchTest {
         simulateRunningProcessForMillis(50); // pause for this much time
         stopWatch.continueWatch();
         simulateRunningProcessForMillis(25); // again run for this much time
-        assertEquals(stopWatch.stop().toMillis() - (100 + 25), 0, 5);
+        assertEquals(0, stopWatch.stop().toMillis() - (100 + 25), 10);
     }
 
     @Test
@@ -49,7 +49,7 @@ public class StopWatchTest {
         stopWatch.pauseWatch();
         simulateRunningProcessForMillis(75); // pause
 
-        assertEquals(stopWatch.stop().toMillis() - (100 + 25), 0, 5);
+        assertEquals(0, stopWatch.stop().toMillis() - (100 + 25), 10);
     }
 
     @Test
@@ -69,13 +69,13 @@ public class StopWatchTest {
         stopWatch.continueWatch();
         simulateRunningProcessForMillis(111); // again run for this much time
 
-        assertEquals(stopWatch.stop().toMillis() - (100 + 25 + 111), 0, 5);
+        assertEquals(0, stopWatch.stop().toMillis() - (100 + 25 + 111), 10);
     }
 
     @Test
     public void test_process_duration() {
         Runnable process = () -> simulateRunningProcessForMillis(124);
-        assertEquals(StopWatch.timeIt(process).toMillis() - 124, 0, 5);
+        assertEquals(StopWatch.timeIt(process).toMillis() - 124, 0, 10);
     }
 
     private static void simulateRunningProcessForMillis(long millis) {

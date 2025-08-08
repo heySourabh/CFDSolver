@@ -4,9 +4,10 @@ import main.geom.Point;
 import main.geom.VTKType;
 import main.geom.Vector;
 import main.util.TestHelper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class FaceTest {
     @Test
@@ -103,11 +104,11 @@ public class FaceTest {
         Surface surface = new Surface(2.0, new Point(2, 5, 7), normal);
         Face face = new Face(new Node[]{n0, n1}, VTKType.VTK_LINE, surface, left, right, numVars);
 
-        assertEquals("" +
-                        "Face{vtkType=VTK_LINE, " +
-                        "surface=Surface{area=2.0, " +
-                        "centroid=Point{x=2.0, y=5.0, z=7.0}, " +
-                        "unitNormal=Vector{x=0.8, y=0.6, z=0.0}}}",
+        assertEquals(
+                "Face{vtkType=VTK_LINE, " +
+                "surface=Surface{area=2.0, " +
+                "centroid=Point{x=2.0, y=5.0, z=7.0}, " +
+                "unitNormal=Vector{x=0.8, y=0.6, z=0.0}}}",
                 face.toString());
     }
 }

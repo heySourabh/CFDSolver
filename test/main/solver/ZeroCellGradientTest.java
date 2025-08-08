@@ -3,7 +3,7 @@ package main.solver;
 import main.geom.Vector;
 import main.mesh.*;
 import main.util.TestHelper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 

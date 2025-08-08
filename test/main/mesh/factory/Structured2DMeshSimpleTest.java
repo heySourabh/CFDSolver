@@ -8,7 +8,7 @@ import main.physics.bc.BoundaryCondition;
 import main.physics.bc.ExtrapolatedBC;
 import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.factory.EulerEquations;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static main.util.TestHelper.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Structured2DMeshSimpleTest {
     @Test

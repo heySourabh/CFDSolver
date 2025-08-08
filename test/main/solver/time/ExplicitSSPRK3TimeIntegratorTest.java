@@ -10,7 +10,7 @@ import main.physics.goveqn.*;
 import main.solver.*;
 import main.solver.source.SourceResidual;
 import main.util.DoubleArray;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -18,8 +18,8 @@ import java.nio.file.Files;
 import java.util.List;
 
 import static main.util.DoubleArray.*;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ExplicitSSPRK3TimeIntegratorTest {
 
@@ -54,13 +54,13 @@ public class ExplicitSSPRK3TimeIntegratorTest {
         // step 2
         residual = multiply(sourceTerms(U1), dt);
         double[] U2 = add(add(multiply(U0, 3.0 / 4.0),
-                multiply(U1, 1.0 / 4.0)),
+                        multiply(U1, 1.0 / 4.0)),
                 multiply(residual, 1.0 / 4.0));
 
         // step 3
         residual = multiply(sourceTerms(U2), dt);
         double[] U3 = add(add(multiply(U0, 1.0 / 3.0),
-                multiply(U2, 2.0 / 3.0)),
+                        multiply(U2, 2.0 / 3.0)),
                 multiply(residual, 2.0 / 3.0));
 
         // Update the solution by calling the method
@@ -180,14 +180,14 @@ public class ExplicitSSPRK3TimeIntegratorTest {
         double dy = 0.5;
 
         String meshFileContents = "" +
-                "dimension = 2\n" +
-                "mode = ASCII\n" +
-                "xi = 2\n" +
-                "eta = 2\n" +
-                "0 0 0\n" +
-                "0 " + dy + " 0\n" +
-                dx + " 0 0\n" +
-                dx + " " + dy + " 0\n";
+                                  "dimension = 2\n" +
+                                  "mode = ASCII\n" +
+                                  "xi = 2\n" +
+                                  "eta = 2\n" +
+                                  "0 0 0\n" +
+                                  "0 " + dy + " 0\n" +
+                                  dx + " 0 0\n" +
+                                  dx + " " + dy + " 0\n";
 
         File meshFile = new File("test/test_data/tempMeshFile.cfds");
 

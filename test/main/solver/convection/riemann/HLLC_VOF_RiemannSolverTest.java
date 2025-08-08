@@ -5,9 +5,9 @@ import main.mesh.Cell;
 import main.mesh.Face;
 import main.mesh.Surface;
 import main.physics.goveqn.factory.ArtificialCompressibilityVOFEquations;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class HLLC_VOF_RiemannSolverTest {
 

@@ -1,10 +1,10 @@
 package main.geom;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PointTest {
 
@@ -43,10 +43,10 @@ public class PointTest {
         Point p = new Point(x, y, z);
 
         String expectedString = "Point{" +
-                "x=" + x +
-                ", y=" + y +
-                ", z=" + z +
-                '}';
+                                "x=" + x +
+                                ", y=" + y +
+                                ", z=" + z +
+                                '}';
 
         assertEquals(expectedString, p.toString());
     }

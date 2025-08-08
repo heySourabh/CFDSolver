@@ -19,8 +19,9 @@ import main.solver.time.LocalTimeStep;
 import main.solver.time.TimeIntegrator;
 import main.solver.time.TimeStep;
 import main.util.DoubleArray;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.*;
 import java.util.Arrays;
@@ -180,6 +181,6 @@ public class SolverLidDrivenCavity3DTest {
 
         new VTKWriter(mesh, problem.govEqn())
                 .write(new File("test/test_data/lid_driven_cavity3d.vtu"));
-        Assert.assertEquals(1220, iter);
+        assertEquals(1220, iter);
     }
 }

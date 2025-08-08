@@ -6,10 +6,10 @@ import main.physics.goveqn.Convection;
 import main.physics.goveqn.Diffusion;
 import main.physics.goveqn.Limits;
 import main.physics.goveqn.Source;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PoissonEquationTest {
 
@@ -80,8 +80,8 @@ public class PoissonEquationTest {
         Vector faceNormal = new Vector(1.2, 5.4, 6.8).unit();
         double expectedFlux = diffusivity * (
                 gradU[0].x * faceNormal.x +
-                        gradU[0].y * faceNormal.y +
-                        gradU[0].z * faceNormal.z);
+                gradU[0].y * faceNormal.y +
+                gradU[0].z * faceNormal.z);
         assertArrayEquals(new double[]{expectedFlux},
                 diffusion.flux(conservativeVars, gradU, faceNormal), 1e-15);
 
@@ -92,9 +92,9 @@ public class PoissonEquationTest {
     public void test_source() {
         Source testSource = (at, conservativeVars, gradConservativeVars) ->
                 new double[]{at.x + at.y + at.z + conservativeVars[0] +
-                        gradConservativeVars[0].x +
-                        gradConservativeVars[0].y +
-                        gradConservativeVars[0].z};
+                             gradConservativeVars[0].x +
+                             gradConservativeVars[0].y +
+                             gradConservativeVars[0].z};
         PoissonEquation govEqn = new PoissonEquation(12.565, testSource);
 
         Source source = govEqn.source();

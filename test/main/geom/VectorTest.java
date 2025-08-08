@@ -1,13 +1,13 @@
 package main.geom;
 
 import main.util.TestHelper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
 import static main.util.TestHelper.assertThrows;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 public class VectorTest {
 
@@ -18,7 +18,7 @@ public class VectorTest {
 
     @Test
     public void testThatTwoZeroVectorsAreSame() {
-        assertSame(getZeroVector(), Vector.ZERO);
+        assertSame(Vector.ZERO, getZeroVector());
     }
 
     private Vector getZeroVector() {
@@ -181,10 +181,10 @@ public class VectorTest {
         double z = rnd.nextDouble() * rnd.nextInt();
         Vector v = new Vector(x, y, z);
         String expectedString = "Vector{" +
-                "x=" + x +
-                ", y=" + y +
-                ", z=" + z +
-                '}';
+                                "x=" + x +
+                                ", y=" + y +
+                                ", z=" + z +
+                                '}';
 
         assertEquals(expectedString, v.toString());
     }

@@ -2,10 +2,10 @@ package main.geom.factory;
 
 import main.geom.Point;
 import main.geom.VTKType;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static main.util.TestHelper.assertThrows;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PolyLineTest {
 
@@ -71,9 +71,9 @@ public class PolyLineTest {
         });
         // Measured using SolidWorks
         double expectedLength = 173.54088922 + 208.50510885 + 463.72788998 + 76.85309747 + 104.71272425
-                + 88.70034669 + 63.93285478 + 145.77741174 + 239.02990704 + 159.97143467
-                + 152.00887691 + 203.60637681 + 58.42225895 + 60.45773364 + 79.24719312
-                + 44.15365534 + 47.91032486;
+                                + 88.70034669 + 63.93285478 + 145.77741174 + 239.02990704 + 159.97143467
+                                + 152.00887691 + 203.60637681 + 58.42225895 + 60.45773364 + 79.24719312
+                                + 44.15365534 + 47.91032486;
 
         assertEquals(0, (expectedLength - polyLine.length()) / expectedLength, 1e-8);
     }

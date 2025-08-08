@@ -6,10 +6,10 @@ import main.mesh.Face;
 import main.mesh.Surface;
 import main.physics.bc.NormalInletBC.InletProperties;
 import main.physics.goveqn.factory.EulerEquations;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static main.util.DoubleArray.copy;
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class NormalInletBCTest {
 

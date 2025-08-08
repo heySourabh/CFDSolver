@@ -6,10 +6,11 @@ import main.mesh.Cell;
 import main.mesh.Mesh;
 import main.mesh.factory.Structured2DMesh;
 import main.physics.goveqn.*;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.*;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class SourceResidualTest {
 
@@ -39,7 +40,7 @@ public class SourceResidualTest {
                 expectedSource[i] = -test_source(cell.U, cell.gradientU)[i] * cell.shape.volume;
             }
 
-            Assert.assertArrayEquals(expectedSource, cell.residual, 1e-15);
+            assertArrayEquals(expectedSource, cell.residual, 1e-15);
         }
     }
 

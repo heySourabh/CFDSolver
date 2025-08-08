@@ -2,9 +2,9 @@ package main.mesh;
 
 import main.geom.Point;
 import main.geom.Vector;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SurfaceTest {
 
@@ -17,10 +17,10 @@ public class SurfaceTest {
         Surface surface = new Surface(area, centroid, normal);
 
         assertEquals("Surface{" +
-                "area=" + area + ", " +
-                "centroid=" + centroid + ", " +
-                "unitNormal=" + normal +
-                "}", surface.toString());
+                     "area=" + area + ", " +
+                     "centroid=" + centroid + ", " +
+                     "unitNormal=" + normal +
+                     "}", surface.toString());
     }
 
     @Test

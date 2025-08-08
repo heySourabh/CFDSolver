@@ -5,7 +5,7 @@ import main.mesh.Face;
 import main.mesh.Mesh;
 import main.mesh.Node;
 import main.mesh.factory.Unstructured2DMesh;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,7 +13,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 public class NodeBasedCellNeighborsTest {
 

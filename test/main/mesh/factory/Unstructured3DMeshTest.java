@@ -6,7 +6,7 @@ import main.geom.factory.*;
 import main.mesh.*;
 import main.physics.bc.BoundaryCondition;
 import main.util.TestHelper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,8 +15,8 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static main.util.TestHelper.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Unstructured3DMeshTest {
     private static List<Node> expectedNodes;

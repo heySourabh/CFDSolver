@@ -20,8 +20,7 @@ import main.solver.problem.ProblemDefinition;
 import main.solver.source.SourceResidual;
 import main.solver.time.*;
 import main.util.DoubleArray;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.util.Arrays;
@@ -31,6 +30,7 @@ import java.util.stream.Collectors;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class SolverSloshing2DHLLUnstructuredTest {
     private final double beta = 8;
@@ -197,7 +197,7 @@ public class SolverSloshing2DHLLUnstructuredTest {
                     .collect(Collectors.joining(", ")));
         }
 
-        Assert.assertArrayEquals(expectedPseudoIterations, actualPseudoIterations);
+        assertArrayEquals(expectedPseudoIterations, actualPseudoIterations);
     }
 
     private void saveBoundaryC(Mesh mesh, File file, double time, String boundaryName) {

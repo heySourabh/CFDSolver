@@ -5,13 +5,13 @@ import main.mesh.Cell;
 import main.mesh.Face;
 import main.mesh.Surface;
 import main.physics.goveqn.factory.ArtificialCompressibilityEquations;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
 import static main.util.DoubleArray.*;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HLLC_AC_RiemannSolverTest {
 
@@ -120,9 +120,7 @@ public class HLLC_AC_RiemannSolverTest {
         assertTrue(SStar > 0);
         double p_betaStar = (uR - uL - SR * pR / beta + SL * pL / beta) / (SL - SR);
         double vStarL = (SL * vL - uL * vL) / (SL - SStar);
-        double vStarR = (SR * vR - uR * vR) / (SR - SStar);
         double wStarL = (SL * wL - uL * wL) / (SL - SStar);
-        double wStarR = (SR * wR - uR * wR) / (SR - SStar);
 
         Vector unitNormal = new Vector(1, 0, 0).unit();
         Surface surface = new Surface(2.5, null, unitNormal);
@@ -131,13 +129,9 @@ public class HLLC_AC_RiemannSolverTest {
         double[] actualFlux = solver.flux(UL, UR, face);
 
         double[] FL = F(UL, rho, beta);
-        double[] FR = F(UR, rho, beta);
 
         double[] UStarL = new double[]{p_betaStar, SStar, vStarL, wStarL};
         double[] FStarL = add(FL, multiply(subtract(UStarL, UL), SL));
-
-        double[] UStarR = new double[]{p_betaStar, SStar, vStarR, wStarR};
-        double[] FStarR = add(FR, multiply(subtract(UStarR, UR), SR));
 
         assertArrayEquals(FStarL, actualFlux, 1e-15);
     }
@@ -174,9 +168,7 @@ public class HLLC_AC_RiemannSolverTest {
 
         assertTrue(SStar < 0);
         double p_betaStar = (uR - uL - SR * pR / beta + SL * pL / beta) / (SL - SR);
-        double vStarL = (SL * vL - uL * vL) / (SL - SStar);
         double vStarR = (SR * vR - uR * vR) / (SR - SStar);
-        double wStarL = (SL * wL - uL * wL) / (SL - SStar);
         double wStarR = (SR * wR - uR * wR) / (SR - SStar);
 
         Vector unitNormal = new Vector(1, 0, 0).unit();
@@ -185,11 +177,7 @@ public class HLLC_AC_RiemannSolverTest {
         Face face = new Face(null, null, surface, leftCell, null, UL.length);
         double[] actualFlux = solver.flux(UL, UR, face);
 
-        double[] FL = F(UL, rho, beta);
         double[] FR = F(UR, rho, beta);
-
-        double[] UStarL = new double[]{p_betaStar, SStar, vStarL, wStarL};
-        double[] FStarL = add(FL, multiply(subtract(UStarL, UL), SL));
 
         double[] UStarR = new double[]{p_betaStar, SStar, vStarR, wStarR};
         double[] FStarR = add(FR, multiply(subtract(UStarR, UR), SR));

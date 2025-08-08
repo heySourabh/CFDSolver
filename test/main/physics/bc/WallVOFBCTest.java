@@ -7,9 +7,9 @@ import main.mesh.Face;
 import main.mesh.Surface;
 import main.physics.goveqn.factory.ArtificialCompressibilityVOFEquations;
 import main.util.DoubleArray;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class WallVOFBCTest {
 

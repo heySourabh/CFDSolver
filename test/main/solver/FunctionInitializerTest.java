@@ -10,14 +10,14 @@ import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.factory.EulerEquations;
 import main.physics.goveqn.factory.ScalarDiffusion;
 import main.util.DoubleArray;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
 import static java.lang.Math.*;
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class FunctionInitializerTest {
 

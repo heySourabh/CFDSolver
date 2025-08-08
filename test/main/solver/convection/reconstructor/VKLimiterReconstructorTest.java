@@ -12,7 +12,7 @@ import main.solver.CellNeighborCalculator;
 import main.solver.FaceBasedCellNeighbors;
 import main.solver.LeastSquareCellGradient;
 import main.util.DoubleArray;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -22,7 +22,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 
 import static main.util.DoubleArray.*;
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class VKLimiterReconstructorTest {
 

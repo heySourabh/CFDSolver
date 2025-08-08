@@ -19,13 +19,14 @@ import main.solver.convection.riemann.RiemannSolver;
 import main.solver.diffusion.DiffusionResidual;
 import main.solver.problem.ProblemDefinition;
 import main.solver.time.*;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class SolverTransient2DVolumeFractionAdvectionTest {
 
@@ -225,7 +226,7 @@ public class SolverTransient2DVolumeFractionAdvectionTest {
         double error = errorNorm(initialC, finalC);
         System.out.println("Error : " + error);
 
-        Assert.assertArrayEquals(expectedIterationCount, iterationCount);
+        assertArrayEquals(expectedIterationCount, iterationCount);
     }
 
     @Test
@@ -263,9 +264,9 @@ public class SolverTransient2DVolumeFractionAdvectionTest {
 
     private double errorNorm(double[] initialC, double[] finalC) {
         double sumSqr = IntStream.range(0, initialC.length)
-                .mapToDouble(i -> initialC[i] - finalC[i])
-                .map(diff -> diff * diff)
-                .sum() / initialC.length;
+                                .mapToDouble(i -> initialC[i] - finalC[i])
+                                .map(diff -> diff * diff)
+                                .sum() / initialC.length;
 
         return Math.sqrt(sumSqr);
     }

@@ -1,6 +1,5 @@
 package main.mesh.factory;
 
-import main.util.TestHelper;
 import main.geom.Geometry;
 import main.geom.Point;
 import main.geom.VTKType;
@@ -9,29 +8,29 @@ import main.geom.factory.Line;
 import main.geom.factory.Vertex;
 import main.mesh.*;
 import main.physics.bc.BoundaryCondition;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import main.util.TestHelper;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Structured1DMeshTest {
 
-    private static int numVars = 3;
+    private static final int numVars = 3;
     private static List<Node> expectedNodes;
     private static List<Face> expectedInternalFaces;
     private static List<Cell> expectedCells;
     private static List<Boundary> expectedBoundaries;
 
-    private static BoundaryCondition dummyBC = new BoundaryCondition() {
+    private static final BoundaryCondition dummyBC = new BoundaryCondition() {
         @Override
         public void setGhostCellValues(Face face) {
             throw new UnsupportedOperationException("Not implemented.");
@@ -46,7 +45,7 @@ public class Structured1DMeshTest {
     private static Mesh actualMesh;
 
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws FileNotFoundException {
         Node[] nodes = new Node[7];
         nodes[0] = new Node(-3.25, -0.25, 0.0, numVars); // Ghost node
@@ -84,7 +83,7 @@ public class Structured1DMeshTest {
             }
             Vector unitNormal = faceNormal.unit();
 
-            Surface surface = new Surface(1.0 * 1.0, faceGeom.centroid(), unitNormal);
+            Surface surface = new Surface(1.0, faceGeom.centroid(), unitNormal);
 
             Cell left = cells[i - 1];
             Cell right = cells[i];
@@ -264,7 +263,7 @@ public class Structured1DMeshTest {
                 .allMatch(i -> cells.get(i).index() == i));
 
         List<Face> allFaceList = Stream.concat(actualMesh.internalFaceStream(),
-                actualMesh.boundaryStream().flatMap(b -> b.faces.stream())).collect(Collectors.toList());
+                actualMesh.boundaryStream().flatMap(b -> b.faces.stream())).toList();
         assertTrue(IntStream.range(0, allFaceList.size())
                 .allMatch(i -> allFaceList.get(i).index() == i));
     }

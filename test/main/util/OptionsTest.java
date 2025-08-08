@@ -1,10 +1,11 @@
 package main.util;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class OptionsTest {
     @Test

@@ -1,12 +1,12 @@
 package main.physics.goveqn.factory;
 
 import main.geom.Vector;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ArtificialCompressibilityVOFEquationsTest {
 
@@ -14,12 +14,6 @@ public class ArtificialCompressibilityVOFEquationsTest {
 
     @Test
     public void beta() {
-        double p = 100;
-        double u = 50;
-        double v = -98;
-        double w = 1;
-        double C = 0.8;
-
         double rho1 = 450;
         double rho2 = 100;
 
@@ -147,7 +141,7 @@ public class ArtificialCompressibilityVOFEquationsTest {
         ArtificialCompressibilityVOFEquations govEqn = new ArtificialCompressibilityVOFEquations(
                 0, 0, 0, 0, null, BETA);
         assertEquals("Artificial compressibility equations " +
-                        "for simulating flows with two fluids having different density and viscosity.",
+                     "for simulating flows with two fluids having different density and viscosity.",
                 govEqn.description());
     }
 
@@ -205,7 +199,6 @@ public class ArtificialCompressibilityVOFEquationsTest {
                 = new ArtificialCompressibilityVOFEquations(rho1, mu1, rho2, mu2, gravity, BETA);
 
         double rho = govEqn.rho(C);
-        double mu = govEqn.mu(C);
 
         double[] conservativeVars = {
                 p / BETA / rho, rho * u, rho * v, rho * w, C
@@ -234,7 +227,6 @@ public class ArtificialCompressibilityVOFEquationsTest {
                 = new ArtificialCompressibilityVOFEquations(rho1, mu1, rho2, mu2, gravity, BETA);
 
         double rho = govEqn.rho(C);
-        double mu = govEqn.mu(C);
 
         double[] expectedConservativeVars = {
                 p / BETA / rho, rho * u, rho * v, rho * w, C
@@ -263,7 +255,6 @@ public class ArtificialCompressibilityVOFEquationsTest {
                 = new ArtificialCompressibilityVOFEquations(rho1, mu1, rho2, mu2, gravity, BETA);
 
         double rho = govEqn.rho(C);
-        double mu = govEqn.mu(C);
 
         double[] conservativeVars = {
                 p / BETA / rho, rho * u, rho * v, rho * w, C
@@ -298,7 +289,6 @@ public class ArtificialCompressibilityVOFEquationsTest {
                 = new ArtificialCompressibilityVOFEquations(rho1, mu1, rho2, mu2, gravity, BETA);
 
         double rho = govEqn.rho(C);
-        double mu = govEqn.mu(C);
 
         double[] conservativeVars = {
                 p / beta / rho, rho * u, rho * v, rho * w, C
@@ -357,7 +347,6 @@ public class ArtificialCompressibilityVOFEquationsTest {
                 = new ArtificialCompressibilityVOFEquations(rho1, mu1, rho2, mu2, gravity, BETA);
 
         double rho = govEqn.rho(C);
-        double mu = govEqn.mu(C);
 
         double[] conservativeVars = {
                 p / BETA / rho, rho * u, rho * v, rho * w, C
@@ -502,7 +491,6 @@ public class ArtificialCompressibilityVOFEquationsTest {
                 = new ArtificialCompressibilityVOFEquations(rho1, mu1, rho2, mu2, gravity, BETA);
 
         double rho = govEqn.rho(C);
-        double mu = govEqn.mu(C);
 
         double[] conservativeVars = {
                 p / BETA / rho, rho * u, rho * v, rho * w, C

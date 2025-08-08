@@ -1,6 +1,5 @@
 package main.mesh.factory;
 
-import main.util.TestHelper;
 import main.geom.Geometry;
 import main.geom.Point;
 import main.geom.VTKType;
@@ -11,8 +10,9 @@ import main.geom.factory.Quad;
 import main.geom.factory.Triangle;
 import main.mesh.*;
 import main.physics.bc.BoundaryCondition;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import main.util.TestHelper;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,7 +25,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class Unstructured2DMeshTest {
 
@@ -48,7 +48,7 @@ public class Unstructured2DMeshTest {
         }
     };
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         List<Point> points = List.of(
                 new Point(222.86, 427.14, 0.0),
@@ -341,7 +341,7 @@ public class Unstructured2DMeshTest {
 
     private static boolean equivalentShapes(Shape s1, Shape s2) {
         return Math.abs(s1.volume - s2.volume) < 1e-8 &&
-                s1.centroid.distance(s2.centroid) < 1e-8;
+               s1.centroid.distance(s2.centroid) < 1e-8;
     }
 
     private static int hasEquivalentNeighbors(Face f1, Face f2) {
@@ -388,8 +388,8 @@ public class Unstructured2DMeshTest {
         if (Math.abs(s1.area - s2.area) > 1e-8) return false;
         if (s1.centroid.distance(s2.centroid) > 1e-8) return false;
         return s1.unitNormal()
-                .sub(s2.unitNormal().mult(direction))
-                .mag() < 1e-8;
+                       .sub(s2.unitNormal().mult(direction))
+                       .mag() < 1e-8;
     }
 
     private static void assertPointEquals(Point expectedPoint, Point actualPoint) {

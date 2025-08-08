@@ -18,8 +18,7 @@ import main.solver.diffusion.DiffusionResidual;
 import main.solver.problem.ProblemDefinition;
 import main.solver.time.*;
 import main.util.DoubleArray;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,6 +26,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class SolverTransientFlowOverCylinderTest {
 
@@ -190,6 +191,6 @@ public class SolverTransientFlowOverCylinderTest {
 
         System.out.println(Arrays.toString(actualPseudoIterations));
 
-        Assert.assertArrayEquals(expectedPseudoIterations, actualPseudoIterations);
+        assertArrayEquals(expectedPseudoIterations, actualPseudoIterations);
     }
 }

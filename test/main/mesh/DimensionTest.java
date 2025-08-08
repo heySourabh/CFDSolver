@@ -1,10 +1,10 @@
 package main.mesh;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static main.util.TestHelper.assertThrows;
 import static main.mesh.Dimension.*;
-import static org.junit.Assert.assertEquals;
+import static main.util.TestHelper.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DimensionTest {
 

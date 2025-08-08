@@ -1,15 +1,15 @@
 package main.io;
 
 import main.geom.Point;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import static main.util.TestHelper.assertThrows;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DataFileReaderTest {
 

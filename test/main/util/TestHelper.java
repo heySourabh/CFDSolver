@@ -8,13 +8,13 @@ import main.physics.bc.BoundaryCondition;
 import main.physics.bc.ExtrapolatedBC;
 import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.factory.ScalarAdvection;
-import org.junit.ComparisonFailure;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestHelper {
     @FunctionalInterface
@@ -34,7 +34,7 @@ public class TestHelper {
         } catch (Exception e) {
             if (e.getClass() != ex) {
                 fail("Exception: " + e.toString() + "\n" +
-                        "Expected \"" + ex.toString() + "\", but received \"" + e.getClass().toString());
+                     "Expected \"" + ex.toString() + "\", but received \"" + e.getClass().toString());
             }
         }
     }
@@ -47,15 +47,15 @@ public class TestHelper {
     }
 
     public static void assertVectorEquals(Vector expected, Vector actual, double tolerance) {
-        assertEquals("x-component of vector", expected.x, actual.x, tolerance);
-        assertEquals("y-component of vector", expected.y, actual.y, tolerance);
-        assertEquals("z-component of vector", expected.z, actual.z, tolerance);
+        assertEquals(expected.x, actual.x, tolerance, "x-component of vector");
+        assertEquals(expected.y, actual.y, tolerance, "y-component of vector");
+        assertEquals(expected.z, actual.z, tolerance, "z-component of vector");
     }
 
     public static void assertPointEquals(Point expected, Point actual, double tolerance) {
-        assertEquals("x-component of point", expected.x, actual.x, tolerance);
-        assertEquals("y-component of point", expected.y, actual.y, tolerance);
-        assertEquals("z-component of point", expected.z, actual.z, tolerance);
+        assertEquals(expected.x, actual.x, tolerance, "x-component of point");
+        assertEquals(expected.y, actual.y, tolerance, "y-component of point");
+        assertEquals(expected.z, actual.z, tolerance, "z-component of point");
     }
 
     public static void assertNodeEquals(Node expected, Node actual, double tolerance) {
@@ -67,7 +67,7 @@ public class TestHelper {
 
     public static void assertCellEquals(Cell expected, Cell actual, double tolerance) {
         if (!sameCells(expected, actual, tolerance)) {
-            throw new ComparisonFailure("Cells are not same.",
+            throw new AssertionFailedError("Cells are not same.",
                     expected.toString(), actual.toString());
         }
     }
@@ -163,11 +163,11 @@ public class TestHelper {
         // Has same left and right cells
         if (direction == 1) {
             return sameShape(expected.left.shape, actual.left.shape, tolerance)
-                    && sameShape(expected.right.shape, actual.right.shape, tolerance);
+                   && sameShape(expected.right.shape, actual.right.shape, tolerance);
         }
         if (direction == -1) {
             return sameShape(expected.left.shape, actual.right.shape, tolerance)
-                    && sameShape(expected.right.shape, actual.left.shape, tolerance);
+                   && sameShape(expected.right.shape, actual.left.shape, tolerance);
         }
 
         // Has same length of arrays

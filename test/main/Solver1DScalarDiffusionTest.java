@@ -14,41 +14,42 @@ import main.solver.problem.ProblemDefinition;
 import main.solver.time.ExplicitEulerTimeIntegrator;
 import main.solver.time.LocalTimeStep;
 import main.solver.time.TimeIntegrator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Solver1DScalarDiffusionTest {
 
-    private double courantNumber = 1.5;
-    private GoverningEquations govEqn = createGovEqn();
+    private final double courantNumber = 1.5;
+    private final GoverningEquations govEqn = createGovEqn();
 
     private GoverningEquations createGovEqn() {
         return new ScalarDiffusion(1.5);
     }
 
-    private Mesh mesh = createMesh();
+    private final Mesh mesh = createMesh();
 
     private Mesh createMesh() {
         Mesh mesh;
         try {
             File meshFile = new File("test/test_data/tempMeshFile.cfds");
             try (FileWriter writer = new FileWriter(meshFile)) {
-                writer.write("" +
-                        "dimension = 1\n" +
-                        "mode      = ASCII\n" +
-                        "xi        = 6\n" +
-                        "-1.0  2.0   3.0  \n" +
-                        "0.2   3.2   1.4  \n" +
-                        "1.4   4.4   -0.2 \n" +
-                        "2.6   5.6   -1.8 \n" +
-                        "3.8   6.8   -3.4 \n" +
-                        "5.0   8.0   -5.0 \n");
+                writer.write("""
+                        dimension = 1
+                        mode      = ASCII
+                        xi        = 6
+                        -1.0  2.0   3.0 \s
+                        0.2   3.2   1.4 \s
+                        1.4   4.4   -0.2\s
+                        2.6   5.6   -1.8\s
+                        3.8   6.8   -3.4\s
+                        5.0   8.0   -5.0\s
+                        """);
             }
 
             mesh = new Structured1DMesh(meshFile, govEqn.numVars(), new ExtrapolatedBC(govEqn), new ExtrapolatedBC(govEqn));
@@ -63,7 +64,7 @@ public class Solver1DScalarDiffusionTest {
         return mesh;
     }
 
-    private TimeIntegrator timeIntegrator = createTimeIntegrator();
+    private final TimeIntegrator timeIntegrator = createTimeIntegrator();
 
     private TimeIntegrator createTimeIntegrator() {
         CellGradientCalculator cellGradientCalculator = new ZeroCellGradient(mesh);
@@ -72,7 +73,7 @@ public class Solver1DScalarDiffusionTest {
                 new LocalTimeStep(mesh, govEqn), govEqn.numVars());
     }
 
-    private Config config = createConfig();
+    private final Config config = createConfig();
 
     private Config createConfig() {
         Config config = new Config();
@@ -81,7 +82,7 @@ public class Solver1DScalarDiffusionTest {
         return config;
     }
 
-    private ProblemDefinition problem = new ProblemDefinition() {
+    private final ProblemDefinition problem = new ProblemDefinition() {
         @Override
         public String description() {
             return "Problem definition for testing diffusion.";

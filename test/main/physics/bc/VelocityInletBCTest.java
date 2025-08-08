@@ -6,12 +6,9 @@ import main.mesh.Face;
 import main.mesh.Surface;
 import main.physics.goveqn.factory.ArtificialCompressibilityEquations;
 import main.util.DoubleArray;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class VelocityInletBCTest {
 

@@ -8,26 +8,26 @@ import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.factory.EulerEquations;
 import main.solver.*;
 import main.solver.convection.ConvectionResidual;
+import main.solver.convection.reconstructor.PiecewiseConstantReconstructor;
 import main.solver.convection.riemann.RusanovRiemannSolver;
 import main.solver.problem.ProblemDefinition;
-import main.solver.convection.reconstructor.PiecewiseConstantReconstructor;
 import main.solver.time.ExplicitEulerTimeIntegrator;
 import main.solver.time.GlobalTimeStep;
 import main.solver.time.TimeIntegrator;
 import main.util.DoubleArray;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class SolverEulerEquations1Test {
     private static ProblemDefinition testProblem;
 
-    @BeforeClass
+    @BeforeAll
     public static void setupTestProblem() {
         testProblem = new ProblemDefinition() {
             private final EulerEquations govEqn = new EulerEquations(1.4);

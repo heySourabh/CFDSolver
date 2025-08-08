@@ -4,8 +4,8 @@ import main.io.VTKWriter;
 import main.mesh.Mesh;
 import main.mesh.factory.Unstructured2DMesh;
 import main.physics.bc.ExtrapolatedBC;
-import main.physics.bc.NormalInletBC;
 import main.physics.bc.InviscidWallBC;
+import main.physics.bc.NormalInletBC;
 import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.factory.EulerEquations;
 import main.solver.*;
@@ -17,8 +17,8 @@ import main.solver.time.ExplicitEulerTimeIntegrator;
 import main.solver.time.LocalTimeStep;
 import main.solver.time.TimeIntegrator;
 import main.util.DoubleArray;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,14 +26,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SolverEulerEquationsTest {
 
     private static ProblemDefinition testProblem;
 
-    @BeforeClass
+    @BeforeAll
     public static void setupTestProblem() {
         testProblem = new ProblemDefinition() {
             private final EulerEquations govEqn = new EulerEquations(1.4);

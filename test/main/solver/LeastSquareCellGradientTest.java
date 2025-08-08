@@ -10,7 +10,7 @@ import main.mesh.factory.Unstructured2DMesh;
 import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.factory.EulerEquations;
 import main.util.DoubleArray;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,7 +21,7 @@ import java.util.Map;
 
 import static main.util.DoubleArray.copy;
 import static main.util.TestHelper.assertVectorEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LeastSquareCellGradientTest {
 

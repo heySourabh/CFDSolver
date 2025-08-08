@@ -8,8 +8,8 @@ import main.geom.factory.Line;
 import main.geom.factory.Quad;
 import main.mesh.*;
 import main.physics.bc.BoundaryCondition;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static main.util.TestHelper.*;
 import static main.geom.VTKType.VTK_LINE;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static main.util.TestHelper.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class Structured2DMeshTest {
 
@@ -50,7 +50,7 @@ public class Structured2DMeshTest {
         }
     };
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         Node[][] nodeArray = new Node[num_xi][num_eta];
         Cell[][] cellArray = new Cell[num_xi - 1][num_eta - 1];

@@ -6,14 +6,14 @@ import main.mesh.Face;
 import main.mesh.Mesh;
 import main.mesh.factory.Structured2DMesh;
 import main.physics.goveqn.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LocalTimeStepTest {
 
@@ -62,9 +62,9 @@ public class LocalTimeStepTest {
 
     private double expectedTimeStepWithOnlyDiffusion(double volume, List<Face> faces) {
         double denominator = faces.stream()
-                .mapToDouble(f -> f.surface.area)
-                .map(a -> a * a * maxAbsDiffusivity)
-                .sum() * 4.0 / volume;
+                                     .mapToDouble(f -> f.surface.area)
+                                     .map(a -> a * a * maxAbsDiffusivity)
+                                     .sum() * 4.0 / volume;
 
         return courantNumber * volume / denominator;
     }
@@ -73,26 +73,26 @@ public class LocalTimeStepTest {
         File tempFile = new File("test/test_data/tempMeshFile.cfds");
         try (FileWriter writer = new FileWriter(tempFile)) {
             writer.write("" +
-                    "dimension = 2\n" +
-                    "mode = ASCII\n" +
-                    "xi = 4\n" +
-                    "eta = 4\n" +
-                    "2.000000   0.000000  0.0\n" +
-                    "2.000000   1.666667  0.0\n" +
-                    "2.000000   3.333333  0.0\n" +
-                    "2.000000   5.000000  0.0\n" +
-                    "0.000000   0.000000  0.0\n" +
-                    "0.000000   1.666667  0.0\n" +
-                    "0.000000   3.333333  0.0\n" +
-                    "0.000000   5.000000  0.0\n" +
-                    "-2.000000  0.000000  0.0\n" +
-                    "-2.000000  1.666667  0.0\n" +
-                    "-2.000000  3.333333  0.0\n" +
-                    "-2.000000  5.000000  0.0\n" +
-                    "-4.000000  0.000000  0.0\n" +
-                    "-4.000000  1.666667  0.0\n" +
-                    "-4.000000  3.333333  0.0\n" +
-                    "-4.000000  5.000000  0.0\n");
+                         "dimension = 2\n" +
+                         "mode = ASCII\n" +
+                         "xi = 4\n" +
+                         "eta = 4\n" +
+                         "2.000000   0.000000  0.0\n" +
+                         "2.000000   1.666667  0.0\n" +
+                         "2.000000   3.333333  0.0\n" +
+                         "2.000000   5.000000  0.0\n" +
+                         "0.000000   0.000000  0.0\n" +
+                         "0.000000   1.666667  0.0\n" +
+                         "0.000000   3.333333  0.0\n" +
+                         "0.000000   5.000000  0.0\n" +
+                         "-2.000000  0.000000  0.0\n" +
+                         "-2.000000  1.666667  0.0\n" +
+                         "-2.000000  3.333333  0.0\n" +
+                         "-2.000000  5.000000  0.0\n" +
+                         "-4.000000  0.000000  0.0\n" +
+                         "-4.000000  1.666667  0.0\n" +
+                         "-4.000000  3.333333  0.0\n" +
+                         "-4.000000  5.000000  0.0\n");
         }
 
         Mesh mesh = new Structured2DMesh(tempFile, convectiveGovEqn.numVars(), null, null, null, null);

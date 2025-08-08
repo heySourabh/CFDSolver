@@ -4,11 +4,11 @@ import main.geom.Point;
 import main.geom.VTKType;
 import main.geom.Vector;
 import main.util.TestHelper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CellTest {
 
@@ -47,12 +47,12 @@ public class CellTest {
         ));
         cell.setIndex(9);
         assertEquals("Cell{\n" +
-                        "index=9\n" +
-                        "nodes=[Node{x=1.0, y=3.0, z=5.0}, Node{x=6.0, y=7.0, z=4.0}]\n" +
-                        "faces=[Face{vtkType=VTK_LINE, surface=Surface{area=2.3, centroid=Point{x=7.0, y=8.0, z=9.0}, unitNormal=Vector{x=0.3549140885943757, y=0.9126362278141088, z=0.20280805062535753}}}]\n" +
-                        "vtkType=VTK_QUAD\n" +
-                        "shape=Shape{volume=1.5, centroid=Point{x=5.0, y=7.0, z=4.0}}\n" +
-                        "}",
+                     "index=9\n" +
+                     "nodes=[Node{x=1.0, y=3.0, z=5.0}, Node{x=6.0, y=7.0, z=4.0}]\n" +
+                     "faces=[Face{vtkType=VTK_LINE, surface=Surface{area=2.3, centroid=Point{x=7.0, y=8.0, z=9.0}, unitNormal=Vector{x=0.3549140885943757, y=0.9126362278141088, z=0.20280805062535753}}}]\n" +
+                     "vtkType=VTK_QUAD\n" +
+                     "shape=Shape{volume=1.5, centroid=Point{x=5.0, y=7.0, z=4.0}}\n" +
+                     "}",
                 cell.toString());
     }
 }

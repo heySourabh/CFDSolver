@@ -16,12 +16,13 @@ import main.solver.diffusion.DiffusionResidual;
 import main.solver.problem.ProblemDefinition;
 import main.solver.time.*;
 import main.util.DoubleArray;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class SolverTransientLidDrivenCavity2DTest {
 
@@ -194,6 +195,6 @@ public class SolverTransientLidDrivenCavity2DTest {
         new VTKWriter(mesh, problem.govEqn()).write(new File(outputFolder,
                 String.format("sol_%05d.vtu", numRealIter)));
 
-        Assert.assertArrayEquals(expectedPseudoIterations, actualPseudoIterations);
+        assertArrayEquals(expectedPseudoIterations, actualPseudoIterations);
     }
 }

@@ -19,13 +19,14 @@ import main.solver.problem.ProblemDefinition;
 import main.solver.source.SourceResidual;
 import main.solver.time.*;
 import main.util.DoubleArray;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class SolverDropSplash2DTest {
     private final double beta = 1;
@@ -227,6 +228,6 @@ public class SolverDropSplash2DTest {
                     .mapToObj(iter -> "" + iter)
                     .collect(Collectors.joining(", ")));
         }
-        Assert.assertArrayEquals(expectedPseudoIterations, actualPseudoIterations);
+        assertArrayEquals(expectedPseudoIterations, actualPseudoIterations);
     }
 }

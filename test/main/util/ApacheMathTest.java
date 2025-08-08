@@ -3,12 +3,12 @@ package main.util;
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.apache.commons.math3.linear.SingularValueDecomposition;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static main.util.DoubleArray.dot;
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-public class TestingApacheMath {
+public class ApacheMathTest {
     @Test
     public void obtaining_least_square_solution() {
         double[][] A = {

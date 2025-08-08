@@ -4,7 +4,7 @@ import main.mesh.Mesh;
 import main.mesh.factory.Unstructured2DMesh;
 import main.physics.goveqn.GoverningEquations;
 import main.physics.goveqn.factory.ScalarAdvection;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;

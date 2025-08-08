@@ -1,11 +1,11 @@
 package main.util;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static main.util.DoubleMatrix.column;
 import static main.util.DoubleMatrix.multiply;
 import static main.util.TestHelper.assertMatrixEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class QRDecompositionTest {
     @Test
@@ -212,11 +212,11 @@ public class QRDecompositionTest {
 
     private void assertOrthonormal(double[] v1, double[] v2, double tolerance) {
         // assert normalized
-        Assert.assertEquals(1, DoubleArray.norm2Sqr(v1), tolerance);
-        Assert.assertEquals(1, DoubleArray.norm2Sqr(v2), tolerance);
+        assertEquals(1, DoubleArray.norm2Sqr(v1), tolerance);
+        assertEquals(1, DoubleArray.norm2Sqr(v2), tolerance);
 
         // assert orthogonal
-        Assert.assertEquals(0, DoubleArray.dot(v1, v2), tolerance);
+        assertEquals(0, DoubleArray.dot(v1, v2), tolerance);
     }
 
     private void assertColumnsOrthonormal(double[][] matrix, double tolerance) {
@@ -237,7 +237,7 @@ public class QRDecompositionTest {
 
         for (int c = 0; c < numCols; c++) {
             for (int r = c + 1; r < numRows; r++) {
-                Assert.assertEquals(0, matrix[r][c], tolerance);
+                assertEquals(0, matrix[r][c], tolerance);
             }
         }
     }

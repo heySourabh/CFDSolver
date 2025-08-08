@@ -5,13 +5,13 @@ import main.mesh.Cell;
 import main.mesh.Face;
 import main.mesh.Surface;
 import main.physics.goveqn.factory.EulerEquations;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
 import static main.util.DoubleArray.copy;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InviscidWallBCTest {
 

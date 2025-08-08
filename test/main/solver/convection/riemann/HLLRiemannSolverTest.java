@@ -6,12 +6,12 @@ import main.mesh.Face;
 import main.mesh.Surface;
 import main.physics.goveqn.*;
 import main.util.TestHelper;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
 import static main.util.DoubleArray.*;
-import static org.junit.Assert.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class HLLRiemannSolverTest {
 

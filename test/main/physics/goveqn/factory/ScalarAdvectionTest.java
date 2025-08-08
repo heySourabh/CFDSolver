@@ -1,11 +1,12 @@
 package main.physics.goveqn.factory;
 
 import main.geom.Vector;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ScalarAdvectionTest {
 
@@ -160,9 +161,9 @@ public class ScalarAdvectionTest {
         double phi = rnd.nextDouble() * rnd.nextInt(100) - 50;
 
         assertArrayEquals(new double[]{0}, govEqn.source().sourceVector(null, new double[]{phi},
-                new Vector[]{
-                        new Vector(1, 1, 1)
-                }),
+                        new Vector[]{
+                                new Vector(1, 1, 1)
+                        }),
                 1e-12);
     }
 }
