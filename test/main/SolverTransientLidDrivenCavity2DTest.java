@@ -82,12 +82,12 @@ public class SolverTransientLidDrivenCavity2DTest {
                 p -> new double[]{0, 0, 0, 0});
 
 
-        CellNeighborCalculator cellNeighborCalculator = new FaceBasedCellNeighbors();
+        final CellNeighborCalculator cellNeighborCalculator = new FaceBasedCellNeighbors();
         private final ConvectionResidual convectionResidual = new ConvectionResidual(
                 new VKLimiterReconstructor(mesh, govEqn, cellNeighborCalculator),
                 new RusanovRiemannSolver(govEqn), mesh);
         private final DiffusionResidual diffusionResidual = new DiffusionResidual(mesh, govEqn);
-        CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, cellNeighborCalculator);
+        final CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, cellNeighborCalculator);
         private final SpaceDiscretization spaceDiscretization = new SpaceDiscretization(mesh,
                 cellGradientCalculator,
                 List.of(convectionResidual, diffusionResidual));

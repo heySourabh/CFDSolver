@@ -76,7 +76,7 @@ public class Solver1DScalarAdvectionTest {
 
                 //<editor-fold desc="Delete the mesh file"
                 if (!tempMeshFile.delete()) {
-                    System.out.println("Unable to delete " + tempMeshFile.toString());
+                    System.out.println("Unable to delete " + tempMeshFile);
                 }
                 //</editor-fold>
 

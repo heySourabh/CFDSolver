@@ -71,28 +71,29 @@ public class GreenGaussCellGradientTest {
         int numVars = 3;
         File tempFile = new File("test/test_data/temp_1d.cfds");
         try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write("" +
-                         "dimension = 1\n" +
-                         "mode = ASCII\n" +
-                         "xi = 4\n" +
-                         "-2.0      0        0\n" +
-                         "-0.75     0        0\n" +
-                         "0.5       0        0\n" +
-                         "1.2       0        0\n"
+            writer.write("""
+                    dimension = 1
+                    mode = ASCII
+                    xi = 4
+                    -2.0      0        0
+                    -0.75     0        0
+                    0.5       0        0
+                    1.2       0        0
+                    """
             );
         }
 
         Mesh mesh = new Structured1DMesh(tempFile, numVars, null, null);
         if (!tempFile.delete())
-            System.out.println("Unable to delete temp file created while testing: " + tempFile.toString());
+            System.out.println("Unable to delete temp file created while testing: " + tempFile);
 
         Cell cell = mesh.cells().get(1);
 
         Face fl = cell.faces.get(0);
         Face fr = cell.faces.get(1);
 
-        assertEquals(fl.nodes[0].x, -0.75, 1e-15);
-        assertEquals(fr.nodes[0].x, 0.5, 1e-15);
+        assertEquals(-0.75, fl.nodes[0].x, 1e-15);
+        assertEquals(0.5, fr.nodes[0].x, 1e-15);
 
         assertVectorEquals(new Vector(1, 0, 0), fl.surface.unitNormal(), 1e-12);
         assertVectorEquals(new Vector(1, 0, 0), fr.surface.unitNormal(), 1e-12);
@@ -122,28 +123,29 @@ public class GreenGaussCellGradientTest {
         int numVars = 3;
         File tempFile = new File("test/test_data/temp_1d.cfds");
         try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write("" +
-                         "dimension = 1\n" +
-                         "mode = ASCII\n" +
-                         "xi = 4\n" +
-                         "0     -2.0       0\n" +
-                         "0     -0.75      0\n" +
-                         "0     0.5        0\n" +
-                         "0     1.2        0\n"
+            writer.write("""
+                    dimension = 1
+                    mode = ASCII
+                    xi = 4
+                    0     -2.0       0
+                    0     -0.75      0
+                    0     0.5        0
+                    0     1.2        0
+                    """
             );
         }
 
         Mesh mesh = new Structured1DMesh(tempFile, numVars, null, null);
         if (!tempFile.delete())
-            System.out.println("Unable to delete temp file created while testing: " + tempFile.toString());
+            System.out.println("Unable to delete temp file created while testing: " + tempFile);
 
         Cell cell = mesh.cells().get(1);
 
         Face fl = cell.faces.get(0);
         Face fr = cell.faces.get(1);
 
-        assertEquals(fl.nodes[0].y, -0.75, 1e-15);
-        assertEquals(fr.nodes[0].y, 0.5, 1e-15);
+        assertEquals(-0.75, fl.nodes[0].y, 1e-15);
+        assertEquals(0.5, fr.nodes[0].y, 1e-15);
 
         assertVectorEquals(new Vector(0, 1, 0), fl.surface.unitNormal(), 1e-12);
         assertVectorEquals(new Vector(0, 1, 0), fr.surface.unitNormal(), 1e-12);
@@ -173,28 +175,29 @@ public class GreenGaussCellGradientTest {
         int numVars = 3;
         File tempFile = new File("test/test_data/temp_1d.cfds");
         try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write("" +
-                         "dimension = 1\n" +
-                         "mode = ASCII\n" +
-                         "xi = 4\n" +
-                         "0      0      -2.0 \n" +
-                         "0      0      -0.75\n" +
-                         "0      0      0.5  \n" +
-                         "0      0      1.2  \n"
+            writer.write("""
+                    dimension = 1
+                    mode = ASCII
+                    xi = 4
+                    0      0      -2.0
+                    0      0      -0.75
+                    0      0      0.5
+                    0      0      1.2
+                    """
             );
         }
 
         Mesh mesh = new Structured1DMesh(tempFile, numVars, null, null);
         if (!tempFile.delete())
-            System.out.println("Unable to delete temp file created while testing: " + tempFile.toString());
+            System.out.println("Unable to delete temp file created while testing: " + tempFile);
 
         Cell cell = mesh.cells().get(1);
 
         Face fl = cell.faces.get(0);
         Face fr = cell.faces.get(1);
 
-        assertEquals(fl.nodes[0].z, -0.75, 1e-15);
-        assertEquals(fr.nodes[0].z, 0.5, 1e-15);
+        assertEquals(-0.75, fl.nodes[0].z, 1e-15);
+        assertEquals(0.5, fr.nodes[0].z, 1e-15);
 
         assertVectorEquals(new Vector(0, 0, 1), fl.surface.unitNormal(), 1e-12);
         assertVectorEquals(new Vector(0, 0, 1), fr.surface.unitNormal(), 1e-12);
@@ -224,32 +227,33 @@ public class GreenGaussCellGradientTest {
         int numVars = 3;
         File tempFile = new File("test/test_data/temp_1d.cfds");
         try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write("" +
-                         "dimension = 1\n" +
-                         "mode = ASCII\n" +
-                         "xi = 4\n" +
-                         "-5      3      -2\n" +
-                         "-4      1      1 \n" +
-                         "-3      -1     4 \n" +
-                         "-2      -3     7 \n"
+            writer.write("""
+                    dimension = 1
+                    mode = ASCII
+                    xi = 4
+                    -5      3      -2
+                    -4      1      1
+                    -3      -1     4
+                    -2      -3     7
+                    """
             );
         }
 
         Mesh mesh = new Structured1DMesh(tempFile, numVars, null, null);
         if (!tempFile.delete())
-            System.out.println("Unable to delete temp file created while testing: " + tempFile.toString());
+            System.out.println("Unable to delete temp file created while testing: " + tempFile);
 
         Cell cell = mesh.cells().get(1);
 
         Face fl = cell.faces.get(0);
         Face fr = cell.faces.get(1);
 
-        assertEquals(fl.nodes[0].x, -4, 1e-15);
-        assertEquals(fr.nodes[0].x, -3, 1e-15);
-        assertEquals(fl.nodes[0].y, 1, 1e-15);
-        assertEquals(fr.nodes[0].y, -1, 1e-15);
-        assertEquals(fl.nodes[0].z, 1, 1e-15);
-        assertEquals(fr.nodes[0].z, 4, 1e-15);
+        assertEquals(-4, fl.nodes[0].x, 1e-15);
+        assertEquals(-3, fr.nodes[0].x, 1e-15);
+        assertEquals(1, fl.nodes[0].y, 1e-15);
+        assertEquals(-1, fr.nodes[0].y, 1e-15);
+        assertEquals(1, fl.nodes[0].z, 1e-15);
+        assertEquals(4, fr.nodes[0].z, 1e-15);
 
         Vector v1 = new Vector(new Point(-5, 3, -2), new Point(-4, 1, 1));
         Vector v2 = new Vector(new Point(-4, 1, 1), new Point(-3, -1, 4));
@@ -298,22 +302,22 @@ public class GreenGaussCellGradientTest {
         Node n3 = new Node(p3, numVars);
 
         Quad quad = new Quad(p0, p1, p2, p3);
-        Shape shape = new Shape(quad.area() * 1.0, quad.centroid());
+        Shape shape = new Shape(quad.area(), quad.centroid());
 
         Cell cell = new Cell(new Node[]{n0, n1, n2, n3}, quad.vtkType(), shape, numVars);
         cell.setIndex(0);
 
         Line line = new Line(p0, p1);
-        Surface surface = new Surface(line.length() * 1.0, line.centroid(), new Vector(0, -1, 0));
+        Surface surface = new Surface(line.length(), line.centroid(), new Vector(0, -1, 0));
         Face fs = new Face(new Node[]{n0, n1}, line.vtkType(), surface, cell, null, numVars);
         line = new Line(p1, p2);
-        surface = new Surface(line.length() * 1.0, line.centroid(), new Vector(1, 0, 0));
+        surface = new Surface(line.length(), line.centroid(), new Vector(1, 0, 0));
         Face fe = new Face(new Node[]{n1, n2}, line.vtkType(), surface, cell, null, numVars);
         line = new Line(p2, p3);
-        surface = new Surface(line.length() * 1.0, line.centroid(), new Vector(0, 1, 0));
+        surface = new Surface(line.length(), line.centroid(), new Vector(0, 1, 0));
         Face fn = new Face(new Node[]{n2, n3}, line.vtkType(), surface, cell, null, numVars);
         line = new Line(p3, p0);
-        surface = new Surface(line.length() * 1.0, line.centroid(), new Vector(-1, 0, 0));
+        surface = new Surface(line.length(), line.centroid(), new Vector(-1, 0, 0));
         Face fw = new Face(new Node[]{n3, n0}, line.vtkType(), surface, cell, null, numVars);
 
         cell.faces.addAll(List.of(fs, fe, fn, fw));
@@ -351,22 +355,22 @@ public class GreenGaussCellGradientTest {
         Node n2 = new Node(p2, numVars);
 
         Triangle tri = new Triangle(p0, p1, p2);
-        Shape shape = new Shape(tri.area() * 1.0, tri.centroid());
+        Shape shape = new Shape(tri.area(), tri.centroid());
 
         Cell cell = new Cell(new Node[]{n0, n1, n2}, tri.vtkType(), shape, numVars);
         cell.setIndex(0);
 
         Vector up = new Vector(0, 0, 1);
         Line line = new Line(p2, p1);
-        Surface surface = new Surface(line.length() * 1.0, line.centroid(), unitNormal(line, up));
+        Surface surface = new Surface(line.length(), line.centroid(), unitNormal(line, up));
         Face f0 = new Face(new Node[]{n2, n1}, line.vtkType(), surface, cell, null, numVars);
 
         line = new Line(p1, p0);
-        surface = new Surface(line.length() * 1.0, line.centroid(), unitNormal(line, up));
+        surface = new Surface(line.length(), line.centroid(), unitNormal(line, up));
         Face f1 = new Face(new Node[]{n0, n1}, line.vtkType(), surface, cell, null, numVars);
 
         line = new Line(p0, p2);
-        surface = new Surface(line.length() * 1.0, line.centroid(), unitNormal(line, up));
+        surface = new Surface(line.length(), line.centroid(), unitNormal(line, up));
         Face f2 = new Face(new Node[]{n2, n0}, line.vtkType(), surface, cell, null, numVars);
 
         cell.faces.addAll(List.of(f0, f1, f2));
@@ -402,27 +406,30 @@ public class GreenGaussCellGradientTest {
     public void twoDim_xy_structured_mesh() throws IOException {
         File tempFile = new File("test/test_data/tempMesh.cfds");
         try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write("dimension = 2\n" +
-                         "mode = ASCII\n" +
-                         "xi = 4\n" +
-                         "eta = 4\n");
-            writer.write("" +
-                         "-2.000000            1.000000             0.000000\n" +
-                         "-2.000000            2.500000             0.000000\n" +
-                         "-2.000000            4.000000             0.000000\n" +
-                         "-2.000000            5.500000             0.000000\n" +
-                         "-1.500000            1.000000             0.000000\n" +
-                         "-1.500000            2.500000             0.000000\n" +
-                         "-1.500000            4.000000             0.000000\n" +
-                         "-1.500000            5.500000             0.000000\n" +
-                         "-1.000000            1.000000             0.000000\n" +
-                         "-1.000000            2.500000             0.000000\n" +
-                         "-1.000000            4.000000             0.000000\n" +
-                         "-1.000000            5.500000             0.000000\n" +
-                         "-0.500000            1.000000             0.000000\n" +
-                         "-0.500000            2.500000             0.000000\n" +
-                         "-0.500000            4.000000             0.000000\n" +
-                         "-0.500000            5.500000             0.000000\n");
+            writer.write("""
+                    dimension = 2
+                    mode = ASCII
+                    xi = 4
+                    eta = 4
+                    """);
+            writer.write("""
+                    -2.000000            1.000000             0.000000
+                    -2.000000            2.500000             0.000000
+                    -2.000000            4.000000             0.000000
+                    -2.000000            5.500000             0.000000
+                    -1.500000            1.000000             0.000000
+                    -1.500000            2.500000             0.000000
+                    -1.500000            4.000000             0.000000
+                    -1.500000            5.500000             0.000000
+                    -1.000000            1.000000             0.000000
+                    -1.000000            2.500000             0.000000
+                    -1.000000            4.000000             0.000000
+                    -1.000000            5.500000             0.000000
+                    -0.500000            1.000000             0.000000
+                    -0.500000            2.500000             0.000000
+                    -0.500000            4.000000             0.000000
+                    -0.500000            5.500000             0.000000
+                    """);
         }
 
         int numVars = 3;
@@ -472,22 +479,22 @@ public class GreenGaussCellGradientTest {
         Node n2 = new Node(p2, numVars);
 
         Triangle tri = new Triangle(p0, p1, p2);
-        Shape shape = new Shape(tri.area() * 1.0, tri.centroid());
+        Shape shape = new Shape(tri.area(), tri.centroid());
 
         Cell cell = new Cell(new Node[]{n0, n1, n2}, tri.vtkType(), shape, numVars);
         cell.setIndex(0);
 
         Vector up = new Vector(1, 0, 0);
         Line line = new Line(p2, p1);
-        Surface surface = new Surface(line.length() * 1.0, line.centroid(), unitNormal(line, up));
+        Surface surface = new Surface(line.length(), line.centroid(), unitNormal(line, up));
         Face f0 = new Face(new Node[]{n2, n1}, line.vtkType(), surface, cell, null, numVars);
 
         line = new Line(p1, p0);
-        surface = new Surface(line.length() * 1.0, line.centroid(), unitNormal(line, up));
+        surface = new Surface(line.length(), line.centroid(), unitNormal(line, up));
         Face f1 = new Face(new Node[]{n0, n1}, line.vtkType(), surface, cell, null, numVars);
 
         line = new Line(p0, p2);
-        surface = new Surface(line.length() * 1.0, line.centroid(), unitNormal(line, up));
+        surface = new Surface(line.length(), line.centroid(), unitNormal(line, up));
         Face f2 = new Face(new Node[]{n2, n0}, line.vtkType(), surface, cell, null, numVars);
 
         cell.faces.addAll(List.of(f0, f1, f2));
@@ -530,22 +537,22 @@ public class GreenGaussCellGradientTest {
         Node n2 = new Node(p2, numVars);
 
         Triangle tri = new Triangle(p0, p1, p2);
-        Shape shape = new Shape(tri.area() * 1.0, tri.centroid());
+        Shape shape = new Shape(tri.area(), tri.centroid());
 
         Cell cell = new Cell(new Node[]{n0, n1, n2}, tri.vtkType(), shape, numVars);
         cell.setIndex(0);
 
         Vector up = new Vector(0, -1, 0);
         Line line = new Line(p2, p1);
-        Surface surface = new Surface(line.length() * 1.0, line.centroid(), unitNormal(line, up));
+        Surface surface = new Surface(line.length(), line.centroid(), unitNormal(line, up));
         Face f0 = new Face(new Node[]{n2, n1}, line.vtkType(), surface, cell, null, numVars);
 
         line = new Line(p1, p0);
-        surface = new Surface(line.length() * 1.0, line.centroid(), unitNormal(line, up));
+        surface = new Surface(line.length(), line.centroid(), unitNormal(line, up));
         Face f1 = new Face(new Node[]{n0, n1}, line.vtkType(), surface, cell, null, numVars);
 
         line = new Line(p0, p2);
-        surface = new Surface(line.length() * 1.0, line.centroid(), unitNormal(line, up));
+        surface = new Surface(line.length(), line.centroid(), unitNormal(line, up));
         Face f2 = new Face(new Node[]{n2, n0}, line.vtkType(), surface, cell, null, numVars);
 
         cell.faces.addAll(List.of(f0, f1, f2));
@@ -588,22 +595,22 @@ public class GreenGaussCellGradientTest {
         Node n2 = new Node(p2, numVars);
 
         Triangle tri = new Triangle(p0, p1, p2);
-        Shape shape = new Shape(tri.area() * 1.0, tri.centroid());
+        Shape shape = new Shape(tri.area(), tri.centroid());
 
         Cell cell = new Cell(new Node[]{n0, n1, n2}, tri.vtkType(), shape, numVars);
         cell.setIndex(0);
 
         Vector up = new Vector(p2, p1).cross(new Vector(p2, p0)).unit();
         Line line = new Line(p2, p1);
-        Surface surface = new Surface(line.length() * 1.0, line.centroid(), unitNormal(line, up));
+        Surface surface = new Surface(line.length(), line.centroid(), unitNormal(line, up));
         Face f0 = new Face(new Node[]{n2, n1}, line.vtkType(), surface, cell, null, numVars);
 
         line = new Line(p1, p0);
-        surface = new Surface(line.length() * 1.0, line.centroid(), unitNormal(line, up));
+        surface = new Surface(line.length(), line.centroid(), unitNormal(line, up));
         Face f1 = new Face(new Node[]{n0, n1}, line.vtkType(), surface, cell, null, numVars);
 
         line = new Line(p0, p2);
-        surface = new Surface(line.length() * 1.0, line.centroid(), unitNormal(line, up));
+        surface = new Surface(line.length(), line.centroid(), unitNormal(line, up));
         Face f2 = new Face(new Node[]{n2, n0}, line.vtkType(), surface, cell, null, numVars);
 
         cell.faces.addAll(List.of(f0, f1, f2));
@@ -791,76 +798,77 @@ public class GreenGaussCellGradientTest {
     public void threeDim_structured_mesh() throws IOException {
         File tempFile = new File("test/test_data/mesh.cfds");
         try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write("" +
-                         "dimension = 3\n" +
-                         "mode = ASCII\n" +
-                         "xi = 4\n" +
-                         "eta = 4\n" +
-                         "zeta = 4\n" +
-                         "2.000000000000000    1.000000000000000    -3.000000000000000  \n" +
-                         "2.000000000000000    1.000000000000000    0.000000000000000   \n" +
-                         "2.000000000000000    1.000000000000000    3.000000000000000   \n" +
-                         "2.000000000000000    1.000000000000000    6.000000000000000   \n" +
-                         "2.000000000000000    1.666666666666667    -3.000000000000000  \n" +
-                         "2.000000000000000    1.666666666666667    0.000000000000000   \n" +
-                         "2.000000000000000    1.666666666666667    3.000000000000000   \n" +
-                         "2.000000000000000    1.666666666666667    6.000000000000000   \n" +
-                         "2.000000000000000    2.333333333333333    -3.000000000000000  \n" +
-                         "2.000000000000000    2.333333333333333    0.000000000000000   \n" +
-                         "2.000000000000000    2.333333333333333    3.000000000000000   \n" +
-                         "2.000000000000000    2.333333333333333    6.000000000000000   \n" +
-                         "2.000000000000000    3.000000000000000    -3.000000000000000  \n" +
-                         "2.000000000000000    3.000000000000000    0.000000000000000   \n" +
-                         "2.000000000000000    3.000000000000000    3.000000000000000   \n" +
-                         "2.000000000000000    3.000000000000000    6.000000000000000   \n" +
-                         "3.000000000000000    1.000000000000000    -3.000000000000000  \n" +
-                         "3.000000000000000    1.000000000000000    0.000000000000000   \n" +
-                         "3.000000000000000    1.000000000000000    3.000000000000000   \n" +
-                         "3.000000000000000    1.000000000000000    6.000000000000000   \n" +
-                         "3.000000000000000    1.666666666666667    -3.000000000000000  \n" +
-                         "3.000000000000000    1.666666666666667    0.000000000000000   \n" +
-                         "3.000000000000000    1.666666666666667    3.000000000000000   \n" +
-                         "3.000000000000000    1.666666666666667    6.000000000000000   \n" +
-                         "3.000000000000000    2.333333333333333    -3.000000000000000  \n" +
-                         "3.000000000000000    2.333333333333333    0.000000000000000   \n" +
-                         "3.000000000000000    2.333333333333333    3.000000000000000   \n" +
-                         "3.000000000000000    2.333333333333333    6.000000000000000   \n" +
-                         "3.000000000000000    3.000000000000000    -3.000000000000000  \n" +
-                         "3.000000000000000    3.000000000000000    0.000000000000000   \n" +
-                         "3.000000000000000    3.000000000000000    3.000000000000000   \n" +
-                         "3.000000000000000    3.000000000000000    6.000000000000000   \n" +
-                         "4.000000000000000    1.000000000000000    -3.000000000000000  \n" +
-                         "4.000000000000000    1.000000000000000    0.000000000000000   \n" +
-                         "4.000000000000000    1.000000000000000    3.000000000000000   \n" +
-                         "4.000000000000000    1.000000000000000    6.000000000000000   \n" +
-                         "4.000000000000000    1.666666666666667    -3.000000000000000  \n" +
-                         "4.000000000000000    1.666666666666667    0.000000000000000   \n" +
-                         "4.000000000000000    1.666666666666667    3.000000000000000   \n" +
-                         "4.000000000000000    1.666666666666667    6.000000000000000   \n" +
-                         "4.000000000000000    2.333333333333333    -3.000000000000000  \n" +
-                         "4.000000000000000    2.333333333333333    0.000000000000000   \n" +
-                         "4.000000000000000    2.333333333333333    3.000000000000000   \n" +
-                         "4.000000000000000    2.333333333333333    6.000000000000000   \n" +
-                         "4.000000000000000    3.000000000000000    -3.000000000000000  \n" +
-                         "4.000000000000000    3.000000000000000    0.000000000000000   \n" +
-                         "4.000000000000000    3.000000000000000    3.000000000000000   \n" +
-                         "4.000000000000000    3.000000000000000    6.000000000000000   \n" +
-                         "5.000000000000000    1.000000000000000    -3.000000000000000  \n" +
-                         "5.000000000000000    1.000000000000000    0.000000000000000   \n" +
-                         "5.000000000000000    1.000000000000000    3.000000000000000   \n" +
-                         "5.000000000000000    1.000000000000000    6.000000000000000   \n" +
-                         "5.000000000000000    1.666666666666667    -3.000000000000000  \n" +
-                         "5.000000000000000    1.666666666666667    0.000000000000000   \n" +
-                         "5.000000000000000    1.666666666666667    3.000000000000000   \n" +
-                         "5.000000000000000    1.666666666666667    6.000000000000000   \n" +
-                         "5.000000000000000    2.333333333333333    -3.000000000000000  \n" +
-                         "5.000000000000000    2.333333333333333    0.000000000000000   \n" +
-                         "5.000000000000000    2.333333333333333    3.000000000000000   \n" +
-                         "5.000000000000000    2.333333333333333    6.000000000000000   \n" +
-                         "5.000000000000000    3.000000000000000    -3.000000000000000  \n" +
-                         "5.000000000000000    3.000000000000000    0.000000000000000   \n" +
-                         "5.000000000000000    3.000000000000000    3.000000000000000   \n" +
-                         "5.000000000000000    3.000000000000000    6.000000000000000   \n");
+            writer.write("""
+                    dimension = 3
+                    mode = ASCII
+                    xi = 4
+                    eta = 4
+                    zeta = 4
+                    2.000000000000000    1.000000000000000    -3.000000000000000
+                    2.000000000000000    1.000000000000000    0.000000000000000
+                    2.000000000000000    1.000000000000000    3.000000000000000
+                    2.000000000000000    1.000000000000000    6.000000000000000
+                    2.000000000000000    1.666666666666667    -3.000000000000000
+                    2.000000000000000    1.666666666666667    0.000000000000000
+                    2.000000000000000    1.666666666666667    3.000000000000000
+                    2.000000000000000    1.666666666666667    6.000000000000000
+                    2.000000000000000    2.333333333333333    -3.000000000000000
+                    2.000000000000000    2.333333333333333    0.000000000000000
+                    2.000000000000000    2.333333333333333    3.000000000000000
+                    2.000000000000000    2.333333333333333    6.000000000000000
+                    2.000000000000000    3.000000000000000    -3.000000000000000
+                    2.000000000000000    3.000000000000000    0.000000000000000
+                    2.000000000000000    3.000000000000000    3.000000000000000
+                    2.000000000000000    3.000000000000000    6.000000000000000
+                    3.000000000000000    1.000000000000000    -3.000000000000000
+                    3.000000000000000    1.000000000000000    0.000000000000000
+                    3.000000000000000    1.000000000000000    3.000000000000000
+                    3.000000000000000    1.000000000000000    6.000000000000000
+                    3.000000000000000    1.666666666666667    -3.000000000000000
+                    3.000000000000000    1.666666666666667    0.000000000000000
+                    3.000000000000000    1.666666666666667    3.000000000000000
+                    3.000000000000000    1.666666666666667    6.000000000000000
+                    3.000000000000000    2.333333333333333    -3.000000000000000
+                    3.000000000000000    2.333333333333333    0.000000000000000
+                    3.000000000000000    2.333333333333333    3.000000000000000
+                    3.000000000000000    2.333333333333333    6.000000000000000
+                    3.000000000000000    3.000000000000000    -3.000000000000000
+                    3.000000000000000    3.000000000000000    0.000000000000000
+                    3.000000000000000    3.000000000000000    3.000000000000000
+                    3.000000000000000    3.000000000000000    6.000000000000000
+                    4.000000000000000    1.000000000000000    -3.000000000000000
+                    4.000000000000000    1.000000000000000    0.000000000000000
+                    4.000000000000000    1.000000000000000    3.000000000000000
+                    4.000000000000000    1.000000000000000    6.000000000000000
+                    4.000000000000000    1.666666666666667    -3.000000000000000
+                    4.000000000000000    1.666666666666667    0.000000000000000
+                    4.000000000000000    1.666666666666667    3.000000000000000
+                    4.000000000000000    1.666666666666667    6.000000000000000
+                    4.000000000000000    2.333333333333333    -3.000000000000000
+                    4.000000000000000    2.333333333333333    0.000000000000000
+                    4.000000000000000    2.333333333333333    3.000000000000000
+                    4.000000000000000    2.333333333333333    6.000000000000000
+                    4.000000000000000    3.000000000000000    -3.000000000000000
+                    4.000000000000000    3.000000000000000    0.000000000000000
+                    4.000000000000000    3.000000000000000    3.000000000000000
+                    4.000000000000000    3.000000000000000    6.000000000000000
+                    5.000000000000000    1.000000000000000    -3.000000000000000
+                    5.000000000000000    1.000000000000000    0.000000000000000
+                    5.000000000000000    1.000000000000000    3.000000000000000
+                    5.000000000000000    1.000000000000000    6.000000000000000
+                    5.000000000000000    1.666666666666667    -3.000000000000000
+                    5.000000000000000    1.666666666666667    0.000000000000000
+                    5.000000000000000    1.666666666666667    3.000000000000000
+                    5.000000000000000    1.666666666666667    6.000000000000000
+                    5.000000000000000    2.333333333333333    -3.000000000000000
+                    5.000000000000000    2.333333333333333    0.000000000000000
+                    5.000000000000000    2.333333333333333    3.000000000000000
+                    5.000000000000000    2.333333333333333    6.000000000000000
+                    5.000000000000000    3.000000000000000    -3.000000000000000
+                    5.000000000000000    3.000000000000000    0.000000000000000
+                    5.000000000000000    3.000000000000000    3.000000000000000
+                    5.000000000000000    3.000000000000000    6.000000000000000
+                    """);
         }
 
         int numVars = 2;
@@ -898,7 +906,7 @@ public class GreenGaussCellGradientTest {
 
     private Mesh createMesh(Cell... cellArray) {
         return new Mesh() {
-            private List<Cell> cells = List.of(cellArray);
+            private final List<Cell> cells = List.of(cellArray);
 
             @Override
             public List<Cell> cells() {

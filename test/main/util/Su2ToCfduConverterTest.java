@@ -56,7 +56,7 @@ public class Su2ToCfduConverterTest {
                 3 6 3
                 3 3 0
                 """;
-        assertEquals(Files.readString(outputFile.toPath()), expectedOutput);
+        assertEquals(expectedOutput, Files.readString(outputFile.toPath()));
     }
 
     @Test
@@ -146,6 +146,6 @@ public class Su2ToCfduConverterTest {
                 5 1 2 8
                 5 2 3 8
                 """;
-        assertEquals(Files.readString(outputFile.toPath()), expectedOutput);
+        assertEquals(expectedOutput, Files.readString(outputFile.toPath()));
     }
 }

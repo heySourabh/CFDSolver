@@ -44,7 +44,7 @@ public class SolverSloshing2DHLLUnstructuredTest {
         private final ArtificialCompressibilityVOFEquations govEqn
                 = new ArtificialCompressibilityVOFEquations(rho1, mu, rho2, mu, gravity, beta);
 
-        Mesh mesh = readUnstructuredMesh();
+        final Mesh mesh = readUnstructuredMesh();
 
         private Mesh readUnstructuredMesh() {
             BoundaryCondition inviscidWall = new InviscidWallVOFBC(govEqn);
@@ -67,13 +67,13 @@ public class SolverSloshing2DHLLUnstructuredTest {
                 p -> new double[]{0, 0, 0, 0,
                         p.y <= (0.05 + 0.005 * cos(2 * PI * p.x / 0.2)) ? 1.0 : 0});
 
-        CellNeighborCalculator cellNeighborCalculator = new FaceBasedCellNeighbors();
+        final CellNeighborCalculator cellNeighborCalculator = new FaceBasedCellNeighbors();
         private final ConvectionResidual convectionResidual = new ConvectionResidual(
                 new VKLimiterReconstructor(mesh, govEqn, cellNeighborCalculator),
                 new HLLRiemannSolver(govEqn), mesh);
         private final DiffusionResidual diffusionResidual = new DiffusionResidual(mesh, govEqn);
         private final SourceResidual sourceResidual = new SourceResidual(mesh, govEqn);
-        CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, cellNeighborCalculator);
+        final CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, cellNeighborCalculator);
         private final SpaceDiscretization spaceDiscretization = new SpaceDiscretization(mesh,
                 cellGradientCalculator,
                 List.of(convectionResidual, diffusionResidual, sourceResidual));

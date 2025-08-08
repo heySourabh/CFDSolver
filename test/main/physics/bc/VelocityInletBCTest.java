@@ -75,10 +75,6 @@ public class VelocityInletBCTest {
 
         double beta = 1.0;
 
-        double ghost_u = 2 * bnd_u - ui;
-        double ghost_v = 2 * bnd_v - vi;
-        double ghost_w = 2 * bnd_w - wi;
-
         double[] expectedFlux = govEqn.convection()
                 .flux(new double[]{pi / beta, bnd_u, bnd_v, bnd_w}, surface.unitNormal());
 

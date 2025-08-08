@@ -128,7 +128,7 @@ public class HLLRiemannSolverTest {
                 return new Limits[0];
             }
 
-            Convection convection = new Convection() {
+            final Convection convection = new Convection() {
                 @Override
                 public double[] flux(double[] U, Vector n) {
                     return resultantFlux(U, n);

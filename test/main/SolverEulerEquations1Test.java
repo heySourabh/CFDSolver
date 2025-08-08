@@ -116,6 +116,6 @@ public class SolverEulerEquations1Test {
 
         double[] expectedU = {1.2, 0.6, 0.3, -8.28, 253341.2535}; // solved manually: on IITB lab notebook
 
-        assertArrayEquals(expectedU, mesh.cells().get(0).U, 1e-8);
+        assertArrayEquals(expectedU, mesh.cells().getFirst().U, 1e-8);
     }
 }

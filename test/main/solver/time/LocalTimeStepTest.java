@@ -72,27 +72,28 @@ public class LocalTimeStepTest {
     private Mesh mesh() throws IOException {
         File tempFile = new File("test/test_data/tempMeshFile.cfds");
         try (FileWriter writer = new FileWriter(tempFile)) {
-            writer.write("" +
-                         "dimension = 2\n" +
-                         "mode = ASCII\n" +
-                         "xi = 4\n" +
-                         "eta = 4\n" +
-                         "2.000000   0.000000  0.0\n" +
-                         "2.000000   1.666667  0.0\n" +
-                         "2.000000   3.333333  0.0\n" +
-                         "2.000000   5.000000  0.0\n" +
-                         "0.000000   0.000000  0.0\n" +
-                         "0.000000   1.666667  0.0\n" +
-                         "0.000000   3.333333  0.0\n" +
-                         "0.000000   5.000000  0.0\n" +
-                         "-2.000000  0.000000  0.0\n" +
-                         "-2.000000  1.666667  0.0\n" +
-                         "-2.000000  3.333333  0.0\n" +
-                         "-2.000000  5.000000  0.0\n" +
-                         "-4.000000  0.000000  0.0\n" +
-                         "-4.000000  1.666667  0.0\n" +
-                         "-4.000000  3.333333  0.0\n" +
-                         "-4.000000  5.000000  0.0\n");
+            writer.write("""
+                    dimension = 2
+                    mode = ASCII
+                    xi = 4
+                    eta = 4
+                    2.000000   0.000000  0.0
+                    2.000000   1.666667  0.0
+                    2.000000   3.333333  0.0
+                    2.000000   5.000000  0.0
+                    0.000000   0.000000  0.0
+                    0.000000   1.666667  0.0
+                    0.000000   3.333333  0.0
+                    0.000000   5.000000  0.0
+                    -2.000000  0.000000  0.0
+                    -2.000000  1.666667  0.0
+                    -2.000000  3.333333  0.0
+                    -2.000000  5.000000  0.0
+                    -4.000000  0.000000  0.0
+                    -4.000000  1.666667  0.0
+                    -4.000000  3.333333  0.0
+                    -4.000000  5.000000  0.0
+                    """);
         }
 
         Mesh mesh = new Structured2DMesh(tempFile, convectiveGovEqn.numVars(), null, null, null, null);
@@ -104,7 +105,7 @@ public class LocalTimeStepTest {
         return mesh;
     }
 
-    private class ConvectionGoverningEquations extends BaseGoverningEquations {
+    private static class ConvectionGoverningEquations extends BaseGoverningEquations {
         private final Convection convection = new Convection() {
             @Override
             public double[] flux(double[] conservativeVars, Vector unitNormal) {
@@ -128,7 +129,7 @@ public class LocalTimeStepTest {
         }
     }
 
-    private class DiffusionGoverningEquations extends BaseGoverningEquations {
+    private static class DiffusionGoverningEquations extends BaseGoverningEquations {
         private final Diffusion diffusion = new Diffusion() {
             @Override
             public double[] flux(double[] conservativeVars, Vector[] gradConservativeVars, Vector unitNormal) {
@@ -147,7 +148,7 @@ public class LocalTimeStepTest {
         }
     }
 
-    private class BaseGoverningEquations implements GoverningEquations {
+    private static class BaseGoverningEquations implements GoverningEquations {
         @Override
         public String description() {
             return null;

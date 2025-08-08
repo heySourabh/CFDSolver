@@ -75,7 +75,7 @@ public class StopWatchTest {
     @Test
     public void test_process_duration() {
         Runnable process = () -> simulateRunningProcessForMillis(124);
-        assertEquals(StopWatch.timeIt(process).toMillis() - 124, 0, 10);
+        assertEquals(0, StopWatch.timeIt(process).toMillis() - 124, 10);
     }
 
     private static void simulateRunningProcessForMillis(long millis) {
