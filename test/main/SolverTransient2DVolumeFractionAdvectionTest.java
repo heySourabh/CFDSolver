@@ -39,16 +39,15 @@ public class SolverTransient2DVolumeFractionAdvectionTest {
             private final int numXCells = 30;
             private final int numYCells = 30;
 
-            private final String description = "2D Volume fraction advection.";
             private final GoverningEquations govEqn = createGovEqn();
 
             private GoverningEquations createGovEqn() {
                 return new VolumeFractionAdvectionEquations();
             }
 
-            private final Mesh mesh = create2DMesh();
+            private final Mesh mesh = create2DMesh(minX, minY, Lx, Ly, numXCells, numYCells);
 
-            private Mesh create2DMesh() {
+            private Mesh create2DMesh(double minX, double minY, double Lx, double Ly, int numXCells, int numYCells) {
                 int numXNodes = numXCells + 1;
                 int numYNodes = numYCells + 1;
                 File tempMeshFile = new File("test/test_data/temp.cfdu");
@@ -83,18 +82,18 @@ public class SolverTransient2DVolumeFractionAdvectionTest {
                 return mesh;
             }
 
-            private CellNeighborCalculator cellNeighborCalculator = new FaceBasedCellNeighbors();
-            private CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(
+            private final CellNeighborCalculator cellNeighborCalculator = new FaceBasedCellNeighbors();
+            private final CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(
                     mesh, cellNeighborCalculator);
             private final SolutionReconstructor reconstructor
                     = new VKLimiterReconstructor(mesh, govEqn, cellNeighborCalculator);
             private final RiemannSolver riemannSolver = new HLLRiemannSolver(govEqn);
-            List<ResidualCalculator> residuals = List.of(
+            final List<ResidualCalculator> residuals = List.of(
                     new ConvectionResidual(reconstructor, riemannSolver, mesh),
                     new DiffusionResidual(mesh, govEqn));
             private final SpaceDiscretization spaceDiscretization = new SpaceDiscretization(
                     mesh, cellGradientCalculator, residuals);
-            TimeStep timeStep = new LocalTimeStep(mesh, govEqn);
+            final TimeStep timeStep = new LocalTimeStep(mesh, govEqn);
             private final TimeIntegrator timeIntegrator = new ExplicitSSPRK2TimeIntegrator(
                     mesh, spaceDiscretization, timeStep, govEqn.numVars());
 
@@ -118,7 +117,7 @@ public class SolverTransient2DVolumeFractionAdvectionTest {
 
             @Override
             public String description() {
-                return description;
+                return "2D Volume fraction advection.";
             }
 
             @Override

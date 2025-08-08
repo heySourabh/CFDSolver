@@ -25,61 +25,62 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Solver2DScalarDiffusionTest {
 
-    private double courantNumber = 1.5;
-    private GoverningEquations govEqn = createGovEqn();
+    private final double courantNumber = 1.5;
+    private final GoverningEquations govEqn = createGovEqn();
 
     private GoverningEquations createGovEqn() {
         return new ScalarDiffusion(3.5);
     }
 
-    private Mesh mesh = create2DMesh();
+    private final Mesh mesh = create2DMesh();
 
     private Mesh create2DMesh() {
         Mesh mesh;
         try {
             File meshFile = new File("test/test_data/tempMeshFile.cfds");
             try (FileWriter writer = new FileWriter(meshFile)) {
-                writer.write("" +
-                             "dimension = 2\n" +
-                             "mode      = ASCII\n" +
-                             "xi        = 6\n" +
-                             "eta       = 6\n" +
-                             "-2.0  3.0   0.0\n" +
-                             "-2.0  4.0   0.0\n" +
-                             "-2.0  5.0   0.0\n" +
-                             "-2.0  6.0   0.0\n" +
-                             "-2.0  7.0   0.0\n" +
-                             "-2.0  8.0   0.0\n" +
-                             "-0.4  3.0   0.3\n" +
-                             "-0.4  4.0   0.3\n" +
-                             "-0.4  5.0   0.3\n" +
-                             "-0.4  6.0   0.3\n" +
-                             "-0.4  7.0   0.3\n" +
-                             "-0.4  8.0   0.3\n" +
-                             "1.2   3.0   0.6\n" +
-                             "1.2   4.0   0.6\n" +
-                             "1.2   5.0   0.6\n" +
-                             "1.2   6.0   0.6\n" +
-                             "1.2   7.0   0.6\n" +
-                             "1.2   8.0   0.6\n" +
-                             "2.8   3.0   0.9\n" +
-                             "2.8   4.0   0.9\n" +
-                             "2.8   5.0   0.9\n" +
-                             "2.8   6.0   0.9\n" +
-                             "2.8   7.0   0.9\n" +
-                             "2.8   8.0   0.9\n" +
-                             "4.4   3.0   1.2\n" +
-                             "4.4   4.0   1.2\n" +
-                             "4.4   5.0   1.2\n" +
-                             "4.4   6.0   1.2\n" +
-                             "4.4   7.0   1.2\n" +
-                             "4.4   8.0   1.2\n" +
-                             "6.0   3.0   1.5\n" +
-                             "6.0   4.0   1.5\n" +
-                             "6.0   5.0   1.5\n" +
-                             "6.0   6.0   1.5\n" +
-                             "6.0   7.0   1.5\n" +
-                             "6.0   8.0   1.5\n");
+                writer.write("""
+                        dimension = 2
+                        mode      = ASCII
+                        xi        = 6
+                        eta       = 6
+                        -2.0  3.0   0.0
+                        -2.0  4.0   0.0
+                        -2.0  5.0   0.0
+                        -2.0  6.0   0.0
+                        -2.0  7.0   0.0
+                        -2.0  8.0   0.0
+                        -0.4  3.0   0.3
+                        -0.4  4.0   0.3
+                        -0.4  5.0   0.3
+                        -0.4  6.0   0.3
+                        -0.4  7.0   0.3
+                        -0.4  8.0   0.3
+                        1.2   3.0   0.6
+                        1.2   4.0   0.6
+                        1.2   5.0   0.6
+                        1.2   6.0   0.6
+                        1.2   7.0   0.6
+                        1.2   8.0   0.6
+                        2.8   3.0   0.9
+                        2.8   4.0   0.9
+                        2.8   5.0   0.9
+                        2.8   6.0   0.9
+                        2.8   7.0   0.9
+                        2.8   8.0   0.9
+                        4.4   3.0   1.2
+                        4.4   4.0   1.2
+                        4.4   5.0   1.2
+                        4.4   6.0   1.2
+                        4.4   7.0   1.2
+                        4.4   8.0   1.2
+                        6.0   3.0   1.5
+                        6.0   4.0   1.5
+                        6.0   5.0   1.5
+                        6.0   6.0   1.5
+                        6.0   7.0   1.5
+                        6.0   8.0   1.5
+                        """);
             }
 
             mesh = new Structured2DMesh(meshFile, govEqn.numVars(),
@@ -96,7 +97,7 @@ public class Solver2DScalarDiffusionTest {
         return mesh;
     }
 
-    private TimeIntegrator timeIntegrator = createTimeIntegrator();
+    private final TimeIntegrator timeIntegrator = createTimeIntegrator();
 
     private TimeIntegrator createTimeIntegrator() {
         CellGradientCalculator cellGradientCalculator = new ZeroCellGradient(mesh);
@@ -105,7 +106,7 @@ public class Solver2DScalarDiffusionTest {
                 new LocalTimeStep(mesh, govEqn), govEqn.numVars());
     }
 
-    private Config config = createConfig();
+    private final Config config = createConfig();
 
     private Config createConfig() {
         Config config = new Config();
@@ -114,7 +115,7 @@ public class Solver2DScalarDiffusionTest {
         return config;
     }
 
-    private ProblemDefinition problem = new ProblemDefinition() {
+    private final ProblemDefinition problem = new ProblemDefinition() {
         @Override
         public String description() {
             return "Problem definition for testing 2D diffusion.";

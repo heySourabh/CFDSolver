@@ -32,13 +32,13 @@ import java.util.function.Function;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class Solver2DScalarAdvectionTest {
-    private static int xi = 41;
-    private static int eta = 41;
-    private static double minX = -1;
-    private static double maxX = 1;
-    private static double minY = -1;
-    private static double maxY = 1;
-    private static Function<Point, double[]> initFunction = p
+    private static final int xi = 41;
+    private static final int eta = 41;
+    private static final double minX = -1;
+    private static final double maxX = 1;
+    private static final double minY = -1;
+    private static final double maxY = 1;
+    private static final Function<Point, double[]> initFunction = p
             -> new double[]{(p.x > -0.25 && p.x < 0.25 && p.y > -0.25 && p.y < 0.25) ? 1.0 : 0.0};
 
     private static ProblemDefinition testProblem;
@@ -46,8 +46,8 @@ public class Solver2DScalarAdvectionTest {
     @BeforeAll
     public static void setupTestProblem() {
         testProblem = new ProblemDefinition() {
-            GoverningEquations govEqn = new ScalarAdvection(1.0, 1.0, 0.0);
-            Mesh mesh = createMesh();
+            final GoverningEquations govEqn = new ScalarAdvection(1.0, 1.0, 0.0);
+            final Mesh mesh = createMesh();
 
             private Mesh createMesh() {
                 double dx = (maxX - minX) / (xi - 1);
@@ -86,14 +86,14 @@ public class Solver2DScalarAdvectionTest {
 
                 // <editor-fold desc="Delete mesh file">
                 if (!tempMeshFile.delete()) {
-                    System.out.println("Unable to delete temporary mesh file: " + tempMeshFile.toString());
+                    System.out.println("Unable to delete temporary mesh file: " + tempMeshFile);
                 }
                 // </editor-fold>
 
                 return mesh2D;
             }
 
-            TimeIntegrator timeIntegrator = createTimeIntegrator();
+            final TimeIntegrator timeIntegrator = createTimeIntegrator();
 
             private TimeIntegrator createTimeIntegrator() {
                 List<ResidualCalculator> residuals = new ArrayList<>();

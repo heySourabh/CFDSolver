@@ -34,9 +34,9 @@ public class Unstructured2DMeshTest {
     private static List<Face> expectedInternalFaces;
     private static List<Boundary> expectedBoundaries;
 
-    private static int numVars = 3;
+    private static final int numVars = 3;
 
-    private static BoundaryCondition dummyBC = new BoundaryCondition() {
+    private static final BoundaryCondition dummyBC = new BoundaryCondition() {
         @Override
         public void setGhostCellValues(Face face) {
             throw new UnsupportedOperationException("Not implemented.");
@@ -90,7 +90,7 @@ public class Unstructured2DMeshTest {
                     .mapToObj(j -> expectedNodes.get(j))
                     .toArray(Node[]::new);
             Geometry geom = cellGeom[i];
-            Shape shape = new Shape(geom.area() * 1.0, geom.centroid());
+            Shape shape = new Shape(geom.area(), geom.centroid());
             Cell cell = new Cell(n, geom.vtkType(), shape, numVars);
             cell.setIndex(i);
             expectedCells.add(cell);
@@ -308,7 +308,7 @@ public class Unstructured2DMeshTest {
 
     private static Face createFace(Node n0, Node n1, Cell left, Cell right) {
         Geometry faceGeom = new Line(n0.location(), n1.location());
-        Surface surface = new Surface(faceGeom.length() * 1.0, faceGeom.centroid(), lineNormal(n0, n1));
+        Surface surface = new Surface(faceGeom.length(), faceGeom.centroid(), lineNormal(n0, n1));
 
         return new Face(new Node[]{n0, n1}, faceGeom.vtkType(), surface, left, right, numVars);
     }
@@ -549,7 +549,7 @@ public class Unstructured2DMeshTest {
                 .allMatch(i -> cells.get(i).index() == i));
 
         List<Face> allFaceList = Stream.concat(actualMesh.internalFaceStream(),
-                actualMesh.boundaryStream().flatMap(b -> b.faces.stream())).collect(Collectors.toList());
+                actualMesh.boundaryStream().flatMap(b -> b.faces.stream())).toList();
         assertTrue(IntStream.range(0, allFaceList.size())
                 .allMatch(i -> allFaceList.get(i).index() == i));
     }

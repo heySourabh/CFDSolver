@@ -35,7 +35,7 @@ public class ExplicitSSPRK3TimeIntegratorTest {
         };
         // Create a mesh having a single cell
         Mesh mesh = createMesh(govEqn);
-        Cell cell = mesh.cells().get(0);
+        Cell cell = mesh.cells().getFirst();
 
         // calculate time-step
         double ev = govEqn.convection().maxAbsEigenvalues(Un, null);
@@ -179,8 +179,7 @@ public class ExplicitSSPRK3TimeIntegratorTest {
         double dx = 0.2;
         double dy = 0.5;
 
-        String meshFileContents = "" +
-                                  "dimension = 2\n" +
+        String meshFileContents = "dimension = 2\n" +
                                   "mode = ASCII\n" +
                                   "xi = 2\n" +
                                   "eta = 2\n" +

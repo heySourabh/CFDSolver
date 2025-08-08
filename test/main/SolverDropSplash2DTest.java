@@ -44,7 +44,7 @@ public class SolverDropSplash2DTest {
         private final ArtificialCompressibilityVOFEquations govEqn
                 = new ArtificialCompressibilityVOFEquations(rho1, mu, rho2, mu, gravity, beta);
 
-        Mesh mesh = create2DMesh();
+        final Mesh mesh = create2DMesh();
 
         private Mesh create2DMesh() {
             int numXNodes = numXCells + 1;
@@ -102,13 +102,13 @@ public class SolverDropSplash2DTest {
         }
 
 
-        CellNeighborCalculator cellNeighborCalculator = new FaceBasedCellNeighbors();
+        final CellNeighborCalculator cellNeighborCalculator = new FaceBasedCellNeighbors();
         private final ConvectionResidual convectionResidual = new ConvectionResidual(
                 new VKLimiterReconstructor(mesh, govEqn, cellNeighborCalculator),
                 new HLLC_VOF_RiemannSolver(govEqn), mesh);
         private final DiffusionResidual diffusionResidual = new DiffusionResidual(mesh, govEqn);
         private final SourceResidual sourceResidual = new SourceResidual(mesh, govEqn);
-        CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, cellNeighborCalculator);
+        final CellGradientCalculator cellGradientCalculator = new LeastSquareCellGradient(mesh, cellNeighborCalculator);
         private final SpaceDiscretization spaceDiscretization = new SpaceDiscretization(mesh,
                 cellGradientCalculator,
                 List.of(convectionResidual, diffusionResidual, sourceResidual));

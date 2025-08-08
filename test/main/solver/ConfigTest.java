@@ -24,7 +24,7 @@ public class ConfigTest {
         config.setWorkingDirectory(workingDirectoryPath);
         assertTrue(workingDirectoryPath.exists());
         if (!workingDirectoryPath.delete()) {
-            System.out.println("Unable to delete created folder: " + workingDirectoryPath.toString());
+            System.out.println("Unable to delete created folder: " + workingDirectoryPath);
         }
     }
 

@@ -33,8 +33,8 @@ public class TestHelper {
             fail("Expecting an exception to be thrown, but no exception is thrown.");
         } catch (Exception e) {
             if (e.getClass() != ex) {
-                fail("Exception: " + e.toString() + "\n" +
-                     "Expected \"" + ex.toString() + "\", but received \"" + e.getClass().toString());
+                fail("Exception: " + e + "\n" +
+                     "Expected \"" + ex.toString() + "\", but received \"" + e.getClass());
             }
         }
     }

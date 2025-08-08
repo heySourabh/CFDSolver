@@ -27,7 +27,7 @@ public class ZeroCellGradientTest {
 
     private Mesh createMesh(Cell... cellArray) {
         return new Mesh() {
-            private List<Cell> cells = List.of(cellArray);
+            private final List<Cell> cells = List.of(cellArray);
 
             @Override
             public List<Cell> cells() {

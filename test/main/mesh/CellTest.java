@@ -6,8 +6,6 @@ import main.geom.Vector;
 import main.util.TestHelper;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CellTest {
@@ -40,19 +38,20 @@ public class CellTest {
                 new Node(6, 7, 4, numVars)
         };
         Cell cell = new Cell(nodes, VTKType.VTK_QUAD, new Shape(1.5, new Point(5, 7, 4)), 3);
-        cell.faces.addAll(List.of(
+        cell.faces.add(
                 new Face(new Node[]{new Node(0, 6, 3, numVars)}, VTKType.VTK_LINE,
                         new Surface(2.3, new Point(7, 8, 9), new Vector(3.5, 9, 2).unit()),
                         cell, null, 4)
-        ));
+        );
         cell.setIndex(9);
-        assertEquals("Cell{\n" +
-                     "index=9\n" +
-                     "nodes=[Node{x=1.0, y=3.0, z=5.0}, Node{x=6.0, y=7.0, z=4.0}]\n" +
-                     "faces=[Face{vtkType=VTK_LINE, surface=Surface{area=2.3, centroid=Point{x=7.0, y=8.0, z=9.0}, unitNormal=Vector{x=0.3549140885943757, y=0.9126362278141088, z=0.20280805062535753}}}]\n" +
-                     "vtkType=VTK_QUAD\n" +
-                     "shape=Shape{volume=1.5, centroid=Point{x=5.0, y=7.0, z=4.0}}\n" +
-                     "}",
+        assertEquals("""
+                        Cell{
+                        index=9
+                        nodes=[Node{x=1.0, y=3.0, z=5.0}, Node{x=6.0, y=7.0, z=4.0}]
+                        faces=[Face{vtkType=VTK_LINE, surface=Surface{area=2.3, centroid=Point{x=7.0, y=8.0, z=9.0}, unitNormal=Vector{x=0.3549140885943757, y=0.9126362278141088, z=0.20280805062535753}}}]
+                        vtkType=VTK_QUAD
+                        shape=Shape{volume=1.5, centroid=Point{x=5.0, y=7.0, z=4.0}}
+                        }""",
                 cell.toString());
     }
 }

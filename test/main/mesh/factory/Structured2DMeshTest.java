@@ -28,17 +28,17 @@ public class Structured2DMeshTest {
 
     private static final int numVars = 5;
     private static final int num_xi = 5, num_eta = 4;
-    private static Point pa = new Point(0, 0, 0);
-    private static Point pb = new Point(0, 3, 0);
-    private static Point pc = new Point(4, 3, 0);
-    private static Point pd = new Point(4, 0, 0);
+    private static final Point pa = new Point(0, 0, 0);
+    private static final Point pb = new Point(0, 3, 0);
+    private static final Point pc = new Point(4, 3, 0);
+    private static final Point pd = new Point(4, 0, 0);
 
     private static List<Cell> expectedCells;
     private static List<Face> expectedInternalFaces;
     private static List<Node> expectedNodes;
     private static List<Boundary> expectedBoundaries;
 
-    private static BoundaryCondition dummyBC = new BoundaryCondition() {
+    private static final BoundaryCondition dummyBC = new BoundaryCondition() {
         @Override
         public void setGhostCellValues(Face face) {
             throw new UnsupportedOperationException("Not implemented.");
@@ -276,7 +276,7 @@ public class Structured2DMeshTest {
         Mesh actualMesh = new Structured2DMesh(new File("test/test_data/mesh_structured_2d.cfds"), numVars,
                 dummyBC, dummyBC, dummyBC, dummyBC);
         List<Face> allFaceList = Stream.concat(actualMesh.internalFaceStream(),
-                actualMesh.boundaryStream().flatMap(b -> b.faces.stream())).collect(Collectors.toList());
+                actualMesh.boundaryStream().flatMap(b -> b.faces.stream())).toList();
         assertTrue(IntStream.range(0, allFaceList.size())
                 .allMatch(i -> allFaceList.get(i).index() == i));
     }
